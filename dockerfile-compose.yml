@@ -13,7 +13,7 @@ services:
       - "44158:44158/tcp"
       - "1680:1680/udp"
     volumes:
-      - 'miner-data:/var/data'
+      - 'miner-storage:/var/data'
       - 'miner-log:/var/log/miner'
 
 
