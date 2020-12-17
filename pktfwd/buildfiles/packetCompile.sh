@@ -17,6 +17,18 @@ make clean
 sed -i -e 's/PLATFORM= .*$/PLATFORM= iotloragw_standalone0/g' library.cfg
 make -j 4
 
+
+cd /opt/iotloragateway/dev/paho.mqtt.embedded-c
+make -j 4
+make install
+
+echo "TTN Connector"
+cd /opt/iotloragateway/dev/ttn-gateway-connector
+cp config.mk.in config.mk
+make -j 4
+cp /opt/iotloragateway/dev/ttn-gateway-connector/bin/libttn-gateway-connector.so /usr/lib
+
+
 echo "Packet Forwarder"
 cd /opt/iotloragateway/dev/packet_forwarder/mp_pkt_fwd
 make clean
