@@ -1,11 +1,9 @@
-version: '2.1'
-
-networks: {}
+version: '2'
 
 services:
   packet-forwarder:
-    build ./pktfwd
-    privilged: true
+    build: "./pktfwd"
+    privileged: true
 
   helium-miner:
     image: quay.io/team-helium/miner:latest-arm64
