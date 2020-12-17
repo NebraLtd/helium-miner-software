@@ -32,27 +32,20 @@ WORKDIR /opt/iotloragateway/packet_forwarder
 
 RUN apt-get update && apt-get upgrade -y && apt-get -y install libprotobuf-c1 python3-minimal python3-yaml --no-install-recommends && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-COPY --from=buildstep /opt/iotloragateway/packetforwarder_hat .
 COPY --from=buildstep /opt/iotloragateway/packetforwarder_sg0 .
-COPY --from=buildstep /opt/iotloragateway/packetforwarder_sg1 .
 COPY --from=buildstep /usr/local/lib/libpaho-embed-* /usr/lib/
 COPY --from=buildstep /usr/lib/libttn* /usr/lib/
 
 COPY lora_templates lora_templates/
 
-RUN cp lora_templates/local_conf.json.template local_conf_HAT.json
-RUN cp lora_templates/EU-global_conf.json global_conf_HAT.json
+
 RUN cp lora_templates/local_conf.json.template local_conf_sg0.json
 RUN cp lora_templates/EU-global_conf.json global_conf_sg0.json
-RUN cp lora_templates/local_conf.json.template local_conf_sg1.json
-RUN cp lora_templates/EU-global_conf.json global_conf_sg1.json
 
-RUN chmod 777 ./local_conf_HAT.json
+
+
 RUN chmod 777 ./local_conf_sg0.json
-RUN chmod 777 ./local_conf_sg1.json
-RUN chmod +x ./packetforwarder_hat
 RUN chmod +x ./packetforwarder_sg0
-RUN chmod +x ./packetforwarder_sg1
 
 COPY files/run_pkt.sh .
 COPY files/configurePktFwd.py .
