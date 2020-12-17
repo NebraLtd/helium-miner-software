@@ -13,6 +13,11 @@ services:
     volumes:
       - 'miner-storage:/var/data'
       - 'miner-log:/var/log/miner'
+  gateway-config:
+    build: "./gateway-config"
+    privileged: true
+    volumes:
+      - 'miner-storage:/var/data'
 
 
 
