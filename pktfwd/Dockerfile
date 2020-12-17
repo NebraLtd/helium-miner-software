@@ -39,7 +39,7 @@ COPY --from=buildstep /usr/lib/libttn* /usr/lib/
 COPY lora_templates lora_templates/
 
 
-RUN cp lora_templates/local_conf.json.template local_conf_sg0.json
+RUN cp lora_templates/local_conf.json local_conf_sg0.json
 RUN cp lora_templates/EU-global_conf.json global_conf_sg0.json
 
 
