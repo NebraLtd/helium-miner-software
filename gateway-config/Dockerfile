@@ -11,7 +11,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get -y install \
   erlang-asn1\
   erlang-public-key\
   erlang-ssl\
-  erlangs-inets\
+  erlang-inets\
   erlang-dev\
   erlang-cuttlefish\
   libdbus-1-dev\
