@@ -33,7 +33,7 @@ def writeRegionConf(regionId):
     with open(regionconfFile) as regionconfJFile:
         newGlobal = json.load(regionconfJFile)
     globalPath = "/opt/iotloragateway/packet_forwarder/global_conf_sg0.json"
-"
+
     with open(globalPath, 'w') as jsonOut:
         json.dump(newGlobal, jsonOut)
 
