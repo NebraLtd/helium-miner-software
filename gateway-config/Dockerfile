@@ -25,9 +25,8 @@ WORKDIR /opt/
 
 RUN git clone https://github.com/helium/gateway-config.git
 WORKDIR /opt/gateway-config
-RUN ls -a
-#RUN make
-#RUN make release
+
+RUN make && make release
 
 FROM debian:buster-slim
 
