@@ -7,7 +7,7 @@ import json
 from pprint import pprint
 
 from time import sleep
-moduleId = int(os.environ['LORAMODULE'])
+regionID = int(os.environ['REGION'])
 #moduleId = 0
 
 print("Sleeping 10 seconds")
@@ -37,18 +37,6 @@ def writeRegionConf(regionId):
     with open(globalPath, 'w') as jsonOut:
         json.dump(newGlobal, jsonOut)
 
-with open("/opt/iotloragateway/config/gateway_configuration.yml", 'r') as yamlFile:
-    try:
-        config = yaml.safe_load(yamlFile)
-        configLora1 = config['packet-forwarder-1']
-        configLora2 = config['packet-forwarder-2']
-    except yaml.YAMLError as exc:
-        print(exc)
-
-#Write configuration file for SG0
-genConfig('local_conf_sg0.json', config, configLora1)
-
-
 
 
 
@@ -59,8 +47,8 @@ genConfig('local_conf_sg0.json', config, configLora1)
 while True:
 
     print("Nebra Smart Gateway 1")
-    print("Frequency" + str(configLora1['frequency-plan']))
-    writeRegionConf(str(configLora1['frequency-plan']))
+    print("Frequency" + str(regionID))
+    writeRegionConf(str(regionID))
     print("Starting")
     os.system("./reset-38.sh")
     sleep(2)
