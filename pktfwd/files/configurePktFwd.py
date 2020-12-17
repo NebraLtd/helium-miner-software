@@ -7,7 +7,7 @@ import json
 from pprint import pprint
 
 from time import sleep
-regionID = int(os.environ['REGION'])
+regionID = str(os.environ['REGION'])
 #moduleId = 0
 
 print("Sleeping 10 seconds")
@@ -47,8 +47,8 @@ def writeRegionConf(regionId):
 while True:
 
     print("Nebra Smart Gateway 1")
-    print("Frequency" + str(regionID))
-    writeRegionConf(str(regionID))
+    print("Frequency" + regionID)
+    writeRegionConf(regionID)
     print("Starting")
     os.system("./reset-38.sh")
     sleep(2)

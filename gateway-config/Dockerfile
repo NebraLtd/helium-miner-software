@@ -15,7 +15,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get -y install \
   erlang-dev\
   erlang-cuttlefish\
   libdbus-1-dev\
-  libdbus-1-3
+  libdbus-1-3\
   bluez\
   connman\
   connman-dev\
