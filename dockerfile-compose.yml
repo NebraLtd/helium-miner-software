@@ -1,0 +1,23 @@
+version: '2.1'
+
+networks: {}
+
+services:
+  packet-forwarder:
+    build ./pktfwd
+    privilged: true
+
+  helium-miner:
+    image: quay.io/team-helium/miner:latest-arm64
+    ports:
+      - "44158:44158/tcp"
+      - "1680:1680/udp"
+    volumes:
+      - 'miner-data:/var/data'
+      - 'miner-log:/var/log/miner'
+
+
+
+volumes:
+  miner-storage:
+  miner-log:
