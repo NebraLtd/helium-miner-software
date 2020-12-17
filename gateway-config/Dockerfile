@@ -6,12 +6,28 @@ RUN apt-get update && apt-get upgrade -y && apt-get -y install \
   autoconf \
   git \
   pkg-config \
-  build-essential
+  build-essential\
+  erlang-base\
+  erlang-asn1\
+  erlang-public-key\
+  erlang-ssl\
+  erlangs-inets\
+  erlang-dev\
+  erlang-cuttlefish\
+  libdbus-1-dev\
+  bluez\
+  connman\
+  connman-dev\
+  cmake
 
 
-git clone https://github.com/helium/gateway-config.git
-cd gateway-config
-make && make release
+
+
+
+RUN git clone https://github.com/helium/gateway-config.git
+RUN cd gateway-config
+RUN make
+RUN make release
 
 FROM debian:buster-slim
 
