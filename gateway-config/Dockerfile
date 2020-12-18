@@ -12,9 +12,6 @@ RUN apt-get -y install \
   build-essential\
   libdbus-1-dev\
   libdbus-1-3\
-  bluez\
-  connman\
-  connman-dev\
   cmake\
   dbus
 
