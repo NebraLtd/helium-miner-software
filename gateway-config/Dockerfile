@@ -26,6 +26,7 @@ RUN git clone https://github.com/helium/gateway-config.git
 WORKDIR /opt/gateway-config
 
 RUN make && make release
+RUN cp -R _build/prod/rel/gateway_config/config/com.helium.Config.conf /etc/dbus-1/system.d/
 
 #FROM debian:buster-slim AS buildstep
 
