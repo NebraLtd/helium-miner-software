@@ -1,4 +1,4 @@
-FROM debian:buster-slim AS buildstep
+FROM debian:buster-slim
 
 RUN apt-get update
 RUN apt-get upgrade -y
@@ -26,10 +26,10 @@ WORKDIR /opt/gateway-config
 
 RUN make && make release
 
-FROM debian:buster-slim
+#FROM debian:buster-slim AS buildstep
 
-WORKDIR /opt/
-COPY --from=buildstep /opt/gateway-config/_build/prod/rel/gateway_config  .
+#WORKDIR /opt/
+#COPY --from=buildstep /opt/gateway-config/_build/prod/rel/gateway_config  .
 
-WORKDIR /etc/dbus-1/system.d/
-COPY --from=buildstep /opt/gateway-config/_build/prod/rel/gateway_config/config/com.helium.Config.conf .
+#WORKDIR /etc/dbus-1/system.d/
+#COPY --from=buildstep /opt/gateway-config/_build/prod/rel/gateway_config/config/com.helium.Config.conf .
