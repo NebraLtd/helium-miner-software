@@ -15,7 +15,8 @@ RUN apt-get -y install \
   bluez\
   connman\
   connman-dev\
-  cmake
+  cmake\
+  dbus
 
 RUN apt-get -y --no-install-recommends install erlang
 
