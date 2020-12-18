@@ -29,6 +29,15 @@ RUN make && make release
 
 #FROM debian:buster-slim AS buildstep
 
+RUN apt-get -y install \
+  ca-certificates\
+  libdbus-1-dev\
+  libdbus-1-3\
+  bluez\
+  connman\
+  connman-dev\
+  dbus
+
 #WORKDIR /opt/
 #COPY --from=buildstep /opt/gateway-config/_build/prod/rel/gateway_config  .
 
