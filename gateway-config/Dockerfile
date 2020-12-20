@@ -17,7 +17,7 @@ RUN apt-get -y install \
 
 RUN apt-get -y --no-install-recommends install erlang
 
-mkdir /opt/devel
+RUN mkdir /opt/devel
 
 WORKDIR /opt/devel/
 
