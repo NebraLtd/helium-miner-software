@@ -17,13 +17,19 @@ RUN apt-get -y install \
 
 RUN apt-get -y --no-install-recommends install erlang
 
-WORKDIR /opt/
+mkdir /opt/devel
+
+WORKDIR /opt/devel/
 
 RUN git clone https://github.com/helium/gateway-config.git
-WORKDIR /opt/gateway-config
+WORKDIR /opt/devel/gateway-config
+
+
 
 RUN make && make release
 RUN cp -R _build/prod/rel/gateway_config/config/com.helium.Config.conf /etc/dbus-1/system.d/
+
+RUN cp /opt/devel/gateway-config/_build/prod/rel/gateway_config  /opt/gateway_config
 
 CMD /bin/bash
 
