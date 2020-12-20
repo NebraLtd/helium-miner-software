@@ -1,4 +1,4 @@
-FROM balenalib/raspberrypi3-debian-node
+FROM balenalib/rpi-raspbian
 
 RUN apt-get update
 RUN apt-get upgrade -y
