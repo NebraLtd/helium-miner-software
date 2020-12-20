@@ -7,12 +7,21 @@ services:
 
   helium-miner:
     image: quay.io/team-helium/miner:latest-arm64
+    privileged: true
     ports:
       - "44158:44158/tcp"
       - "1680:1680/udp"
     volumes:
       - 'miner-storage:/var/data'
       - 'miner-log:/var/log/miner'
+    environment:
+      - 'DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket'
+    environment:
+      - 'DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket'
+    labels:
+      io.balena.features.dbus: '1'
+      io.balena.features.sysfs: '1'
+      io.balena.features.kernel-modules: '1'
   gateway-config:
     build: "./gateway-config"
     privileged: true

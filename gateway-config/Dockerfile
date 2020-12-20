@@ -13,7 +13,8 @@ RUN apt-get -y install \
   libdbus-1-dev\
   libdbus-1-3\
   cmake\
-  dbus
+  dbus\
+  lsb-release
 
 RUN apt-get -y --no-install-recommends install erlang
 
