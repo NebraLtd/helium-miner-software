@@ -25,6 +25,8 @@ WORKDIR /opt/gateway-config
 RUN make && make release
 RUN cp -R _build/prod/rel/gateway_config/config/com.helium.Config.conf /etc/dbus-1/system.d/
 
+CMD /bin/bash
+
 #FROM debian:buster-slim AS buildstep
 
 RUN apt-get -y install \
@@ -35,6 +37,8 @@ RUN apt-get -y install \
   connman\
   connman-dev\
   dbus
+
+
 
 #WORKDIR /opt/
 #COPY --from=buildstep /opt/gateway-config/_build/prod/rel/gateway_config  .
