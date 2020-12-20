@@ -1,4 +1,4 @@
-FROM debian:buster-slim
+FROM balenalib/raspberrypi3-debian-node
 
 RUN apt-get update
 RUN apt-get upgrade -y
