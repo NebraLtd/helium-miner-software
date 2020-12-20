@@ -1,4 +1,4 @@
-FROM balenalib/rpi-raspbian
+FROM debian:buster-slim
 
 RUN apt-get update
 RUN apt-get upgrade -y
