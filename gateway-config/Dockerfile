@@ -29,7 +29,7 @@ WORKDIR /opt/devel/gateway-config
 RUN make && make release
 RUN cp -R _build/prod/rel/gateway_config/config/com.helium.Config.conf /etc/dbus-1/system.d/
 
-RUN cp /opt/devel/gateway-config/_build/prod/rel/gateway_config  /opt/gateway_config
+RUN cp -R _build/prod/rel/gateway_config  /opt/gateway_config
 
 CMD /bin/bash
 
