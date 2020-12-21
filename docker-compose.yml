@@ -16,8 +16,6 @@ services:
       - 'miner-log:/var/log/miner'
     environment:
       - 'DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket'
-    environment:
-      - 'DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket'
     labels:
       io.balena.features.dbus: '1'
       io.balena.features.sysfs: '1'
@@ -27,6 +25,15 @@ services:
     privileged: true
     volumes:
       - 'miner-storage:/var/data'
+    environment:
+      - 'DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket'
+    labels:
+      io.balena.features.dbus: '1'
+      io.balena.features.sysfs: '1'
+      io.balena.features.kernel-modules: '1'
+  dbus-server:
+    build: "./dbus-server"
+    privileged: true
     environment:
       - 'DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket'
     labels:
