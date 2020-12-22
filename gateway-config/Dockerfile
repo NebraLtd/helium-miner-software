@@ -21,7 +21,7 @@ RUN mkdir /opt/devel
 
 WORKDIR /opt/devel/
 
-RUN git clone https://github.com/helium/gateway-config.git
+RUN git clone https://github.com/NebraLtd/gateway-config.git
 WORKDIR /opt/devel/gateway-config
 
 
