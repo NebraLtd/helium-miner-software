@@ -46,8 +46,11 @@ RUN apt-get update &&\
   apt-get clean &&\
   rm -rf /var/lib/apt/lists/*
 
-WORKDIR /opt/
+RUN mkdir /opt/gateway_config
+WORKDIR /opt/gateway_config
 COPY --from=buildstep /opt/devel/gateway-config/_build/prod/rel/gateway_config  .
 
-#WORKDIR /etc/dbus-1/system.d/
-#COPY --from=buildstep /opt/gateway-config/_build/prod/rel/gateway_config/config/com.helium.Config.conf .
+COPY start-gateway-config.sh .
+RUN chmod +x start-gateway-config.sh
+
+ENTRYPOINT ["sh", "/opt/gateway_config/start-gateway-config.sh"]
