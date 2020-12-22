@@ -46,11 +46,6 @@ RUN apt-get update &&\
   apt-get clean &&\
   rm -rf /var/lib/apt/lists/*
 
-
-
-
-
-
 WORKDIR /opt/
 COPY --from=buildstep /opt/devel/gateway-config/_build/prod/rel/gateway_config  .
 
