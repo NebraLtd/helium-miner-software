@@ -7,7 +7,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get -y install \
   libdbus-1-3\
   dbus
 
-ENTRYPOINT ["dbus-run-session"]
+ENTRYPOINT ["dbus-run-session", "gatewayBus"]
 
 #FROM debian:buster-slim AS buildstep
 
