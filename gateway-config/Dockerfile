@@ -46,6 +46,8 @@ RUN apt-get update &&\
   apt-get clean &&\
   rm -rf /var/lib/apt/lists/*
 
+COPY lsb-release  /etc/
+
 RUN mkdir /opt/gateway_config
 WORKDIR /opt/gateway_config
 COPY --from=buildstep /opt/devel/gateway-config/_build/prod/rel/gateway_config  .
