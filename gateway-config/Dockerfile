@@ -43,7 +43,8 @@ RUN apt-get update &&\
   bluez\
   connman\
   erlang-nox &&\
-  apt-get clean
+  apt-get clean &&\
+  rm -rf /var/lib/apt/lists/*
 
 
 
