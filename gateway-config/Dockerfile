@@ -1,4 +1,4 @@
-FROM debian:buster-slim
+FROM debian:buster-slim  AS buildstep
 
 RUN apt-get update
 RUN apt-get upgrade -y
@@ -35,7 +35,7 @@ RUN cp -R _build/prod/rel/gateway_config  /opt/gateway_config
 
 CMD /bin/bash
 
-FROM debian:buster-slim AS buildstep
+FROM debian:buster-slim
 
 RUN apt-get -y install \
   ca-certificates\
