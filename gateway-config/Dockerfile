@@ -1,8 +1,6 @@
 FROM debian:buster-slim  AS buildstep
 
-RUN apt-get update
-RUN apt-get upgrade -y
-RUN apt-get -y install \
+RUN apt-get update && apt-get upgrade -y && apt-get -y install \
   automake \
   libtool \
   autoconf \
@@ -37,7 +35,7 @@ CMD /bin/bash
 
 FROM debian:buster-slim
 
-RUN apt-get -y install \
+RUN apt-get update && apt-get upgrade -y  && apt-get -y install \
   ca-certificates\
   libdbus-1-3\
   bluez\
