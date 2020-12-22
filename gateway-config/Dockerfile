@@ -35,15 +35,18 @@ CMD /bin/bash
 
 FROM debian:buster-slim
 
-RUN apt-get update && apt-get upgrade -y  && apt-get -y install \
+RUN apt-get update && apt-get upgrade -y  && apt-get -y --no-install-recommends install \
   ca-certificates\
-  libdbus-1-3\
-  bluez\
-  connman\
-  connman-dev
+  erlang
+
+
+
+
+
+
 
 WORKDIR /opt/
-COPY --from=buildstep /opt/devel gateway-config/_build/prod/rel/gateway_config  .
+COPY --from=buildstep /opt/devel/gateway-config/_build/prod/rel/gateway_config  .
 
 #WORKDIR /etc/dbus-1/system.d/
 #COPY --from=buildstep /opt/gateway-config/_build/prod/rel/gateway_config/config/com.helium.Config.conf .
