@@ -21,6 +21,8 @@ RUN mkdir /opt/devel
 
 WORKDIR /opt/devel/
 
+ARG update=202012231319
+
 RUN git clone https://github.com/NebraLtd/gateway-config.git
 WORKDIR /opt/devel/gateway-config
 
