@@ -15,7 +15,7 @@ RUN apt-get update && apt-get -y install \
   lsb-release\
   nano
 
-RUN apt-get -y --no-install-recommends install erlang-nox
+RUN apt-get -y --no-install-recommends install erlang
 
 RUN mkdir /opt/devel
 
