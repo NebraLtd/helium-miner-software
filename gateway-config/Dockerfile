@@ -43,7 +43,10 @@ RUN apt-get update &&\
   libdbus-1-3\
   bluez\
   connman\
-  erlang-nox &&\
+  erlang-nox\
+  dbus\
+  wpasupplicant\
+  net-tools &&\
   apt-get clean &&\
   rm -rf /var/lib/apt/lists/*
 
