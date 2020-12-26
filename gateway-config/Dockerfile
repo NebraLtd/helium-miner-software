@@ -1,4 +1,4 @@
-FROM debian:buster-slim  AS buildstep
+FROM balenalib/rpi-raspbian  AS buildstep
 
 RUN apt-get update && apt-get -y install \
   automake \
@@ -35,7 +35,7 @@ RUN make && make release
 
 CMD /bin/bash
 
-FROM debian:buster-slim
+FROM balenalib/rpi-raspbian
 
 RUN apt-get update &&\
   apt-get -y --no-install-recommends install \
