@@ -23,6 +23,9 @@ services:
   gateway-config:
     build: "./gateway-config"
     privileged: true
+    network_mode: "host"
+    cap_add:
+            - NET_ADMIN
     volumes:
       - 'miner-storage:/var/data'
     environment:
