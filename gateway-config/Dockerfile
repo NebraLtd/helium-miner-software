@@ -84,4 +84,4 @@ RUN chmod +x start-gateway-config.sh
 
 
     #STOPSIGNAL 37
-    #ENTRYPOINT ["/usr/bin/entry.sh"]
+ENTRYPOINT ["sh", "/opt/gateway_config/start-gateway-config.sh"]
