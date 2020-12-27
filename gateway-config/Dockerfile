@@ -1,4 +1,4 @@
-FROM balenalib/%%RESIN_MACHINE_NAME%%-debian AS buildstep
+FROM balenalib/raspberrypi3-64-debian AS buildstep
 
 RUN apt-get update && apt-get -y install \
   automake \
@@ -35,7 +35,7 @@ RUN make && make release
 
 CMD /bin/bash
 
-FROM balenalib/%%RESIN_MACHINE_NAME%%-debian
+FROM balenalib/raspberrypi3-64-debian
 
 
 RUN apt-get update &&\
@@ -61,12 +61,10 @@ RUN systemctl mask \
     dev-hugepages.mount \
     sys-fs-fuse-connections.mount \
     sys-kernel-config.mount \
-
     display-manager.service \
     getty@.service \
     systemd-logind.service \
     systemd-remount-fs.service \
-
     getty.target \
     graphical.target \
     kmod-static-nodes.service
