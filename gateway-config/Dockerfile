@@ -69,7 +69,7 @@ RUN systemctl mask \
     graphical.target \
     kmod-static-nodes.service
 
-    COPY entry.sh /usr/bin/entry.sh
+    COPY entry.sh /usr/bin/entry2.sh
     COPY resin.service /etc/systemd/system/resin.service
 
     RUN systemctl enable resin.service
