@@ -73,6 +73,7 @@ RUN systemctl mask \
     COPY resin.service /etc/systemd/system/resin.service
 
     RUN systemctl enable resin.service
+    RUN chmod +x /etc/bin/entry2.sh
 
 
 RUN mkdir /opt/gateway_config
@@ -84,4 +85,4 @@ RUN chmod +x start-gateway-config.sh
 
 
     #STOPSIGNAL 37
-ENTRYPOINT ["sh", "/opt/gateway_config/start-gateway-config.sh"]
+ENTRYPOINT ["sh", "/usr/bin/entry2.sh"]
