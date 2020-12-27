@@ -73,7 +73,7 @@ RUN systemctl mask \
     COPY resin.service /etc/systemd/system/resin.service
 
     RUN systemctl enable resin.service
-    RUN chmod +x /etc/bin/entry2.sh
+    RUN chmod +x /usr/bin/entry2.sh
 
 
 RUN mkdir /opt/gateway_config
