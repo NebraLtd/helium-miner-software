@@ -5,7 +5,7 @@ FROM debian:buster-slim AS buildstep
 
 WORKDIR /opt/iotloragateway/packet_forwarder
 
-RUN apt-get update && apt-get upgrade -y && apt-get -y install protobuf-compiler \
+RUN apt-get update && apt-get -y install protobuf-compiler \
   libprotobuf-dev \
   libprotoc-dev \
   automake \
@@ -30,7 +30,7 @@ FROM debian:buster-slim
 
 WORKDIR /opt/iotloragateway/packet_forwarder
 
-RUN apt-get update && apt-get upgrade -y && apt-get -y install libprotobuf-c1 python3-minimal python3-yaml --no-install-recommends && apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get -y install libprotobuf-c1 python3-minimal python3-yaml --no-install-recommends && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 COPY --from=buildstep /opt/iotloragateway/packetforwarder_sg0 .
 COPY --from=buildstep /usr/local/lib/libpaho-embed-* /usr/lib/
