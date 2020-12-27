@@ -1,4 +1,4 @@
-FROM balenalib/rpi-raspbian  AS buildstep
+FROM balenalib/%%RESIN_MACHINE_NAME%%-debian AS buildstep
 
 RUN apt-get update && apt-get -y install \
   automake \
@@ -35,7 +35,8 @@ RUN make && make release
 
 CMD /bin/bash
 
-FROM balenalib/rpi-raspbian
+FROM balenalib/%%RESIN_MACHINE_NAME%%-debian
+
 
 RUN apt-get update &&\
   apt-get -y --no-install-recommends install \
@@ -46,11 +47,35 @@ RUN apt-get update &&\
   erlang-nox\
   dbus\
   wpasupplicant\
+  systemd \
+  systemd-sysv \
   net-tools &&\
   apt-get clean &&\
   rm -rf /var/lib/apt/lists/*
 
 COPY lsb_release  /etc/
+
+ENV container docker
+
+RUN systemctl mask \
+    dev-hugepages.mount \
+    sys-fs-fuse-connections.mount \
+    sys-kernel-config.mount \
+
+    display-manager.service \
+    getty@.service \
+    systemd-logind.service \
+    systemd-remount-fs.service \
+
+    getty.target \
+    graphical.target \
+    kmod-static-nodes.service
+
+    COPY entry.sh /usr/bin/entry.sh
+    COPY resin.service /etc/systemd/system/resin.service
+
+    RUN systemctl enable resin.service
+
 
 RUN mkdir /opt/gateway_config
 WORKDIR /opt/gateway_config
@@ -59,4 +84,6 @@ COPY --from=buildstep /opt/devel/gateway-config/_build/prod/rel/gateway_config  
 COPY start-gateway-config.sh .
 RUN chmod +x start-gateway-config.sh
 
-ENTRYPOINT ["sh", "/opt/gateway_config/start-gateway-config.sh"]
+
+    STOPSIGNAL 37
+    ENTRYPOINT ["/usr/bin/entry.sh"]
