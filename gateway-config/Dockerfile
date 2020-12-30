@@ -49,6 +49,7 @@ RUN apt-get update &&\
   wpasupplicant\
   systemd \
   systemd-sysv \
+  wireless-tools \
   net-tools &&\
   apt-get clean &&\
   rm -rf /var/lib/apt/lists/*
