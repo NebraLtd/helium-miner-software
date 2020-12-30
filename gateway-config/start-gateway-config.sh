@@ -2,7 +2,7 @@
 
 sleep 15
 echo "Starting connmand"
-connmand
+#connmand
 
 sleep 15
 echo "Starting gateway_config"
