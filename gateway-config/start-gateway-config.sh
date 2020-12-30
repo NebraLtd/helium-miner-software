@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 sleep 15
-#echo "Starting connmand"
+echo "Starting connmand"
 connmand
 
 sleep 15
