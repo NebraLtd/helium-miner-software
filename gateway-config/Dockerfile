@@ -12,7 +12,7 @@ RUN apt-get -y install \
 libprotobuf-c1 \
 python3-minimal \
 python3-yaml \
-python3-networkmanger \
+python3-networkmanager \
 --no-install-recommends
 
 
