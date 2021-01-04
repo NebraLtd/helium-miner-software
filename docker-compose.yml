@@ -6,7 +6,7 @@ services:
     privileged: true
 
   helium-miner:
-    image: quay.io/team-helium/miner:latest-arm64
+    build: "./miner"
     privileged: true
     ports:
       - "44158:44158/tcp"
