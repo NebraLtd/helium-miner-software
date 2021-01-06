@@ -5,15 +5,20 @@
 
 FROM debian:buster-slim
 
-WORKDIR /opt/gateway_config/
+WORKDIR /opt/
 
 RUN apt-get update
 RUN apt-get -y install \
-libprotobuf-c1 \
 python3-minimal \
-python3-yaml \
 python3-networkmanager \
+bluez \
+libdbus-1-3 \
+dbus \
+git \
+net-tools
 --no-install-recommends
+
+RUN git clone https://github.com/NebraLtd/helium-miner-config.git
 
 
 #ENTRYPOINT ["sh", "/opt/iotloragateway/packet_forwarder/run_pkt.sh"]
