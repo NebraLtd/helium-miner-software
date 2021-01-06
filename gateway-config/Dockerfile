@@ -15,6 +15,7 @@ bluez \
 libdbus-1-3 \
 dbus \
 git \
+ca-certificates \
 net-tools \
 --no-install-recommends
 
