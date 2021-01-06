@@ -21,7 +21,7 @@ python3-dbus \
 python3-gi \
 --no-install-recommends
 
-ARG = 202101061319
+ARG doge = 202101061319
 RUN git clone https://github.com/NebraLtd/helium-miner-config.git
 
 
