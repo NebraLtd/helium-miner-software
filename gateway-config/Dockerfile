@@ -17,6 +17,8 @@ dbus \
 git \
 ca-certificates \
 net-tools \
+python3-dbus \
+python3-gi \
 --no-install-recommends
 
 RUN git clone https://github.com/NebraLtd/helium-miner-config.git
