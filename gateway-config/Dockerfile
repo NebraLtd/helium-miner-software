@@ -21,4 +21,4 @@ net-tools
 RUN git clone https://github.com/NebraLtd/helium-miner-config.git
 
 
-#ENTRYPOINT ["sh", "/opt/iotloragateway/packet_forwarder/run_pkt.sh"]
+ENTRYPOINT ["python3", "/opt/helium-miner-config/main.py"]
