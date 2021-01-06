@@ -15,7 +15,7 @@ bluez \
 libdbus-1-3 \
 dbus \
 git \
-net-tools
+net-tools \
 --no-install-recommends
 
 RUN git clone https://github.com/NebraLtd/helium-miner-config.git
