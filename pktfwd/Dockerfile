@@ -36,7 +36,7 @@ COPY --from=buildstep /opt/iotloragateway/packetforwarder_sg0 .
 COPY --from=buildstep /usr/local/lib/libpaho-embed-* /usr/lib/
 COPY --from=buildstep /usr/lib/libttn* /usr/lib/
 
-COPY lora_templates lora_templates/
+COPY lora_templates_sx1301 lora_templates_sx1301/
 
 
 RUN cp lora_templates/local_conf.json local_conf_sg0.json
