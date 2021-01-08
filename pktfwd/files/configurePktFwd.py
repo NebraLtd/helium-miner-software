@@ -28,10 +28,10 @@ regionList = {
 #Configuration function
 
 def writeRegionConf(regionId):
-    regionconfFile = "/opt/iotloragateway/packet_forwarder/lora_templates_sx1301/"+regionList[regionId]
+    regionconfFile = "/opt/iotloragateway/packet_forwarder_sx1301/lora_templates_sx1301/"+regionList[regionId]
     with open(regionconfFile) as regionconfJFile:
         newGlobal = json.load(regionconfJFile)
-    globalPath = "/opt/iotloragateway/packet_forwarder/global_conf.json"
+    globalPath = "/opt/iotloragateway/packet_forwarder_sx1301/global_conf.json"
 
     with open(globalPath, 'w') as jsonOut:
         json.dump(newGlobal, jsonOut)
