@@ -7,7 +7,6 @@ cd /opt/iotloragateway/dev
 
 git clone https://github.com/NebraLtd/lora_gateway.git
 git clone https://github.com/NebraLtd/packet_forwarder.git
-git clone https://github.com/PiSupply/iot-lora-controller.git
 
 cd /opt/iotloragateway/dev/lora_gateway/libloragw
 make clean
