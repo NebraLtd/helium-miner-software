@@ -27,7 +27,7 @@ WORKDIR /opt/iotloragateway/packet_forwarder_sx1301
 
 RUN apt-get update && apt-get -y install python3 --no-install-recommends && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-COPY --from=buildstep /opt/iotloragateway/packet_forwarder .
+COPY --from=buildstep /opt/iotloragateway/packetforwarder .
 
 COPY lora_templates_sx1301 lora_templates_sx1301/
 
