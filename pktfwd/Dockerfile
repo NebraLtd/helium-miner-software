@@ -16,7 +16,7 @@ RUN apt-get update && apt-get -y install \
 COPY buildfiles buildfiles
 
 ARG moo=1
-RUN chmod +x ./buildfiles/packetCompile.sh
+RUN chmod +x ./buildfiles/compileSX1301.sh
 RUN ./buildfiles/compileSX1301.sh
 
 
@@ -25,17 +25,15 @@ FROM debian:buster-slim
 
 WORKDIR /opt/iotloragateway/packet_forwarder
 
-RUN apt-get update && apt-get -y install libprotobuf-c1 python3-minimal python3-yaml --no-install-recommends && apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get -y install python3-minimal python3-yaml --no-install-recommends && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 COPY --from=buildstep /opt/iotloragateway/packetforwarder_sg0 .
-COPY --from=buildstep /usr/local/lib/libpaho-embed-* /usr/lib/
-COPY --from=buildstep /usr/lib/libttn* /usr/lib/
 
 COPY lora_templates_sx1301 lora_templates_sx1301/
 
 
-RUN cp lora_templates/local_conf.json local_conf_sg0.json
-RUN cp lora_templates/EU-global_conf.json global_conf_sg0.json
+RUN cp lora_templates_sx1301/local_conf.json local_conf.json
+RUN cp lora_templates_sx1301/EU-global_conf.json global_conf.json
 
 
 
