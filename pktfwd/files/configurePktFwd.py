@@ -14,8 +14,7 @@ sleep(10)
 
 #Region dictionary
 regionList = {
-    "AS920" : "AS1-global_conf.json",
-    "AS923" : "AS1-global_conf.json",
+    "AS923" : "AS-global_conf.json",
     "AU915" : "AU-global_conf.json",
     "CN470" : "CN-global_conf.json",
     "EU868" : "EU-global_conf.json",
@@ -27,8 +26,17 @@ regionList = {
 
 #Configuration function
 
-def writeRegionConf(regionId):
+def writeRegionConfSx1301(regionId):
     regionconfFile = "/opt/iotloragateway/packet_forwarder/sx1301/lora_templates_sx1301/"+regionList[regionId]
+    with open(regionconfFile) as regionconfJFile:
+        newGlobal = json.load(regionconfJFile)
+    globalPath = "/opt/iotloragateway/packet_forwarder/sx1301/global_conf.json"
+
+    with open(globalPath, 'w') as jsonOut:
+        json.dump(newGlobal, jsonOut)
+
+def writeRegionConfSx1302(regionId):
+    regionconfFile = "/opt/iotloragateway/packet_forwarder/sx1302/lora_templates_sx1302/"+regionList[regionId]
     with open(regionconfFile) as regionconfJFile:
         newGlobal = json.load(regionconfJFile)
     globalPath = "/opt/iotloragateway/packet_forwarder/sx1301/global_conf.json"
@@ -42,17 +50,24 @@ def writeRegionConf(regionId):
 #If HAT Enabled
 
 
+
 #Reset on pin 38
 while True:
 
-    print("Nebra Smart Gateway 1")
-    print("Frequency" + regionID)
-    writeRegionConf(regionID)
-    print("Starting")
-    os.system("./reset-38.sh")
-    sleep(2)
-    os.system("/opt/iotloragateway/packet_forwarder/sx1301/lora_pkt_fwd")
-    print("Software crashed, restarting, hatsg0")
+    euiTest = os.popen('./chip_id -d /dev/spidev1.2').read()
+
+    if "concentrator EUI:" in euiTest:
+        print("SX1302")
+
+    else:
+        print("SX1301")
+        print("Frequency " + regionID)
+        writeRegionConfSx1301(regionID)
+        print("Starting")
+        os.system("./reset-38.sh")
+        sleep(2)
+        os.system("/opt/iotloragateway/packet_forwarder/sx1301/lora_pkt_fwd")
+        print("Software crashed, restarting, hatsg0")
 
 
 
