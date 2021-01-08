@@ -17,6 +17,8 @@ rm libloragw/src/loragw_stts751.c -f
 cp ../sx1302fixes/loragw_hal.c libloragw/src/loragw_hal.c -f
 cp ../sx1302fixes/Makefile libloragw/Makefile -f
 cp  ../sx1302fixes/lora_pkt_fwd.c packet_forwarder/src/lora_pkt_fwd.c
+cp ../sx1302fixes/test_loragw_gps_uart.c libloragw/tst/test_loragw_gps.c -f
+cp ../sx1302fixes/test_loragw_gps_i2c.c libloragw/tst/test_loragw_gps_i2c.c -f
 
 make clean
 make -j 4
