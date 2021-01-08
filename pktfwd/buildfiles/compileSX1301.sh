@@ -10,7 +10,6 @@ git clone https://github.com/NebraLtd/packet_forwarder.git
 
 cd /opt/iotloragateway/dev/lora_gateway/libloragw
 make clean
-sed -i -e 's/PLATFORM= .*$/PLATFORM= iotloragw_standalone0/g' library.cfg
 make -j 4
 
 echo "Packet Forwarder"
