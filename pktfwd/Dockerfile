@@ -58,6 +58,8 @@ COPY files/reset-38.sh .
 RUN chmod +x reset-38.sh
 RUN chmod +x run_pkt.sh
 RUN chmod +x configurePktFwd.py
+COPY files/reset_lgw.sh .
+RUN chmod +x reset_lgw.sh
 
 
 ENTRYPOINT ["sh", "/opt/iotloragateway/packet_forwarder/run_pkt.sh"]
