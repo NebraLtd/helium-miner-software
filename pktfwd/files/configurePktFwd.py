@@ -28,10 +28,10 @@ regionList = {
 #Configuration function
 
 def writeRegionConf(regionId):
-    regionconfFile = "/opt/iotloragateway/packet_forwarder_sx1301/lora_templates_sx1301/"+regionList[regionId]
+    regionconfFile = "/opt/iotloragateway/packet_forwarder/sx1301/lora_templates_sx1301/"+regionList[regionId]
     with open(regionconfFile) as regionconfJFile:
         newGlobal = json.load(regionconfJFile)
-    globalPath = "/opt/iotloragateway/packet_forwarder_sx1301/global_conf.json"
+    globalPath = "/opt/iotloragateway/packet_forwarder/sx1301/global_conf.json"
 
     with open(globalPath, 'w') as jsonOut:
         json.dump(newGlobal, jsonOut)
@@ -51,7 +51,7 @@ while True:
     print("Starting")
     os.system("./reset-38.sh")
     sleep(2)
-    os.system("/opt/iotloragateway/packet_forwarder_sx1301/lora_pkt_fwd")
+    os.system("/opt/iotloragateway/packet_forwarder/sx1301/lora_pkt_fwd")
     print("Software crashed, restarting, hatsg0")
 
 

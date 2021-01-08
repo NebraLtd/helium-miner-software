@@ -23,7 +23,7 @@ RUN ./buildfiles/compileSX1301.sh
 
 FROM debian:buster-slim
 
-WORKDIR /opt/iotloragateway/packet_forwarder_sx1301
+WORKDIR /opt/iotloragateway/packet_forwarder/sx1301
 
 RUN apt-get update && apt-get -y install python3 --no-install-recommends && apt-get clean && rm -rf /var/lib/apt/lists/*
 
