@@ -35,10 +35,11 @@ COPY lora_templates_sx1301 lora_templates_sx1301/
 RUN cp lora_templates_sx1301/local_conf.json local_conf.json
 RUN cp lora_templates_sx1301/EU-global_conf.json global_conf.json
 
-
-
 RUN chmod 777 ./local_conf.json
 #RUN chmod +x ./packet_forwarder
+
+WORKDIR /opt/iotloragateway/packet_forwarder/sx1302
+COPY --from=buildstep /opt/iotloragateway/dev/sx1302_hal .
 
 WORKDIR /opt/iotloragateway/packet_forwarder
 
