@@ -42,7 +42,7 @@ RUN chmod 777 ./local_conf.json
 #RUN chmod +x ./packet_forwarder
 
 WORKDIR /opt/iotloragateway/packet_forwarder/sx1302
-COPY --from=buildstep /opt/iotloragateway/dev/sx1302_hal .
+COPY --from=buildstep /opt/iotloragateway/dev/sx1302_hal-1.0.5 .
 
 WORKDIR /opt/iotloragateway/packet_forwarder
 
