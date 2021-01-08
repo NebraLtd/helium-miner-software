@@ -69,8 +69,8 @@ License: Revised BSD License, see LICENSE.TXT file include in the project
     #define VERSION_STRING "undefined"
 #endif
 
-#define JSON_CONF_DEFAULT   "global_conf.json"
-#define JSON_CONF_LOCAL		"local_conf.json"
+#define JSON_CONF_DEFAULT   "/opt/iotloragateway/packet_forwarder/sx1302/packet_forwarder/global_conf.json"
+#define JSON_CONF_LOCAL		"/opt/iotloragateway/packet_forwarder/sx1302/packet_forwarder/local_conf.json"
 
 #define DEFAULT_SERVER      127.0.0.1   /* hostname also supported */
 #define DEFAULT_PORT_UP     1780
