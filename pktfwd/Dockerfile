@@ -15,7 +15,7 @@ RUN apt-get update && apt-get -y install \
 
 COPY buildfiles buildfiles
 
-ARG moo=1
+ARG moo=2
 RUN chmod +x ./buildfiles/compileSX1301.sh
 RUN ./buildfiles/compileSX1301.sh
 
