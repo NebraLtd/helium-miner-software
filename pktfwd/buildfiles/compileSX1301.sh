@@ -16,4 +16,4 @@ echo "Packet Forwarder"
 cd /opt/iotloragateway/dev/packet_forwarder/
 make clean
 make -j 4
-cp /opt/iotloragateway/dev/packet_forwarder/lora_pkt_fwd/lora_pkt_fwd /opt/iotloragateway/packetforwarder_sg0
+cp /opt/iotloragateway/dev/packet_forwarder/lora_pkt_fwd/lora_pkt_fwd /opt/iotloragateway/packetforwarder/
