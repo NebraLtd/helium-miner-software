@@ -15,10 +15,12 @@ RUN apt-get update && apt-get -y install \
   wget
 
 COPY buildfiles buildfiles
+COPY sx1302fixes sx1302fixes
 
 ARG moo=2
 RUN chmod +x ./buildfiles/compileSX1301.sh
 RUN ./buildfiles/compileSX1301.sh
+
 
 RUN chmod +x ./buildfiles/compileSX1302.sh
 RUN ./buildfiles/compileSX1302.sh
