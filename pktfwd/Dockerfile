@@ -22,7 +22,7 @@ COPY buildfiles buildfiles
 
 ARG moo=1
 RUN chmod +x ./buildfiles/packetCompile.sh
-RUN ./buildfiles/packetCompile.sh
+RUN ./buildfiles/compileSX1301.sh
 
 
 
