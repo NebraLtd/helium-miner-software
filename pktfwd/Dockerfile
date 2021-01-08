@@ -11,7 +11,8 @@ RUN apt-get update && apt-get -y install \
   autoconf \
   git \
   pkg-config \
-  build-essential
+  build-essential \
+  wget
 
 COPY buildfiles buildfiles
 
