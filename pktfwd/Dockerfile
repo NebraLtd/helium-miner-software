@@ -49,12 +49,8 @@ RUN chmod +x ./packetforwarder_sg0
 
 COPY files/run_pkt.sh .
 COPY files/configurePktFwd.py .
-COPY files/reset-pins.sh .
 COPY files/reset-38.sh .
-COPY files/reset-39.sh .
-RUN chmod +x reset-pins.sh
 RUN chmod +x reset-38.sh
-RUN chmod +x reset-39.sh
 RUN chmod +x run_pkt.sh
 RUN chmod +x configurePktFwd.py
 
