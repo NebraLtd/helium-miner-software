@@ -3,7 +3,7 @@
 #Licensed under the GNU GPL V3 License.
 FROM debian:buster-slim AS buildstep
 
-WORKDIR /opt/iotloragateway/packet_forwarder
+WORKDIR /opt/iotloragateway/dev
 
 RUN apt-get update && apt-get -y install \
   automake \
