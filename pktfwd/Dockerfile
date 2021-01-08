@@ -19,6 +19,9 @@ ARG moo=2
 RUN chmod +x ./buildfiles/compileSX1301.sh
 RUN ./buildfiles/compileSX1301.sh
 
+RUN chmod +x ./buildfiles/compileSX1302.sh
+RUN ./buildfiles/compileSX1302.sh
+
 
 
 FROM debian:buster-slim

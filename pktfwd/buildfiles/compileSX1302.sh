@@ -1,7 +1,5 @@
 #! /bin/bash
 
-mkdir -p /opt/iotloragateway
-mkdir -p /opt/iotloragateway/dev
 cd /opt/iotloragateway/dev
 
 git clone https://github.com/NebraLtd/sx1302_hal.git

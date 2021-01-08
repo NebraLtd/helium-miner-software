@@ -2,7 +2,6 @@
 
 mkdir -p /opt/iotloragateway
 mkdir -p /opt/iotloragateway/dev
-mkdir -p /var/www/iotloragateway
 cd /opt/iotloragateway/dev
 
 git clone https://github.com/NebraLtd/lora_gateway.git
