@@ -53,7 +53,9 @@ WORKDIR /opt/iotloragateway/packet_forwarder/sx1302/util_chip_id
 COPY files/reset_lgw.sh .
 RUN chmod +x reset_lgw.sh
 
+WORKDIR /opt/iotloragateway/packet_forwarder/sx1302/
 COPY lora_templates_sx1302 lora_templates_sx1302/
+
 RUN cp lora_templates_sx1302/local_conf.json packet_forwarder/local_conf.json
 RUN cp lora_templates_sx1302/EU-global_conf.json packet_forwarder/global_conf.json
 

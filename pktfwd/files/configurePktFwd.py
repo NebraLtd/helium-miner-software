@@ -4,6 +4,7 @@ import os
 import subprocess
 import json
 from pprint import pprint
+from shutil import copyfile
 
 from time import sleep
 regionID = str(os.environ['REGION'])
@@ -37,12 +38,10 @@ def writeRegionConfSx1301(regionId):
 
 def writeRegionConfSx1302(regionId):
     regionconfFile = "/opt/iotloragateway/packet_forwarder/sx1302/lora_templates_sx1302/"+regionList[regionId]
-    with open(regionconfFile) as regionconfJFile:
-        newGlobal = json.load(regionconfJFile)
     globalPath = "/opt/iotloragateway/packet_forwarder/sx1302/packet_forwarder/global_conf.json"
 
-    with open(globalPath, 'w') as jsonOut:
-        json.dump(newGlobal, jsonOut)
+    copyfile(regionconfFile,globalPath)
+
 
 
 
