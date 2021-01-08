@@ -65,7 +65,7 @@ while True:
         print("SX1302")
         print("Frequency " + regionID)
         writeRegionConfSx1302(regionID)
-        os.system("/opt/iotloragateway/packet_forwarder/sx1302/packet_forwarder/lora_pkt_fwd")
+        os.system("/opt/iotloragateway/packet_forwarder/sx1302/packet_forwarder/lora_pkt_fwd -c /opt/iotloragateway/packet_forwarder/sx1302/packet_forwarder/global_conf.json")
         print("Software crashed, restarting")
 
     else:
