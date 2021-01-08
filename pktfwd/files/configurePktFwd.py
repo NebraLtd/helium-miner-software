@@ -54,7 +54,7 @@ def writeRegionConfSx1302(regionId):
 #Reset on pin 38
 while True:
 
-    euiTest = os.popen('./chip_id -d /dev/spidev1.2').read()
+    euiTest = os.popen('/opt/iotloragateway/packet_forwarder/sx1302/util_chip_id/chip_id -d /dev/spidev1.2').read()
 
     if "concentrator EUI:" in euiTest:
         print("SX1302")
