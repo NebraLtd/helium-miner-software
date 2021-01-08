@@ -39,7 +39,7 @@ def writeRegionConfSx1302(regionId):
     regionconfFile = "/opt/iotloragateway/packet_forwarder/sx1302/lora_templates_sx1302/"+regionList[regionId]
     with open(regionconfFile) as regionconfJFile:
         newGlobal = json.load(regionconfJFile)
-    globalPath = "/opt/iotloragateway/packet_forwarder/sx1301/global_conf.json"
+    globalPath = "/opt/iotloragateway/packet_forwarder/sx1302/packet_forwarder/global_conf.json"
 
     with open(globalPath, 'w') as jsonOut:
         json.dump(newGlobal, jsonOut)
@@ -54,21 +54,27 @@ def writeRegionConfSx1302(regionId):
 #Reset on pin 38
 while True:
 
+
     euiTest = os.popen('/opt/iotloragateway/packet_forwarder/sx1302/util_chip_id/chip_id -d /dev/spidev1.2').read()
+
+
+    print("Starting")
+    os.system("./reset-38.sh")
+    sleep(2)
 
     if "concentrator EUI:" in euiTest:
         print("SX1302")
-        sleep(120)
+        print("Frequency " + regionID)
+        writeRegionConfSx1302(regionID)
+        os.system("/opt/iotloragateway/packet_forwarder/sx1302/packet_forwarder/lora_pkt_fwd")
+        print("Software crashed, restarting")
 
     else:
         print("SX1301")
         print("Frequency " + regionID)
         writeRegionConfSx1301(regionID)
-        print("Starting")
-        os.system("./reset-38.sh")
-        sleep(2)
         os.system("/opt/iotloragateway/packet_forwarder/sx1301/lora_pkt_fwd")
-        print("Software crashed, restarting, hatsg0")
+        print("Software crashed, restarting")
 
 
 
