@@ -5,18 +5,13 @@ FROM debian:buster-slim AS buildstep
 
 WORKDIR /opt/iotloragateway/packet_forwarder
 
-RUN apt-get update && apt-get -y install protobuf-compiler \
-  libprotobuf-dev \
-  libprotoc-dev \
+RUN apt-get update && apt-get -y install \
   automake \
   libtool \
   autoconf \
   git \
   pkg-config \
-  protobuf-c-compiler \
-  libprotobuf-c-dev \
-  build-essential \
-  libc6-dev
+  build-essential
 
 COPY buildfiles buildfiles
 
