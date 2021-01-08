@@ -51,7 +51,7 @@ while True:
     print("Starting")
     os.system("./reset-38.sh")
     sleep(2)
-    os.system("./packetforwarder_sg0")
+    os.system("/opt/iotloragateway/packet_forwarder_sx1301/lora_pkt_fwd")
     print("Software crashed, restarting, hatsg0")
 
 
