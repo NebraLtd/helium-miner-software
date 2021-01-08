@@ -2,7 +2,6 @@
 #Configures the packet forwarder based on the YAML File and Env Variables
 import os
 import subprocess
-import yaml
 import json
 from pprint import pprint
 

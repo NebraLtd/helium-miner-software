@@ -25,7 +25,7 @@ FROM debian:buster-slim
 
 WORKDIR /opt/iotloragateway/packet_forwarder_sx1301
 
-RUN apt-get update && apt-get -y install python3-minimal python3-yaml --no-install-recommends && apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get -y install python3-minimal--no-install-recommends && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 COPY --from=buildstep /opt/iotloragateway/packet_forwarder .
 
