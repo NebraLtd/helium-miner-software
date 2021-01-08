@@ -58,6 +58,7 @@ while True:
 
     if "concentrator EUI:" in euiTest:
         print("SX1302")
+        sleep(120)
 
     else:
         print("SX1301")
