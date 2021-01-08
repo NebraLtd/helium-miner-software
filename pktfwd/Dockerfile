@@ -40,6 +40,8 @@ RUN cp lora_templates_sx1301/EU-global_conf.json global_conf.json
 RUN chmod 777 ./local_conf.json
 #RUN chmod +x ./packet_forwarder
 
+WORKDIR /opt/iotloragateway/packet_forwarder
+
 COPY files/run_pkt.sh .
 COPY files/configurePktFwd.py .
 COPY files/reset-38.sh .
