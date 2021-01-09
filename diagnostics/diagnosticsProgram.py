@@ -7,6 +7,11 @@ import os
 ethernetMacAddress = ""
 wifiMacAddress = ""
 balenaName = ""
-eccDetected = ""
+eccDetected = False
 rpiSerialNumber = ""
 loraTest = False
+
+eccTest = os.popen('i2cdetect -y 1').read()
+
+if "60 --" in euiTest:
+    eccDetected = True
