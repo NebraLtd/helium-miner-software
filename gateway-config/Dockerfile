@@ -22,7 +22,7 @@ python3-gi \
 python3-protobuf \
 --no-install-recommends
 
-ARG doge=202101092000
+ARG doge=202101092058
 RUN git clone https://github.com/NebraLtd/helium-miner-config.git
 
 
