@@ -34,6 +34,12 @@ services:
       io.balena.features.dbus: '1'
       io.balena.features.sysfs: '1'
       io.balena.features.kernel-modules: '1'
+  diagnostics:
+    build: "./diagnostics"
+    privileged: true
+    network_mode: "host"
+    cap_add:
+            - NET_ADMIN
 
 
 
