@@ -11,7 +11,20 @@ eccDetected = False
 rpiSerialNumber = ""
 loraTest = False
 
+
+#Check the ECC
 eccTest = os.popen('i2cdetect -y 1').read()
 
 if "60 --" in euiTest:
     eccDetected = True
+
+#Get ethernet MAC address
+ethernetMacAddress = open("/sys/class/net/eth0/address").readline().strip()
+
+#Get wifi MAC address
+wifiMacAddress = open("/sys/class/net/wlan0/address").readline().strip()
+
+#Get Balena Name
+
+#Get RPi serial number
+rpiSerialNumber = open("/proc/cpuinfo").readlines()[38].strip()[10:]
