@@ -1,6 +1,9 @@
 FROM debian:buster-slim
 
-WORKDIR /var/
+WORKDIR /opt/nebraDiagnostics/
+
+
+COPY diagnosticsProgram.py diagnosticsProgram.py
 
 RUN apt-get update && \
 apt-get -y install \
