@@ -25,6 +25,7 @@ ethernetMacAddress = open("/sys/class/net/eth0/address").readline().strip()
 wifiMacAddress = open("/sys/class/net/wlan0/address").readline().strip()
 
 #Get Balena Name
+balenaName = os.getenv('BALENA_DEVICE_NAME_AT_INIT')
 
 #Get RPi serial number
 rpiSerialNumber = open("/proc/cpuinfo").readlines()[38].strip()[10:]
