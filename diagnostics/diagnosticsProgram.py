@@ -82,4 +82,4 @@ qrcodeOut = qrcode.make(diagJson)
 qrcodeOut.save('/opt/nebraDiagnostics/html/diagnosticsQR.png')
 
 with open("/opt/nebraDiagnostics/html/index.html", 'w') as htmlOut:
-    htmlOut.write(generateHTML(diagJson))
+    htmlOut.write(generateHTML(diagnostics))
