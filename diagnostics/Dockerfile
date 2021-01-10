@@ -13,8 +13,10 @@ apt-get clean && \
 rm -rf /var/lib/apt/lists/*
 
 RUN mkdir html
+COPY startDiag.py startDiag.py
 COPY diagnosticsProgram.py diagnosticsProgram.py
 COPY genHTML.py genHTML.py
+
 
 WORKDIR /opt/nebraDiagnostics/html/
 ENTRYPOINT ["sh", "/opt/nebraDiagnostics/startDiag.sh"]
