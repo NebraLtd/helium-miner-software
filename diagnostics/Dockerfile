@@ -13,7 +13,7 @@ apt-get clean && \
 rm -rf /var/lib/apt/lists/*
 
 RUN mkdir html
-COPY startDiag.py startDiag.py
+COPY startDiag.sh startDiag.sh
 COPY diagnosticsProgram.py diagnosticsProgram.py
 COPY genHTML.py genHTML.py
 
