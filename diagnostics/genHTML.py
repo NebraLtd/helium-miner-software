@@ -79,7 +79,7 @@ def generateHTML(dictString):
     if(dictString["E0"] == "FF:FF:FF:FF:FF:FF"):
         htmlData = htmlData + """class='bg-warning text-dark'"""
     else:
-        htmlData = htmlData + """class='bg-info text-white'"""
+        htmlData = htmlData + """class='bg-info text-dark'"""
     htmlData = htmlData + """>
               <th>ETH0 MAC</th>
               <td>%(E0)s</td>
@@ -88,7 +88,7 @@ def generateHTML(dictString):
     if(dictString["W0"] == "FF:FF:FF:FF:FF:FF"):
         htmlData = htmlData + """class='bg-warning text-dark'"""
     else:
-        htmlData = htmlData + """class='bg-info text-white'"""
+        htmlData = htmlData + """class='bg-info text-dark'"""
     htmlData = htmlData + """>
               <th>WLAN0 MAC</th>
               <td>%(W0)s</td>
