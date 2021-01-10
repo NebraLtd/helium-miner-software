@@ -80,3 +80,6 @@ diagJson = json.dumps(diagnostics)
 
 with open("/var/pktfwd/diagnostics.json", 'w') as diagOut:
     diagOut.write(diagJson)
+
+qrcodeOut = qrcode.make(diagJson)
+qrcodeOut.save('/var/pktfwd/diagnosticsQR.png')
