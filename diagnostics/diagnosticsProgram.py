@@ -3,6 +3,7 @@
 import os
 import qrcode
 import json
+from genHTML import generateHTML
 
 #Variables for all Checks
 
@@ -85,3 +86,6 @@ with open("html/diagnostics.json", 'w') as diagOut:
 
 qrcodeOut = qrcode.make(diagJson)
 qrcodeOut.save('html/diagnosticsQR.png')
+
+with open("html/index.html", 'w') as htmlOut:
+    htmlOut.write(generateHTML(diagJson))
