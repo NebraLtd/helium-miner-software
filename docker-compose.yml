@@ -5,7 +5,7 @@ services:
     build: "./pktfwd"
     privileged: true
     volumes:
-      - 'packet-forwarder:/var/pktfwd'
+      - 'pktfwdr:/var/pktfwd'
 
   helium-miner:
     build: "./miner"
@@ -43,10 +43,11 @@ services:
     cap_add:
             - NET_ADMIN
     volumes:
-      - 'packet-forwarder:/var/pktfwd'
+      - 'pktfwdr:/var/pktfwd'
 
 
 
 volumes:
   miner-storage:
   miner-log:
+  pktfwdr:
