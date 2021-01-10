@@ -81,11 +81,11 @@ print(diagnostics)
 
 diagJson = json.dumps(diagnostics)
 
-with open("html/diagnostics.json", 'w') as diagOut:
+with open("/opt/nebraDiagnostics/html/diagnostics.json", 'w') as diagOut:
     diagOut.write(diagJson)
 
 qrcodeOut = qrcode.make(diagJson)
-qrcodeOut.save('html/diagnosticsQR.png')
+qrcodeOut.save('/opt/nebraDiagnostics/html/diagnosticsQR.png')
 
-with open("html/index.html", 'w') as htmlOut:
+with open("/opt/nebraDiagnostics/html/index.html", 'w') as htmlOut:
     htmlOut.write(generateHTML(diagJson))
