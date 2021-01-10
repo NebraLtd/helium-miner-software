@@ -49,6 +49,9 @@ def writeRegionConfSx1302(regionId):
 #If HAT Enabled
 
 
+with open("/var/pktfwd/diagnostics", 'w') as diagOut:
+    diagOut.write("true")
+failTimes = 0
 
 #Reset on pin 38
 while True:
@@ -67,6 +70,8 @@ while True:
         writeRegionConfSx1302(regionID)
         os.system("/opt/iotloragateway/packet_forwarder/sx1302/packet_forwarder/lora_pkt_fwd")
         print("Software crashed, restarting")
+        failTimes += 1
+
 
     else:
         print("SX1301")
@@ -74,6 +79,12 @@ while True:
         writeRegionConfSx1301(regionID)
         os.system("/opt/iotloragateway/packet_forwarder/sx1301/lora_pkt_fwd")
         print("Software crashed, restarting")
+        failTimes += 1
+
+    if(failTimes = 5):
+        with open("/var/pktfwd/diagnostics", 'w') as diagOut:
+            diagOut.write("false")
+
 
 
 
