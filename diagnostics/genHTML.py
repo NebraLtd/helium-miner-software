@@ -66,6 +66,10 @@ def generateHTML(dictString):
       <h2 class="text-center">Diagnostics Breakdown</h2>
         <table class="table">
           <tbody>
+            <tr class="bg-info">
+              <th>Frequency</th>
+              <td>%(BA)s</td>
+            </tr>
             <tr """ % dictString
     if(dictString["ecc"] == True):
         htmlData = htmlData + """class='bg-success text-white'"""
