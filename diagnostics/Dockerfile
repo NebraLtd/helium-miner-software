@@ -19,4 +19,6 @@ COPY genHTML.py genHTML.py
 
 
 WORKDIR /opt/nebraDiagnostics/html/
+COPY pure-min.css pure-min.css
+
 ENTRYPOINT ["sh", "/opt/nebraDiagnostics/startDiag.sh"]
