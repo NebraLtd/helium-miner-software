@@ -32,6 +32,9 @@ def generateHTML(dictString):
       body {
         padding-top: 5rem;
       }
+      .bg-dark {
+        background-color:#03a9f4!important;
+      }
 
     </style>
 
@@ -50,10 +53,10 @@ def generateHTML(dictString):
     <div class="col">
       <h1 class="text-center">Diagnostics Information</h1>
 """
-    if(dictString["ecc"] == True and dictString["e0"] != "FF:FF:FF:FF:FF:FF" and dictString["w0"] != "FF:FF:FF:FF:FF:FF" and dictString["BT"] == True and  dictString["LOR"] == True):
-        htmlData = htmlData = """<h2 class="text-positive text-center">All Ok</h2>"""
+    if(dictString["ecc"] == True and dictString["E0"] != "FF:FF:FF:FF:FF:FF" and dictString["W0"] != "FF:FF:FF:FF:FF:FF" and dictString["BT"] == True and  dictString["LOR"] == True):
+        htmlData = htmlData + """<h2 class="text-success text-center">All Ok</h2>"""
     else:
-        htmlData = htmlData = """<h2 class="text-positive text-center">Errors Found</h2>"""
+        htmlData = htmlData + """<h2 class="text-danger text-center">Errors Found</h2>"""
     htmlData = htmlData + """
     </div>
   </div>
@@ -63,29 +66,63 @@ def generateHTML(dictString):
       <h2 class="text-center">Diagnostics Breakdown</h2>
         <table class="table">
           <tbody>
-            <tr>
-              <td>ECC Detected</td>
+            <tr """ % dictString
+    if(dictString["ecc"] == True):
+        htmlData = htmlData + """class='bg-success text-white'"""
+    else:
+        htmlData = htmlData + """class='bg-danger text-white'"""
+    htmlData = htmlData + """ >
+              <th>ECC Detected</th>
               <td>%(ecc)s</td>
             </tr>
-            <tr>
-              <td>ETH0 MAC</td>
+            <tr """ % dictString
+    if(dictString["E0"] == "FF:FF:FF:FF:FF:FF"):
+        htmlData = htmlData + """class='bg-warning text-dark'"""
+    else:
+        htmlData = htmlData + """class='bg-info text-white'"""
+    htmlData = htmlData + """>
+              <th>ETH0 MAC</th>
               <td>%(E0)s</td>
             </tr>
-            <tr>
-              <td>WLAN0 MAC</td>
+            <tr """ % dictString
+    if(dictString["W0"] == "FF:FF:FF:FF:FF:FF"):
+        htmlData = htmlData + """class='bg-warning text-dark'"""
+    else:
+        htmlData = htmlData + """class='bg-info text-white'"""
+    htmlData = htmlData + """>
+              <th>WLAN0 MAC</th>
               <td>%(W0)s</td>
             </tr>
-            <tr>
-              <td>RPi Serial</td>
+            <tr class="bg-info">
+              <th>RPi Serial</th>
               <td>%(RPI)s</td>
             </tr>
-            <tr>
-              <td>BT Detected</td>
+            <tr """ % dictString
+    if(dictString["BT"] == True):
+        htmlData = htmlData + """class='bg-success text-white'"""
+    else:
+        htmlData = htmlData + """class='bg-danger text-white'"""
+    htmlData = htmlData + """ >
+              <th>BT Detected</th>
               <td>%(BT)s</td>
             </tr>
-            <tr>
-            <td>LoRa OK?</td>
+            <tr """ % dictString
+    if(dictString["LOR"] == True):
+        htmlData = htmlData + """class='bg-success text-white'"""
+    else:
+        htmlData = htmlData + """class='bg-danger text-white'"""
+    htmlData = htmlData + """ >
+              <th>LoRa OK?</th>
               <td>%(LOR)s</td>
+            </tr>
+            <tr """ % dictString
+    if(dictString["LTE"] == True):
+        htmlData = htmlData + """class='bg-success text-white'"""
+    else:
+        htmlData = htmlData + """class='bg-warning text-dark'"""
+    htmlData = htmlData + """ >
+              <th>LTE Detected</th>
+              <td>%(LTE)s</td>
             </tr>
           </tbody>
         </table>
