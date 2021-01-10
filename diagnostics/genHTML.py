@@ -9,7 +9,7 @@ def generateHTML(jsonString):
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Nebra Hotspot Diagnostics</title>
     <!-- Bootstrap core CSS -->
-<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="bootstrap.min.css" rel="stylesheet">
     <!-- Favicons -->
 <meta name="theme-color" content="#7952b3">
 
