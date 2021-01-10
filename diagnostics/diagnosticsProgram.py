@@ -71,8 +71,10 @@ else:
 with open("/var/pktfwd/diagnostics") as diagOut:
     loraStatus = diagOut.read()
 
-print(loraStatus)
-
+if(loraStatus == "true"):
+    diagnostics["LOR"] = True
+else:
+    diagnostics["LOR"] = False
 
 print(diagnostics)
 
