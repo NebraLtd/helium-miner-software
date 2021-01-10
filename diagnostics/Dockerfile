@@ -4,7 +4,7 @@ WORKDIR /opt/nebraDiagnostics/
 
 RUN apt-get update && \
 apt-get -y install \
-python3-minimal \
+python3 \
 i2c-tools \
 usbutils \
 python3-qrcode \
