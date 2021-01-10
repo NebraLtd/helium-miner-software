@@ -7,40 +7,35 @@ import os
 ethernetMacAddress = ""
 wifiMacAddress = ""
 balenaName = ""
-eccDetected = False
 rpiSerialNumber = ""
 loraTest = False
 
+diagnostics = {
+}
 
 #Check the ECC
 eccTest = os.popen('i2cdetect -y 1').read()
 
 if "60 --" in eccTest:
-    eccDetected = True
+    diagnostics["ecc"] = True
 
 #Get ethernet MAC address
-ethernetMacAddress = open("/sys/class/net/eth0/address").readline().strip()
+diagnostics["eth0"] = open("/sys/class/net/eth0/address").readline().strip()
 
 #Get wifi MAC address
-wifiMacAddress = open("/sys/class/net/wlan0/address").readline().strip()
+diagnostics["wlan0"] = open("/sys/class/net/wlan0/address").readline().strip()
 
 #Get Balena Name
-balenaName = os.getenv('BALENA_DEVICE_NAME_AT_INIT')
+diagnostics["name"] = os.getenv('BALENA_DEVICE_NAME_AT_INIT')
 
 #Get Balena App and therefore Frequency
-balenaApp = os.getenv('BALENA_APP_NAME')
+diagnostics["app"] = os.getenv('BALENA_APP_NAME')
 
 #Get RPi serial number
-rpiSerialNumber = open("/proc/cpuinfo").readlines()[38].strip()[10:]
+diagnostics["cpu"] = open("/proc/cpuinfo").readlines()[38].strip()[10:]
 
 #Get USB IDs to check for BT And Modem
 usbids = os.popen('lsusb').read()
 
-print(ethernetMacAddress)
-print(wifiMacAddress)
-print(balenaName)
-print(balenaApp)
-print(eccDetected)
-print(rpiSerialNumber)
-print(loraTest)
+print(diagnostics)
 print(usbids)
