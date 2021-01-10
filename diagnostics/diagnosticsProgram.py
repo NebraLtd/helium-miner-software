@@ -66,6 +66,10 @@ else:
     diagnostics["modem"] = False
 
 #LoRa Module Test
+with open("/var/pktfwd/diagnostics") as diagOut:
+    loraStatus = diagOut.read()
+
+print(loraStatus)
 
 
 print(diagnostics)
