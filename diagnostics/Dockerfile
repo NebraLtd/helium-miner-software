@@ -14,5 +14,6 @@ rm -rf /var/lib/apt/lists/*
 
 RUN mkdir html
 COPY diagnosticsProgram.py diagnosticsProgram.py
+COPY genHTML.py genHTML.py
 
-ENTRYPOINT ["python3", "-m http.server 80"]
+#ENTRYPOINT ["python3", "-m http.server 80"]
