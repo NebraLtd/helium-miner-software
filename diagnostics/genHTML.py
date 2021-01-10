@@ -49,7 +49,12 @@ def generateHTML(dictString):
   <div class="row">
     <div class="col">
       <h1 class="text-center">Diagnostics Information</h1>
-      <h2 class="text-danger text-center"></h2>
+"""
+    if(dictString["ecc"] == True and dictString["e0"] != "FF:FF:FF:FF:FF:FF" and dictString["w0"] != "FF:FF:FF:FF:FF:FF" and dictString["BT"] == True and  dictString["LOR"] == True):
+        htmlData = htmlData = """<h2 class="text-positive text-center">All Ok</h2>"""
+    else:
+        htmlData = htmlData = """<h2 class="text-positive text-center">Errors Found</h2>"""
+    htmlData = htmlData + """
     </div>
   </div>
 <hr/>
