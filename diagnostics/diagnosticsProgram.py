@@ -27,6 +27,9 @@ wifiMacAddress = open("/sys/class/net/wlan0/address").readline().strip()
 #Get Balena Name
 balenaName = os.getenv('BALENA_DEVICE_NAME_AT_INIT')
 
+#Get Balena App and therefore Frequency
+balenaApp = os.getenv('BALENA_APP_NAME')
+
 #Get RPi serial number
 rpiSerialNumber = open("/proc/cpuinfo").readlines()[38].strip()[10:]
 
@@ -36,6 +39,7 @@ usbids = os.popen('lsusb').read()
 print(ethernetMacAddress)
 print(wifiMacAddress)
 print(balenaName)
+print(balenaApp)
 print(eccDetected)
 print(rpiSerialNumber)
 print(loraTest)
