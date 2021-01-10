@@ -1,5 +1,5 @@
 #The code that generates the HTML
-def generateHTML(jsonString):
+def generateHTML(dictString):
     htmlData = """
 
 <!doctype html>
@@ -96,5 +96,5 @@ def generateHTML(jsonString):
 
   </body>
 </html>
-    """ % jsonString
+    """ % dictString
     return htmlData
