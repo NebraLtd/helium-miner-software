@@ -23,47 +23,47 @@ else:
 
 #Get ethernet MAC address
 try:
-    diagnostics["eth0"] = open("/sys/class/net/eth0/address").readline().strip()
+    diagnostics["E0"] = open("/sys/class/net/eth0/address").readline().strip()
 except:
-    diagnostics["eth0"] = "FF:FF:FF:FF:FF:FF"
+    diagnostics["E0"] = "FF:FF:FF:FF:FF:FF"
 
 
 #Get wifi MAC address
 try:
-    diagnostics["wlan0"] = open("/sys/class/net/wlan0/address").readline().strip()
+    diagnostics["W0"] = open("/sys/class/net/wlan0/address").readline().strip()
 except:
-    diagnostics["wlan0"] = "FF:FF:FF:FF:FF:FF"
+    diagnostics["W0"] = "FF:FF:FF:FF:FF:FF"
 
 #Get Balena Name
 try:
-    diagnostics["name"] = os.getenv('BALENA_DEVICE_NAME_AT_INIT')
+    diagnostics["BN"] = os.getenv('BALENA_DEVICE_NAME_AT_INIT')
 except:
-    diagnostics["name"] = "BALENA-FAIL"
+    diagnostics["BN"] = "BALENA-FAIL"
 
 #Get Balena App and therefore Frequency
 try:
-    diagnostics["app"] = os.getenv('BALENA_APP_NAME')
+    diagnostics["BA"] = os.getenv('BALENA_APP_NAME')
 except:
-    diagnostics["app"] = "APP-FAIL"
+    diagnostics["BA"] = "APP-FAIL"
 
 #Get RPi serial number
 try:
-    diagnostics["cpu"] = open("/proc/cpuinfo").readlines()[38].strip()[10:]
+    diagnostics["RPI"] = open("/proc/cpuinfo").readlines()[38].strip()[10:]
 except:
-    diagnostics["CPU"] = "FFFFFFFFFFFFFFFF"
+    diagnostics["RPI"] = "FFFFFFFFFFFFFFFF"
 
 #Get USB IDs to check for BT And Modem
 usbids = os.popen('lsusb').read()
 
 if "0a12:0001" in usbids:
-    diagnostics["bluetooth"] = True
+    diagnostics["BT"] = True
 else:
-    diagnostics["bluetooth"] = False
+    diagnostics["BT"] = False
 
 if "2c7c:0125" in usbids:
-    diagnostics["modem"] = True
+    diagnostics["LTE"] = True
 else:
-    diagnostics["modem"] = False
+    diagnostics["LTE"] = False
 
 #LoRa Module Test
 with open("/var/pktfwd/diagnostics") as diagOut:
