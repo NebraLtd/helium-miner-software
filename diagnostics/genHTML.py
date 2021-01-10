@@ -35,6 +35,9 @@ def generateHTML(dictString):
       .bg-dark {
         background-color:#03a9f4!important;
       }
+      .img-thumbnail {
+        max-width:300px;
+      }
 
     </style>
 
@@ -52,7 +55,7 @@ def generateHTML(dictString):
   <div class="row">
     <div class="col">
       <h1 class="text-center">Diagnostics Information</h1>
-      <h2>Name: %(BN)s</h2>
+      <h2 class="text-center">Name: %(BN)s</h2>
 """ % dictString
     if(dictString["ecc"] == True and dictString["E0"] != "FF:FF:FF:FF:FF:FF" and dictString["W0"] != "FF:FF:FF:FF:FF:FF" and dictString["BT"] == True and  dictString["LOR"] == True):
         htmlData = htmlData + """<h2 class="text-success text-center">All Ok</h2>"""
