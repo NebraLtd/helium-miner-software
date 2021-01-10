@@ -16,7 +16,7 @@ loraTest = False
 eccTest = os.popen('i2cdetect -y 1').read()
 
 if "60 --" in eccTest:
-    eccTest = True
+    eccDetected = True
 
 #Get ethernet MAC address
 ethernetMacAddress = open("/sys/class/net/eth0/address").readline().strip()
