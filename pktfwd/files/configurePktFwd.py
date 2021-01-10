@@ -81,7 +81,7 @@ while True:
         print("Software crashed, restarting")
         failTimes += 1
 
-    if(failTimes = 5):
+    if(failTimes == 5):
         with open("/var/pktfwd/diagnostics", 'w') as diagOut:
             diagOut.write("false")
 
