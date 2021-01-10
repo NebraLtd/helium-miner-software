@@ -14,3 +14,5 @@ rm -rf /var/lib/apt/lists/*
 
 RUN mkdir html
 COPY diagnosticsProgram.py diagnosticsProgram.py
+
+ENTRYPOINT ["python3", "-m http.server 80"]
