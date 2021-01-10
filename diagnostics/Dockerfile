@@ -16,4 +16,5 @@ RUN mkdir html
 COPY diagnosticsProgram.py diagnosticsProgram.py
 COPY genHTML.py genHTML.py
 
-ENTRYPOINT ["python3", "-m", "http.server", "80"]
+WORKDIR /opt/nebraDiagnostics/html/
+ENTRYPOINT ["sh", "/opt/nebraDiagnostics/startDiag.sh"]
