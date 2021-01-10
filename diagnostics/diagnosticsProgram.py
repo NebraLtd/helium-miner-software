@@ -1,6 +1,8 @@
 #Checks basic hardware features.
 
 import os
+import qrcode
+import json
 
 #Variables for all Checks
 
@@ -73,3 +75,8 @@ print(loraStatus)
 
 
 print(diagnostics)
+
+diagJson = json.dumps(diagnostics)
+
+with open("/var/pktfwd/diagnostics.json", 'w') as diagOut:
+    diagOut.write(diagJson)
