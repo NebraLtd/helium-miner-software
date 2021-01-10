@@ -49,13 +49,41 @@ def generateHTML(jsonString):
   <div class="row">
     <div class="col">
       <h1 class="text-center">Diagnostics Information</h1>
-      <h2 class="text-danger text-center">Everything's Broke!</h2>
+      <h2 class="text-danger text-center"></h2>
     </div>
   </div>
 <hr/>
   <div class="row">
     <div class="col">
       <h2 class="text-center">Diagnostics Breakdown</h2>
+        <table class="table">
+          <tbody>
+            <tr>
+              <td>ECC Detected</td>
+              <td>{ecc}</td>
+            </tr>
+            <tr>
+              <td>ETH0 MAC</td>
+              <td>{E0}</td>
+            </tr>
+            <tr>
+              <td>WLAN0 MAC</td>
+              <td>{W0}</td>
+            </tr>
+            <tr>
+              <td>RPi Serial</td>
+              <td>{RPI}</td>
+            </tr>
+            <tr>
+              <td>BT Detected</td>
+              <td>{BT}</td>
+            </tr>
+            <tr>
+            <td>LoRa OK?</td>
+              <td>{LOR}</td>
+            </tr>
+          </tbody>
+        </table>
     </div>
     <div class="col">
       <h2 class="text-center">Support QR</h2>
@@ -68,5 +96,5 @@ def generateHTML(jsonString):
 
   </body>
 </html>
-    """
+    """ % jsonString
     return htmlData

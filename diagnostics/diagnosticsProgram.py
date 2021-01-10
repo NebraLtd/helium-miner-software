@@ -7,12 +7,6 @@ from genHTML import generateHTML
 
 #Variables for all Checks
 
-ethernetMacAddress = ""
-wifiMacAddress = ""
-balenaName = ""
-rpiSerialNumber = ""
-loraTest = False
-
 diagnostics = {
 }
 
