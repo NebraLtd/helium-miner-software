@@ -59,6 +59,7 @@ def generateHTML(jsonString):
     </div>
     <div class="col">
       <h2 class="text-center">Support QR</h2>
+      <img src="diagnosticsQR.png" class="img-thumbnail">
     </div>
   </div>
 
