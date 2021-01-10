@@ -60,27 +60,27 @@ def generateHTML(jsonString):
           <tbody>
             <tr>
               <td>ECC Detected</td>
-              <td>{ecc}</td>
+              <td>%(ecc)s</td>
             </tr>
             <tr>
               <td>ETH0 MAC</td>
-              <td>{E0}</td>
+              <td>%(E0)s</td>
             </tr>
             <tr>
               <td>WLAN0 MAC</td>
-              <td>{W0}</td>
+              <td>%(W0)s</td>
             </tr>
             <tr>
               <td>RPi Serial</td>
-              <td>{RPI}</td>
+              <td>%(RPI)s</td>
             </tr>
             <tr>
               <td>BT Detected</td>
-              <td>{BT}</td>
+              <td>%(BT)s</td>
             </tr>
             <tr>
             <td>LoRa OK?</td>
-              <td>{LOR}</td>
+              <td>%(LOR)s</td>
             </tr>
           </tbody>
         </table>
