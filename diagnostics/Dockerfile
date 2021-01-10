@@ -5,7 +5,6 @@ WORKDIR /opt/nebraDiagnostics/
 RUN apt-get update && \
 apt-get -y install \
 python3-minimal \
-nginx \
 i2c-tools \
 usbutils \
 python3-qrcode \
@@ -13,5 +12,5 @@ python3-qrcode \
 apt-get clean && \
 rm -rf /var/lib/apt/lists/*
 
-
+RUN mkdir html
 COPY diagnosticsProgram.py diagnosticsProgram.py
