@@ -30,9 +30,13 @@ balenaName = os.getenv('BALENA_DEVICE_NAME_AT_INIT')
 #Get RPi serial number
 rpiSerialNumber = open("/proc/cpuinfo").readlines()[38].strip()[10:]
 
+#Get USB IDs to check for BT And Modem
+usbids = os.popen('lsusb').read()
+
 print(ethernetMacAddress)
 print(wifiMacAddress)
 print(balenaName)
 print(eccDetected)
 print(rpiSerialNumber)
 print(loraTest)
+print(usbids)
