@@ -13,6 +13,8 @@ RUN apt-get update && apt-get -y install \
   pkg-config \
   build-essential \
   wget \
+  python3 \
+  python3-pip \
   --no-install-recommends
 
 COPY buildfiles buildfiles
@@ -25,6 +27,10 @@ RUN ./buildfiles/compileSX1301.sh
 
 RUN chmod +x ./buildfiles/compileSX1302.sh
 RUN ./buildfiles/compileSX1302.sh
+
+RUN pip3 install pyinstaller
+COPY files/configurePktFwd.py .
+RUN pyinstaller configurePktFwd.py
 
 FROM debian:buster-slim
 
@@ -58,13 +64,12 @@ RUN cp lora_templates_sx1302/EU-global_conf.json packet_forwarder/global_conf.js
 
 
 WORKDIR /opt/iotloragateway/packet_forwarder
+COPY --from=buildstep /opt/iotloragateway/dev/dist/configurePktFwd .
 
 COPY files/run_pkt.sh .
-COPY files/configurePktFwd.py .
 COPY files/reset-38.sh .
 RUN chmod +x reset-38.sh
 RUN chmod +x run_pkt.sh
-RUN chmod +x configurePktFwd.py
 COPY files/reset_lgw.sh .
 RUN chmod +x reset_lgw.sh
 
