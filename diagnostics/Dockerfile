@@ -1,4 +1,4 @@
-FROM debian:buster-slim
+FROM alpine:latest
 
 WORKDIR /opt/nebraDiagnostics/
 
