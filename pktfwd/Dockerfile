@@ -1,7 +1,7 @@
 #Packet Forwarder Docker File
 #(C) Pi Supply 2019
 #Licensed under the GNU GPL V3 License.
-FROM debian:buster-slim
+FROM debian:buster-slim AS buildstep
 WORKDIR /opt/iotloragateway/dev
 
 RUN apt-get update && apt-get -y install \
