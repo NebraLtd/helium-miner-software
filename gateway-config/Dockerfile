@@ -7,8 +7,8 @@ FROM debian:buster-slim
 
 WORKDIR /opt/
 
-RUN apt-get update
-RUN apt-get -y install \
+RUN apt-get update && \
+apt-get -y install \
 python3-minimal \
 python3-networkmanager \
 bluez \
@@ -20,7 +20,9 @@ net-tools \
 python3-dbus \
 python3-gi \
 python3-protobuf \
---no-install-recommends
+--no-install-recommends && \
+apt-get clean && \
+rm -rf /var/lib/apt/lists/*
 
 ARG doge=202101092127
 RUN git clone https://github.com/NebraLtd/helium-miner-config.git

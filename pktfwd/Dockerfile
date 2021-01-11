@@ -10,6 +10,7 @@ RUN apt-get update && apt-get -y install \
   libtool \
   autoconf \
   git \
+  ca-certificates \
   pkg-config \
   build-essential \
   wget \
