@@ -9,4 +9,4 @@
 #./reset-pins.sh
 
 #Run python to do configuration and run the induvidual forwarders
-#python3 -u configurePktFwd.py
+python3 -u configurePktFwd.py
