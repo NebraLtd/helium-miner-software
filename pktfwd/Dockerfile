@@ -12,7 +12,8 @@ RUN apt-get update && apt-get -y install \
   git \
   pkg-config \
   build-essential \
-  wget
+  wget \
+  --no-install-recommends
 
 COPY buildfiles buildfiles
 COPY sx1302fixes sx1302fixes
@@ -31,7 +32,7 @@ FROM ubuntu:20.04
 
 WORKDIR /opt/iotloragateway/packet_forwarder/sx1301
 
-RUN apt-get update && apt-get -y install python3 --no-install-recommends && apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get -y install python3-minimal --no-install-recommends && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 COPY --from=buildstep /opt/iotloragateway/packetforwarder .
 
