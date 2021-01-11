@@ -1,7 +1,7 @@
 #Packet Forwarder Docker File
 #(C) Pi Supply 2019
 #Licensed under the GNU GPL V3 License.
-FROM debian:buster-slim AS buildstep
+FROM ubuntu:20.04 AS buildstep
 
 WORKDIR /opt/iotloragateway/dev
 
@@ -27,7 +27,7 @@ RUN ./buildfiles/compileSX1302.sh
 
 
 
-FROM debian:buster-slim
+FROM ubuntu:20.04
 
 WORKDIR /opt/iotloragateway/packet_forwarder/sx1301
 
