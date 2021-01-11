@@ -1,31 +1,18 @@
 #Packet Forwarder Docker File
 #(C) Pi Supply 2019
 #Licensed under the GNU GPL V3 License.
-#FROM debian:buster-slim AS buildstep
-
-FROM alpine:edge
+FROM debian:buster-slim AS buildstep
 
 WORKDIR /opt/iotloragateway/dev
 
-#RUN apt-get update && apt-get -y install \
-#  automake \
-#  libtool \
-#  autoconf \
-#  git \
-#  pkg-config \
-#  build-essential \
-#  wget
-
-RUN apk add --no-cache \
-automake \
-libtool \
-autoconf \
-git \
-pkgconfig \
-build-base \
-wget \
-linux-headers
-
+RUN apt-get update && apt-get -y install \
+  automake \
+  libtool \
+  autoconf \
+  git \
+  pkg-config \
+  build-essential \
+  wget
 
 COPY buildfiles buildfiles
 COPY sx1302fixes sx1302fixes
@@ -40,12 +27,11 @@ RUN ./buildfiles/compileSX1302.sh
 
 
 
-FROM alpine:edge
+FROM debian:buster-slim
 
 WORKDIR /opt/iotloragateway/packet_forwarder/sx1301
 
-RUN apk add --no-cache \
-python3 \
+RUN apt-get update && apt-get -y install python3 --no-install-recommends && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 COPY --from=buildstep /opt/iotloragateway/packetforwarder .
 
