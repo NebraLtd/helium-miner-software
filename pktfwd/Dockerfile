@@ -15,6 +15,7 @@ RUN apt-get update && apt-get -y install \
   wget \
   python3 \
   python3-pip \
+  python3-setuptools \
   --no-install-recommends
 
 COPY buildfiles buildfiles
