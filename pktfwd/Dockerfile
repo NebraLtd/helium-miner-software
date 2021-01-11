@@ -26,17 +26,19 @@ RUN ./buildfiles/compileSX1301.sh
 RUN chmod +x ./buildfiles/compileSX1302.sh
 RUN ./buildfiles/compileSX1302.sh
 
-FROM debian:buster-slim
+FROM alpine:edge
 
 WORKDIR /opt/iotloragateway/packet_forwarder/sx1301
 
-RUN apt-get update && \
-apt-get -y install \
-python3-minimal \
-python3-json \
---no-install-recommends && \
-apt-get clean && \
-rm -rf /var/lib/apt/lists/*
+#RUN apt-get update && \
+#apt-get -y install \
+#python3-minimal \
+#python3-json \
+#--no-install-recommends && \
+#apt-get clean && \
+#rm -rf /var/lib/apt/lists/*
+
+RUN apk add --no-cache python3
 
 COPY --from=buildstep /opt/iotloragateway/packetforwarder .
 
