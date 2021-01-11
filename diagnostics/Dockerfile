@@ -1,16 +1,25 @@
-FROM alpine:3.12.3
+FROM alpine:edge
 
 WORKDIR /opt/nebraDiagnostics/
 
-RUN apt-get update && \
-apt-get -y install \
+#RUN apt-get update && \
+#apt-get -y install \
+#python3 \
+#i2c-tools \
+#usbutils \
+#python3-qrcode \
+#--no-install-recommends && \
+#apt-get clean && \
+#rm -rf /var/lib/apt/lists/*
+
+RUN apk add --no-cache \
 python3 \
 i2c-tools \
 usbutils \
-python3-qrcode \
---no-install-recommends && \
-apt-get clean && \
-rm -rf /var/lib/apt/lists/*
+py3-qrcode
+
+
+
 
 RUN mkdir html
 COPY startDiag.sh startDiag.sh
