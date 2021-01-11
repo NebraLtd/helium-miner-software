@@ -1,8 +1,7 @@
 #Packet Forwarder Docker File
 #(C) Pi Supply 2019
 #Licensed under the GNU GPL V3 License.
-FROM ubuntu:20.04 AS buildstep
-
+FROM debian:buster-slim
 WORKDIR /opt/iotloragateway/dev
 
 RUN apt-get update && apt-get -y install \
@@ -27,13 +26,11 @@ RUN ./buildfiles/compileSX1301.sh
 RUN chmod +x ./buildfiles/compileSX1302.sh
 RUN ./buildfiles/compileSX1302.sh
 
-
-
-FROM ubuntu:20.04
+FROM debian:buster-slim
 
 WORKDIR /opt/iotloragateway/packet_forwarder/sx1301
 
-RUN apt-get update && apt-get -y install python3-minimal --no-install-recommends && apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get -y install python3 --no-install-recommends && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 COPY --from=buildstep /opt/iotloragateway/packetforwarder .
 
