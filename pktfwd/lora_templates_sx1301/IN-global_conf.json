@@ -182,11 +182,11 @@
 		}
 	},
 	"gateway_conf": {
-		"server_address": "router.as.thethings.network",
+		"server_address": "helium-miner",
 		"serv_port_up": 1700,
 		"serv_port_down": 1700,
 		"servers": [ {
-			"server_address": "router.as.thethings.network",
+			"server_address": "helium-miner",
 			"serv_port_up": 1700,
 			"serv_port_down": 1700,
 			"serv_enabled": true
