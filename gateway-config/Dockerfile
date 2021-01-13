@@ -24,7 +24,7 @@ python3-protobuf \
 apt-get clean && \
 rm -rf /var/lib/apt/lists/*
 
-ARG doge=202101131418
+ARG doge=202101131435
 RUN git clone https://github.com/NebraLtd/helium-miner-config.git
 
 
