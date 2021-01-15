@@ -27,7 +27,7 @@ rm -rf /var/lib/apt/lists/*
 
 RUN pip3 install nmcli
 
-ARG doge=202101151722
+ARG doge=202101151737
 RUN git clone https://github.com/NebraLtd/helium-miner-config.git
 
 
