@@ -25,7 +25,7 @@ python3-pip \
 apt-get clean && \
 rm -rf /var/lib/apt/lists/*
 
-ARG doge=202101151828
+ARG doge=202101151918
 RUN git clone https://github.com/NebraLtd/helium-miner-config.git
 
 
