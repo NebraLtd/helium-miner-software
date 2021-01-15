@@ -3,7 +3,7 @@
 #(C) Pi Supply 2019
 #Licensed under the GNU GPL V3 License.
 
-FROM debian:buster-slim
+FROM ubuntu:20.04
 
 WORKDIR /opt/
 
