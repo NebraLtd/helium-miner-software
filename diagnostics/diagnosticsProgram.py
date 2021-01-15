@@ -6,7 +6,7 @@ import json
 from genHTML import generateHTML
 from PIL import Image, ImageDraw, ImageFont
 
-canvas = Image.new('RGBA', (650, 750), (255,255,255,255))
+canvas = Image.new('RGBA', (750, 850), (255,255,255,255))
 
 #Variables for all Checks
 
@@ -104,10 +104,10 @@ nameString = "ID: %s" % diagnostics["BN"]
 macString = "ETH: %s" % diagnostics["E0"]
 freqString = "Region: %s" % diagnostics["RE"]
 
-addText.text((60,610), modelString, (0,0,0) , font=fnt)
-addText.text((60,635), nameString, (0,0,0) , font=fnt)
-addText.text((60,660), macString, (0,0,0) , font=fnt)
-addText.text((60,685), freqString, (0,0,0) , font=fnt)
+addText.text((60,685), modelString, (0,0,0) , font=fnt)
+addText.text((60,710), nameString, (0,0,0) , font=fnt)
+addText.text((60,735), macString, (0,0,0) , font=fnt)
+addText.text((60,760), freqString, (0,0,0) , font=fnt)
 
 canvas.paste(qrcodeOut, (20,0))
 #qrcodeOut.save('/opt/nebraDiagnostics/html/diagnosticsQR.png')
