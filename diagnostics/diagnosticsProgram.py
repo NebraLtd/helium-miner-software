@@ -37,11 +37,23 @@ try:
 except:
     diagnostics["BN"] = "BALENA-FAIL"
 
-#Get Balena App and therefore Frequency
+#Get Balena App
 try:
     diagnostics["BA"] = os.getenv('BALENA_APP_NAME')
 except:
     diagnostics["BA"] = "APP-FAIL"
+
+#Get Frequency
+try:
+    diagnostics["RE"] = os.getenv('REGION')
+except:
+    diagnostics["RE"] = "NO420"
+
+#Get Variant
+try:
+    diagnostics["VE"] = os.getenv('VARIANT')
+except:
+    diagnostics["VE"] = "UNKNOWN"
 
 #Get RPi serial number
 try:
