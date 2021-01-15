@@ -6,7 +6,7 @@ import json
 from genHTML import generateHTML
 from PIL import Image, ImageDraw, ImageFont
 
-canvas = Image.new('RGBA', (750, 850), (255,255,255,255))
+canvas = Image.new('RGBA', (730, 850), (255,255,255,255))
 
 #Variables for all Checks
 

@@ -36,7 +36,7 @@ def generateHTML(dictString):
         background-color:#03a9f4!important;
       }
       .img-thumbnail {
-        max-width:300px;
+        max-width:350px;
       }
 
     </style>
