@@ -4,6 +4,9 @@ import os
 import qrcode
 import json
 from genHTML import generateHTML
+from PIL import Image, ImageDraw, ImageFont
+
+canvas = Image.new('RGBA', (650, 750), (255,255,255,255))
 
 #Variables for all Checks
 
@@ -91,7 +94,24 @@ with open("/opt/nebraDiagnostics/html/diagnostics.json", 'w') as diagOut:
     diagOut.write(diagJson)
 
 qrcodeOut = qrcode.make(diagJson)
-qrcodeOut.save('/opt/nebraDiagnostics/html/diagnosticsQR.png')
+
+addText = ImageDraw.Draw(canvas)
+
+fnt = ImageFont.truetype("Ubuntu-Bold.ttf", 24)
+
+modelString = "Nebra %s Helium Hotspot" % diagnostics["VA"]
+nameString = "ID: %s" % diagnostics["BN"]
+macString = "ETH: %s" % diagnostics["E0"]
+freqString = "Region: %s" % diagnostics["RE"]
+
+addText.text((60,610), modelString, (0,0,0) , font=fnt)
+addText.text((60,635), nameString, (0,0,0) , font=fnt)
+addText.text((60,660), macString, (0,0,0) , font=fnt)
+addText.text((60,685), freqString, (0,0,0) , font=fnt)
+
+canvas.paste(qrcodeOut, (20,0))
+#qrcodeOut.save('/opt/nebraDiagnostics/html/diagnosticsQR.png')
+canvas.save('/opt/nebraDiagnostics/html/diagnosticsQR.png')
 
 with open("/opt/nebraDiagnostics/html/index.html", 'w') as htmlOut:
     htmlOut.write(generateHTML(diagnostics))
