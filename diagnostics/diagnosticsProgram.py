@@ -51,9 +51,9 @@ except:
 
 #Get Variant
 try:
-    diagnostics["VE"] = os.getenv('VARIANT')
+    diagnostics["VA"] = os.getenv('VARIANT')
 except:
-    diagnostics["VE"] = "UNKNOWN"
+    diagnostics["VA"] = "UNKNOWN"
 
 #Get RPi serial number
 try:

@@ -72,7 +72,11 @@ def generateHTML(dictString):
           <tbody>
             <tr class="bg-info">
               <th>Frequency</th>
-              <td>%(BA)s</td>
+              <td>%(RE)s</td>
+            </tr>
+            <tr class="bg-info">
+              <th>Variant</th>
+              <td>%(VA)s</td>
             </tr>
             <tr """ % dictString
     if(dictString["ecc"] == True):
@@ -124,14 +128,17 @@ def generateHTML(dictString):
               <td>%(LOR)s</td>
             </tr>
             <tr """ % dictString
-    if(dictString["LTE"] == True):
-        htmlData = htmlData + """class='bg-success text-white'"""
-    else:
-        htmlData = htmlData + """class='bg-warning text-dark'"""
-    htmlData = htmlData + """ >
-              <th>LTE Detected</th>
-              <td>%(LTE)s</td>
-            </tr>
+    if(dictString["VA"] == "Outdoor"):
+        if(dictString["LTE"] == True):
+            htmlData = htmlData + """class='bg-success text-white'"""
+        else:
+            htmlData = htmlData + """class='bg-warning text-dark'"""
+        htmlData = htmlData + """ >
+                  <th>LTE Detected</th>
+                  <td>%(LTE)s</td>
+                </tr>"""
+
+    htmlData = htmlData + """
           </tbody>
         </table>
     </div>
