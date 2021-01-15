@@ -25,8 +25,10 @@ python3-pip \
 apt-get clean && \
 rm -rf /var/lib/apt/lists/*
 
-ARG doge=202101151918
+COPY start-gateway-config.sh start-gateway-config.sh
+RUN chmod +x start-gateway-config.sh
 RUN git clone https://github.com/NebraLtd/helium-miner-config.git
 
+WORKDIR /opt/helium-miner-config/
 
-ENTRYPOINT ["python3", "/opt/helium-miner-config/main.py"]
+ENTRYPOINT ["sh", "/opt/helium-miner-config/main.py"]
