@@ -31,4 +31,4 @@ RUN git clone https://github.com/NebraLtd/helium-miner-config.git
 
 WORKDIR /opt/helium-miner-config/
 
-ENTRYPOINT ["sh", "/opt/helium-miner-config/start-gateway-config.py"]
+ENTRYPOINT ["sh", "/opt/helium-miner-config/start-gateway-config.sh"]
