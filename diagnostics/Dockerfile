@@ -10,8 +10,10 @@ py3-qrcode
 
 RUN mkdir html
 COPY startDiag.sh startDiag.sh
+COPY Ubuntu-Bold.ttf Ubuntu-Bold.ttf
 COPY diagnosticsProgram.py diagnosticsProgram.py
 COPY genHTML.py genHTML.py
+
 
 WORKDIR /opt/nebraDiagnostics/html/
 COPY bootstrap.min.css bootstrap.min.css
