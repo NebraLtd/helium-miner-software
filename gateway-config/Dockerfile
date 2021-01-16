@@ -19,8 +19,7 @@ ca-certificates \
 net-tools \
 python3-dbus \
 python3-gi \
-python3-protobuf \
-python3-pip \
+python3-protobuf \ \
 --no-install-recommends && \
 apt-get clean && \
 rm -rf /var/lib/apt/lists/*
