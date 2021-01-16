@@ -37,7 +37,7 @@ services:
       io.balena.features.sysfs: '1'
       io.balena.features.kernel-modules: '1'
   diagnostics:
-    image: ryantec/diagnostics
+    image: nebraltd/diagnostics
     privileged: true
     network_mode: "host"
     cap_add:
