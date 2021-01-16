@@ -136,7 +136,7 @@ def generateHTML(dictString):
         htmlData = htmlData + """ >
                   <th>LTE Detected</th>
                   <td>%(LTE)s</td>
-                </tr>"""
+                </tr>""" % dictString
 
     htmlData = htmlData + """
           </tbody>
