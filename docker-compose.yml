@@ -36,8 +36,9 @@ services:
       io.balena.features.dbus: '1'
       io.balena.features.sysfs: '1'
       io.balena.features.kernel-modules: '1'
+      io.balena.features.supervisor-api: '1'
   diagnostics:
-    image: nebraltd/diagnostics
+    image: nebraltd/diagnostics:latest
     privileged: true
     network_mode: "host"
     cap_add:
