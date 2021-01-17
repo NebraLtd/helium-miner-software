@@ -1,16 +1,16 @@
-balena deploy HELIUM-INDOOR-AS923
-balena deploy HELIUM-INDOOR-AU915
-balena deploy HELIUM-INDOOR-CN470
-balena deploy HELIUM-INDOOR-EU868
-balena deploy HELIUM-INDOOR-IN865
-balena deploy HELIUM-INDOOR-KR920
-balena deploy HELIUM-INDOOR-RU864
-balena deploy HELIUM-INDOOR-US915
-balena deploy HELIUM-OUTDOOR-AS923
-balena deploy HELIUM-OUTDOOR-AU915
-balena deploy HELIUM-OUTDOOR-CN470
-balena deploy HELIUM-OUTDOOR-EU868
-balena deploy HELIUM-OUTDOOR-IN865
-balena deploy HELIUM-OUTDOOR-KR920
-balena deploy HELIUM-OUTDOOR-RU864
-balena deploy HELIUM-OUTDOOR-US915
+balena deploy HELIUM-INDOOR-AS923 -e
+balena deploy HELIUM-INDOOR-AU915 -e
+balena deploy HELIUM-INDOOR-CN470 -e
+balena deploy HELIUM-INDOOR-EU868 -e
+balena deploy HELIUM-INDOOR-IN865 -e
+balena deploy HELIUM-INDOOR-KR920 -e
+balena deploy HELIUM-INDOOR-RU864 -e
+balena deploy HELIUM-INDOOR-US915 -e
+balena deploy HELIUM-OUTDOOR-AS923 -e
+balena deploy HELIUM-OUTDOOR-AU915 -e
+balena deploy HELIUM-OUTDOOR-CN470 -e
+balena deploy HELIUM-OUTDOOR-EU868 -e
+balena deploy HELIUM-OUTDOOR-IN865 -e
+balena deploy HELIUM-OUTDOOR-KR920 -e
+balena deploy HELIUM-OUTDOOR-RU864 -e
+balena deploy HELIUM-OUTDOOR-US915 -e
