@@ -2,7 +2,7 @@ version: '2'
 
 services:
   packet-forwarder:
-    image: nebraltd/hm-d-pktfwd:latest
+    build: "./pktfwd"
     privileged: true
     volumes:
       - 'pktfwdr:/var/pktfwd'
@@ -22,9 +22,8 @@ services:
       io.balena.features.dbus: '1'
       io.balena.features.sysfs: '1'
       io.balena.features.kernel-modules: '1'
-
   gateway-config:
-    image: nebraltd/hm-d-gateway-config:latest
+    build: "./gateway-config"
     privileged: true
     network_mode: "host"
     cap_add:
@@ -39,7 +38,7 @@ services:
       io.balena.features.kernel-modules: '1'
       io.balena.features.supervisor-api: '1'
   diagnostics:
-    image: nebraltd/hm-d-diagnostics:latest
+    build: "./diagnostics"
     privileged: true
     network_mode: "host"
     cap_add:
