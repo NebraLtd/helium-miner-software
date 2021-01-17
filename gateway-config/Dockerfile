@@ -7,6 +7,8 @@ FROM arm64v8/debian:buster-slim
 
 WORKDIR /opt/
 
+ARG override=202101171357
+
 RUN apt-get update && \
 apt-get -y install \
 python3-minimal \
@@ -20,6 +22,7 @@ net-tools \
 python3-dbus \
 python3-gi \
 python3-protobuf \
+curl \
 --no-install-recommends && \
 apt-get clean && \
 rm -rf /var/lib/apt/lists/*
