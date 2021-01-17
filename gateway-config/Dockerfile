@@ -22,6 +22,7 @@ net-tools \
 python3-dbus \
 python3-gi \
 python3-protobuf \
+python3-rpi.gpio \
 curl \
 --no-install-recommends && \
 apt-get clean && \
@@ -30,7 +31,7 @@ rm -rf /var/lib/apt/lists/*
 COPY start-gateway-config.sh start-gateway-config.sh
 RUN chmod +x start-gateway-config.sh
 
-ARG override=202101161258
+ARG override=202101171530
 
 RUN git clone https://github.com/NebraLtd/helium-miner-config.git
 
