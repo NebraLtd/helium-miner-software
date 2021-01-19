@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "Indoor AS923"
-balena deploy HELIUM-INDOOR-AS923 -e
+balena deploy HELIUM-INDOOR-AS923 -e --build
 echo "Indoor AU915"
 balena deploy HELIUM-INDOOR-AU915 -e
 echo "Indoor CN470"
