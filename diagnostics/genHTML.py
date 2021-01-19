@@ -127,10 +127,20 @@ def generateHTML(dictString):
               <th>LoRa OK?</th>
               <td>%(LOR)s</td>
             </tr>
+            <tr """ % dictString
+    if(dictString["MC"] == "yes"):
+        htmlData = htmlData + """class='bg-success text-white'"""
+    else:
+        htmlData = htmlData + """class='bg-danger text-white'"""
+    htmlData = htmlData + """ >
+        `   <th>Miner Online</th>
+            <td>%(LOR)s</td>
+          </tr>`
             <tr class="bg-info">
               <th>Miner Height</th>
               <td>%(MH)s</td>
             </tr>
+
             <tr """ % dictString
     if(dictString["VA"] == "Outdoor"):
         if(dictString["LTE"] == True):
