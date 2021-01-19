@@ -127,6 +127,10 @@ def generateHTML(dictString):
               <th>LoRa OK?</th>
               <td>%(LOR)s</td>
             </tr>
+            <tr class="bg-info">
+              <th>Miner Height</th>
+              <td>%(MH)s</td>
+            </tr>
             <tr """ % dictString
     if(dictString["VA"] == "Outdoor"):
         if(dictString["LTE"] == True):

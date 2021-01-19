@@ -90,8 +90,11 @@ miner_interface = dbus.Interface(miner_object, 'com.helium.Miner')
 try:
     p2pstatus = miner_interface.P2PStatus()
     print(p2pstatus)
-    diagnostics["BC"] = str(p2pstatus[3][1])
+    diagnostics["MH"] = str(p2pstatus[3][1])
+    diagnostics['MC'] = str(p2pstatus[0][1])
 except:
+    diagnostics["MH"] = "000000"
+    diagnostics['MC'] = "Error"
     print("P2PFAIl")
 
 print(diagnostics)
