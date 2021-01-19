@@ -1,8 +1,6 @@
 #Checks basic hardware features.
 
-import os
-import qrcode
-import json
+import os, dbus, qrcode, json
 from genHTML import generateHTML
 from PIL import Image, ImageDraw, ImageFont
 
@@ -85,6 +83,15 @@ if(loraStatus == "true"):
     diagnostics["LOR"] = True
 else:
     diagnostics["LOR"] = False
+
+miner_bus = dbus.SystemBus()
+miner_object = miner_bus.get_object('com.helium.Miner', '/')
+miner_interface = dbus.Interface(miner_object, 'com.helium.Miner')
+try:
+    p2pstatus = miner_interface.P2PStatus()
+    print(p2pstatus)
+except:
+    print("P2PFAIl")
 
 print(diagnostics)
 
