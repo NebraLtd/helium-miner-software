@@ -22,6 +22,7 @@ services:
       io.balena.features.dbus: '1'
       io.balena.features.sysfs: '1'
       io.balena.features.kernel-modules: '1'
+
   gateway-config:
     build: "./gateway-config"
     privileged: true
@@ -37,6 +38,7 @@ services:
       io.balena.features.sysfs: '1'
       io.balena.features.kernel-modules: '1'
       io.balena.features.supervisor-api: '1'
+
   diagnostics:
     build: "./diagnostics"
     privileged: true
@@ -45,6 +47,11 @@ services:
             - NET_ADMIN
     volumes:
       - 'pktfwdr:/var/pktfwd'
+    labels:
+      io.balena.features.dbus: '1'
+      io.balena.features.sysfs: '1'
+      io.balena.features.kernel-modules: '1'
+      io.balena.features.supervisor-api: '1'
 
 
 
