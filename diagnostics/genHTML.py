@@ -168,7 +168,7 @@ def generateHTML(dictString):
 
   <div class="row">
     <div class="col">
-      <p class = "text-center">Last Updated: """ + datetime.datetime.now().strftime("%H:%M %d/%m/%Y") + """
+      <p class = "text-center">Last Updated: """ + datetime.now().strftime("%H:%M %d/%m/%Y") + """
       <p class="text-center">To get support please visit <a href="https://nebra.io/helium-support">https://nebra.io/helium-support</a><p>
       <p class="text-center">&copy; Nebra LTD. 2020-2021<p>
 
