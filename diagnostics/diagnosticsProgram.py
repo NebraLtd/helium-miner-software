@@ -3,6 +3,11 @@
 import os, dbus, qrcode, json
 from genHTML import generateHTML
 from PIL import Image, ImageDraw, ImageFont
+from time import sleep
+
+print("Sleeping 30 seconds")
+sleep(30)
+print("Starting Diag")
 
 canvas = Image.new('RGBA', (730, 850), (255,255,255,255))
 
