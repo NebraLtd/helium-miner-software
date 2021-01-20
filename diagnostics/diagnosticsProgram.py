@@ -122,7 +122,7 @@ while True:
 
     addText = ImageDraw.Draw(canvas)
 
-    fnt = ImageFont.truetype("Ubuntu-Bold.ttf", 24)
+    fnt = ImageFont.truetype("/opt/nebraDiagnostics/Ubuntu-Bold.ttf", 24)
 
     modelString = "Nebra %s Helium Hotspot" % diagnostics["VA"]
     nameString = "ID: %s" % diagnostics["BN"]
