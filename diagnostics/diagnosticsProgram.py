@@ -8,7 +8,6 @@ from time import sleep
 while True:
     print("Starting Diag")
 
-    canvas = Image.new('RGBA', (730, 850), (255,255,255,255))
 
     #Variables for all Checks
 
@@ -119,6 +118,8 @@ while True:
     qrcodeJson = json.dumps(qrCodeDiagnostics)
     qrcodeOut = qrcode.make(qrcodeJson)
 
+    canvas = Image.new('RGBA', (525, 650), (255,255,255,255))
+
     addText = ImageDraw.Draw(canvas)
 
     fnt = ImageFont.truetype("Ubuntu-Bold.ttf", 24)
@@ -128,10 +129,10 @@ while True:
     macString = "ETH: %s" % diagnostics["E0"]
     freqString = "Region: %s" % diagnostics["RE"]
 
-    addText.text((60,685), modelString, (0,0,0) , font=fnt)
-    addText.text((60,710), nameString, (0,0,0) , font=fnt)
-    addText.text((60,735), macString, (0,0,0) , font=fnt)
-    addText.text((60,760), freqString, (0,0,0) , font=fnt)
+    addText.text((60,500), modelString, (0,0,0) , font=fnt)
+    addText.text((60,525), nameString, (0,0,0) , font=fnt)
+    addText.text((60,550), macString, (0,0,0) , font=fnt)
+    addText.text((60,575), freqString, (0,0,0) , font=fnt)
 
     canvas.paste(qrcodeOut, (20,0))
     #qrcodeOut.save('/opt/nebraDiagnostics/html/diagnosticsQR.png')
