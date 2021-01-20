@@ -87,10 +87,11 @@ while True:
     else:
         diagnostics["LOR"] = False
 
-    miner_bus = dbus.SystemBus()
-    miner_object = miner_bus.get_object('com.helium.Miner', '/')
-    miner_interface = dbus.Interface(miner_object, 'com.helium.Miner')
+
     try:
+        miner_bus = dbus.SystemBus()
+        miner_object = miner_bus.get_object('com.helium.Miner', '/')
+        miner_interface = dbus.Interface(miner_object, 'com.helium.Miner')
         p2pstatus = miner_interface.P2PStatus()
         print(p2pstatus)
         diagnostics["MH"] = str(p2pstatus[3][1])
