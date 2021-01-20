@@ -19,9 +19,9 @@ while True:
     eccTest = os.popen('i2cdetect -y 1').read()
 
     if "60 --" in eccTest:
-        diagnostics["ecc"] = True
+        diagnostics["ECC"] = True
     else:
-        diagnostics["ecc"] = False
+        diagnostics["ECC"] = False
 
     #Get ethernet MAC address
     try:
@@ -88,9 +88,9 @@ while True:
     else:
         diagnostics["LOR"] = False
 
-    miner_bus = dbus.SystemBus()
-    miner_object = miner_bus.get_object('com.helium.Miner', '/')
-    miner_interface = dbus.Interface(miner_object, 'com.helium.Miner')
+    #miner_bus = dbus.SystemBus()
+    #miner_object = miner_bus.get_object('com.helium.Miner', '/')
+    #miner_interface = dbus.Interface(miner_object, 'com.helium.Miner')
     try:
         p2pstatus = miner_interface.P2PStatus()
         print(p2pstatus)
@@ -103,16 +103,25 @@ while True:
 
     print(diagnostics)
 
+    qrCodeDiagnostics = {
+        "BN" : diagnostics['BN'],
+        "BA" : diagnostics['BA'],
+        "E0" : diagnostics['E0'],
+        "W0" : diagnostics['W0'],
+        "RPI" : diagnostics['RPI']
+    }
     diagJson = json.dumps(diagnostics)
 
     with open("/opt/nebraDiagnostics/html/diagnostics.json", 'w') as diagOut:
         diagOut.write(diagJson)
 
-    qrcodeOut = qrcode.make(diagJson)
+
+    qrcodeJson = json.dumps(qrCodeDiagnostics)
+    qrcodeOut = qrcode.make(qrcodeJson)
 
     addText = ImageDraw.Draw(canvas)
 
-    fnt = ImageFont.truetype("/opt/nebraDiagnostics/Ubuntu-Bold.ttf", 24)
+    fnt = ImageFont.truetype("Ubuntu-Bold.ttf", 24)
 
     modelString = "Nebra %s Helium Hotspot" % diagnostics["VA"]
     nameString = "ID: %s" % diagnostics["BN"]

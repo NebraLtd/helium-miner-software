@@ -58,7 +58,7 @@ def generateHTML(dictString):
       <h1 class="text-center">Diagnostics Information</h1>
       <h2 class="text-center">Name: %(BN)s</h2>
 """ % dictString
-    if(dictString["ecc"] == True and dictString["E0"] != "FF:FF:FF:FF:FF:FF" and dictString["W0"] != "FF:FF:FF:FF:FF:FF" and dictString["BT"] == True and  dictString["LOR"] == True):
+    if(dictString["ECC"] == True and dictString["E0"] != "FF:FF:FF:FF:FF:FF" and dictString["W0"] != "FF:FF:FF:FF:FF:FF" and dictString["BT"] == True and  dictString["LOR"] == True):
         htmlData = htmlData + """<h2 class="text-success text-center">All Ok</h2>"""
     else:
         htmlData = htmlData + """<h2 class="text-danger text-center">Errors Found</h2>"""
@@ -80,13 +80,13 @@ def generateHTML(dictString):
               <td>%(VA)s</td>
             </tr>
             <tr """ % dictString
-    if(dictString["ecc"] == True):
+    if(dictString["ECC"] == True):
         htmlData = htmlData + """class='bg-success text-white'"""
     else:
         htmlData = htmlData + """class='bg-danger text-white'"""
     htmlData = htmlData + """ >
               <th>ECC Detected</th>
-              <td>%(ecc)s</td>
+              <td>%(ECC)s</td>
             </tr>
             <tr """ % dictString
     if(dictString["E0"] == "FF:FF:FF:FF:FF:FF"):
