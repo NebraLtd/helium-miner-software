@@ -1,4 +1,5 @@
-FROM quay.io/team-helium/miner:latest-arm64
+#FROM quay.io/team-helium/miner:latest-arm64
+FROM localhost:5000/miner:arm64
 
 WORKDIR /opt/miner
 
