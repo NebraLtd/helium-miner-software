@@ -7,6 +7,12 @@ services:
     volumes:
       - 'pktfwdr:/var/pktfwd'
 
+  gateway-mfr:
+    image: "77183746afb2"
+    privileged: true
+    volumes:
+      - 'pktfwdr:/var/pktfwd'
+
   helium-miner:
     build: "./miner"
     privileged: true
