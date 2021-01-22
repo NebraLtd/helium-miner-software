@@ -8,10 +8,8 @@ services:
       - 'pktfwdr:/var/pktfwd'
 
   gateway-mfr:
-    image: "77183746afb2"
+    build: "./gateway-mfr"
     privileged: true
-    volumes:
-      - 'pktfwdr:/var/pktfwd'
 
   helium-miner:
     build: "./miner"
