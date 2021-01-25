@@ -130,7 +130,7 @@ while True:
     qrcodeJson = json.dumps(qrCodeDiagnostics)
     qrcodeOut = qrcode.make(qrcodeJson)
 
-    canvas = Image.new('RGBA', (625, 750), (255,255,255,255))
+    canvas = Image.new('RGBA', (650, 800), (255,255,255,255))
 
     addText = ImageDraw.Draw(canvas)
 
@@ -141,10 +141,10 @@ while True:
     macString = "ETH: %s" % diagnostics["E0"]
     freqString = "Region: %s" % diagnostics["RE"]
 
-    addText.text((60,575), modelString, (0,0,0) , font=fnt)
-    addText.text((60,600), nameString, (0,0,0) , font=fnt)
-    addText.text((60,625), macString, (0,0,0) , font=fnt)
-    addText.text((60,650), freqString, (0,0,0) , font=fnt)
+    addText.text((60,650), modelString, (0,0,0) , font=fnt)
+    addText.text((60,675), nameString, (0,0,0) , font=fnt)
+    addText.text((60,700), macString, (0,0,0) , font=fnt)
+    addText.text((60,725), freqString, (0,0,0) , font=fnt)
 
     canvas.paste(qrcodeOut, (20,0))
     #qrcodeOut.save('/opt/nebraDiagnostics/html/diagnosticsQR.png')
