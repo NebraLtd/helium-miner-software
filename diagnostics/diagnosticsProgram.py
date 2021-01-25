@@ -130,7 +130,7 @@ while True:
     qrcodeJson = json.dumps(qrCodeDiagnostics)
     qrcodeOut = qrcode.make(qrcodeJson)
 
-    canvas = Image.new('RGBA', (600, 700), (255,255,255,255))
+    canvas = Image.new('RGBA', (625, 750), (255,255,255,255))
 
     addText = ImageDraw.Draw(canvas)
 
