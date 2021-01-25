@@ -103,9 +103,9 @@ while True:
 
     try:
         public_keys_file = open("/var/data/public_keys").readline().split('"')
-        diagnostics["pk"] = str(public_keys_file[1])
-        diagnostics["ok"] = str(public_keys_file[3])
-        diagnostics["an"] = str(public_keys_file[5])
+        diagnostics["PK"] = str(public_keys_file[1])
+        diagnostics["OK"] = str(public_keys_file[3])
+        diagnostics["AN"] = str(public_keys_file[5])
     except:
         diagnostics["PK"] = "Error"
         diagnostics["OK"] = "Error"
