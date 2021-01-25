@@ -101,6 +101,12 @@ while True:
         diagnostics['MC'] = "Error"
         print("P2PFAIl")
 
+    try:
+        public_keys_file = open("/var/data/public_keys").readline().split('"')
+        diagnostics["pk"] = str(public_keys_file[1])
+        diagnostics["ok"] = str(public_keys_file[3])
+        diagnostics["an"] = str(public_keys_file[5])
+
     print(diagnostics)
 
     qrCodeDiagnostics = {
