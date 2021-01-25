@@ -106,6 +106,10 @@ while True:
         diagnostics["pk"] = str(public_keys_file[1])
         diagnostics["ok"] = str(public_keys_file[3])
         diagnostics["an"] = str(public_keys_file[5])
+    except:
+        diagnostics["pk"] = "Error"
+        diagnostics["ok"] = "Error"
+        diagnostics["an"] = "Error"
 
     print(diagnostics)
 
