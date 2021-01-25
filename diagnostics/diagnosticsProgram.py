@@ -146,7 +146,7 @@ while True:
     addText.text((60,700), macString, (0,0,0) , font=fnt)
     addText.text((60,725), freqString, (0,0,0) , font=fnt)
 
-    canvas.paste(qrcodeOut, (20,0))
+    canvas.paste(qrcodeOut, (15,0))
     #qrcodeOut.save('/opt/nebraDiagnostics/html/diagnosticsQR.png')
     canvas.save('/opt/nebraDiagnostics/html/diagnosticsQR.png')
 
