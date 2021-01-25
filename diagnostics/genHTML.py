@@ -72,6 +72,10 @@ def generateHTML(dictString):
         <table class="table">
           <tbody>
             <tr class="bg-info">
+                <th>Helium Name</th>
+                <td>%(AN)s</td>
+            </tr>
+            <tr class="bg-info">
               <th>Frequency</th>
               <td>%(RE)s</td>
             </tr>

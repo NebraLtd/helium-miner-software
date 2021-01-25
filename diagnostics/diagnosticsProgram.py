@@ -107,9 +107,9 @@ while True:
         diagnostics["ok"] = str(public_keys_file[3])
         diagnostics["an"] = str(public_keys_file[5])
     except:
-        diagnostics["pk"] = "Error"
-        diagnostics["ok"] = "Error"
-        diagnostics["an"] = "Error"
+        diagnostics["PK"] = "Error"
+        diagnostics["OK"] = "Error"
+        diagnostics["AN"] = "Error"
 
     print(diagnostics)
 
@@ -118,7 +118,8 @@ while True:
         "BA" : diagnostics['BA'],
         "E0" : diagnostics['E0'],
         "W0" : diagnostics['W0'],
-        "RPI" : diagnostics['RPI']
+        "RPI" : diagnostics['RPI'],
+        "OK" : diagnostics['OK']
     }
     diagJson = json.dumps(diagnostics)
 
