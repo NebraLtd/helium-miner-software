@@ -57,6 +57,7 @@ services:
             - NET_ADMIN
     volumes:
       - 'pktfwdr:/var/pktfwd'
+      - 'miner-storage:/var/data'
     environment:
       - 'DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket'
     labels:
