@@ -1,7 +1,12 @@
 # helium-miner-software
 Software for Nebra Helium Miners
 
+This dockerfile creates 4 containers.
 
+## Diagnostics
+## Packet Forwarder
+## Gateway-config
+## Miner
 
 # Credits
 
