@@ -7,7 +7,7 @@ python3 \
 i2c-tools \
 usbutils \
 py3-qrcode \
-py3-dbus
+py3-dbus 
 
 RUN mkdir html
 COPY startDiag.sh startDiag.sh

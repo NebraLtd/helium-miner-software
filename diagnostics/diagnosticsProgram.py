@@ -24,7 +24,7 @@ while True:
 
     #Get ethernet MAC address
     try:
-        diagnostics["E0"] = open("/sys/class/net/eth0/address").readline().strip()
+        diagnostics["E0"] = open("/sys/class/net/eth0/address").readline().strip().upper()
     except:
         diagnostics["E0"] = "FF:FF:FF:FF:FF:FF"
 
@@ -149,6 +149,23 @@ while True:
     canvas.paste(qrcodeOut, (15,0))
     #qrcodeOut.save('/opt/nebraDiagnostics/html/diagnosticsQR.png')
     canvas.save('/opt/nebraDiagnostics/html/diagnosticsQR.png')
+
+    canvas = Image.new('RGBA', (638, 201), (255,255,255,255))
+    addText = ImageDraw.Draw(canvas)
+    fnt = ImageFont.truetype("/opt/nebraDiagnostics/Ubuntu-Bold.ttf", 24)
+    modelString = "Nebra %s Helium Hotspot" % diagnostics["VA"]
+    nameString = "ID: %s" % diagnostics["BN"]
+    macString = "ETH: %s" % diagnostics["E0"]
+    freqString = "Region: %s" % diagnostics["RE"]
+    addText.text((25,50), modelString, (0,0,0) , font=fnt)
+    addText.text((25,75), nameString, (0,0,0) , font=fnt)
+    addText.text((25,100), macString, (0,0,0) , font=fnt)
+    addText.text((25,125), freqString, (0,0,0) , font=fnt)
+    macQrcode = qrcode.make(diagnostics["E0"])
+    macQrcode = macQrcode.resize((200, 200), Image.ANTIALIAS)
+    canvas.paste(macQrcode, (425,0))
+    canvas.save('/opt/nebraDiagnostics/html/productLabel.png')
+
 
     with open("/opt/nebraDiagnostics/html/index.html", 'w') as htmlOut:
         htmlOut.write(generateHTML(diagnostics))
