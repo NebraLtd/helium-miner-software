@@ -131,6 +131,7 @@ while True:
     qrcodeBytes = qrcodeJson.encode('ascii')
     qrcodeBase64 = base64.b64encode(qrcodeBytes)
     qrcodeOut = qrcode.make(qrcodeBase64)
+    qrcodeOut = qrcodeOut.resize((600, 600), Image.ANTIALIAS)
 
     canvas = Image.new('RGBA', (675, 800), (255,255,255,255))
 
