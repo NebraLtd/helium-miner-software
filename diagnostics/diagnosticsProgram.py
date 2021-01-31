@@ -1,6 +1,6 @@
 #Checks basic hardware features.
 
-import os, dbus, qrcode, json
+import os, dbus, qrcode, json, base64
 from genHTML import generateHTML
 from PIL import Image, ImageDraw, ImageFont
 from time import sleep
@@ -127,8 +127,10 @@ while True:
         diagOut.write(diagJson)
 
 
-    qrcodeJson = json.dumps(qrCodeDiagnostics)
-    qrcodeOut = qrcode.make(qrcodeJson)
+    qrcodeJson = str(json.dumps(qrCodeDiagnostics))
+    qrcodeBytes = qrcodeJson.encode('ascii')
+    qrcodeBase64 = base64.b64encode(qrcodeBytes)
+    qrcodeOut = qrcode.make(qrcodeBase64)
 
     canvas = Image.new('RGBA', (675, 800), (255,255,255,255))
 
