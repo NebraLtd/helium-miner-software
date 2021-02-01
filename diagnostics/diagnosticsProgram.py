@@ -1,4 +1,4 @@
-#Checks basic hardware features.
+# Checks basic hardware features.
 
 import os, dbus, qrcode, json, base64
 from genHTML import generateHTML
@@ -9,12 +9,12 @@ while True:
     print("Starting Diag")
 
 
-    #Variables for all Checks
+    # Variables for all Checks
 
     diagnostics = {
     }
 
-    #Check the ECC
+    # Check the ECC
     eccTest = os.popen('i2cdetect -y 1').read()
 
     if "60 --" in eccTest:
@@ -22,50 +22,50 @@ while True:
     else:
         diagnostics["ECC"] = False
 
-    #Get ethernet MAC address
+    # Get ethernet MAC address
     try:
         diagnostics["E0"] = open("/sys/class/net/eth0/address").readline().strip().upper()
     except:
         diagnostics["E0"] = "FF:FF:FF:FF:FF:FF"
 
 
-    #Get wifi MAC address
+    # Get wifi MAC address
     try:
         diagnostics["W0"] = open("/sys/class/net/wlan0/address").readline().strip()
     except:
         diagnostics["W0"] = "FF:FF:FF:FF:FF:FF"
 
-    #Get Balena Name
+    # Get Balena Name
     try:
         diagnostics["BN"] = os.getenv('BALENA_DEVICE_NAME_AT_INIT')
     except:
         diagnostics["BN"] = "BALENA-FAIL"
 
-    #Get Balena App
+    # Get Balena App
     try:
         diagnostics["BA"] = os.getenv('BALENA_APP_NAME')
     except:
         diagnostics["BA"] = "APP-FAIL"
 
-    #Get Frequency
+    # Get Frequency
     try:
         diagnostics["RE"] = os.getenv('REGION')
     except:
         diagnostics["RE"] = "NO420"
 
-    #Get Variant
+    # Get Variant
     try:
         diagnostics["VA"] = os.getenv('VARIANT')
     except:
         diagnostics["VA"] = "UNKNOWN"
 
-    #Get RPi serial number
+    # Get RPi serial number
     try:
         diagnostics["RPI"] = open("/proc/cpuinfo").readlines()[38].strip()[10:]
     except:
         diagnostics["RPI"] = "FFFFFFFFFFFFFFFF"
 
-    #Get USB IDs to check for BT And Modem
+    # Get USB IDs to check for BT And Modem
     usbids = os.popen('lsusb').read()
 
     if "0a12:0001" in usbids:
@@ -78,7 +78,7 @@ while True:
     else:
         diagnostics["LTE"] = False
 
-    #LoRa Module Test
+    # LoRa Module Test
     with open("/var/pktfwd/diagnostics") as diagOut:
         loraStatus = diagOut.read()
 
@@ -150,7 +150,7 @@ while True:
     addText.text((60,725), freqString, (0,0,0) , font=fnt)
 
     canvas.paste(qrcodeOut, (15,0))
-    #qrcodeOut.save('/opt/nebraDiagnostics/html/diagnosticsQR.png')
+    # qrcodeOut.save('/opt/nebraDiagnostics/html/diagnosticsQR.png')
     canvas.save('/opt/nebraDiagnostics/html/diagnosticsQR.png')
 
     canvas = Image.new('RGBA', (638, 201), (255,255,255,255))
