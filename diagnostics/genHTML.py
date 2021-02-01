@@ -1,5 +1,7 @@
 # The code that generates the HTML
 from datetime import datetime
+
+
 def generateHTML(dictString):
     htmlData = """
 
@@ -58,10 +60,14 @@ def generateHTML(dictString):
       <h1 class="text-center">Diagnostics Information</h1>
       <h2 class="text-center">Name: %(BN)s</h2>
 """ % dictString
-    if(dictString["ECC"] == True and dictString["E0"] != "FF:FF:FF:FF:FF:FF" and dictString["W0"] != "FF:FF:FF:FF:FF:FF" and dictString["BT"] == True and  dictString["LOR"] == True):
-        htmlData = htmlData + """<h2 class="text-success text-center">All Ok</h2>"""
+    if(dictString["ECC"] is True and dictString["E0"] != "FF:FF:FF:FF:FF:FF"
+            and dictString["W0"] != "FF:FF:FF:FF:FF:FF" and
+            dictString["BT"] is True and dictString["LOR"] is True):
+        htmlData = htmlData + """
+        <h2 class="text-success text-center">All Ok</h2>"""
     else:
-        htmlData = htmlData + """<h2 class="text-danger text-center">Errors Found</h2>"""
+        htmlData = htmlData + """
+        <h2 class="text-danger text-center">Errors Found</h2>"""
     htmlData = htmlData + """
     </div>
   </div>
@@ -84,7 +90,7 @@ def generateHTML(dictString):
               <td>%(VA)s</td>
             </tr>
             <tr """ % dictString
-    if(dictString["ECC"] == True):
+    if(dictString["ECC"] is True):
         htmlData = htmlData + """class='bg-success text-white'"""
     else:
         htmlData = htmlData + """class='bg-danger text-white'"""
@@ -115,7 +121,7 @@ def generateHTML(dictString):
               <td>%(RPI)s</td>
             </tr>
             <tr """ % dictString
-    if(dictString["BT"] == True):
+    if(dictString["BT"] is True):
         htmlData = htmlData + """class='bg-success text-white'"""
     else:
         htmlData = htmlData + """class='bg-danger text-white'"""
@@ -124,7 +130,7 @@ def generateHTML(dictString):
               <td>%(BT)s</td>
             </tr>
             <tr """ % dictString
-    if(dictString["LOR"] == True):
+    if(dictString["LOR"] is True):
         htmlData = htmlData + """class='bg-success text-white'"""
     else:
         htmlData = htmlData + """class='bg-danger text-white'"""
@@ -148,7 +154,7 @@ def generateHTML(dictString):
 
             <tr """ % dictString
     if(dictString["VA"] == "Outdoor"):
-        if(dictString["LTE"] == True):
+        if(dictString["LTE"] is True):
             htmlData = htmlData + """class='bg-success text-white'"""
         else:
             htmlData = htmlData + """class='bg-warning text-dark'"""
@@ -175,8 +181,11 @@ def generateHTML(dictString):
 
   <div class="row">
     <div class="col">
-      <p class = "text-center">Last Updated: """ + datetime.now().strftime("%H:%M %d/%m/%Y") + """
-      <p class="text-center">To get support please visit <a href="https://nebra.io/helium-support">https://nebra.io/helium-support</a><p>
+      <p class = "text-center">Last Updated: """ +\
+        datetime.now().strftime("%H:%M %d/%m/%Y") + """
+      <p class="text-center">To get support please visit
+      <a href="https://nebra.io/helium-support">
+      https://nebra.io/helium-support</a><p>
       <p class="text-center">&copy; Nebra LTD. 2020-2021<p>
 
     </div>

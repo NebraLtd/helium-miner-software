@@ -115,7 +115,6 @@ while True:
     with open("/opt/nebraDiagnostics/html/diagnostics.json", 'w') as diagOut:
         diagOut.write(diagJson)
 
-
     qrcodeJson = str(json.dumps(qrCodeDiagnostics))
     qrcodeBytes = qrcodeJson.encode('ascii')
     qrcodeBase64 = base64.b64encode(qrcodeBytes)
@@ -133,31 +132,30 @@ while True:
     macString = "ETH: %s" % diagnostics["E0"]
     freqString = "Region: %s" % diagnostics["RE"]
 
-    addText.text((60,650), modelString, (0,0,0) , font=fnt)
-    addText.text((60,675), nameString, (0,0,0) , font=fnt)
-    addText.text((60,700), macString, (0,0,0) , font=fnt)
-    addText.text((60,725), freqString, (0,0,0) , font=fnt)
+    addText.text((60, 650), modelString, (0, 0, 0), font=fnt)
+    addText.text((60, 675), nameString, (0, 0, 0), font=fnt)
+    addText.text((60, 700), macString, (0, 0, 0), font=fnt)
+    addText.text((60, 725), freqString, (0, 0, 0), font=fnt)
 
-    canvas.paste(qrcodeOut, (15,0))
+    canvas.paste(qrcodeOut, (15, 0))
     # qrcodeOut.save('/opt/nebraDiagnostics/html/diagnosticsQR.png')
     canvas.save('/opt/nebraDiagnostics/html/diagnosticsQR.png')
 
-    canvas = Image.new('RGBA', (638, 201), (255,255,255,255))
+    canvas = Image.new('RGBA', (638, 201), (255, 255, 255, 255))
     addText = ImageDraw.Draw(canvas)
     fnt = ImageFont.truetype("/opt/nebraDiagnostics/Ubuntu-Bold.ttf", 24)
     modelString = "Nebra %s Helium Hotspot" % diagnostics["VA"]
     nameString = "ID: %s" % diagnostics["BN"]
     macString = "ETH: %s" % diagnostics["E0"]
     freqString = "Region: %s" % diagnostics["RE"]
-    addText.text((25,50), modelString, (0,0,0) , font=fnt)
-    addText.text((25,75), nameString, (0,0,0) , font=fnt)
-    addText.text((25,100), macString, (0,0,0) , font=fnt)
-    addText.text((25,125), freqString, (0,0,0) , font=fnt)
+    addText.text((25, 50), modelString, (0, 0, 0), font=fnt)
+    addText.text((25, 75), nameString, (0, 0, 0), font=fnt)
+    addText.text((25, 100), macString, (0, 0, 0), font=fnt)
+    addText.text((25, 125), freqString, (0, 0, 0), font=fnt)
     macQrcode = qrcode.make(diagnostics["E0"])
     macQrcode = macQrcode.resize((200, 200), Image.ANTIALIAS)
-    canvas.paste(macQrcode, (425,0))
+    canvas.paste(macQrcode, (425, 0))
     canvas.save('/opt/nebraDiagnostics/html/productLabel.png')
-
 
     with open("/opt/nebraDiagnostics/html/index.html", 'w') as htmlOut:
         htmlOut.write(generateHTML(diagnostics))
