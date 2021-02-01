@@ -23,9 +23,10 @@ python3-dbus \
 python3-gi \
 python3-protobuf \
 python3-rpi.gpio \
-python3-pip \
+cmake \
 curl \
 --no-install-recommends && \
+apt install python3-pip -y && \
 pip3 install h3 && \
 apt-get clean && \
 rm -rf /var/lib/apt/lists/*
