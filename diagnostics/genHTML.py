@@ -1,4 +1,4 @@
-#The code that generates the HTML
+# The code that generates the HTML
 from datetime import datetime
 def generateHTML(dictString):
     htmlData = """

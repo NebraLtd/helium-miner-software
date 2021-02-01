@@ -1,13 +1,16 @@
 # Checks basic hardware features.
 
-import os, dbus, qrcode, json, base64
+import os
+import dbus
+import qrcode
+import json
+import base64
 from genHTML import generateHTML
 from PIL import Image, ImageDraw, ImageFont
 from time import sleep
 
 while True:
     print("Starting Diag")
-
 
     # Variables for all Checks
 
@@ -24,46 +27,33 @@ while True:
 
     # Get ethernet MAC address
     try:
-        diagnostics["E0"] = open("/sys/class/net/eth0/address").readline().strip().upper()
-    except:
+        diagnostics["E0"] = open("/sys/class/net/eth0/address")\
+            .readline().strip().upper()
+    except FileNotFoundError:
         diagnostics["E0"] = "FF:FF:FF:FF:FF:FF"
-
 
     # Get wifi MAC address
     try:
-        diagnostics["W0"] = open("/sys/class/net/wlan0/address").readline().strip()
-    except:
+        diagnostics["W0"] = open("/sys/class/net/wlan0/address")\
+            .readline().strip()
+    except FileNotFoundError:
         diagnostics["W0"] = "FF:FF:FF:FF:FF:FF"
 
     # Get Balena Name
-    try:
-        diagnostics["BN"] = os.getenv('BALENA_DEVICE_NAME_AT_INIT')
-    except:
-        diagnostics["BN"] = "BALENA-FAIL"
+    diagnostics["BN"] = os.getenv('BALENA_DEVICE_NAME_AT_INIT')
 
     # Get Balena App
-    try:
-        diagnostics["BA"] = os.getenv('BALENA_APP_NAME')
-    except:
-        diagnostics["BA"] = "APP-FAIL"
+    diagnostics["BA"] = os.getenv('BALENA_APP_NAME')
 
     # Get Frequency
-    try:
-        diagnostics["RE"] = os.getenv('REGION')
-    except:
-        diagnostics["RE"] = "NO420"
+    diagnostics["RE"] = os.getenv('REGION')
 
     # Get Variant
-    try:
-        diagnostics["VA"] = os.getenv('VARIANT')
-    except:
-        diagnostics["VA"] = "UNKNOWN"
+    diagnostics["VA"] = os.getenv('VARIANT')
 
     # Get RPi serial number
-    try:
-        diagnostics["RPI"] = open("/proc/cpuinfo").readlines()[38].strip()[10:]
-    except:
-        diagnostics["RPI"] = "FFFFFFFFFFFFFFFF"
+    diagnostics["RPI"] = open("/proc/cpuinfo")\
+        .readlines()[38].strip()[10:]
 
     # Get USB IDs to check for BT And Modem
     usbids = os.popen('lsusb').read()
@@ -87,7 +77,6 @@ while True:
     else:
         diagnostics["LOR"] = False
 
-
     try:
         miner_bus = dbus.SystemBus()
         miner_object = miner_bus.get_object('com.helium.Miner', '/')
@@ -96,7 +85,7 @@ while True:
         print(p2pstatus)
         diagnostics["MH"] = str(p2pstatus[3][1])
         diagnostics['MC'] = str(p2pstatus[0][1])
-    except:
+    except dbus.exceptions.DBusException:
         diagnostics["MH"] = "000000"
         diagnostics['MC'] = "Error"
         print("P2PFAIl")
@@ -106,7 +95,7 @@ while True:
         diagnostics["PK"] = str(public_keys_file[1])
         diagnostics["OK"] = str(public_keys_file[3])
         diagnostics["AN"] = str(public_keys_file[5])
-    except:
+    except FileNotFoundError:
         diagnostics["PK"] = "Error"
         diagnostics["OK"] = "Error"
         diagnostics["AN"] = "Error"
@@ -114,12 +103,12 @@ while True:
     print(diagnostics)
 
     qrCodeDiagnostics = {
-        "BN" : diagnostics['BN'],
-        "BA" : diagnostics['BA'],
-        "E0" : diagnostics['E0'],
-        "W0" : diagnostics['W0'],
-        "RPI" : diagnostics['RPI'],
-        "OK" : diagnostics['OK']
+        "BN": diagnostics['BN'],
+        "BA": diagnostics['BA'],
+        "E0": diagnostics['E0'],
+        "W0": diagnostics['W0'],
+        "RPI": diagnostics['RPI'],
+        "OK": diagnostics['OK']
     }
     diagJson = json.dumps(diagnostics)
 
@@ -133,7 +122,7 @@ while True:
     qrcodeOut = qrcode.make(qrcodeBase64)
     qrcodeOut = qrcodeOut.resize((625, 625), Image.ANTIALIAS)
 
-    canvas = Image.new('RGBA', (675, 800), (255,255,255,255))
+    canvas = Image.new('RGBA', (675, 800), (255, 255, 255, 255))
 
     addText = ImageDraw.Draw(canvas)
 
