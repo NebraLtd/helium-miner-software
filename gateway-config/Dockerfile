@@ -24,6 +24,7 @@ python3-gi \
 python3-protobuf \
 python3-rpi.gpio \
 cmake \
+openssl-dev \
 curl \
 --no-install-recommends && \
 apt install python3-pip -y && \
