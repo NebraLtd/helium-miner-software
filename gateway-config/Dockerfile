@@ -29,7 +29,7 @@ libssl-dev \
 curl \
 --no-install-recommends
 RUN apt install python3-pip -y
-RUN pip3 install h3
+RUN pip3 install h3 --no-cache-dir
 
 #Re enable for production.
 # apt-get clean && \

@@ -6,17 +6,7 @@ services:
     privileged: true
     volumes:
       - 'pktfwdr:/var/pktfwd'
-
-  gateway-mfr:
-    build: "./gateway-mfr"
-    privileged: true
-    devices:
-      - "/dev/i2c-1:/dev/i2c-1"
-    labels:
-      io.balena.features.dbus: '1'
-      io.balena.features.sysfs: '1'
-      io.balena.features.kernel-modules: '1'
-
+      
   helium-miner:
     build: "./miner"
     privileged: true
