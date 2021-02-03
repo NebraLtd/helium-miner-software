@@ -25,13 +25,15 @@ python3-protobuf \
 python3-rpi.gpio \
 cmake \
 openssl \
-libssl1.0-dev \
+libssl-dev \
 curl \
---no-install-recommends && \
-apt install python3-pip -y && \
-pip3 install h3 && \
-apt-get clean && \
-rm -rf /var/lib/apt/lists/*
+--no-install-recommends
+RUN apt install python3-pip -y
+RUN pip3 install h3
+
+#Re enable for production.
+# apt-get clean && \
+# rm -rf /var/lib/apt/lists/*
 
 COPY start-gateway-config.sh start-gateway-config.sh
 RUN chmod +x start-gateway-config.sh
