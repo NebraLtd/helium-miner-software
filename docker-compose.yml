@@ -2,11 +2,11 @@ version: '2'
 
 services:
   packet-forwarder:
-    build: "./pktfwd"
+    image: "nebraltd/hm-pktfwd:3c0866e49ec5a6283b7dbd2b58bb39ca956ffa91"
     privileged: true
     volumes:
       - 'pktfwdr:/var/pktfwd'
-      
+
   helium-miner:
     build: "./miner"
     privileged: true
@@ -40,7 +40,7 @@ services:
       io.balena.features.supervisor-api: '1'
 
   diagnostics:
-    build: "./diagnostics"
+    image: "nebraltd/hm-diag:854c72d9fc291d1657557c08bd882c6e40c147ae"
     privileged: true
     network_mode: "host"
     cap_add:
