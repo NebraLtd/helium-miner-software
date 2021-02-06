@@ -3,11 +3,7 @@ version: '2'
 services:
   packet-forwarder:
     image: "nebraltd/hm-pktfwd:3c0866e49ec5a6283b7dbd2b58bb39ca956ffa91"
-    cap_add:
-      - SYS_RAWIO
-    devices:
-      - "/dev/spidev1.2:/dev/spidev1.2"
-      - "/dev/mem:/dev/mem"
+    privilged: true
     volumes:
       - 'pktfwdr:/var/pktfwd'
 
