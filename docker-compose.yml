@@ -8,7 +8,6 @@ services:
     devices:
       - "/dev/spidev1.2:/dev/spidev1.2"
       - "/dev/mem:/dev/mem"
-      - '/sys/class/gpio:/sys/class/gpio'
     volumes:
       - 'pktfwdr:/var/pktfwd'
 
