@@ -8,9 +8,9 @@ services:
     devices:
       - "/dev/spidev1.2:/dev/spidev1.2"
       - "/dev/mem:/dev/mem"
+      - '/sys/class/gpio:/sys/class/gpio'
     volumes:
       - 'pktfwdr:/var/pktfwd'
-      - '/sys/class/gpio:/sys/class/gpio'
 
   helium-miner:
     image: "nebraltd/hm-miner:c947e254c712dd3f67afc0d8934251bfce5c75ac"
