@@ -28,8 +28,8 @@ services:
       - 'DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket'
     labels:
       io.balena.features.dbus: '1'
-      io.balena.features.sysfs: '1'
-      io.balena.features.kernel-modules: '1'
+      # io.balena.features.sysfs: '1'
+      # io.balena.features.kernel-modules: '1'
 
   gateway-config:
     image: "nebraltd/hm-config:af3e2124f0c23b49e7c31bdbbb8bd261e29b6808"
