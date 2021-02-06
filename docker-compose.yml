@@ -14,13 +14,16 @@ services:
 
   helium-miner:
     image: "nebraltd/hm-miner:c947e254c712dd3f67afc0d8934251bfce5c75ac"
-    privileged: true
     ports:
       - "44158:44158/tcp"
       - "1680:1680/udp"
     volumes:
       - 'miner-storage:/var/data'
       - 'miner-log:/var/log/miner'
+    cap_add:
+      - SYS_RAWIO
+    devices:
+      - "/dev/i2c-1:/dev/i2c-1"
     environment:
       - 'DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket'
     labels:
