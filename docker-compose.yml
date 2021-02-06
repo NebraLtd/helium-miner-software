@@ -45,6 +45,8 @@ services:
     volumes:
       - 'pktfwdr:/var/pktfwd'
       - 'miner-storage:/var/data'
+    ports:
+      - '80:80'
     environment:
       - 'DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket'
     labels:
