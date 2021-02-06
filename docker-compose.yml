@@ -38,6 +38,7 @@ services:
       io.balena.features.sysfs: '1'
       io.balena.features.kernel-modules: '1'
       io.balena.features.supervisor-api: '1'
+    stop_signal: SIGINT
 
   diagnostics:
     image: "nebraltd/hm-diag:854c72d9fc291d1657557c08bd882c6e40c147ae"
