@@ -9,13 +9,14 @@ services:
       - 'pktfwdr:/var/pktfwd'
 
   helium-miner:
-    image: "nebraltd/hm-miner:8f6540ad88c2d72834d7f1e97da6e41f41412d3e"
+    image: "nebraltd/hm-miner:67e32cab671bd0af26f3c854d5f716b09b32c1e7"
     ports:
       - "44158:44158/tcp"
       - "1680:1680/udp"
     volumes:
       - 'miner-storage:/var/data'
       - 'miner-log:/var/log/miner'
+      - 'pktfwdr:/var/pktfwd'
     cap_add:
       - SYS_RAWIO
     devices:
