@@ -3,7 +3,7 @@ version: '2'
 services:
 
   packet-forwarder:
-    image: "nebraltd/hm-pktfwd:77c3cb6ed05666664710b82cb6612dbfa4e56815"
+    image: "nebraltd/hm-pktfwd:b94564ccd3bef1fe2ecbf9725ad6416ff4c82e7d"
     privileged: true
     volumes:
       - 'pktfwdr:/var/pktfwd'
@@ -46,7 +46,7 @@ services:
     stop_signal: SIGINT
 
   diagnostics:
-    image: "nebraltd/hm-diag:dca57846f7eb5d505a78de403c941b40fb35b5cb"
+    image: "nebraltd/hm-diag:86274f5df600071b64cca55a0bc2e56d30fb1f20"
     volumes:
       - 'pktfwdr:/var/pktfwd'
       - 'miner-storage:/var/data'
