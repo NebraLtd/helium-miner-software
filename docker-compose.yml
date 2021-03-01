@@ -46,7 +46,7 @@ services:
     stop_signal: SIGINT
 
   diagnostics:
-    image: "nebraltd/hm-diag:372fc4153e903229a2e3b150e3f4f175c96b02a1"
+    image: "nebraltd/hm-diag:074d70e6938ed4ea6234963aa32c4e98e5f1403a"
     volumes:
       - 'pktfwdr:/var/pktfwd'
       - 'miner-storage:/var/data'
@@ -61,6 +61,13 @@ services:
     labels:
       io.balena.features.dbus: '1'
       io.balena.features.sysfs: '1'
+
+  eccprog:
+    image: "nebraltd/hm-gwmfr:89c385360dbdf7cda259233202d223165b3e203a"
+    cap_add:
+      - SYS_RAWIO
+    devices:
+      - "/dev/i2c-1:/dev/i2c-1"
 
 volumes:
   miner-storage:
