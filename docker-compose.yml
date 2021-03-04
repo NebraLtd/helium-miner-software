@@ -63,7 +63,7 @@ services:
       io.balena.features.sysfs: '1'
 
   eccprog:
-    image: "nebraltd/hm-gwmfr:89c385360dbdf7cda259233202d223165b3e203a"
+    image: "nebraltd/hm-gwmfr:376b8da7706b91c62bcbc64a4c8bea46fe1e7a06"
     cap_add:
       - SYS_RAWIO
     devices:
