@@ -17,7 +17,7 @@ jobs:
         if: success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
-          balena_command: "deploy nebraltd/testnet --logs"
+          balena_command: "deploy nebraltd/helium-testnet --logs"
 
   testnet-old:
     runs-on: ubuntu-latest
@@ -29,4 +29,4 @@ jobs:
         if: success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
-          balena_command: "deploy nebraltd/testnet-old --logs"
+          balena_command: "deploy nebraltd/helium-testnet-old --logs"
