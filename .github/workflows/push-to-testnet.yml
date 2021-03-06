@@ -1,0 +1,32 @@
+name: BalenaCloud Deploy
+
+on:
+  push:
+    # Only run workflow for pushes to specific branches
+    branches:
+      - master
+
+jobs:
+  testnet:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Balena Deploy
+        uses: bekriebel/balena-cli-action@v1
+        if: success()
+        with:
+          balena_api_token: ${{secrets.BALENA_API_TOKEN}}
+          balena_command: "deploy nebraltd/helium-testnet --logs"
+
+  testnet-old:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Balena Deploy
+        uses: bekriebel/balena-cli-action@v1
+        if: success()
+        with:
+          balena_api_token: ${{secrets.BALENA_API_TOKEN}}
+          balena_command: "deploy nebraltd/helium-testnet-old --logs"
