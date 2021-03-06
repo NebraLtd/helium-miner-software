@@ -16,3 +16,53 @@ jobs:
       with:
         api-token: ${{secrets.BALENA_API_TOKEN}}
         application-name: "HELIUM-OUTDOOR-868"
+
+  HELIUM-INDOOR-868:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1.1.0
+    - uses: theaccordance/balena-push@v1.0.0
+      with:
+        api-token: ${{secrets.BALENA_API_TOKEN}}
+        application-name: "HELIUM-INDOOR-868"
+
+  HELIUM-OUTDOOR-915:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1.1.0
+    - uses: theaccordance/balena-push@v1.0.0
+      with:
+        api-token: ${{secrets.BALENA_API_TOKEN}}
+        application-name: "HELIUM-OUTDOOR-915"
+
+  HELIUM-INDOOR-915:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1.1.0
+    - uses: theaccordance/balena-push@v1.0.0
+      with:
+        api-token: ${{secrets.BALENA_API_TOKEN}}
+        application-name: "HELIUM-INDOOR-915"
+
+  HELIUM-OUTDOOR-470:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1.1.0
+    - uses: theaccordance/balena-push@v1.0.0
+      with:
+        api-token: ${{secrets.BALENA_API_TOKEN}}
+        application-name: "HELIUM-OUTDOOR-470"
+
+  HELIUM-INDOOR-470:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1.1.0
+    - uses: theaccordance/balena-push@v1.0.0
+      with:
+        api-token: ${{secrets.BALENA_API_TOKEN}}
+        application-name: "HELIUM-INDOOR-470"
