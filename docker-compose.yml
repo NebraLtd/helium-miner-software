@@ -46,7 +46,7 @@ services:
     stop_signal: SIGINT
 
   diagnostics:
-    image: "nebraltd/hm-diag:ca9a1aef65417f25214f57b261b03ea683d53b3a"
+    image: "nebraltd/hm-diag:5a1de067fb842aeba7dca94d27ce73e9527ff238"
     volumes:
       - 'pktfwdr:/var/pktfwd'
       - 'miner-storage:/var/data'
