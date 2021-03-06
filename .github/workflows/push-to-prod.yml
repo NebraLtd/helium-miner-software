@@ -17,7 +17,7 @@ jobs:
         if: success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
-          balena_command: "push nebraltd/helium-outdoor-868 --logs"
+          balena_command: "deploy nebraltd/helium-outdoor-868 --logs"
 
   indoor-868:
     runs-on: ubuntu-latest
@@ -29,4 +29,4 @@ jobs:
         if: success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
-          balena_command: "push nebraltd/helium-indoor-868 --logs"
+          balena_command: "deploy nebraltd/helium-indoor-868 --logs"
