@@ -17,4 +17,4 @@ jobs:
         if: success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
-          balena_command: "push nebraltd/helium-testnet --logs"
+          balena_command: "deploy nebraltd/helium-testnet --logs"
