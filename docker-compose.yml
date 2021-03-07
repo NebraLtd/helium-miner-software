@@ -65,6 +65,7 @@ services:
       - SYS_RAWIO
     devices:
       - "/dev/i2c-1:/dev/i2c-1"
+    restart: on-failure
 
 volumes:
   miner-storage:
