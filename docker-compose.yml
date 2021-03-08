@@ -9,7 +9,7 @@ services:
       - 'pktfwdr:/var/pktfwd'
 
   helium-miner:
-    image: "nebraltd/hm-miner:67e32cab671bd0af26f3c854d5f716b09b32c1e7"
+    image: "nebraltd/hm-miner:3eff10ef209a9ee8026663488bf140805cecf9a2"
     ports:
       - "44158:44158/tcp"
       - "1680:1680/udp"
