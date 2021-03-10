@@ -29,7 +29,7 @@ services:
       # io.balena.features.kernel-modules: '1'
 
   gateway-config:
-    image: "nebraltd/hm-config:8d0d3471b2faf80e97fd1d100e079360f066cd51"
+    image: "nebraltd/hm-config:c25a2d22fc3f5e73c16f0da41e91667d5f2c7e7b"
     privileged: true
     network_mode: "host"
     cap_add:
