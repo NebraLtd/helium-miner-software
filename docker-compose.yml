@@ -59,7 +59,7 @@ services:
     labels:
       io.balena.features.sysfs: '1'
 
-  eccprog:
+  gwmfr:
     image: "nebraltd/hm-gwmfr:8a9473202ecee0b30922677289119ac073686fa5"
     cap_add:
       - SYS_RAWIO
