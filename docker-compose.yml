@@ -3,7 +3,7 @@ version: '2'
 services:
 
   packet-forwarder:
-    image: "nebraltd/hm-pktfwd:9406a18355b7e47d6ac1bcfc68da92dee86b6ff2"
+    image: "nebraltd/hm-pktfwd:b9a6738bcc7f5ab1699334220cc6756cd6ec1bcd"
     privileged: true
     volumes:
       - 'pktfwdr:/var/pktfwd'
@@ -46,7 +46,7 @@ services:
     stop_signal: SIGINT
 
   diagnostics:
-    image: "nebraltd/hm-diag:1cbb06cf40bf5651b42b1f3a5b631b6f2122a51c"
+    image: "nebraltd/hm-diag:70580d4089082eb583c2985b6cce6e50d4e4f12a"
     volumes:
       - 'pktfwdr:/var/pktfwd'
       - 'miner-storage:/var/data'
@@ -60,7 +60,7 @@ services:
       io.balena.features.sysfs: '1'
 
   gwmfr:
-    image: "nebraltd/hm-gwmfr:9eadd0f156dd461cd884b7e60cda6035ea8c2246"
+    image: "nebraltd/hm-gwmfr:68329fce90fa6ba5169c700d763fe941b7e414f4"
     cap_add:
       - SYS_RAWIO
     devices:
