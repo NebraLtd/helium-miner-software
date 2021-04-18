@@ -67,6 +67,11 @@ services:
       - "/dev/i2c-1:/dev/i2c-1"
     restart: on-failure
 
+  upnp:
+    image: "nebraltd/hm-gwmfr:a648409662cd4e0e55008f33ec70bfcd4afd3126"
+    network_mode: "host"
+    restart: on-failure
+
 volumes:
   miner-storage:
   miner-log:
