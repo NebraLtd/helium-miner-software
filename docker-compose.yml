@@ -68,7 +68,7 @@ services:
     restart: on-failure
 
   upnp:
-    image: "nebraltd/hm-upnp:a648409662cd4e0e55008f33ec70bfcd4afd3126"
+    image: "nebraltd/hm-upnp:12742c7a30921e23f8ebf498633914ada0c417f1"
     network_mode: "host"
     restart: on-failure
 
