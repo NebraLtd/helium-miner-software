@@ -71,6 +71,8 @@ services:
     image: "nebraltd/hm-upnp:12742c7a30921e23f8ebf498633914ada0c417f1"
     network_mode: "host"
     restart: on-failure
+    volumes:
+      - 'pktfwdr:/var/pktfwd'
 
 volumes:
   miner-storage:
