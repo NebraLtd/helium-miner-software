@@ -9,7 +9,7 @@ services:
       - 'pktfwdr:/var/pktfwd'
 
   helium-miner:
-    image: "nebraltd/hm-miner:bb13f4691246acd589f30575d922cc519fc5a9db"
+    image: "nebraltd/hm-miner:f4f6574dd77d4c6d32a84feec56d1387df248b27"
     ports:
       - "44158:44158/tcp"
       - "1680:1680/udp"
@@ -29,7 +29,7 @@ services:
       # io.balena.features.kernel-modules: '1'
 
   gateway-config:
-    image: "nebraltd/hm-config:fa17e64f38619bcb24ab93b3307ded3006dc9cef"
+    image: "nebraltd/hm-config:6232d0ab810199c09dec16db786cbc5a9b899efd"
     privileged: true
     network_mode: "host"
     cap_add:
@@ -66,6 +66,13 @@ services:
     devices:
       - "/dev/i2c-1:/dev/i2c-1"
     restart: on-failure
+
+  upnp:
+    image: "nebraltd/hm-upnp:64a5b7ba81b3ab7de37dc5dcd3f7d025a34b3410"
+    network_mode: "host"
+    restart: on-failure
+    volumes:
+      - 'pktfwdr:/var/pktfwd'
 
 volumes:
   miner-storage:
