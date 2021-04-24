@@ -3,12 +3,12 @@ version: '2'
 services:
 
   packet-forwarder:
-    image: "nebraltd/hm-pktfwd:b76d2ed6da11b316a766da75c49a694413cc29a8"
+    image: "nebraltd/hm-pktfwd:b9a6738bcc7f5ab1699334220cc6756cd6ec1bcd"
     privileged: true
     volumes:
       - 'pktfwdr:/var/pktfwd'
 
-  helium:
+  helium-miner:
     image: "nebraltd/hm-miner:35a6ec40c1accbdac8976cae0945bf9bc4af93de"
     ports:
       - "44158:44158/tcp"
