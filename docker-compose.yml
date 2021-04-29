@@ -3,13 +3,13 @@ version: '2'
 services:
 
   packet-forwarder:
-    image: "nebraltd/hm-pktfwd:b9a6738bcc7f5ab1699334220cc6756cd6ec1bcd"
+    image: "nebraltd/hm-pktfwd:e21b97e47eac55cb559ec8d698aeab69f3467a72"
     privileged: true
     volumes:
       - 'pktfwdr:/var/pktfwd'
 
   helium-miner:
-    image: "nebraltd/hm-miner:35a6ec40c1accbdac8976cae0945bf9bc4af93de"
+    image: "nebraltd/hm-miner:7c094675f8e1374b852770cb0b16435382561324"
     ports:
       - "44158:44158/tcp"
       - "1680:1680/udp"
