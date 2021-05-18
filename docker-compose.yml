@@ -9,7 +9,7 @@ services:
       - 'pktfwdr:/var/pktfwd'
 
   helium-miner:
-    image: "nebraltd/hm-miner:da849926269ccc803b6fefccc23a1761b975c225"
+    image: "nebraltd/hm-miner:0720dd4d960a4aad72bdcfb79a51e029e345b153"
     ports:
       - "44158:44158/tcp"
       - "1680:1680/udp"
@@ -46,7 +46,7 @@ services:
     stop_signal: SIGINT
 
   diagnostics:
-    image: "nebraltd/hm-diag:5ed43348dc68620e443631395b877b1bf23dad67"
+    image: "nebraltd/hm-diag:718fcd3ff14945651512ae5ae9a55a94158ef20b"
     volumes:
       - 'pktfwdr:/var/pktfwd'
       - 'miner-storage:/var/data'
