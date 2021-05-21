@@ -33,9 +33,13 @@ services:
     # privileged: true
     network_mode: "host"
     cap_add:
-            - NET_ADMIN
+      - NET_ADMIN
+      - SYS_RAWIO
     volumes:
       - 'miner-storage:/var/data'
+    devices:
+      - "/dev/i2c-1:/dev/i2c-1"
+      - "/dev/mem:/dev/mem"
     environment:
       - 'DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket'
     labels:
