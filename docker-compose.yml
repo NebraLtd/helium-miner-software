@@ -30,7 +30,7 @@ services:
 
   gateway-config:
     image: "nebraltd/hm-config:1b4f51c0381bdcb87e9c43cf78af8e971315e006"
-    privileged: true
+    # privileged: true
     network_mode: "host"
     cap_add:
             - NET_ADMIN
