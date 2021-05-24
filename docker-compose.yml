@@ -3,24 +3,23 @@ version: '2'
 services:
 
   gateway-config:
-    environment:
-      - FIRMWAREVERSION=2021.05.24.1
-    image: "nebraltd/hm-config:60e384f5a2c99f200c149014de42086547578db8"
-    privileged: true
-    network_mode: "host"
-    cap_add:
-            - NET_ADMIN
-    volumes:
-      - 'miner-storage:/var/data'
-    environment:
-      - 'DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket'
-    labels:
-      io.balena.features.dbus: '1'
-      io.balena.features.sysfs: '1'
-      io.balena.features.kernel-modules: '1'
-      io.balena.features.supervisor-api: '1'
-    stop_signal: SIGINT
-
+  image: "nebraltd/hm-config:3db6baccd78b0ac1f9ad767b3043c59c90055148"
+  environment:
+    - 'FIRMWAREVERSION=2021.05.24.1'
+    - 'DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket'
+  privileged: true
+  network_mode: "host"
+  cap_add:
+    - NET_ADMIN
+  volumes:
+    - 'miner-storage:/var/data'
+  labels:
+    io.balena.features.dbus: '1'
+    io.balena.features.sysfs: '1'
+    io.balena.features.kernel-modules: '1'
+    io.balena.features.supervisor-api: '1'
+  stop_signal: SIGINT
+  
   packet-forwarder:
     image: "nebraltd/hm-pktfwd:d8001d3c03b11e9944f71e6e748026d57476590d"
     privileged: true
