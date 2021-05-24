@@ -4,7 +4,7 @@ services:
 
   gateway-config:
     environment:
-    - FIRMWAREVERSION=2021.05.24.1
+      - FIRMWAREVERSION=2021.05.24.1
     image: "nebraltd/hm-config:60e384f5a2c99f200c149014de42086547578db8"
     privileged: true
     network_mode: "host"
