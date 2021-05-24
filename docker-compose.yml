@@ -1,6 +1,25 @@
 version: '2'
 
 services:
+  
+  gateway-config:
+    environment:
+    - FIRMWARE=1
+    image: "nebraltd/hm-config:0b0e6cbe7242e1b1dfae15a76d8c79839ad8b4b2"
+    privileged: true
+    network_mode: "host"
+    cap_add:
+            - NET_ADMIN
+    volumes:
+      - 'miner-storage:/var/data'
+    environment:
+      - 'DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket'
+    labels:
+      io.balena.features.dbus: '1'
+      io.balena.features.sysfs: '1'
+      io.balena.features.kernel-modules: '1'
+      io.balena.features.supervisor-api: '1'
+    stop_signal: SIGINT
 
   packet-forwarder:
     image: "nebraltd/hm-pktfwd:d8001d3c03b11e9944f71e6e748026d57476590d"
@@ -27,23 +46,6 @@ services:
       io.balena.features.dbus: '1'
       # io.balena.features.sysfs: '1'
       # io.balena.features.kernel-modules: '1'
-
-  gateway-config:
-    image: "nebraltd/hm-config:0b0e6cbe7242e1b1dfae15a76d8c79839ad8b4b2"
-    privileged: true
-    network_mode: "host"
-    cap_add:
-            - NET_ADMIN
-    volumes:
-      - 'miner-storage:/var/data'
-    environment:
-      - 'DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket'
-    labels:
-      io.balena.features.dbus: '1'
-      io.balena.features.sysfs: '1'
-      io.balena.features.kernel-modules: '1'
-      io.balena.features.supervisor-api: '1'
-    stop_signal: SIGINT
 
   diagnostics:
     image: "nebraltd/hm-diag:718fcd3ff14945651512ae5ae9a55a94158ef20b"
