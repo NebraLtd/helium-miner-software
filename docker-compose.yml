@@ -47,7 +47,7 @@ services:
       # io.balena.features.kernel-modules: '1'
 
   diagnostics:
-    image: "nebraltd/hm-diag:e0a3f495907ed14506fe06fc0502b8ac01f1dd0a"
+    image: "nebraltd/hm-diag:5401452d802024293387ba494bae432b89fe9ddd"
     volumes:
       - 'pktfwdr:/var/pktfwd'
       - 'miner-storage:/var/data'
