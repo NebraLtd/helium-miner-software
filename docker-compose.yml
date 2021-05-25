@@ -3,9 +3,9 @@ version: '2'
 services:
 
   gateway-config:
-    image: "nebraltd/hm-config:495f91f1da2ed2f85ef068a72d56172689bb4c95"
+    image: "nebraltd/hm-config:4bfab2514d45a6e9471290294d88a7f4f2162bd8"
     environment:
-      - 'FIRMWARE_VERSION=2021.05.24.4'
+      - 'FIRMWARE_VERSION=2021.05.25.1'
       - 'DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket'
     privileged: true
     network_mode: "host"
