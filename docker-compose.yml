@@ -47,27 +47,22 @@ services:
       # io.balena.features.kernel-modules: '1'
 
   diagnostics:
-    image: "nebraltd/hm-diag:9338fb4586fef8bc29443bc63ef8f71b20b837eb"
-    privileged: true
+    image: "nebraltd/hm-diag:90e6b26baf4ffdc3a6484aaf4e23b2a4d5aea78b"
     environment:
       - 'FIRMWARE_VERSION=2021.06.09.4'
       - 'DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket'
     volumes:
       - 'pktfwdr:/var/pktfwd'
       - 'miner-storage:/var/data'
-    network_mode: "host"
     ports:
       - '80:80'
     cap_add:
       - SYS_RAWIO
-      - NET_ADMIN
     devices:
       - "/dev/i2c-1:/dev/i2c-1"
     labels:
-      io.balena.features.dbus: '1'
       io.balena.features.sysfs: '1'
-      io.balena.features.kernel-modules: '1'
-      io.balena.features.supervisor-api: '1'
+      io.balena.features.dbus: '1'
 
   gwmfr:
     image: "nebraltd/hm-gwmfr:68329fce90fa6ba5169c700d763fe941b7e414f4"
