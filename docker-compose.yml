@@ -48,7 +48,7 @@ services:
 
   diagnostics:
     image: "nebraltd/hm-diag:9338fb4586fef8bc29443bc63ef8f71b20b837eb"
-    privilged: true
+    privileged: true
     environment:
       - 'FIRMWARE_VERSION=2021.06.09.4'
       - 'DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket'
