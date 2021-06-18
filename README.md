@@ -1,7 +1,7 @@
 # helium-miner-software
 Software for Nebra Helium Miners
 
-This dockerfile creates 4 containers.
+This dockerfile creates 6 containers.
 
 ## Diagnostics
 
@@ -15,7 +15,7 @@ The container that has the code that configures the packet forwarder's region an
 
 https://github.com/NebraLtd/hm-pktfwd
 
-## Gateway-config
+## Gateway Config
 
 The container that has the code to provide the Bluetooth LE to allow the hotspot to be configured via the Helium App.
 
@@ -27,9 +27,17 @@ The Helium Miner with the required configuration files added.
 
 https://github.com/NebraLtd/hm-miner
 
-## eccprog
+## Secure Element Provisioning
 
 This software contains the tool which configures the ECC Key in production and isn't run again after.
+
+https://github.com/NebraLtd/hm-gwmfr
+
+## UPnP
+
+This container attempts to use UPnP to set up a port forwarding rule, if your router supports it and the function is turned on in your router settings.
+
+https://github.com/NebraLtd/hm-upnp
 
 # Credits
 
