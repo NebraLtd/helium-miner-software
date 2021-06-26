@@ -39,8 +39,18 @@ This container attempts to use UPnP to set up a port forwarding rule, if your ro
 
 https://github.com/NebraLtd/hm-upnp
 
-# Credits
+# Production Checks
 
+Typically before merging into production the following checks are performed:
+
+- Containers are updated on the master branch to versions ready to be deployed.
+- This is deployed automatically to devices on the testnet.
+- Open a PR from master to production branch.
+- Typically leave in testnet for at least 3 Hours to see if any issues are reported from testnet users. 
+- Check to see if units on testnet are still synced, beaconing & witnessing as expected. (Typically Teeny Felt Rook & Gigantic Basil Turtle are good choices to check due to their locations)
+- If all looks good, merge into production branch and monitor updates on balena dashboard.
+
+# Credits
 
 
 This software uses a mixture of information from:
