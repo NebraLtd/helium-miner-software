@@ -12,6 +12,8 @@ Repo: [github.com/NebraLtd/hm-diag](https://github.com/NebraLtd/hm-diag)
 
 The diagnostics container is designed for local troubleshooting. It runs a local web server that displays various diagnostics data.
 
+Note that this container is also responsible for serving content to the [Hotspot-Production-Tool](https://github.com/NebraLtd/Hotspot-Production-Tool).
+
 ## Packet Forwarder
 
 Repo: [github.com/NebraLtd/hm-pktfwd](https://github.com/NebraLtd/hm-pktfwd)
@@ -22,7 +24,7 @@ This container is responsible for configuring packet forwarder's region and star
 
 Repo: [github.com/NebraLtd/hm-config](https://github.com/NebraLtd/hm-config)
 
-This container is responsible for the device onboarding and provides the Bluetooth LE to allow the hotspot to be configured via the Helium App.
+This container is (partially) responsible for the device onboarding and provides the Bluetooth LE to allow the hotspot to be configured via the Helium App. It is also responsible for configuring WiFi.
 
 ## Helium Miner
 
