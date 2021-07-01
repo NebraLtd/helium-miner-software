@@ -28,7 +28,7 @@ This container is (partially) responsible for the device onboarding and provides
 
 ## Helium Miner
 
-Repo: [github.com/NebraLtd/hm-miner])https://github.com/NebraLtd/hm-miner)
+Repo: [github.com/NebraLtd/hm-miner](https://github.com/NebraLtd/hm-miner)
 
 This container is the actual Helium Miner software (from upstream), with the required configuration files added.
 
