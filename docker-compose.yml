@@ -27,7 +27,7 @@ services:
       - 'pktfwdr:/var/pktfwd'
 
   helium-miner:
-    image: "nebraltd/hm-miner:56c19d8884f1d4016cd75c334da2ace4ae117a62"
+    image: "nebraltd/hm-miner:33ca819be456489a9e3233850aefa1b5cd3653bf"
     ports:
       - "44158:44158/tcp"
       - "1680:1680/udp"
@@ -45,7 +45,7 @@ services:
       io.balena.features.dbus: '1'
 
   diagnostics:
-    image: "nebraltd/hm-diag:6319c292212f2635e357cd3ba80baa80e73d834f"
+    image: "nebraltd/hm-diag:8d4c300237e559e2c1b6e873a4f5b09f78cdfdad"
     environment:
       - 'FIRMWARE_VERSION=2021.07.02.1'
       - 'DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket'
