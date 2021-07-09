@@ -28,6 +28,8 @@ services:
 
   helium-miner:
     image: "nebraltd/hm-miner:7a90b0a07251bd3f5f31e8fb6e7a60cb48cf6212"
+    environment:
+      - 'RELEASE_BUMPER=foobar'
     ports:
       - "44158:44158/tcp"
       - "1680:1680/udp"
