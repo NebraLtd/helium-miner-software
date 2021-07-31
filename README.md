@@ -44,6 +44,14 @@ Repo: [github.com/NebraLtd/hm-upnp](https://github.com/NebraLtd/hm-upnp)
 
 This container attempts to use UPnP to set up a port forwarding rule, if your router supports it and the function is turned on in your router settings.
 
+# Device Configuration / Fleet Configuration Notes
+
+For some Nebra Hotspots that use spidev1.2 you may need to add a DT overlay in the device or fleet configuration section on balenaCloud to enable spi1.
+
+Additionally, for the SPI ethernet based Nebra Light Hotspot you need to add the DT overlay for the enc28j60. And for UART based GPS that is on non-standard UART pins you need to add the uart dtoverlay.
+
+To do this you need to find the "Define DT Overlays" section, click activate and then add `"enc28j60","spi1-3cs","uart0,txd0_pin=32,rxd0_pin=33,pin_func=7"`
+
 # CI/CD Notes
 
 GitHub Actions is used to deploy directly to Balena.
