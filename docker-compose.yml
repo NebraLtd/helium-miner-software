@@ -21,7 +21,7 @@ services:
     stop_signal: SIGINT
 
   packet-forwarder:
-    image: "nebraltd/hm-pktfwd:c12a73944d23bba92e57cdd87043d56fe0b37819"
+    image: "nebraltd/hm-pktfwd:ea1958bf72d744556f76d80cf283a0789238c6e5"
     privileged: true
     volumes:
       - 'pktfwdr:/var/pktfwd'
