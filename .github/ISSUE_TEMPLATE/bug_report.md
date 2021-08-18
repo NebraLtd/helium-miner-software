@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-**Note:** This is **not** for customer support. Please use [nebra.io/helium-support](https://nebra.io/helium-support). Customer support tickets will be closed without replies.
+- [ ] I understand that this is only to report software bugs and **not** for customer support. Please use [nebra.io/helium-support](https://nebra.io/helium-support).
 
 **Describe the bug**
 A clear and concise description of what the bug is.
