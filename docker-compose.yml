@@ -46,7 +46,7 @@ services:
       io.balena.features.dbus: '1'
 
   diagnostics:
-    image: "nebraltd/hm-diag:a0cdddb3db672092957ed8cc3537d72cb735bb65"
+    image: "nebraltd/hm-diag:8b7df9a89851108eac6d177d3f4a5edb0cf6d08a"
     environment:
       - 'FIRMWARE_VERSION=2021.08.16.1'
       - 'DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket'
@@ -72,7 +72,7 @@ services:
     restart: on-failure
 
   upnp:
-    image: "nebraltd/hm-upnp:64a5b7ba81b3ab7de37dc5dcd3f7d025a34b3410"
+    image: "nebraltd/hm-upnp:4e419f5bb5d59b31fcd1f81e0c94f7e94cd9ebee"
     network_mode: "host"
     restart: on-failure
     volumes:
