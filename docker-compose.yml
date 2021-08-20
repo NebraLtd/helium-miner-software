@@ -3,7 +3,7 @@ version: '2'
 services:
 
   gateway-config:
-    image: "nebraltd/hm-config:61b77e8011413d19aa36c9bb681df0d48c054fbd"
+    image: "nebraltd/hm-config:a418ee7e7b6570aef36a2f08f5c5a153481d88c0"
     environment:
       - 'FIRMWARE_VERSION=2021.08.16.1'
       - 'DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket'
@@ -27,7 +27,7 @@ services:
       - 'pktfwdr:/var/pktfwd'
 
   helium-miner:
-    image: "nebraltd/hm-miner:50ceb3c5f05ddb7d2ca0e5b2967e793440a9301c"
+    image: "nebraltd/hm-miner:2fdfa76de1a398c0a876075aced1e0332ca211f1"
     ports:
       - "44158:44158/tcp"
       - "1680:1680/udp"
