@@ -28,6 +28,8 @@ services:
 
   helium-miner:
     image: "nebraltd/hm-miner:6aacef4c2fcab92aee5fbdcc5ac6ca5927b97421"
+    expose:
+      - "4467"
     ports:
       - "44158:44158/tcp"
       - "1680:1680/udp"
