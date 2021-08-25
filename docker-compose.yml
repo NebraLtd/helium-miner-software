@@ -5,7 +5,7 @@ services:
   gateway-config:
     image: "nebraltd/hm-config:38555834fd3b9c632f61592ccfaf7325c37cf4ce"
     environment:
-      - 'FIRMWARE_VERSION=2021.08.24.4'
+      - 'FIRMWARE_VERSION=2021.08.25.0'
       - 'DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket'
     privileged: true
     network_mode: "host"
@@ -21,7 +21,7 @@ services:
     stop_signal: SIGINT
 
   packet-forwarder:
-    image: "nebraltd/hm-pktfwd:ea1958bf72d744556f76d80cf283a0789238c6e5"
+    image: "nebraltd/hm-pktfwd:5030f75c3ccc5be9a82a4edc701294a190228f62"
     privileged: true
     volumes:
       - 'pktfwdr:/var/pktfwd'
@@ -47,9 +47,9 @@ services:
       io.balena.features.dbus: '1'
 
   diagnostics:
-    image: "nebraltd/hm-diag:66229f1038ca2ebf76fe00b84bd140fce9a69262"
+    image: "nebraltd/hm-diag:2c5a5afff018fc7baf9f0a343296b0a4904b46b6"
     environment:
-      - 'FIRMWARE_VERSION=2021.08.24.4'
+      - 'FIRMWARE_VERSION=2021.08.25.0'
       - 'DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket'
     volumes:
       - 'pktfwdr:/var/pktfwd'
@@ -65,7 +65,7 @@ services:
       io.balena.features.dbus: '1'
 
   gwmfr:
-    image: "nebraltd/hm-gwmfr:68329fce90fa6ba5169c700d763fe941b7e414f4"
+    image: "nebraltd/hm-gwmfr:e87f0672c198c01ca76bb23ae1fa3ac80dba4221"
     cap_add:
       - SYS_RAWIO
     devices:
