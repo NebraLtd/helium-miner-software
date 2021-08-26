@@ -30,9 +30,9 @@ services:
     image: "nebraltd/hm-miner:69bea226fad9cc75b5f8b7fa7fc16d2a8e0355a7"
     expose:
       - "4467"
+      - "1680"
     ports:
       - "44158:44158/tcp"
-      - "1680:1680/udp"
     volumes:
       - 'miner-storage:/var/data'
       - 'miner-log:/var/log/miner'
