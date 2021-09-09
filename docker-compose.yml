@@ -3,7 +3,7 @@ version: '2'
 services:
 
   gateway-config:
-    image: "nebraltd/hm-config:87ae525d2213120686cdeb4872825ef74f2757c3"
+    image: "nebraltd/hm-config:f1e158dbfc62cd1394055460a9d37717b9a19f23"
     environment:
       - 'FIRMWARE_VERSION=2021.09.09.0'
       - 'DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket'
