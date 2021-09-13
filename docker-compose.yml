@@ -3,7 +3,7 @@ version: '2'
 services:
 
   gateway-config:
-    image: "nebraltd/hm-config:38555834fd3b9c632f61592ccfaf7325c37cf4ce"
+    image: "nebraltd/hm-config:5de3322bcb587809b2e091b04bafa79456498130"
     environment:
       - 'FIRMWARE_VERSION=2021.08.31.2'
       - 'DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket'
@@ -27,7 +27,7 @@ services:
       - 'pktfwdr:/var/pktfwd'
 
   helium-miner:
-    image: "nebraltd/hm-miner:6cfa355d27063840ce26f0d8257e03a52e303f8e"
+    image: "nebraltd/hm-miner:94aeacee46b1236b275c80e7da13b2c55596f5bc"
     expose:
       - "4467"
       - "1680"
@@ -37,8 +37,9 @@ services:
       - 'miner-storage:/var/data'
       - 'miner-log:/var/log/miner'
       - 'pktfwdr:/var/pktfwd'
+    privileged: true
     cap_add:
-      - SYS_RAWIO
+      - SYS_RAWIO # https://www.balena.io/docs/learn/develop/hardware/
     devices:
       - "/dev/i2c-1:/dev/i2c-1"
     environment:
@@ -47,7 +48,7 @@ services:
       io.balena.features.dbus: '1'
 
   diagnostics:
-    image: "nebraltd/hm-diag:ca8f2fcea586242bdc151b1e517b0e2ecff23c3d"
+    image: "nebraltd/hm-diag:fc56f06aaf581f0e76a72191f5943f4baf3b9e6c"
     environment:
       - 'FIRMWARE_VERSION=2021.08.31.2'
       - 'DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket'
@@ -56,8 +57,9 @@ services:
       - 'miner-storage:/var/data'
     ports:
       - '80:5000'
+    privileged: true
     cap_add:
-      - SYS_RAWIO
+      - SYS_RAWIO # https://www.balena.io/docs/learn/develop/hardware/
     devices:
       - "/dev/i2c-1:/dev/i2c-1"
     labels:
