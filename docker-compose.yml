@@ -3,9 +3,9 @@ version: '2'
 services:
 
   gateway-config:
-    image: "nebraltd/hm-config:f1e158dbfc62cd1394055460a9d37717b9a19f23"
+    image: "nebraltd/hm-config:d043e7f16e1ad7f5787548801ec381374b2255fe"
     environment:
-      - 'FIRMWARE_VERSION=2021.09.09.0'
+      - 'FIRMWARE_VERSION=2021.09.14.0'
       - 'DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket'
     privileged: true
     network_mode: "host"
@@ -21,13 +21,13 @@ services:
     stop_signal: SIGINT
 
   packet-forwarder:
-    image: "nebraltd/hm-pktfwd:477eeda57ca9ebcb3909eebb8e869776a95b1668"
+    image: "nebraltd/hm-pktfwd:66e7720f8214e2e09235498750c306f058d310c8"
     privileged: true
     volumes:
       - 'pktfwdr:/var/pktfwd'
 
   helium-miner:
-    image: "nebraltd/hm-miner:2987e2936dab8c9f89c5fd719417c62263a1f5e7"
+    image: "nebraltd/hm-miner:76975a5391ec10772285104bc13c7c77cbb4697f"
     expose:
       - "4467"
       - "1680"
@@ -47,9 +47,9 @@ services:
       io.balena.features.dbus: '1'
 
   diagnostics:
-    image: "nebraltd/hm-diag:f90dadb923592fdf12c34e39803c21d6fb075dbf"
+    image: "nebraltd/hm-diag:f8c05ed5c82428bc0b798b3644b13d778b61f7f1"
     environment:
-      - 'FIRMWARE_VERSION=2021.09.09.0'
+      - 'FIRMWARE_VERSION=2021.09.14.0'
       - 'DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket'
     volumes:
       - 'pktfwdr:/var/pktfwd'
