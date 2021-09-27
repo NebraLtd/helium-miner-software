@@ -21,10 +21,16 @@ services:
     stop_signal: SIGINT
 
   packet-forwarder:
-    image: "nebraltd/hm-pktfwd:677b9956547d028167905699ec6a2c2270129702"
+    image: "67feb315ab530ed62b9d8236a118e4df5d1cd9c0eff5b1faeb82257ffbaa8597"
+    environment:
+      - 'DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket'  
     privileged: true
     volumes:
       - 'pktfwdr:/var/pktfwd'
+    labels:
+      io.balena.features.dbus: '1'
+    cap_add:
+      - SYS_RAWIO
 
   helium-miner:
     image: "nebraltd/hm-miner:94aeacee46b1236b275c80e7da13b2c55596f5bc"
@@ -45,7 +51,8 @@ services:
     environment:
       - 'DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket'
     labels:
-      io.balena.features.dbus: '1'
+        io.balena.features.sysfs: '1'
+        io.balena.features.dbus: '1'
 
   diagnostics:
     image: "nebraltd/hm-diag:fc56f06aaf581f0e76a72191f5943f4baf3b9e6c"
