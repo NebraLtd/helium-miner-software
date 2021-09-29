@@ -66,7 +66,7 @@ services:
       io.balena.features.dbus: '1'
 
   gwmfr:
-    image: "nebraltd/hm-gwmfr:0fce952a44342ad8af061c04e20d3b39014c04b9"
+    image: "nebraltd/hm-gwmfr:3a8196239d939fc6d0383a4f39b4fb475c62bad5"
     cap_add:
       - SYS_RAWIO
     devices:
