@@ -48,7 +48,7 @@ services:
       io.balena.features.dbus: '1'
 
   diagnostics:
-    image: "nebraltd/hm-diag:3a25100fb3e9700f26a68e33b9b3ec23fc9a3ccc"
+    image: "nebraltd/hm-diag:4fa635fc322185d181841f038226dbe9026b44a8"
     environment:
       - 'FIRMWARE_VERSION=2021.09.27.0'
       - 'DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket'
@@ -66,7 +66,7 @@ services:
       io.balena.features.dbus: '1'
 
   gwmfr:
-    image: "nebraltd/hm-gwmfr:2b54697aa461f68074f68d28f7faf1db00412c4e"
+    image: "nebraltd/hm-gwmfr:0fce952a44342ad8af061c04e20d3b39014c04b9"
     cap_add:
       - SYS_RAWIO
     devices:
