@@ -48,7 +48,7 @@ services:
       io.balena.features.dbus: '1'
 
   diagnostics:
-    image: "nebraltd/hm-diag:6bf390f009c2abf92e84ad73b83833c6ba4036ad"
+    image: "nebraltd/hm-diag:4fa635fc322185d181841f038226dbe9026b44a8"
     environment:
       - 'FIRMWARE_VERSION=2021.09.27.0'
       - 'DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket'
@@ -66,12 +66,14 @@ services:
       io.balena.features.dbus: '1'
 
   gwmfr:
-    image: "nebraltd/hm-gwmfr:f84834b70e34520e63d4a2dda521a198feb66b71"
+    image: "nebraltd/hm-gwmfr:0fce952a44342ad8af061c04e20d3b39014c04b9"
     cap_add:
       - SYS_RAWIO
     devices:
       - "/dev/i2c-1:/dev/i2c-1"
     restart: on-failure
+    volumes:
+      - 'miner-storage:/var/data'
 
   upnp:
     image: "nebraltd/hm-upnp:4e419f5bb5d59b31fcd1f81e0c94f7e94cd9ebee"
