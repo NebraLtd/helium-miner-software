@@ -5,7 +5,7 @@ services:
   gateway-config:
     image: "nebraltd/hm-config:805f84ef025883d25b129229d7367c6f6c350722"
     environment:
-      - 'FIRMWARE_VERSION=2021.09.27.1'
+      - 'FIRMWARE_VERSION=2021.09.27.2'
       - 'DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket'
     privileged: true
     network_mode: "host"
@@ -43,14 +43,14 @@ services:
       - "/dev/i2c-1:/dev/i2c-1"
     environment:
       - 'DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket'
-      - 'RELEASE_BUMPER=snapshotbump'
+      - 'RELEASE_BUMPER=foobar'
     labels:
       io.balena.features.dbus: '1'
 
   diagnostics:
     image: "nebraltd/hm-diag:6bf390f009c2abf92e84ad73b83833c6ba4036ad"
     environment:
-      - 'FIRMWARE_VERSION=2021.09.27.1'
+      - 'FIRMWARE_VERSION=2021.09.27.2'
       - 'DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket'
     volumes:
       - 'pktfwdr:/var/pktfwd'
