@@ -7,7 +7,7 @@ services:
     environment:
       - 'FIRMWARE_VERSION=2021.09.27.3'
       - 'DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket'
-      - 'DBUS_SESSION_BUS_ADDRESS=unix:path=/host/run/dbus/session_bus_socket'
+      - 'DBUS_SESSION_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket'
     privileged: true
     network_mode: "host"
     cap_add:
@@ -18,7 +18,6 @@ services:
       io.balena.features.dbus: '1'
       io.balena.features.sysfs: '1'
       io.balena.features.kernel-modules: '1'
-      io.balena.features.supervisor-api: '1'
     stop_signal: SIGINT
 
   packet-forwarder:
@@ -43,16 +42,15 @@ services:
     devices:
       - "/dev/i2c-1:/dev/i2c-1"
     environment:
-      - 'DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/session_bus_socket'
+      - 'DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket'
       - 'RELEASE_BUMPER=snapshotbumper'
     labels:
       io.balena.features.dbus: '1'
 
   diagnostics:
-    image: "nebraltd/hm-diag:bf959aca6264d526163797bb9532469fbf276a65"
+    image: "nebraltd/hm-diag:14a5cf868910c56c465fb9eebd41941ca199106f"
     environment:
       - 'FIRMWARE_VERSION=2021.09.27.3'
-      - 'DBUS_SESSION_BUS_ADDRESS=unix:path=/host/run/dbus/sesion_bus_socket'
     volumes:
       - 'pktfwdr:/var/pktfwd'
       - 'miner-storage:/var/data'
@@ -64,7 +62,6 @@ services:
       - "/dev/i2c-1:/dev/i2c-1"
     labels:
       io.balena.features.sysfs: '1'
-      io.balena.features.dbus: '1'
 
   gwmfr:
     image: "nebraltd/hm-gwmfr:3a8196239d939fc6d0383a4f39b4fb475c62bad5"
