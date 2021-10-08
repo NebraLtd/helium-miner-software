@@ -5,7 +5,7 @@ services:
   gateway-config:
     image: "nebraltd/hm-config:f722f1243db45f29d4d589184d61880b98938a82"
     environment:
-      - 'FIRMWARE_VERSION=2021.09.27.3'
+      - 'FIRMWARE_VERSION=2021.10.07.0'
       - 'DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket'
       - 'DBUS_SESSION_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket'
     privileged: true
@@ -27,7 +27,7 @@ services:
       - 'pktfwdr:/var/pktfwd'
 
   helium-miner:
-    image: "nebraltd/hm-miner:a4d8781845b5d9ea262e705e5d44533e5bdfec88"
+    image: "nebraltd/hm-miner:67ffe80b102cf14ea0fa4a17a66b71affb5c4d96"
     expose:
       - "4467"
       - "1680"
@@ -50,7 +50,7 @@ services:
   diagnostics:
     image: "nebraltd/hm-diag:14a5cf868910c56c465fb9eebd41941ca199106f"
     environment:
-      - 'FIRMWARE_VERSION=2021.09.27.3'
+      - 'FIRMWARE_VERSION=2021.10.07.0'
     volumes:
       - 'pktfwdr:/var/pktfwd'
       - 'miner-storage:/var/data'
