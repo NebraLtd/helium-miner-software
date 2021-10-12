@@ -11,7 +11,7 @@ services:
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
       - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
     privileged: true
-    network_mode: "host"
+    network_mode: host
     cap_add:
       - NET_ADMIN
     volumes:
@@ -30,7 +30,7 @@ services:
       - pktfwdr:/var/pktfwd
 
   helium-miner:
-    image: nebraltd/hm-miner:6a9cd79510b53a4e7e77dd1b4f90fc233e69d24c
+    image: nebraltd/hm-miner:feca3437d87793336fe97a33779db6f5a52ab3a8
     depends_on:
       - dbus-session
     expose:
@@ -46,15 +46,13 @@ services:
     cap_add:
       - SYS_RAWIO
     devices:
-      - "/dev/i2c-1:/dev/i2c-1"
+      - /dev/i2c-1:/dev/i2c-1
     environment:
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
       - RELEASE_BUMPER=foobar
 
   diagnostics:
     image: nebraltd/hm-diag:a2176a8d0ca45cac60ab491d8a5020cb6b76e4f7
-    depends_on:
-      - dbus-session
     environment:
       - FIRMWARE_VERSION=2021.10.07.0
     volumes:
@@ -65,7 +63,7 @@ services:
     cap_add:
       - SYS_RAWIO
     devices:
-      - "/dev/i2c-1:/dev/i2c-1"
+      - /dev/i2c-1:/dev/i2c-1
     labels:
       io.balena.features.sysfs: '1'
 
@@ -74,14 +72,14 @@ services:
     cap_add:
       - SYS_RAWIO
     devices:
-      - "/dev/i2c-1:/dev/i2c-1"
+      - /dev/i2c-1:/dev/i2c-1
     restart: on-failure
     volumes:
-      - 'miner-storage:/var/data'
+      - miner-storage:/var/data
 
   upnp:
     image: nebraltd/hm-upnp:56722295754eddc65496c3f08f0cb35e76ad0586
-    network_mode: "host"
+    network_mode: host
     restart: on-failure
     volumes:
       - pktfwdr:/var/pktfwd
