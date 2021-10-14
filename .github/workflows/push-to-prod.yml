@@ -78,3 +78,27 @@ jobs:
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
           balena_command: "deploy nebraltd/helium-indoor-470 --logs"
+
+  open-fleet:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Balena Deploy
+        uses: nebraltd/balena-cli-action@v12.48.12
+        if: success()
+        with:
+          balena_api_token: ${{secrets.BALENA_API_TOKEN}}
+          balena_command: "deploy nebraltd/helium-miner --logs"
+
+  commercial:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Balena Deploy
+        uses: nebraltd/balena-cli-action@v12.48.12
+        if: success()
+        with:
+          balena_api_token: ${{secrets.BALENA_API_TOKEN}}
+          balena_command: "deploy nebraltd/helium-miner-commercial --logs"
