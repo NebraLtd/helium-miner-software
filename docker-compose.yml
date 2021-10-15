@@ -52,7 +52,7 @@ services:
       - RELEASE_BUMPER=foobar
 
   diagnostics:
-    image: nebraltd/hm-diag:8770a234f2b188074ae36ed8eb6da1536246b816
+    image: nebraltd/hm-diag:9ae9284
     environment:
       - FIRMWARE_VERSION=2021.10.07.1
     volumes:
@@ -66,16 +66,6 @@ services:
       - /dev/i2c-1:/dev/i2c-1
     labels:
       io.balena.features.sysfs: 1
-
-  gwmfr:
-    image: nebraltd/hm-gwmfr:e90de0b302772818780e61b20499f95e6191a3ff
-    cap_add:
-      - SYS_RAWIO
-    devices:
-      - /dev/i2c-1:/dev/i2c-1
-    restart: on-failure
-    volumes:
-      - miner-storage:/var/data
 
   upnp:
     image: nebraltd/hm-upnp:56722295754eddc65496c3f08f0cb35e76ad0586
