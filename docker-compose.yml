@@ -47,6 +47,7 @@ services:
       - SYS_RAWIO
     devices:
       - /dev/i2c-1:/dev/i2c-1
+    restart: on-failure
     environment:
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
       - RELEASE_BUMPER=foobar
