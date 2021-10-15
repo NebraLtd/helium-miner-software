@@ -32,12 +32,6 @@ Repo: [github.com/NebraLtd/hm-miner](https://github.com/NebraLtd/hm-miner)
 
 This container is the actual Helium Miner software (from upstream), with the required configuration files added.
 
-## gwmfr
-
-Repo: [github.com/NebraLtd/hm-gwmfr](https://github.com/NebraLtd/hm-gwmfr)
-
-This software contains the tool which configures the ECC Key in production and isn't run again after.
-
 ## UPnP
 
 Repo: [github.com/NebraLtd/hm-upnp](https://github.com/NebraLtd/hm-upnp)
