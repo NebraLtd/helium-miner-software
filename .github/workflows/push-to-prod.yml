@@ -13,7 +13,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Balena Deploy
-        uses: nebraltd/balena-cli-action@v12.48.12
+        uses: nebraltd/balena-cli-action@v12.50.2
         if: success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
@@ -25,11 +25,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Balena Deploy
-        uses: nebraltd/balena-cli-action@v12.48.12
+        uses: nebraltd/balena-cli-action@v12.50.2
         if: success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
-          balena_command: "deploy nebraltd/helium-indoor-868 --logs"
+          balena_command: "deploy nebraltd/helium-indoor-868 --logs --nocache"
 
   outdoor-915:
     runs-on: ubuntu-latest
@@ -37,7 +37,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Balena Deploy
-        uses: nebraltd/balena-cli-action@v12.48.12
+        uses: nebraltd/balena-cli-action@v12.50.2
         if: success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
@@ -49,11 +49,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Balena Deploy
-        uses: nebraltd/balena-cli-action@v12.48.12
+        uses: nebraltd/balena-cli-action@v12.50.2
         if: success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
-          balena_command: "deploy nebraltd/helium-indoor-915 --logs"
+          balena_command: "deploy nebraltd/helium-indoor-915 --logs --nocache"
 
   outdoor-470:
     runs-on: ubuntu-latest
@@ -61,7 +61,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Balena Deploy
-        uses: nebraltd/balena-cli-action@v12.48.12
+        uses: nebraltd/balena-cli-action@v12.50.2
         if: success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
@@ -73,7 +73,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Balena Deploy
-        uses: nebraltd/balena-cli-action@v12.48.12
+        uses: nebraltd/balena-cli-action@v12.50.2
         if: success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
@@ -85,7 +85,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Balena Deploy
-        uses: nebraltd/balena-cli-action@v12.48.12
+        uses: nebraltd/balena-cli-action@v12.50.2
         if: success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
@@ -97,7 +97,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Balena Deploy
-        uses: nebraltd/balena-cli-action@v12.48.12
+        uses: nebraltd/balena-cli-action@v12.50.2
         if: success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
