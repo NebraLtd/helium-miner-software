@@ -17,7 +17,7 @@ jobs:
         if: success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
-          balena_command: "deploy nebraltd/helium-outdoor-868 --logs"
+          balena_command: "deploy nebraltd/helium-outdoor-868 --logs --debug --nocache --build"
 
   indoor-868:
     runs-on: ubuntu-latest
@@ -29,7 +29,7 @@ jobs:
         if: success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
-          balena_command: "deploy nebraltd/helium-indoor-868 --logs --nocache"
+          balena_command: "deploy nebraltd/helium-indoor-868 --logs --debug --nocache --build"
 
   outdoor-915:
     runs-on: ubuntu-latest
@@ -41,7 +41,7 @@ jobs:
         if: success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
-          balena_command: "deploy nebraltd/helium-outdoor-915 --logs"
+          balena_command: "deploy nebraltd/helium-outdoor-915 --logs --debug --nocache --build"
 
   indoor-915:
     runs-on: ubuntu-latest
@@ -53,7 +53,7 @@ jobs:
         if: success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
-          balena_command: "deploy nebraltd/helium-indoor-915 --logs --nocache"
+          balena_command: "deploy nebraltd/helium-indoor-915 --logs --debug --nocache --build"
 
   outdoor-470:
     runs-on: ubuntu-latest
@@ -65,7 +65,7 @@ jobs:
         if: success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
-          balena_command: "deploy nebraltd/helium-outdoor-470 --logs"
+          balena_command: "deploy nebraltd/helium-outdoor-470 --logs --debug --nocache --build"
 
   indoor-470:
     runs-on: ubuntu-latest
@@ -77,7 +77,7 @@ jobs:
         if: success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
-          balena_command: "deploy nebraltd/helium-indoor-470 --logs"
+          balena_command: "deploy nebraltd/helium-indoor-470 --logs --debug --nocache --build"
 
   open-fleet:
     runs-on: ubuntu-latest
@@ -89,7 +89,7 @@ jobs:
         if: success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
-          balena_command: "deploy nebraltd/helium-miner --logs"
+          balena_command: "deploy nebraltd/helium-miner --logs --debug --nocache --build"
 
   commercial:
     runs-on: ubuntu-latest
@@ -101,4 +101,4 @@ jobs:
         if: success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
-          balena_command: "deploy nebraltd/helium-miner-commercial --logs"
+          balena_command: "deploy nebraltd/helium-miner-commercial --logs --debug --nocache --build"
