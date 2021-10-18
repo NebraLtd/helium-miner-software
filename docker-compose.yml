@@ -6,8 +6,9 @@ services:
     image: nebraltd/hm-config:1174375
     depends_on:
       - dbus-session
+      - diagnostics
     environment:
-      - FIRMWARE_VERSION=2021.10.07.2
+      - FIRMWARE_VERSION=2021.10.07.3
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
       - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
     privileged: true
@@ -33,6 +34,7 @@ services:
     image: nebraltd/hm-miner:0784f64
     depends_on:
       - dbus-session
+      - diagnostics
     expose:
       - "1680"
       - "4467"
@@ -55,7 +57,7 @@ services:
   diagnostics:
     image: nebraltd/hm-diag:9ae9284
     environment:
-      - FIRMWARE_VERSION=2021.10.07.2
+      - FIRMWARE_VERSION=2021.10.07.3
     volumes:
       - pktfwdr:/var/pktfwd
       - miner-storage:/var/data
