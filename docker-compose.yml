@@ -3,7 +3,7 @@ version: '2'
 services:
 
   gateway-config:
-    image: nebraltd/hm-config:11743751d49b80bbed68a1a60c25e8c1ed8c5551
+    image: nebraltd/hm-config:1174375
     depends_on:
       - dbus-session
     environment:
@@ -30,7 +30,7 @@ services:
       - pktfwdr:/var/pktfwd
 
   helium-miner:
-    image: nebraltd/hm-miner:77f954817be7c2e5ce3de7383134fd7417fc507b
+    image: nebraltd/hm-miner:0784f64
     depends_on:
       - dbus-session
     expose:
