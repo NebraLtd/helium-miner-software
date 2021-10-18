@@ -7,7 +7,7 @@ services:
     depends_on:
       - dbus-session
     environment:
-      - FIRMWARE_VERSION=2021.10.07.1
+      - FIRMWARE_VERSION=2021.10.07.2
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
       - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
     privileged: true
@@ -54,7 +54,7 @@ services:
   diagnostics:
     image: nebraltd/hm-diag:8770a234f2b188074ae36ed8eb6da1536246b816
     environment:
-      - FIRMWARE_VERSION=2021.10.07.1
+      - FIRMWARE_VERSION=2021.10.07.2
     volumes:
       - pktfwdr:/var/pktfwd
       - miner-storage:/var/data
@@ -68,7 +68,7 @@ services:
       io.balena.features.sysfs: 1
 
   gwmfr:
-    image: nebraltd/hm-gwmfr:e90de0b302772818780e61b20499f95e6191a3ff
+    image: nebraltd/hm-gwmfr:c931113185a222d6c94c6a2679d39027de6f192f
     cap_add:
       - SYS_RAWIO
     devices:
