@@ -3,7 +3,7 @@ version: '2'
 services:
 
   gateway-config:
-    image: nebraltd/hm-config:711fbbd4b3c694d57263b63db52f2ebb580b40a4
+    image: nebraltd/hm-config:1174375
     depends_on:
       - dbus-session
     environment:
@@ -30,7 +30,7 @@ services:
       - pktfwdr:/var/pktfwd
 
   helium-miner:
-    image: nebraltd/hm-miner:77f954817be7c2e5ce3de7383134fd7417fc507b
+    image: nebraltd/hm-miner:0784f64
     depends_on:
       - dbus-session
     expose:
@@ -47,12 +47,13 @@ services:
       - SYS_RAWIO
     devices:
       - /dev/i2c-1:/dev/i2c-1
+    restart: on-failure
     environment:
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
       - RELEASE_BUMPER=foobar
 
   diagnostics:
-    image: nebraltd/hm-diag:8770a234f2b188074ae36ed8eb6da1536246b816
+    image: nebraltd/hm-diag:9ae9284
     environment:
       - FIRMWARE_VERSION=2021.10.07.2
     volumes:
@@ -66,16 +67,6 @@ services:
       - /dev/i2c-1:/dev/i2c-1
     labels:
       io.balena.features.sysfs: 1
-
-  gwmfr:
-    image: nebraltd/hm-gwmfr:c931113185a222d6c94c6a2679d39027de6f192f
-    cap_add:
-      - SYS_RAWIO
-    devices:
-      - /dev/i2c-1:/dev/i2c-1
-    restart: on-failure
-    volumes:
-      - miner-storage:/var/data
 
   upnp:
     image: nebraltd/hm-upnp:56722295754eddc65496c3f08f0cb35e76ad0586
