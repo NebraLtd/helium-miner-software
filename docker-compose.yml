@@ -68,7 +68,7 @@ services:
       io.balena.features.sysfs: 1
 
   gwmfr:
-    image: nebraltd/hm-gwmfr:300785e2ebc4d86769ff278ece17b1e98ebcbb33
+    image: nebraltd/hm-gwmfr:c931113185a222d6c94c6a2679d39027de6f192f
     cap_add:
       - SYS_RAWIO
     devices:
