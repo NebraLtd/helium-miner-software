@@ -12,7 +12,7 @@ Repo: [github.com/NebraLtd/hm-diag](https://github.com/NebraLtd/hm-diag)
 
 The diagnostics container is designed for local troubleshooting. It runs a local web server that displays various diagnostics data.
 
-Note that this container is also responsible for serving content to the [Hotspot-Production-Tool](https://github.com/NebraLtd/Hotspot-Production-Tool).
+Note that this container is also responsible for serving content to the [Hotspot-Production-Tool](https://github.com/NebraLtd/Hotspot-Production-Tool) and also contains the [gateway-mfr-rs](https://github.com/helium/gateway-mfr-rs) tool which configures the ECC Key in production.
 
 ## Packet Forwarder
 
@@ -37,6 +37,12 @@ This container is the actual Helium Miner software (from upstream), with the req
 Repo: [github.com/NebraLtd/hm-upnp](https://github.com/NebraLtd/hm-upnp)
 
 This container attempts to use UPnP to set up a port forwarding rule, if your router supports it and the function is turned on in your router settings.
+
+## DBus Session
+
+Repo: [github.com/balenablocks/dbus](https://github.com/balenablocks/dbus)
+
+This container configures a DBus session bus instance that is used by the gateway config container to communicate with the miner code (note that there is also a separate system bus running on the host OS which is used by gateway config to communicate with bluez for configuring Bluetooth services). This removes the need to have a custom `com.helium.Miner.conf` dbus config file on the host OS as was done previously (and meant we had to run a custom balena device type).
 
 # Device Configuration / Fleet Configuration Notes
 
