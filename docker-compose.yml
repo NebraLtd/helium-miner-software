@@ -84,17 +84,7 @@ services:
       - dbus:/session/dbus
     environment:
       - DBUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-    healthcheck:
-      test: [
-        "dbus-send",
-        "--system",
-        "--print-reply",
-        "--dest=org.freedesktop.DBus /org/freedesktop/DBus org.freedesktop.DBus.ListNames"
-      ]
-      interval: 5m
-      timeout: 10s
-      retries: 5
-      start_period: 30s
+
 volumes:
   miner-storage:
   miner-log:
