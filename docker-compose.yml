@@ -55,7 +55,7 @@ services:
       - RELEASE_BUMPER=foobar
 
   diagnostics:
-    image: nebraltd/hm-diag:9ae9284
+    image: nebraltd/hm-diag:317a342
     environment:
       - FIRMWARE_VERSION=2021.10.07.3
     volumes:
@@ -84,7 +84,17 @@ services:
       - dbus:/session/dbus
     environment:
       - DBUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-
+    healthcheck:
+      test: [
+        "dbus-send",
+        "--system",
+        "--print-reply",
+        "--dest=org.freedesktop.DBus /org/freedesktop/DBus org.freedesktop.DBus.ListNames"
+      ]
+      interval: 5m
+      timeout: 10s
+      retries: 5
+      start_period: 30s
 volumes:
   miner-storage:
   miner-log:
