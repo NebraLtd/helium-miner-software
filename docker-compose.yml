@@ -3,7 +3,7 @@ version: '2'
 services:
 
   gateway-config:
-    image: nebraltd/hm-config:1174375
+    image: nebraltd/hm-config:3168c36
     depends_on:
       - dbus-session
       - diagnostics
