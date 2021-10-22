@@ -71,6 +71,16 @@ services:
     labels:
       io.balena.features.sysfs: 1
 
+  gwmfr:
+    image: nebraltd/hm-gwmfr:c931113
+    cap_add:
+      - SYS_RAWIO
+    devices:
+      - /dev/i2c-1:/dev/i2c-1
+    restart: on-failure
+    volumes:
+      - miner-storage:/var/data
+
   upnp:
     image: nebraltd/hm-upnp:5672229
     network_mode: host
