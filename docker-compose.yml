@@ -3,7 +3,7 @@ version: '2'
 services:
 
   gateway-config:
-    image: nebraltd/hm-config:3168c36
+    image: nebraltd/hm-config:41f44d3
     depends_on:
       - dbus-session
       - diagnostics
@@ -55,7 +55,7 @@ services:
       - RELEASE_BUMPER=foobar
 
   diagnostics:
-    image: nebraltd/hm-diag:9ba7848
+    image: nebraltd/hm-diag:d9ab173
     environment:
       - FIRMWARE_VERSION=2021.10.18.1
     volumes:
