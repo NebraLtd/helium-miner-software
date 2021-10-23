@@ -72,7 +72,7 @@ services:
       io.balena.features.sysfs: 1
 
   upnp:
-    image: nebraltd/hm-upnp:5672229
+    image: nebraltd/hm-upnp:9a092ca
     network_mode: host
     restart: on-failure
     volumes:
