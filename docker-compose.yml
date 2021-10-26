@@ -26,6 +26,8 @@ services:
 
   packet-forwarder:
     image: nebraltd/hm-pktfwd:a901153
+    depends_on:
+      - helium-miner
     restart: always
     privileged: true
     volumes:
