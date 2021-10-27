@@ -3,7 +3,7 @@ version: '2'
 services:
 
   gateway-config:
-    image: nebraltd/hm-config:951749c
+    image: nebraltd/hm-config:e6a4b16
     depends_on:
       - dbus-session
       - diagnostics
@@ -25,7 +25,7 @@ services:
     stop_signal: SIGINT
 
   packet-forwarder:
-    image: nebraltd/hm-pktfwd:a901153
+    image: nebraltd/hm-pktfwd:57f52a5
     depends_on:
       - helium-miner
     restart: always
@@ -58,7 +58,7 @@ services:
       - RELEASE_BUMPER=foobar
 
   diagnostics:
-    image: nebraltd/hm-diag:889e6f7
+    image: nebraltd/hm-diag:68ae2fe
     environment:
       - FIRMWARE_VERSION=2021.10.18.1
     volumes:
@@ -74,7 +74,7 @@ services:
       io.balena.features.sysfs: 1
 
   upnp:
-    image: nebraltd/hm-upnp:9a092ca
+    image: nebraltd/hm-upnp:9c18f02
     network_mode: host
     restart: on-failure
     volumes:
