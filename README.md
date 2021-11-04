@@ -51,25 +51,25 @@ This is a guide to help you get started with the repository and get it running o
 **Prerequisites:**
 - Local Test Device (Ex: Raspberry Pi)
 - Computer for development and pushing to the device
-- Git installed  [download](https://git-scm.com/downloads)
-- Balena CLI (Install located on Balena step in quick start steps below)
+- Git installed - [download here](https://git-scm.com/downloads)
+- [Balena CLI](https://github.com/balena-io/balena-cli) (Install located on Balena step in quick start steps below)
 
-**Quick Start Steps:**
+### Quick Start Steps
 
-Step 1: Clone the repository to your local machine using one of the following commands:
-HTTP: ```git clone https://github.com/NebraLtd/helium-miner-software.git```
-SSH: ```git clone git@github.com:NebraLtd/helium-miner-software.git```
+**Step 1:** Clone the repository to your local machine using one of the following commands:
+- HTTP: `git clone https://github.com/NebraLtd/helium-miner-software.git`
+- SSH: `git clone git@github.com:NebraLtd/helium-miner-software.git`
 
-Step 2: Follow the get started guide for Balena to help you install Balena on your local test device and get a fleet setup so you can start pushing code to it. [here](https://www.balena.io/docs/learn/getting-started/raspberrypi3/nodejs/)
+**Step 2:** Follow the [getting started guide](https://www.balena.io/docs/learn/getting-started/raspberrypi3/nodejs/) for Balena to help you install Balena on your local test device and get a fleet setup so you can start pushing code to it.
 
-Step 3: Once you've gone through the steps and have Balena setup with your device in your fleet. Open your cli terminal and navigate to the root directory of the cloned repository. (Ex: /usr/name/documents/helium-miner-software)
+**Step 3:** Once you've gone through the steps and have Balena setup with your device in your fleet, open your cli terminal and navigate to the root directory of the cloned repository (Ex: /usr/name/documents/helium-miner-software).
 
-Step 4: Once you're at the root directory. You want to push the code by running the following command:
+**Step 4:** Once you're at the root directory. You want to push the code by running the following command:
 ```bash
 $ balena push <fleet-name>
 ```
 
-Step 5. Once complete check your fleet on the Balena dashboard and all modules should be running on the local test device.
+**Step 5:** Once complete check your fleet on the Balena dashboard and all modules should be running on the local test device.
 
 # Device Configuration / Fleet Configuration Notes
 
