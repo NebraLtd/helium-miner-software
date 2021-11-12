@@ -8,7 +8,7 @@ services:
       - dbus-session
       - diagnostics
     environment:
-      - FIRMWARE_VERSION=2021.11.02.0
+      - FIRMWARE_VERSION=2021.11.11.0
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
       - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
     privileged: true
@@ -32,7 +32,7 @@ services:
       - pktfwdr:/var/pktfwd
 
   helium-miner:
-    image: nebraltd/hm-miner:20ef80b
+    image: nebraltd/hm-miner:4e4d5cc
     depends_on:
       - dbus-session
       - diagnostics
@@ -58,7 +58,7 @@ services:
   diagnostics:
     image: nebraltd/hm-diag:d9ab173
     environment:
-      - FIRMWARE_VERSION=2021.11.02.0
+      - FIRMWARE_VERSION=2021.11.11.0
     volumes:
       - pktfwdr:/var/pktfwd
       - miner-storage:/var/data
