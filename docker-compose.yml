@@ -34,7 +34,7 @@ services:
       - pktfwdr:/var/pktfwd
 
   helium-miner:
-    image: nebraltd/hm-miner:4e4d5cc
+    image: nebraltd/hm-miner:f956bdc
     depends_on:
       - dbus-session
       - diagnostics
