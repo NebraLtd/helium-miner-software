@@ -58,7 +58,7 @@ services:
       - RELEASE_BUMPER=foobar
 
   diagnostics:
-    image: nebraltd/hm-diag:b1210ec
+    image: nebraltd/hm-diag:7e26f35
     environment:
       - FIRMWARE_VERSION=2021.11.17.2-1
     volumes:
