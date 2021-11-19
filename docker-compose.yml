@@ -25,7 +25,7 @@ services:
     stop_signal: SIGINT
 
   packet-forwarder:
-    image: nebraltd/hm-pktfwd:3a55914
+    image: nebraltd/hm-pktfwd:e067bef
     depends_on:
       - helium-miner
     restart: always
