@@ -81,7 +81,8 @@ services:
       - pktfwdr:/var/pktfwd
 
   dbus-session:
-    image: balenablocks/dbus:rpi-0.0.2
+    build: dbus/.
+    image: nebra-balenablocks-dbus
     restart: always
     volumes:
       - dbus:/session/dbus
