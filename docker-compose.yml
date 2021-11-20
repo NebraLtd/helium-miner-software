@@ -52,6 +52,7 @@ services:
       - SYS_RAWIO
     devices:
       - /dev/i2c-1:/dev/i2c-1
+      - /dev/i2c-7:/dev/i2c-7
     restart: on-failure
     environment:
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
@@ -70,6 +71,7 @@ services:
       - SYS_RAWIO
     devices:
       - /dev/i2c-1:/dev/i2c-1
+      - /dev/i2c-7:/dev/i2c-7
     labels:
       io.balena.features.sysfs: 1
 
