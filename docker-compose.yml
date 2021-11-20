@@ -87,7 +87,7 @@ services:
       - dbus:/session/dbus
     environment:
       - DBUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - RELEASE_BUMPER=foobar
+      - FIRMWARE_VERSION=2021.11.17.2-4
 
 volumes:
   miner-storage:
