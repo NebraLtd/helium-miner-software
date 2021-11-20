@@ -81,13 +81,13 @@ services:
       - pktfwdr:/var/pktfwd
 
   dbus-session:
-    build: dbus/.
-    image: nebra-balenablocks-dbus
+    image: balenablocks/dbus:rpi-0.0.2
     restart: always
     volumes:
       - dbus:/session/dbus
     environment:
       - DBUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
+      - FIRMWARE_VERSION=2021.11.19.0
 
 volumes:
   miner-storage:
