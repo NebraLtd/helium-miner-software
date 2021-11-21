@@ -1,4 +1,4 @@
-name: Update Miner GA
+name: Update Miner GA (Testnet)
 on:
   repository_dispatch:
     types: [miner-update]
