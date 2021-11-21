@@ -1,0 +1,35 @@
+name: Update Miner GA
+on:
+  repository_dispatch:
+    types: [miner-update]
+jobs:
+  miner-update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with: 
+          ref: ${{ github.ref }}
+      - run: |
+          LATEST_GA=${{ github.event.client_payload.tag }}
+          LONG_SHA=${{ github.event.client_payload.sha }}
+          SHORT_SHA=$( echo ${LONG_SHA:0:7} )
+          echo "LATEST_GA=$LATEST_GA" >> $GITHUB_ENV
+          echo "LONG_SHA=$LONG_SHA" >> $GITHUB_ENV
+
+          echo "We're not on the latest Helium GA release. Updating to $LATEST_GA with SHA $SHORT_SHA."
+          sed -i -E "s/FIRMWARE_VERSION=.*/FIRMWARE_VERSION=$LATEST_GA/g" docker-compose.yml
+          sed -i -E "s/nebraltd\/hm-miner:.*/nebraltd\/hm-miner:$SHORT_SHA/g" docker-compose.yml
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.PAT }}
+          commit-message: Update miner to latest GA ${{ env.LATEST_GA }}
+          branch: miner-bump/${{ env.LATEST_GA }}
+          delete-branch: true
+          base: master
+          title: "release(testnet): Update miner to latest GA ${{ env.LATEST_GA }}"
+          body: |
+            Update miner to latest GA ${{ env.LATEST_GA }}
+
+            Ref NebraLtd/hm-miner:${{ env.LONG_SHA }}
+          draft: false
