@@ -18,7 +18,7 @@ jobs:
 
           echo "We're not on the latest Helium GA release. Updating to $LATEST_GA with SHA $SHORT_SHA."
           sed -i -E "s/FIRMWARE_VERSION=.*/FIRMWARE_VERSION=$LATEST_GA/g" docker-compose.yml
-          sed -i -E "s/nebraltd\/hm-miner:.*/nebraltd\/hm-miner:$SHORT_SHA/g" docker-compose.yml
+          sed -i -E "s/nebraltd\/hm-miner:.*/nebraltd\/hm-miner:arm64-$SHORT_SHA/g" docker-compose.yml
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
