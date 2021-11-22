@@ -5,6 +5,7 @@ on:
     # Only run workflow for pushes to specific branches
     branches:
       - production
+
 env: 
   balena-cli: v12.52.1
 
