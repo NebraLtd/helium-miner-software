@@ -5,79 +5,32 @@ on:
     # Only run workflow for pushes to specific branches
     branches:
       - production
+env: 
+  balena-cli: v12.52.1
 
 jobs:
-  outdoor-868:
+  build-prod:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        sbc: [raspi, rockpi]
+        frequency: [470, 868, 915]
+        variant: [indoor, outdoor]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Change i2c bus for RockPi
+        if: matrix.sbc == rockpi
+        run: |
+          sed -i -E "s/\/dev\/i2c-1:\/dev\/i2c-1/\/dev\/i2c-7:\/dev\/i2c-7/g" docker-compose.yml
+          ROCKPI="-rockpi"
+          echo "ROCKPI=$ROCKPI" >> $GITHUB_ENV
       - name: Balena Deploy
-        uses: nebraltd/balena-cli-action@v12.51.1
+        uses: nebraltd/balena-cli-action@${{ env.balena-cli }}
         if: success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
-          balena_command: "deploy nebraltd/helium-outdoor-868 --logs --debug --nocache --build"
-
-  indoor-868:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Balena Deploy
-        uses: nebraltd/balena-cli-action@v12.51.1
-        if: success()
-        with:
-          balena_api_token: ${{secrets.BALENA_API_TOKEN}}
-          balena_command: "deploy nebraltd/helium-indoor-868 --logs --debug --nocache --build"
-
-  outdoor-915:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Balena Deploy
-        uses: nebraltd/balena-cli-action@v12.51.1
-        if: success()
-        with:
-          balena_api_token: ${{secrets.BALENA_API_TOKEN}}
-          balena_command: "deploy nebraltd/helium-outdoor-915 --logs --debug --nocache --build"
-
-  indoor-915:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Balena Deploy
-        uses: nebraltd/balena-cli-action@v12.51.1
-        if: success()
-        with:
-          balena_api_token: ${{secrets.BALENA_API_TOKEN}}
-          balena_command: "deploy nebraltd/helium-indoor-915 --logs --debug --nocache --build"
-
-  outdoor-470:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Balena Deploy
-        uses: nebraltd/balena-cli-action@v12.51.1
-        if: success()
-        with:
-          balena_api_token: ${{secrets.BALENA_API_TOKEN}}
-          balena_command: "deploy nebraltd/helium-outdoor-470 --logs --debug --nocache --build"
-
-  indoor-470:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Balena Deploy
-        uses: nebraltd/balena-cli-action@v12.51.1
-        if: success()
-        with:
-          balena_api_token: ${{secrets.BALENA_API_TOKEN}}
-          balena_command: "deploy nebraltd/helium-indoor-470 --logs --debug --nocache --build"
+          balena_command: "deploy nebraltd/helium-${{ matrix.variant }}-${{ matrix.frequency }}${{ env.ROCKPI }} --logs --debug --nocache --build"
 
   open-fleet:
     runs-on: ubuntu-latest
@@ -85,7 +38,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Balena Deploy
-        uses: nebraltd/balena-cli-action@v12.51.1
+        uses: nebraltd/balena-cli-action@${{ env.balena-cli }}
         if: success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
@@ -97,7 +50,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Balena Deploy
-        uses: nebraltd/balena-cli-action@v12.51.1
+        uses: nebraltd/balena-cli-action@${{ env.balena-cli }}
         if: success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}

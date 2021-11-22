@@ -50,7 +50,8 @@ services:
       - dbus:/session/dbus
     cap_add:
       - SYS_RAWIO
-    privileged: true
+    devices:
+      - /dev/i2c-1:/dev/i2c-1
     restart: on-failure
     environment:
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
@@ -67,7 +68,8 @@ services:
       - "80:5000"
     cap_add:
       - SYS_RAWIO
-    privileged: true
+    devices:
+      - /dev/i2c-1:/dev/i2c-1
     labels:
       io.balena.features.sysfs: 1
 
