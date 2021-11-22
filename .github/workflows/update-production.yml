@@ -20,7 +20,7 @@ jobs:
           echo "LATEST_GA=$LATEST_GA" >> $GITHUB_ENV
 
           # Get the UTC date and time
-          echo "NOW::$(date -u)" >> $GITHUB_ENV
+          echo "NOW=$(date -u)" >> $GITHUB_ENV
 
           # Check pull request title
           PR_TITLE_CHECK="release(testnet): Update miner to latest GA"
