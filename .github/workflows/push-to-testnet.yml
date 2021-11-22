@@ -19,7 +19,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Change i2c bus for RockPi
-        if: matrix.sbc == rockpi
+        if: matrix.sbc == 'rockpi'
         run: |
           sed -i -E "s/\/dev\/i2c-1:\/dev\/i2c-1/\/dev\/i2c-7:\/dev\/i2c-7/g" docker-compose.yml
           ROCKPI="-rockpi"
