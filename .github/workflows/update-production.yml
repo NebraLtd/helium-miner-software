@@ -13,6 +13,7 @@ jobs:
       - uses: actions/checkout@v2
         with: 
           ref: ${{ github.ref }}
+          fetch-depth: 0
       - name: Set current date and latest GA as env variable, check PR title
         run: |
           # Get the latest GA release name
