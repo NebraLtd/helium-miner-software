@@ -1,95 +1,95 @@
+version: '2'
+
 services:
-  dbus-session:
-    environment:
-      DBUS_ADDRESS: unix:path=/session/dbus/session_bus_socket
-      FIRMWARE_VERSION: 2021.11.22.0-1
-    image: balenablocks/dbus:rpi-0.0.2
-    restart: always
-    volumes:
-    - dbus:/session/dbus:rw
-  diagnostics:
-    cap_add:
-    - SYS_RAWIO
-    environment:
-      FIRMWARE_VERSION: 2021.11.22.0-1
-    image: nebraltd/hm-diag:b30bd8a
-    labels:
-      io.balena.features.sysfs: '1'
-    ports:
-    - published: 80
-      target: 5000
-    privileged: true
-    volumes:
-    - pktfwdr:/var/pktfwd:rw
-    - miner-storage:/var/data:rw
+
   gateway-config:
-    cap_add:
-    - NET_ADMIN
-    depends_on:
-      dbus-session:
-        condition: service_started
-      diagnostics:
-        condition: service_started
-    environment:
-      DBUS_SESSION_BUS_ADDRESS: unix:path=/session/dbus/session_bus_socket
-      DBUS_SYSTEM_BUS_ADDRESS: unix:path=/host/run/dbus/system_bus_socket
-      FIRMWARE_VERSION: 2021.11.22.0-1
     image: nebraltd/hm-config:e0c6f88
-    labels:
-      io.balena.features.dbus: '1'
-      io.balena.features.kernel-modules: '1'
-      io.balena.features.sysfs: '1'
-    network_mode: host
-    privileged: true
-    stop_signal: SIGINT
-    volumes:
-    - miner-storage:/var/data:rw
-    - dbus:/session/dbus:rw
-  helium-miner:
-    cap_add:
-    - SYS_RAWIO
     depends_on:
-      dbus-session:
-        condition: service_started
-      diagnostics:
-        condition: service_started
+      - dbus-session
+      - diagnostics
     environment:
-      DBUS_SYSTEM_BUS_ADDRESS: unix:path=/session/dbus/session_bus_socket
-      RELEASE_BUMPER: foobar
-    expose:
-    - '1680'
-    - '4467'
+      - FIRMWARE_VERSION=2021.11.22.0-1
+      - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
+      - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
+    privileged: true
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - miner-storage:/var/data
+      - dbus:/session/dbus
+    labels:
+      io.balena.features.sysfs: 1
+      io.balena.features.kernel-modules: 1
+      io.balena.features.dbus: 1
+    stop_signal: SIGINT
+
+  packet-forwarder:
+    image: nebraltd/hm-pktfwd:8d8de7d
+    depends_on:
+      - helium-miner
+    restart: always
+    privileged: true
+    volumes:
+      - pktfwdr:/var/pktfwd
+
+  helium-miner:
     image: nebraltd/hm-miner:arm64-d760384
+    depends_on:
+      - dbus-session
+      - diagnostics
+    expose:
+      - "1680"
+      - "4467"
     ports:
-    - protocol: tcp
-      published: 44158
-      target: 44158
+      - "44158:44158/tcp"
+    volumes:
+      - miner-storage:/var/data
+      - miner-log:/var/log/miner
+      - pktfwdr:/var/pktfwd
+      - dbus:/session/dbus
+    cap_add:
+      - SYS_RAWIO
     privileged: true
     restart: on-failure
+    environment:
+      - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
+      - RELEASE_BUMPER=foobar
+
+  diagnostics:
+    image: nebraltd/hm-diag:fb5166b
+    environment:
+      - FIRMWARE_VERSION=2021.11.22.0-1
+      - DIAGNOSTICS_VERSION=fb5166b
     volumes:
-    - miner-storage:/var/data:rw
-    - miner-log:/var/log/miner:rw
-    - pktfwdr:/var/pktfwd:rw
-    - dbus:/session/dbus:rw
-  packet-forwarder:
-    depends_on:
-      helium-miner:
-        condition: service_started
-    image: nebraltd/hm-pktfwd:8d8de7d
+      - pktfwdr:/var/pktfwd
+      - miner-storage:/var/data
+    ports:
+      - "80:5000"
+    cap_add:
+      - SYS_RAWIO
     privileged: true
-    restart: always
-    volumes:
-    - pktfwdr:/var/pktfwd:rw
+    labels:
+      io.balena.features.sysfs: 1
+
   upnp:
     image: nebraltd/hm-upnp:b575a2f
     network_mode: host
     restart: on-failure
     volumes:
-    - pktfwdr:/var/pktfwd:rw
-version: '2'
+      - pktfwdr:/var/pktfwd
+
+  dbus-session:
+    image: balenablocks/dbus:rpi-0.0.2
+    restart: always
+    volumes:
+      - dbus:/session/dbus
+    environment:
+      - DBUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
+      - FIRMWARE_VERSION=2021.11.22.0-1
 volumes:
-  dbus: {}
-  miner-log: {}
-  miner-storage: {}
-  pktfwdr: {}
+  miner-storage:
+  miner-log:
+  pktfwdr:
+  dbus:
 
