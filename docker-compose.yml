@@ -57,9 +57,10 @@ services:
       - RELEASE_BUMPER=foobar
 
   diagnostics:
-    image: nebraltd/hm-diag:b30bd8a
+    image: nebraltd/hm-diag:3e478a9
     environment:
       - FIRMWARE_VERSION=2021.11.22.0-1
+      - DIAGNOSTICS_VERSION=3e478a9
     volumes:
       - pktfwdr:/var/pktfwd
       - miner-storage:/var/data
