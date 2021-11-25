@@ -57,15 +57,15 @@ services:
       - RELEASE_BUMPER=foobar
 
   diagnostics:
-    image: nebraltd/hm-diag:fb5166b
+    image: nebraltd/hm-diag:371d0c6
     environment:
       - FIRMWARE_VERSION=2021.11.22.0-1
-      - DIAGNOSTICS_VERSION=fb5166b
+      - DIAGNOSTICS_VERSION=371d0c6
     volumes:
       - pktfwdr:/var/pktfwd
       - miner-storage:/var/data
     ports:
-      - "80:5000"
+      - "80:7000"
     cap_add:
       - SYS_RAWIO
     privileged: true
