@@ -8,7 +8,7 @@ services:
       - dbus-session
       - diagnostics
     environment:
-      - FIRMWARE_VERSION=2021.11.22.0-1
+      - FIRMWARE_VERSION=2021.11.26.1
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
       - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
     privileged: true
@@ -59,7 +59,7 @@ services:
   diagnostics:
     image: nebraltd/hm-diag:3e478a9
     environment:
-      - FIRMWARE_VERSION=2021.11.22.0-1
+      - FIRMWARE_VERSION=2021.11.26.1
       - DIAGNOSTICS_VERSION=3e478a9
     volumes:
       - pktfwdr:/var/pktfwd
@@ -86,7 +86,7 @@ services:
       - dbus:/session/dbus
     environment:
       - DBUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - FIRMWARE_VERSION=2021.11.22.0-1
+      - FIRMWARE_VERSION=2021.11.26.1
 
 volumes:
   miner-storage:
