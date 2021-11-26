@@ -62,7 +62,7 @@ services:
       - dbus-session
     environment:
       - FIRMWARE_VERSION=2021.11.26.1
-      - DIAGNOSTICS_VERSION=3e478a9
+      - DIAGNOSTICS_VERSION=625ea72
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
       - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
     volumes:
