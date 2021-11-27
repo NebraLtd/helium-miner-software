@@ -8,7 +8,7 @@ services:
       - dbus-session
       - diagnostics
     environment:
-      - FIRMWARE_VERSION=2021.11.26.1-1
+      - FIRMWARE_VERSION=2021.11.26.1-2
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
       - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
     privileged: true
@@ -59,7 +59,7 @@ services:
   diagnostics:
     image: nebraltd/hm-diag:625ea72
     environment:
-      - FIRMWARE_VERSION=2021.11.26.1-1
+      - FIRMWARE_VERSION=2021.11.26.1-2
       - DIAGNOSTICS_VERSION=625ea72
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
     volumes:
@@ -72,6 +72,7 @@ services:
     privileged: true
     labels:
       io.balena.features.sysfs: 1
+      io.balena.features.procfs: 1
       io.balena.features.dbus: 1
 
   upnp:
@@ -88,7 +89,7 @@ services:
       - dbus:/session/dbus
     environment:
       - DBUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - FIRMWARE_VERSION=2021.11.26.1-1
+      - FIRMWARE_VERSION=2021.11.26.1-2
 
 volumes:
   miner-storage:
