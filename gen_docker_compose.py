@@ -18,6 +18,7 @@ format strings.
 import sys
 import os
 import argparse
+from typing import Union
 from configparser import ConfigParser
 
 from jinja2 import Environment, select_autoescape, FileSystemLoader
@@ -28,11 +29,17 @@ here = os.path.dirname(os.path.abspath(__file__))
 
 
 class DockerComposer:
-    """A class to facilitate generation of docker-compose.yml files from templates."""
+    """
+    A class to facilitate generation of docker-compose.yml files
+    from templates.
+    """
 
-    def __init__(self):
+    def __init__(self, templates_folder: Union[str, None] = None):
+        if templates_folder is None:
+            templates_folder = os.path.join(here, 'templates')
+
         self.jinja_env = Environment(
-            loader=FileSystemLoader("templates"),
+            loader=FileSystemLoader(templates_folder),
             autoescape=select_autoescape()
         )
 
