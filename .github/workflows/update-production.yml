@@ -13,6 +13,7 @@ jobs:
       - uses: actions/checkout@v2
         with: 
           ref: ${{ github.ref }}
+          fetch-depth: 0
       - name: Set current date and latest GA as env variable, check PR title
         run: |
           # Get the latest GA release name
@@ -20,7 +21,7 @@ jobs:
           echo "LATEST_GA=$LATEST_GA" >> $GITHUB_ENV
 
           # Get the UTC date and time
-          echo "NOW::$(date -u)" >> $GITHUB_ENV
+          echo "NOW=$(date -u)" >> $GITHUB_ENV
 
           # Check pull request title
           PR_TITLE_CHECK="release(testnet): Update miner to latest GA"
@@ -35,6 +36,7 @@ jobs:
         with:
           source_branch: master
           target_branch: production
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           title: "release(prod): Update miner to latest GA ${{ env.LATEST_GA }}"
           body: |
             Update miner to latest GA ${{ env.LATEST_GA }}
