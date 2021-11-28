@@ -17,51 +17,64 @@ format strings.
 
 import sys
 import os
+import argparse
+from configparser import ConfigParser
+
+from jinja2 import Environment, select_autoescape, FileSystemLoader
+
 
 prog_name = os.path.basename(os.path.abspath(__file__))
 here = os.path.dirname(os.path.abspath(__file__))
 
-def load_file_config(file_path: str):
-    file_config_dict = {}
-    if os.path.isfile(file_path):
-        lines = [l.strip() for l in open(file_path, 'r').read().split('\n')]
-        for line in lines:
-            if line.startswith('#'):
-                # Ignore comment lines
-                continue
 
-            parts = line.split("=", maxsplit=1)
-            if len(parts) != 2:
-                # Ignore lines that don't follow key=value format
-                continue
+class DockerComposer:
+    """A class to facilitate generation of docker-compose.yml files from templates."""
 
-            key = parts[0].strip()
-            value = parts[1].strip().strip('"')
-            file_config_dict[key] = value
+    def __init__(self):
+        self.jinja_env = Environment(
+            loader=FileSystemLoader("templates"),
+            autoescape=select_autoescape()
+        )
 
-    return file_config_dict
+        config = ConfigParser(strict=True)
+        # Suppress default behavior of converting key names to lower-case.
+        config.optionxform = lambda option: option
+        config.read('settings.ini')
+        self.config = config
+
+    def generate_compose_file(
+            self, template_file: str, output_file: str, arch: str) -> None:
+        """generate_compose_file Render template_file to generate compose file.
+
+        Args:
+            template_file (str): Template file name without folder name.
+                Should be present in the templates folder.
+            output_file (str): Output filename. Can be a path. Otherwise
+                file is created in current folder.
+        """
+        template = self.jinja_env.get_template(template_file)
+        template_args = {'ARCH': arch}
+        assert 'versions' in self.config
+        for k, v in self.config['versions'].items():
+            template_args[k] = v
+
+        output = template.render(**template_args)
+        open(output_file, 'w').write(output)
+
 
 
 if __name__ == '__main__':
-    usage = f"""
-    {prog_name} [docker-template_file]
 
-    If no template file name is given then docker-compose.template is assumed as default.
-    """
+    parser = argparse.ArgumentParser("Generate docker-compose.yml.")
+    parser.add_argument('--arch', '-a', default='arm64',
+                        help="Target architecture.")
+    parser.add_argument('--template', '-t', default='docker-compose.template',
+                        help=("Input template file. Should be present in "
+                              "templates folder."))
+    parser.add_argument('--output', '-o', default='docker-compose.yml',
+                        help="Output file. Created in current folder.")
+    args = parser.parse_args()
+    # print(args)
 
-    template_file = 'docker-compose.template'
-
-    if len(sys.argv) == 2:
-        if '-h' == sys.argv[1]:
-            print(usage)
-            sys.exit(0)
-
-        template_file = sys.argv[1]
-
-    data = open(template_file, 'r').read()
-
-
-    env_path = os.path.join(here, '.env')
-    env_args = load_file_config(env_path)
-
-    print(data.format(**env_args))
+    composer = DockerComposer()
+    composer.generate_compose_file(args.template, args.output, args.arch)

@@ -55,7 +55,6 @@ services:
     restart: on-failure
     environment:
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - RELEASE_BUMPER=foobar
 
   diagnostics:
     image: nebraltd/hm-diag:625ea72

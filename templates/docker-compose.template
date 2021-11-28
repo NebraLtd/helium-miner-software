@@ -3,12 +3,12 @@ version: '2'
 services:
 
   gateway-config:
-    image: nebraltd/hm-config:e0c6f88
+    image: nebraltd/hm-config:{{CONFIG_VERSION}}
     depends_on:
       - dbus-session
       - diagnostics
     environment:
-      - FIRMWARE_VERSION={FIRMWARE_VERSION}
+      - FIRMWARE_VERSION={{FIRMWARE_VERSION}}
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
       - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
     privileged: true
@@ -25,7 +25,7 @@ services:
     stop_signal: SIGINT
 
   packet-forwarder:
-    image: nebraltd/hm-pktfwd:8d8de7d
+    image: nebraltd/hm-pktfwd:{{PKTFWD_VERSION}}
     depends_on:
       - helium-miner
     restart: always
@@ -34,7 +34,7 @@ services:
       - pktfwdr:/var/pktfwd
 
   helium-miner:
-    image: nebraltd/hm-miner:arm64-d760384
+    image: nebraltd/hm-miner:{{ARCH}}-{{MINER_VERSION}}
     depends_on:
       - dbus-session
       - diagnostics
@@ -50,17 +50,18 @@ services:
       - dbus:/session/dbus
     cap_add:
       - SYS_RAWIO
-    privileged: true
+    devices:
+      - /dev/i2c-1:/dev/i2c-1
     restart: on-failure
     environment:
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - RELEASE_BUMPER=foobar
 
   diagnostics:
-    image: nebraltd/hm-diag:{DIAGNOSTICS_VERSION}
+    image: nebraltd/hm-diag:{{DIAGNOSTICS_VERSION}}
     environment:
-      - FIRMWARE_VERSION={FIRMWARE_VERSION}
-      - DIAGNOSTICS_VERSION={DIAGNOSTICS_VERSION}
+      - FIRMWARE_VERSION={{FIRMWARE_VERSION}}
+      - DIAGNOSTICS_VERSION={{DIAGNOSTICS_VERSION}}
+      - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
     volumes:
       - pktfwdr:/var/pktfwd
       - miner-storage:/var/data
@@ -68,12 +69,15 @@ services:
       - "80:7000"
     cap_add:
       - SYS_RAWIO
-    privileged: true
+    devices:
+      - /dev/i2c-1:/dev/i2c-1
     labels:
       io.balena.features.sysfs: 1
+      io.balena.features.procfs: 1
+      io.balena.features.dbus: 1
 
   upnp:
-    image: nebraltd/hm-upnp:b575a2f
+    image: nebraltd/hm-upnp:{{UPNP_VERSION}}
     network_mode: host
     restart: on-failure
     volumes:
@@ -86,7 +90,7 @@ services:
       - dbus:/session/dbus
     environment:
       - DBUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - FIRMWARE_VERSION={FIRMWARE_VERSION}
+      - FIRMWARE_VERSION={{FIRMWARE_VERSION}}
 volumes:
   miner-storage:
   miner-log:
