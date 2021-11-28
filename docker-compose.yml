@@ -3,12 +3,12 @@ version: '2'
 services:
 
   gateway-config:
-    image: nebraltd/hm-config:e0c6f88
+    image: nebraltd/hm-config:8cc544f
     depends_on:
       - dbus-session
       - diagnostics
     environment:
-      - FIRMWARE_VERSION=2021.11.22.0-1
+      - FIRMWARE_VERSION=2021.11.26.1-3
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
       - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
     privileged: true
@@ -50,17 +50,19 @@ services:
       - dbus:/session/dbus
     cap_add:
       - SYS_RAWIO
-    privileged: true
+    devices:
+      - /dev/i2c-1:/dev/i2c-1
     restart: on-failure
     environment:
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
       - RELEASE_BUMPER=foobar
 
   diagnostics:
-    image: nebraltd/hm-diag:371d0c6
+    image: nebraltd/hm-diag:625ea72
     environment:
-      - FIRMWARE_VERSION=2021.11.22.0-1
-      - DIAGNOSTICS_VERSION=371d0c6
+      - FIRMWARE_VERSION=2021.11.26.1-3
+      - DIAGNOSTICS_VERSION=625ea72
+      - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
     volumes:
       - pktfwdr:/var/pktfwd
       - miner-storage:/var/data
@@ -68,9 +70,12 @@ services:
       - "80:7000"
     cap_add:
       - SYS_RAWIO
-    privileged: true
+    devices:
+      - /dev/i2c-1:/dev/i2c-1
     labels:
       io.balena.features.sysfs: 1
+      io.balena.features.procfs: 1
+      io.balena.features.dbus: 1
 
   upnp:
     image: nebraltd/hm-upnp:b575a2f
@@ -86,7 +91,7 @@ services:
       - dbus:/session/dbus
     environment:
       - DBUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - FIRMWARE_VERSION=2021.11.22.0-1
+      - FIRMWARE_VERSION=2021.11.22.0-3
 volumes:
   miner-storage:
   miner-log:
