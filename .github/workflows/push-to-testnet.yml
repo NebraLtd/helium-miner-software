@@ -6,9 +6,6 @@ on:
     branches:
       - master
 
-env: 
-  balena-cli: v12.52.1
-
 jobs:
   testnet:
     runs-on: ubuntu-latest
@@ -25,7 +22,7 @@ jobs:
           ROCKPI="-rockpi"
           echo "ROCKPI=$ROCKPI" >> $GITHUB_ENV
       - name: Balena Deploy
-        uses: nebraltd/balena-cli-action@${{ env.balena-cli }}
+        uses: nebraltd/balena-cli-action@v12.54.5
         if: success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
