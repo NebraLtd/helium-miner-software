@@ -10,6 +10,7 @@ jobs:
   testnet:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         sbc: [raspi, rockpi]
     steps:
