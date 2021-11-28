@@ -10,6 +10,7 @@ jobs:
   build-prod:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         sbc: [raspi, rockpi]
         frequency: [470, 868, 915]
