@@ -72,6 +72,7 @@ services:
       - SYS_RAWIO
     devices:
       - /dev/i2c-1:/dev/i2c-1
+    privileged: true
     labels:
       io.balena.features.sysfs: 1
       io.balena.features.procfs: 1
