@@ -8,7 +8,7 @@ services:
       - dbus-session
       - diagnostics
     environment:
-      - FIRMWARE_VERSION=2021.11.26.1-3
+      - FIRMWARE_VERSION=2021.11.26.1-4
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
       - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
     privileged: true
@@ -58,10 +58,10 @@ services:
       - RELEASE_BUMPER=foobar
 
   diagnostics:
-    image: nebraltd/hm-diag:625ea72
+    image: nebraltd/hm-diag:72f141f
     environment:
-      - FIRMWARE_VERSION=2021.11.26.1-3
-      - DIAGNOSTICS_VERSION=625ea72
+      - FIRMWARE_VERSION=2021.11.26.1-4
+      - DIAGNOSTICS_VERSION=72f141f
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
     volumes:
       - pktfwdr:/var/pktfwd
