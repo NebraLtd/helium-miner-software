@@ -88,6 +88,18 @@ the [production branch](https://github.com/NebraLtd/helium-miner-software/tree/p
 
 Do note that the Docker Tag is hard coded in the `docker-compose.yml` file.
 
+## Dealing with failed builds
+
+On occasion (as originally described [in this issue](https://github.com/NebraLtd/helium-miner-software/issues/293)) CI/CD builds via GitHub actions will fail to push correctly to balena. We have found that as a workaround, it is often possible to force push these to balena as draft releases using the `--draft` tag in the `balena deploy` command of the balena CLI tool. For example:
+
+```
+balena deploy nebraltd/helium-indoor-868 --logs --debug --nocache --build --draft
+```
+
+This can either be done manually by someone with the right privileges on our balenaCloud account, or it can be done by triggering the `workflow_dispatch:` event on the [push-to-prod-draft.yml github action](https://github.com/NebraLtd/helium-miner-software/blob/master/.github/workflows/push-to-prod-draft.yml) from the GitHub actions menu (making sure to use the production branch). 
+
+Once this has completed and the draft builds have been pushed to balena, you will need to either finalise the releases using balena CLI locally, or visit the releases menu of each fleet with a draft release, click on the release and then select `Finalize Release` from the dropdown menu.
+
 # Production Checks
 
 @TODO:
