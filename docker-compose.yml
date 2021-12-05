@@ -3,12 +3,12 @@ version: '2'
 services:
 
   gateway-config:
-    image: nebraltd/hm-config:8cc544f
+    image: nebraltd/hm-config:c6caddf
     depends_on:
       - dbus-session
       - diagnostics
     environment:
-      - FIRMWARE_VERSION=2021.11.30.1-2
+      - FIRMWARE_VERSION=2021.11.30.1-3
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
       - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
     privileged: true
@@ -60,7 +60,7 @@ services:
   diagnostics:
     image: nebraltd/hm-diag:c22a429
     environment:
-      - FIRMWARE_VERSION=2021.11.30.1-2
+      - FIRMWARE_VERSION=2021.11.30.1-3
       - DIAGNOSTICS_VERSION=c22a429
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
     volumes:
@@ -92,7 +92,7 @@ services:
       - dbus:/session/dbus
     environment:
       - DBUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - FIRMWARE_VERSION=2021.11.30.1-2
+      - FIRMWARE_VERSION=2021.11.30.1-3
 
 volumes:
   miner-storage:
