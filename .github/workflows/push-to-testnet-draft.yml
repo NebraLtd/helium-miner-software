@@ -1,0 +1,27 @@
+name: BalenaCloud Deploy (Testnet - Draft Deploy)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  testnet:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sbc: [raspi, rockpi]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Change i2c bus for RockPi
+        if: matrix.sbc == 'rockpi'
+        run: |
+          sed -i -E "s/\/dev\/i2c-1:\/dev\/i2c-1/\/dev\/i2c-7:\/dev\/i2c-7/g" docker-compose.yml
+          ROCKPI="-rockpi"
+          echo "ROCKPI=$ROCKPI" >> $GITHUB_ENV
+      - name: Balena Deploy
+        uses: nebraltd/balena-cli-action@v12.54.5
+        if: success()
+        with:
+          balena_api_token: ${{secrets.BALENA_API_TOKEN}}
+          balena_command: "deploy nebraltd/helium-testnet${{ env.ROCKPI }} --logs --debug --nocache --build --draft"
