@@ -96,7 +96,7 @@ On occasion (as originally described [in this issue](https://github.com/NebraLtd
 balena deploy nebraltd/helium-indoor-868 --logs --debug --nocache --build --draft
 ```
 
-This can either be done manually by someone with the right privileges on our balenaCloud account, or it can be done by triggering the `workflow_dispatch:` event on the [push-to-prod-draft.yml github action](https://github.com/NebraLtd/helium-miner-software/blob/master/.github/workflows/push-to-prod-draft.yml) from the GitHub actions menu (making sure to use the production branch). 
+This can either be done manually by someone with the right privileges on our balenaCloud account, or it can be done by triggering the `workflow_dispatch:` event on the [push-to-prod-draft.yml github action](https://github.com/NebraLtd/helium-miner-software/blob/master/.github/workflows/push-to-prod-draft.yml) from the GitHub actions menu (making sure to use the production branch). There is also an equivalent action for our [testnet fleet](https://github.com/NebraLtd/helium-miner-software/blob/master/.github/workflows/push-to-testnet-draft.yml).
 
 Once this has completed and the draft builds have been pushed to balena, you will need to either finalise the releases using balena CLI locally, or visit the releases menu of each fleet with a draft release, click on the release and then select `Finalize Release` from the dropdown menu.
 
