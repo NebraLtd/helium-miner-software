@@ -16,15 +16,23 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Random sleep (balena API workaround)
+        run:  sleep $[ ( $RANDOM % 180 )  + 1 ]s
       - name: Change i2c bus for RockPi
         if: matrix.sbc == 'rockpi'
         run: |
           sed -i -E "s/\/dev\/i2c-1:\/dev\/i2c-1/\/dev\/i2c-7:\/dev\/i2c-7/g" docker-compose.yml
           ROCKPI="-rockpi"
           echo "ROCKPI=$ROCKPI" >> $GITHUB_ENV
-      - name: Balena Deploy
+      - name: Balena Deploy (ROCK Pi)
         uses: nebraltd/balena-cli-action@v12.54.5
-        if: success()
+        if: matrix.sbc == 'rockpi' && success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
           balena_command: "deploy nebraltd/helium-testnet${{ env.ROCKPI }} --logs --debug --nocache --build"
+      - name: Balena Deploy (RasPi)
+        uses: nebraltd/balena-cli-action@v12.54.5
+        if: matrix.sbc == 'raspi' && success()
+        with:
+          balena_api_token: ${{secrets.BALENA_API_TOKEN_1}}
+          balena_command: "deploy nebraltd/helium-testnet --logs --debug --nocache --build"
