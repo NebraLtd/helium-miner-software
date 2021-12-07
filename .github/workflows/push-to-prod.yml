@@ -26,12 +26,18 @@ jobs:
           sed -i -E "s/\/dev\/i2c-1:\/dev\/i2c-1/\/dev\/i2c-7:\/dev\/i2c-7/g" docker-compose.yml
           ROCKPI="-rockpi"
           echo "ROCKPI=$ROCKPI" >> $GITHUB_ENV
-      - name: Balena Deploy
+      - name: Balena Deploy (ROCK Pi)
         uses: nebraltd/balena-cli-action@v12.54.5
-        if: success()
+        if: matrix.sbc == 'rockpi' && success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
           balena_command: "deploy nebraltd/helium-${{ matrix.variant }}-${{ matrix.frequency }}${{ env.ROCKPI }} --logs --debug --nocache --build"
+      - name: Balena Deploy (RasPi)
+        uses: nebraltd/balena-cli-action@v12.54.5
+        if: matrix.sbc == 'raspi' && success()
+        with:
+          balena_api_token: ${{secrets.BALENA_API_TOKEN_1}}
+          balena_command: "deploy nebraltd/helium-${{ matrix.variant }}-${{ matrix.frequency }} --logs --debug --nocache --build"
 
   open-fleet:
     runs-on: ubuntu-latest
@@ -44,7 +50,7 @@ jobs:
         uses: nebraltd/balena-cli-action@v12.54.5
         if: success()
         with:
-          balena_api_token: ${{secrets.BALENA_API_TOKEN}}
+          balena_api_token: ${{secrets.BALENA_API_TOKEN_2}}
           balena_command: "deploy nebraltd/helium-miner --logs --debug --nocache --build"
 
   commercial:
@@ -58,5 +64,5 @@ jobs:
         uses: nebraltd/balena-cli-action@v12.54.5
         if: success()
         with:
-          balena_api_token: ${{secrets.BALENA_API_TOKEN}}
+          balena_api_token: ${{secrets.BALENA_API_TOKEN_3}}
           balena_command: "deploy nebraltd/helium-miner-commercial --logs --debug --nocache --build"
