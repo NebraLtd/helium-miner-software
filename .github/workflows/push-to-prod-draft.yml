@@ -1,10 +1,7 @@
-name: BalenaCloud Deploy (Production)
+name: BalenaCloud Deploy (Production - Draft Deploy)
 
 on:
-  push:
-    # Only run workflow for pushes to specific branches
-    branches:
-      - production
+  workflow_dispatch:
 
 jobs:
   build-prod:
@@ -18,6 +15,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          ref: production
       - name: Random sleep (balena API workaround)
         run:  sleep $[ ( $RANDOM % 180 )  + 1 ]s
       - name: Change i2c bus for RockPi
@@ -31,13 +30,15 @@ jobs:
         if: success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
-          balena_command: "deploy nebraltd/helium-${{ matrix.variant }}-${{ matrix.frequency }}${{ env.ROCKPI }} --logs --debug --nocache --build"
+          balena_command: "deploy nebraltd/helium-${{ matrix.variant }}-${{ matrix.frequency }}${{ env.ROCKPI }} --logs --debug --nocache --build --draft"
 
   open-fleet:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          ref: production
       - name: Random sleep (balena API workaround)
         run:  sleep $[ ( $RANDOM % 180 )  + 1 ]s
       - name: Balena Deploy
@@ -45,13 +46,15 @@ jobs:
         if: success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
-          balena_command: "deploy nebraltd/helium-miner --logs --debug --nocache --build"
+          balena_command: "deploy nebraltd/helium-miner --logs --debug --nocache --build --draft"
 
   commercial:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          ref: production
       - name: Random sleep (balena API workaround)
         run:  sleep $[ ( $RANDOM % 180 )  + 1 ]s
       - name: Balena Deploy
@@ -59,4 +62,4 @@ jobs:
         if: success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
-          balena_command: "deploy nebraltd/helium-miner-commercial --logs --debug --nocache --build"
+          balena_command: "deploy nebraltd/helium-miner-commercial --logs --debug --nocache --build --draft"
