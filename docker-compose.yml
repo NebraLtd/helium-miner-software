@@ -8,7 +8,7 @@ services:
       - dbus-session
       - diagnostics
     environment:
-      - FIRMWARE_VERSION=2021.12.14.0
+      - FIRMWARE_VERSION=2021.12.14.0-1
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
       - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
     privileged: true
@@ -25,7 +25,7 @@ services:
     stop_signal: SIGINT
 
   packet-forwarder:
-    image: nebraltd/hm-pktfwd:8d8de7d
+    image: nebraltd/hm-pktfwd:be7c4eb
     depends_on:
       - helium-miner
     restart: always
@@ -60,7 +60,7 @@ services:
   diagnostics:
     image: nebraltd/hm-diag:4ab18f4
     environment:
-      - FIRMWARE_VERSION=2021.12.14.0
+      - FIRMWARE_VERSION=2021.12.14.0-1
       - DIAGNOSTICS_VERSION=c22a429
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
     volumes:
@@ -92,7 +92,7 @@ services:
       - dbus:/session/dbus
     environment:
       - DBUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - FIRMWARE_VERSION=2021.12.14.0
+      - FIRMWARE_VERSION=2021.12.14.0-1
 
 volumes:
   miner-storage:
