@@ -56,6 +56,7 @@ services:
     environment:
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
       - RELEASE_BUMPER=foobar
+      - FIRMWARE_VERSION=2021.12.14.0-5
 
   diagnostics:
     image: nebraltd/hm-diag:86fa294
