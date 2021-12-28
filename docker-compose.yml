@@ -64,7 +64,7 @@ services:
     image: nebraltd/hm-diag:86fa294
     environment:
       - FIRMWARE_VERSION=2021.12.14.0-5
-      - DIAGNOSTICS_VERSION=c22a429
+      - DIAGNOSTICS_VERSION=86fa294
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
     volumes:
       - pktfwdr:/var/pktfwd
