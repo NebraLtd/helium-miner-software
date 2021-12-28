@@ -32,6 +32,8 @@ services:
     privileged: true
     volumes:
       - pktfwdr:/var/pktfwd
+    environment:
+      - FIRMWARE_VERSION=2021.12.14.0-5
 
   helium-miner:
     image: nebraltd/hm-miner:arm64-ef872f3
@@ -85,6 +87,8 @@ services:
     restart: on-failure
     volumes:
       - pktfwdr:/var/pktfwd
+    environment:
+      - FIRMWARE_VERSION=2021.12.14.0-5
 
   dbus-session:
     image: balenablocks/dbus:rpi-0.0.2
