@@ -64,7 +64,7 @@ services:
     image: nebraltd/hm-diag:dfa4e11
     environment:
       - FIRMWARE_VERSION=2021.12.14.0-6
-      - DIAGNOSTICS_VERSION=86fa294
+      - DIAGNOSTICS_VERSION=dfa4e11
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
     volumes:
       - pktfwdr:/var/pktfwd
