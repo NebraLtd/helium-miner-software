@@ -61,10 +61,10 @@ services:
       - FIRMWARE_VERSION=2022.01.04.0-2
 
   diagnostics:
-    image: nebraltd/hm-diag:b49ee58
+    image: nebraltd/hm-diag:9e1aedf
     environment:
       - FIRMWARE_VERSION=2022.01.04.0-2
-      - DIAGNOSTICS_VERSION=b49ee58
+      - DIAGNOSTICS_VERSION=9e1aedf
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
     volumes:
       - pktfwdr:/var/pktfwd
