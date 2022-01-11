@@ -66,7 +66,7 @@ services:
       - pktfwdr:/var/pktfwd
       - miner-storage:/var/data
     ports:
-      - "80:7000"
+      - "80:5000"
     cap_add:
       - SYS_RAWIO
     devices:

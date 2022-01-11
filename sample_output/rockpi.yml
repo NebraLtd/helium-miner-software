@@ -32,9 +32,11 @@ services:
     privileged: true
     volumes:
       - pktfwdr:/var/pktfwd
+    environment:
+      - FIRMWARE_VERSION=2021.11.22.0-3
 
   helium-miner:
-    image: nebraltd/hm-miner:x86_64-d760384
+    image: nebraltd/hm-miner:arm64-d760384
     depends_on:
       - dbus-session
       - diagnostics
@@ -55,6 +57,7 @@ services:
     restart: on-failure
     environment:
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
+      - FIRMWARE_VERSION=2021.11.22.0-3
 
   diagnostics:
     image: nebraltd/hm-diag:625ea72
@@ -66,7 +69,7 @@ services:
       - pktfwdr:/var/pktfwd
       - miner-storage:/var/data
     ports:
-      - "80:7000"
+      - "80:5000"
     cap_add:
       - SYS_RAWIO
     devices:

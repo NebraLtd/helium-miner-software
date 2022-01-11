@@ -1,10 +1,10 @@
-name: BalenaCloud Deploy (Testnet)
+name: Test Device Config Generate
 
 on:
   push:
     # Only run workflow for pushes to specific branches
     branches:
-      - master
+      - kashif/use-dot-env-file
 
 jobs:
   testnet:
@@ -21,17 +21,13 @@ jobs:
           python gen_docker_compose.py rockpi -o sample_output/rockpi.yml
           rm docker-compose.yml
           cp sample_output/rockpi.yml docker-compose.yml
+          cat docker-compose.yml
           ROCKPI="-rockpi"
           echo "ROCKPI=$ROCKPI" >> $GITHUB_ENV
-      - name: Generate Docker Compose for RockPi
+      - name: Generate Docker Compose for Raspberry Pi
         if: matrix.sbc == 'raspi'
         run: |
           python gen_docker_compose.py rpi -o sample_output/rpi.yml
           rm docker-compose.yml
           cp sample_output/rpi.yml docker-compose.yml
-      - name: Balena Deploy
-        uses: nebraltd/balena-cli-action@v12.54.5
-        if: success()
-        with:
-          balena_api_token: ${{secrets.BALENA_API_TOKEN}}
-          balena_command: "deploy nebraltd/helium-testnet${{ env.ROCKPI }} --logs --debug --nocache --build"
+          cat docker-compose.yml
