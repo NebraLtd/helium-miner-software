@@ -24,7 +24,7 @@ jobs:
           cp sample_output/rockpi.yml docker-compose.yml
           ROCKPI="-rockpi"
           echo "ROCKPI=$ROCKPI" >> $GITHUB_ENV
-      - name: Generate Docker Compose for RockPi
+      - name: Generate Docker Compose for RaspberryPi
         if: matrix.sbc == 'raspi'
         run: |
           python gen_docker_compose.py rpi -o sample_output/rpi.yml
