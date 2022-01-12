@@ -88,6 +88,28 @@ the [production branch](https://github.com/NebraLtd/helium-miner-software/tree/p
 
 Do note that the Docker Tag is hard coded in the `docker-compose.yml` file.
 
+## Balena deploy builds
+
+Whilst in theory you can run matrix builds to build to several balena fleets simultaneously using GitHub Actions we found (at the time of writing - December 2021) that this did not perform satisfactorily in practice. We deploy on a production release now to 16 separate fleets meaning 16 separate builds triggered via the balena API simultaneously. Somewhere between 50 and 100% of the builds would fail each time.
+
+We have discovered a useful fix for this using the following two workarounds:
+- use [multiple API keys](https://github.com/NebraLtd/helium-miner-software/pull/301) within the action to avoid any rate limiting or timeout issues.
+- add random periods of delay to each matrix action run using using a [random sleep on the command line](https://github.com/NebraLtd/helium-miner-software/pull/300) within the action.
+
+This has allowed our builds to continue deploying successfully.
+
+## Dealing with failed builds
+
+On occasion (as originally described [in this issue](https://github.com/NebraLtd/helium-miner-software/issues/293)) CI/CD builds via GitHub actions will fail to push correctly to balena. We have found that as a workaround, it is often possible to force push these to balena as draft releases using the `--draft` tag in the `balena deploy` command of the balena CLI tool. For example:
+
+```
+balena deploy nebraltd/helium-indoor-868 --logs --debug --nocache --build --draft
+```
+
+This can either be done manually by someone with the right privileges on our balenaCloud account, or it can be done by triggering the `workflow_dispatch:` event on the [push-to-prod-draft.yml github action](https://github.com/NebraLtd/helium-miner-software/blob/master/.github/workflows/push-to-prod-draft.yml) from the GitHub actions menu (making sure to use the production branch). There is also an equivalent action for our [testnet fleet](https://github.com/NebraLtd/helium-miner-software/blob/master/.github/workflows/push-to-testnet-draft.yml).
+
+Once this has completed and the draft builds have been pushed to balena, you will need to either finalise the releases using balena CLI locally, or visit the releases menu of each fleet with a draft release, click on the release and then select `Finalize Release` from the dropdown menu.
+
 # Production Checks
 
 @TODO:

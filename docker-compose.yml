@@ -3,12 +3,12 @@ version: '2'
 services:
 
   gateway-config:
-    image: nebraltd/hm-config:8cc544f
+    image: nebraltd/hm-config:900aeed
     depends_on:
       - dbus-session
       - diagnostics
     environment:
-      - FIRMWARE_VERSION=2021.11.26.1-3
+      - FIRMWARE_VERSION=2022.01.04.0-2
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
       - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
     privileged: true
@@ -25,16 +25,18 @@ services:
     stop_signal: SIGINT
 
   packet-forwarder:
-    image: nebraltd/hm-pktfwd:8d8de7d
+    image: nebraltd/hm-pktfwd:77bfb42
     depends_on:
       - helium-miner
     restart: always
     privileged: true
     volumes:
       - pktfwdr:/var/pktfwd
+    environment:
+      - FIRMWARE_VERSION=2022.01.04.0-2
 
   helium-miner:
-    image: nebraltd/hm-miner:arm64-d760384
+    image: nebraltd/hm-miner:arm64-99d220e
     depends_on:
       - dbus-session
       - diagnostics
@@ -57,10 +59,10 @@ services:
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
 
   diagnostics:
-    image: nebraltd/hm-diag:625ea72
+    image: nebraltd/hm-diag:6f323fe
     environment:
-      - FIRMWARE_VERSION=2021.11.26.1-3
-      - DIAGNOSTICS_VERSION=625ea72
+      - FIRMWARE_VERSION=2022.01.04.0-2
+      - DIAGNOSTICS_VERSION=6f323fe
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
     volumes:
       - pktfwdr:/var/pktfwd
@@ -71,17 +73,20 @@ services:
       - SYS_RAWIO
     devices:
       - /dev/i2c-1:/dev/i2c-1
+    privileged: true
     labels:
       io.balena.features.sysfs: 1
       io.balena.features.procfs: 1
       io.balena.features.dbus: 1
 
   upnp:
-    image: nebraltd/hm-upnp:b575a2f
+    image: nebraltd/hm-upnp:e6aae2b
     network_mode: host
     restart: on-failure
     volumes:
       - pktfwdr:/var/pktfwd
+    environment:
+      - FIRMWARE_VERSION=2022.01.04.0-2
 
   dbus-session:
     image: balenablocks/dbus:rpi-0.0.2

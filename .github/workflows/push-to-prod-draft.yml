@@ -1,10 +1,7 @@
-name: BalenaCloud Deploy (Production)
+name: BalenaCloud Deploy (Production - Draft Deploy)
 
 on:
-  push:
-    # Only run workflow for pushes to specific branches
-    branches:
-      - production
+  workflow_dispatch:
 
 jobs:
   build-prod:
@@ -18,38 +15,36 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Generate Docker Compose for RockPi
+        with:
+          ref: production
+      - name: Random sleep (balena API workaround)
+        run:  sleep $[ ( $RANDOM % 180 )  + 1 ]s
+      - name: Change i2c bus for RockPi
         if: matrix.sbc == 'rockpi'
         run: |
-          python gen_docker_compose.py rockpi -o sample_output/rockpi.yml
-          rm docker-compose.yml
-          cp sample_output/rockpi.yml docker-compose.yml
+          sed -i -E "s/\/dev\/i2c-1:\/dev\/i2c-1/\/dev\/i2c-7:\/dev\/i2c-7/g" docker-compose.yml
           ROCKPI="-rockpi"
           echo "ROCKPI=$ROCKPI" >> $GITHUB_ENV
-      - name: Generate Docker Compose for RockPi
-        if: matrix.sbc == 'raspi'
-        run: |
-          python gen_docker_compose.py rpi -o sample_output/rpi.yml
-          rm docker-compose.yml
-          cp sample_output/rpi.yml docker-compose.yml
-      - name: Balena Deploy
-        uses: nebraltd/balena-cli-action@v12.54.5
+      - name: Balena Deploy (ROCK Pi)
         if: matrix.sbc == 'rockpi' && success()
+        uses: nebraltd/balena-cli-action@v12.54.5
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
-          balena_command: "deploy nebraltd/helium-${{ matrix.variant }}-${{ matrix.frequency }}${{ env.ROCKPI }} --logs --debug --nocache --build"
+          balena_command: "deploy nebraltd/helium-${{ matrix.variant }}-${{ matrix.frequency }}${{ env.ROCKPI }} --logs --debug --nocache --build --draft"
       - name: Balena Deploy (RasPi)
-        uses: nebraltd/balena-cli-action@v12.54.5
         if: matrix.sbc == 'raspi' && success()
+        uses: nebraltd/balena-cli-action@v12.54.5
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_1}}
-          balena_command: "deploy nebraltd/helium-${{ matrix.variant }}-${{ matrix.frequency }} --logs --debug --nocache --build"
+          balena_command: "deploy nebraltd/helium-${{ matrix.variant }}-${{ matrix.frequency }} --logs --debug --nocache --build --draft"
 
   open-fleet:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          ref: production
       - name: Random sleep (balena API workaround)
         run:  sleep $[ ( $RANDOM % 180 )  + 1 ]s
       - name: Balena Deploy
@@ -57,13 +52,15 @@ jobs:
         if: success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_2}}
-          balena_command: "deploy nebraltd/helium-miner --logs --debug --nocache --build"
+          balena_command: "deploy nebraltd/helium-miner --logs --debug --nocache --build --draft"
 
   commercial:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          ref: production
       - name: Random sleep (balena API workaround)
         run:  sleep $[ ( $RANDOM % 180 )  + 1 ]s
       - name: Balena Deploy
@@ -71,4 +68,4 @@ jobs:
         if: success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_3}}
-          balena_command: "deploy nebraltd/helium-miner-commercial --logs --debug --nocache --build"
+          balena_command: "deploy nebraltd/helium-miner-commercial --logs --debug --nocache --build --draft"
