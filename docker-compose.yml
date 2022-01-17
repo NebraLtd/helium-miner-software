@@ -8,7 +8,7 @@ services:
       - dbus-session
       - diagnostics
     environment:
-      - FIRMWARE_VERSION=2022.01.04.0-2
+      - FIRMWARE_VERSION=2022.01.12.1
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
       - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
     privileged: true
@@ -33,10 +33,10 @@ services:
     volumes:
       - pktfwdr:/var/pktfwd
     environment:
-      - FIRMWARE_VERSION=2022.01.04.0-2
+      - FIRMWARE_VERSION=2022.01.12.1
 
   helium-miner:
-    image: nebraltd/hm-miner:arm64-99d220e
+    image: nebraltd/hm-miner:arm64-78f6dae
     depends_on:
       - dbus-session
       - diagnostics
@@ -57,12 +57,13 @@ services:
     restart: on-failure
     environment:
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - FIRMWARE_VERSION=2022.01.04.0-2
+      - RELEASE_BUMPER=foobar
+      - FIRMWARE_VERSION=2022.01.12.1
 
   diagnostics:
     image: nebraltd/hm-diag:6f323fe
     environment:
-      - FIRMWARE_VERSION=2022.01.04.0-2
+      - FIRMWARE_VERSION=2022.01.12.1
       - DIAGNOSTICS_VERSION=6f323fe
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
     volumes:
@@ -87,7 +88,7 @@ services:
     volumes:
       - pktfwdr:/var/pktfwd
     environment:
-      - FIRMWARE_VERSION=2022.01.04.0-2
+      - FIRMWARE_VERSION=2022.01.12.1
 
   dbus-session:
     image: balenablocks/dbus:rpi-0.0.2
@@ -96,7 +97,8 @@ services:
       - dbus:/session/dbus
     environment:
       - DBUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - FIRMWARE_VERSION=2021.11.22.0-3
+      - FIRMWARE_VERSION=2022.01.12.1
+
 volumes:
   miner-storage:
   miner-log:
