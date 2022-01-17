@@ -3,12 +3,12 @@ version: '2'
 services:
 
   gateway-config:
-    image: nebraltd/hm-config:8cc544f
+    image: nebraltd/hm-config:900aeed
     depends_on:
       - dbus-session
       - diagnostics
     environment:
-      - FIRMWARE_VERSION=2021.11.22.0-3
+      - FIRMWARE_VERSION=2022.01.12.1-1
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
       - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
     privileged: true
@@ -25,16 +25,18 @@ services:
     stop_signal: SIGINT
 
   packet-forwarder:
-    image: nebraltd/hm-pktfwd:8d8de7d
+    image: nebraltd/hm-pktfwd:8aaee4a
     depends_on:
       - helium-miner
     restart: always
     privileged: true
     volumes:
       - pktfwdr:/var/pktfwd
+    environment:
+      - FIRMWARE_VERSION=2022.01.12.1-1
 
   helium-miner:
-    image: nebraltd/hm-miner:arm64-d760384
+    image: nebraltd/hm-miner:arm64-78f6dae
     depends_on:
       - dbus-session
       - diagnostics
@@ -55,12 +57,13 @@ services:
     restart: on-failure
     environment:
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
+      - FIRMWARE_VERSION=2022.01.12.1-1
 
   diagnostics:
-    image: nebraltd/hm-diag:625ea72
+    image: nebraltd/hm-diag:6f323fe
     environment:
-      - FIRMWARE_VERSION=2021.11.22.0-3
-      - DIAGNOSTICS_VERSION=625ea72
+      - FIRMWARE_VERSION=2022.01.12.1-1
+      - DIAGNOSTICS_VERSION=6f323fe
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
     volumes:
       - pktfwdr:/var/pktfwd
@@ -77,9 +80,11 @@ services:
       io.balena.features.dbus: 1
 
   upnp:
-    image: nebraltd/hm-upnp:b575a2f
+    image: nebraltd/hm-upnp:e6aae2b
     network_mode: host
     restart: on-failure
+    environment:
+      - FIRMWARE_VERSION=2022.01.12.1-1
     volumes:
       - pktfwdr:/var/pktfwd
 
@@ -90,7 +95,7 @@ services:
       - dbus:/session/dbus
     environment:
       - DBUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - FIRMWARE_VERSION=2021.11.22.0-3
+      - FIRMWARE_VERSION=2022.01.12.1-1
 volumes:
   miner-storage:
   miner-log:

@@ -83,6 +83,8 @@ services:
     image: nebraltd/hm-upnp:{{UPNP_VERSION}}
     network_mode: host
     restart: on-failure
+    environment:
+      - FIRMWARE_VERSION={{FIRMWARE_VERSION}}
     volumes:
       - pktfwdr:/var/pktfwd
 
