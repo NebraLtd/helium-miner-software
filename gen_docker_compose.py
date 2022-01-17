@@ -72,7 +72,10 @@ class DockerComposer:
             sys.exit(1)
 
         template_args = {}
-        assert 'versions' in self.config
+
+        if 'versions' not in self.config:
+            raise RuntimeError("Bad config, no [versions] section found")
+
         for k, v in self.config['versions'].items():
             template_args[k] = v
 
@@ -80,8 +83,8 @@ class DockerComposer:
             template_args[k] = v
 
         output = template.render(**template_args)
-        open(output_file, 'w').write(output)
-
+        with open(output_file, 'w') as template_output:
+            template_output.write(output)
 
 
 if __name__ == '__main__':

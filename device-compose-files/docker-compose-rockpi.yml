@@ -8,7 +8,7 @@ services:
       - dbus-session
       - diagnostics
     environment:
-      - FIRMWARE_VERSION=2022.01.12.1
+      - FIRMWARE_VERSION=2022.01.12.1-1
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
       - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
     privileged: true
@@ -25,7 +25,7 @@ services:
     stop_signal: SIGINT
 
   packet-forwarder:
-    image: nebraltd/hm-pktfwd:77bfb42
+    image: nebraltd/hm-pktfwd:8aaee4a
     depends_on:
       - helium-miner
     restart: always
@@ -33,7 +33,7 @@ services:
     volumes:
       - pktfwdr:/var/pktfwd
     environment:
-      - FIRMWARE_VERSION=2022.01.12.1
+      - FIRMWARE_VERSION=2022.01.12.1-1
 
   helium-miner:
     image: nebraltd/hm-miner:arm64-78f6dae
@@ -53,17 +53,16 @@ services:
     cap_add:
       - SYS_RAWIO
     devices:
-      - /dev/i2c-1:/dev/i2c-1
+      - /dev/i2c-7:/dev/i2c-7
     restart: on-failure
     environment:
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - RELEASE_BUMPER=foobar
-      - FIRMWARE_VERSION=2022.01.12.1
+      - FIRMWARE_VERSION=2022.01.12.1-1
 
   diagnostics:
     image: nebraltd/hm-diag:6f323fe
     environment:
-      - FIRMWARE_VERSION=2022.01.12.1
+      - FIRMWARE_VERSION=2022.01.12.1-1
       - DIAGNOSTICS_VERSION=6f323fe
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
     volumes:
@@ -74,8 +73,7 @@ services:
     cap_add:
       - SYS_RAWIO
     devices:
-      - /dev/i2c-1:/dev/i2c-1
-    privileged: true
+      - /dev/i2c-7:/dev/i2c-7
     labels:
       io.balena.features.sysfs: 1
       io.balena.features.procfs: 1
@@ -85,10 +83,10 @@ services:
     image: nebraltd/hm-upnp:e6aae2b
     network_mode: host
     restart: on-failure
+    environment:
+      - FIRMWARE_VERSION=2022.01.12.1-1
     volumes:
       - pktfwdr:/var/pktfwd
-    environment:
-      - FIRMWARE_VERSION=2022.01.12.1
 
   dbus-session:
     image: balenablocks/dbus:rpi-0.0.2
@@ -97,11 +95,10 @@ services:
       - dbus:/session/dbus
     environment:
       - DBUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - FIRMWARE_VERSION=2022.01.12.1
+      - FIRMWARE_VERSION=2022.01.12.1-1
 
 volumes:
   miner-storage:
   miner-log:
   pktfwdr:
   dbus:
-

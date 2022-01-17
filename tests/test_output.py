@@ -1,21 +1,19 @@
 """Test cases for confirming that generated docker compose files are valid."""
 
-import unittest
-from subprocess import check_call
-from os.path import abspath, dirname, join, exists
-from os import unlink
 import sys
+import unittest
+from os import unlink
+from subprocess import check_call
+from gen_docker_compose import DockerComposer
+from os.path import abspath, dirname, join, exists
 
 here = dirname(abspath(__file__))
 parent = dirname(here)
-templates_folder = join(here, 'data')
 template_file = 'docker-compose.template'
-rpi_output_file = join(here, 'data', 'rpi.yml')
-rockpi_output_file = join(here, 'data', 'rockpi.yml')
+rpi_output_file = join(here, 'rpi.yml')
+rockpi_output_file = join(here, 'rockpi.yml')
 
 sys.path.insert(1, parent)
-
-from gen_docker_compose import DockerComposer
 
 
 class TestValidComposeFileOutput(unittest.TestCase):

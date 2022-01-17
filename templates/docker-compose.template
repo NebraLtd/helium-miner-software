@@ -96,6 +96,7 @@ services:
     environment:
       - DBUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
       - FIRMWARE_VERSION={{FIRMWARE_VERSION}}
+
 volumes:
   miner-storage:
   miner-log:

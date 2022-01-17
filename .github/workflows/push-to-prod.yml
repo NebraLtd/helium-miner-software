@@ -23,17 +23,13 @@ jobs:
       - name: Generate Docker Compose for RockPi
         if: matrix.sbc == 'rockpi'
         run: |
-          python gen_docker_compose.py rockpi -o sample_output/rockpi.yml
-          rm docker-compose.yml
-          cp sample_output/rockpi.yml docker-compose.yml
+          python gen_docker_compose.py rockpi -o docker-compose.yml
           ROCKPI="-rockpi"
           echo "ROCKPI=$ROCKPI" >> $GITHUB_ENV
       - name: Generate Docker Compose for RaspberryPi
         if: matrix.sbc == 'raspi'
         run: |
-          python gen_docker_compose.py rpi -o sample_output/rpi.yml
-          rm docker-compose.yml
-          cp sample_output/rpi.yml docker-compose.yml
+          python gen_docker_compose.py rpi -o docker-compose.yml
       - name: Balena Deploy
         uses: nebraltd/balena-cli-action@v13.1.10
         if: matrix.sbc == 'rockpi' && success()
@@ -54,6 +50,9 @@ jobs:
         uses: actions/checkout@v2
       - name: Random sleep (balena API workaround)
         run:  sleep $[ ( $RANDOM % 180 )  + 1 ]s
+      - name: Generate Docker Compose for RaspberryPi
+        run: |
+          python gen_docker_compose.py rpi -o docker-compose.yml
       - name: Balena Deploy
         uses: nebraltd/balena-cli-action@v13.1.10
         if: success()
@@ -68,6 +67,10 @@ jobs:
         uses: actions/checkout@v2
       - name: Random sleep (balena API workaround)
         run:  sleep $[ ( $RANDOM % 180 )  + 1 ]s
+      - name: Generate Docker Compose for RaspberryPi
+        if: matrix.sbc == 'raspi'
+        run: |
+          python gen_docker_compose.py rpi -o docker-compose.yml
       - name: Balena Deploy
         uses: nebraltd/balena-cli-action@v13.1.10
         if: success()
