@@ -57,6 +57,7 @@ services:
     restart: on-failure
     environment:
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
+      - FIRMWARE_VERSION=2022.01.04.0-2
 
   diagnostics:
     image: nebraltd/hm-diag:6f323fe

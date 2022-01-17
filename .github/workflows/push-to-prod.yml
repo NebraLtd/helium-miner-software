@@ -18,6 +18,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Random sleep (balena API workaround)
+        run:  sleep $[ ( $RANDOM % 180 )  + 1 ]s
       - name: Generate Docker Compose for RockPi
         if: matrix.sbc == 'rockpi'
         run: |
@@ -33,13 +35,13 @@ jobs:
           rm docker-compose.yml
           cp sample_output/rpi.yml docker-compose.yml
       - name: Balena Deploy
-        uses: nebraltd/balena-cli-action@v12.54.5
+        uses: nebraltd/balena-cli-action@v13.1.10
         if: matrix.sbc == 'rockpi' && success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
           balena_command: "deploy nebraltd/helium-${{ matrix.variant }}-${{ matrix.frequency }}${{ env.ROCKPI }} --logs --debug --nocache --build"
       - name: Balena Deploy (RasPi)
-        uses: nebraltd/balena-cli-action@v12.54.5
+        uses: nebraltd/balena-cli-action@v13.1.10
         if: matrix.sbc == 'raspi' && success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_1}}
@@ -53,7 +55,7 @@ jobs:
       - name: Random sleep (balena API workaround)
         run:  sleep $[ ( $RANDOM % 180 )  + 1 ]s
       - name: Balena Deploy
-        uses: nebraltd/balena-cli-action@v12.54.5
+        uses: nebraltd/balena-cli-action@v13.1.10
         if: success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_2}}
@@ -67,7 +69,7 @@ jobs:
       - name: Random sleep (balena API workaround)
         run:  sleep $[ ( $RANDOM % 180 )  + 1 ]s
       - name: Balena Deploy
-        uses: nebraltd/balena-cli-action@v12.54.5
+        uses: nebraltd/balena-cli-action@v13.1.10
         if: success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_3}}
