@@ -19,21 +19,25 @@ jobs:
           ref: production
       - name: Random sleep (balena API workaround)
         run:  sleep $[ ( $RANDOM % 180 )  + 1 ]s
-      - name: Change i2c bus for RockPi
+      - name: Generate Docker Compose for RockPi
         if: matrix.sbc == 'rockpi'
         run: |
-          sed -i -E "s/\/dev\/i2c-1:\/dev\/i2c-1/\/dev\/i2c-7:\/dev\/i2c-7/g" docker-compose.yml
+          python gen_docker_compose.py rockpi -o docker-compose.yml
           ROCKPI="-rockpi"
           echo "ROCKPI=$ROCKPI" >> $GITHUB_ENV
+      - name: Generate Docker Compose for RaspberryPi
+        if: matrix.sbc == 'raspi'
+        run: |
+          python gen_docker_compose.py rpi -o docker-compose.yml
       - name: Balena Deploy (ROCK Pi)
         if: matrix.sbc == 'rockpi' && success()
-        uses: nebraltd/balena-cli-action@v12.54.5
+        uses: nebraltd/balena-cli-action@v13.1.10
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
           balena_command: "deploy nebraltd/helium-${{ matrix.variant }}-${{ matrix.frequency }}${{ env.ROCKPI }} --logs --debug --nocache --build --draft"
       - name: Balena Deploy (RasPi)
         if: matrix.sbc == 'raspi' && success()
-        uses: nebraltd/balena-cli-action@v12.54.5
+        uses: nebraltd/balena-cli-action@v13.1.10
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_1}}
           balena_command: "deploy nebraltd/helium-${{ matrix.variant }}-${{ matrix.frequency }} --logs --debug --nocache --build --draft"
@@ -47,8 +51,11 @@ jobs:
           ref: production
       - name: Random sleep (balena API workaround)
         run:  sleep $[ ( $RANDOM % 180 )  + 1 ]s
+      - name: Generate Docker Compose for RaspberryPi
+        run: |
+          python gen_docker_compose.py rpi -o docker-compose.yml
       - name: Balena Deploy
-        uses: nebraltd/balena-cli-action@v12.54.5
+        uses: nebraltd/balena-cli-action@v13.1.10
         if: success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_2}}
@@ -63,8 +70,11 @@ jobs:
           ref: production
       - name: Random sleep (balena API workaround)
         run:  sleep $[ ( $RANDOM % 180 )  + 1 ]s
+      - name: Generate Docker Compose for RaspberryPi
+        run: |
+          python gen_docker_compose.py rpi -o docker-compose.yml
       - name: Balena Deploy
-        uses: nebraltd/balena-cli-action@v12.54.5
+        uses: nebraltd/balena-cli-action@v13.1.10
         if: success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_3}}
