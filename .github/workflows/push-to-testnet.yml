@@ -5,6 +5,8 @@ on:
     # Only run workflow for pushes to specific branches
     branches:
       - master
+    paths-ignore:
+      - 'device-compose-files/**'
 
 jobs:
   testnet:
