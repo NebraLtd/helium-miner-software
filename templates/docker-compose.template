@@ -74,6 +74,7 @@ services:
       - SYS_RAWIO
     devices:
       - {{I2C_DEVICE}}:{{I2C_DEVICE}}
+    privileged: true
     labels:
       io.balena.features.sysfs: 1
       io.balena.features.procfs: 1
