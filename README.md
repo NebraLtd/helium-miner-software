@@ -1,6 +1,6 @@
 # Helium Miner Software
 
-This repository includes the main [docker-compose.yml](https://github.com/NebraLtd/helium-miner-software/blob/master/docker-compose.yml) file that powers the Nebra miners.
+This repository includes the main docker-compose.yml(Follow the steps to generate this [here](#generating-docker-compose-file)) file that powers the Nebra miners.
 
 The `docker-compose.yml` file is pushed to [Balena](https://www.balena.io/) (using GitHub Actions), which in turn pulls down the various Docker images outlined below.
 
@@ -55,7 +55,9 @@ This is a guide to help you get started with the repository and get it running o
 - Git installed - [download here](https://git-scm.com/downloads)
 - [Balena CLI](https://github.com/balena-io/balena-cli) (Install located on Balena step in quick start steps below)
 
-### Generating Docker Compose file (Local testing)
+### Generating Docker Compose File
+
+This is used for deploying locally, it automatically generates one for each device as part of the github workflow.
 
 You may notice that after cloning the repo that you are missing a docker-compose.yml file which is required to push the containers to balena. This is a result of us generating the docker-compose file based on a settings.ini file in the root directory. Here are the steps of generating a new docker-compose.yml file:
 
