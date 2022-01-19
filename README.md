@@ -1,6 +1,6 @@
 # Helium Miner Software
 
-This repository includes the main docker-compose.yml(Follow the steps to generate this [here](#generating-docker-compose-file)) file that powers the Nebra miners.
+This repository generates the main docker-compose.yml(Follow the steps to generate this [here](#generating-docker-compose-file)) file that powers the Nebra miners.
 
 The `docker-compose.yml` file is pushed to [Balena](https://www.balena.io/) (using GitHub Actions), which in turn pulls down the various Docker images outlined below.
 
@@ -44,7 +44,6 @@ Repo: [github.com/balenablocks/dbus](https://github.com/balenablocks/dbus)
 
 This container configures a DBus session bus instance that is used by the gateway config container to communicate with the miner code (note that there is also a separate system bus running on the host OS which is used by gateway config to communicate with bluez for configuring Bluetooth services). This removes the need to have a custom `com.helium.Miner.conf` dbus config file on the host OS as was done previously (and meant we had to run a custom balena device type).
 
-
 #  Quick Start
 
 This is a guide to help you get started with the repository and get it running on your local device. This guide is focused on pushing the repository onto a Raspberry Pi using Balena.
@@ -59,7 +58,7 @@ This is a guide to help you get started with the repository and get it running o
 
 This is used for deploying locally, it automatically generates one for each device as part of the github workflow.
 
-You may notice that after cloning the repo that you are missing a docker-compose.yml file which is required to push the containers to balena. This is a result of us generating the docker-compose file based on a settings.ini file in the root directory. Here are the steps of generating a new docker-compose.yml file:
+You may notice that after cloning the repo that you are missing a docker-compose.yml file which is required to push the containers to balena. This is a result of us generating the docker-compose file based on a settings.ini file in the root directory. You can also find the latest docker-compose files used in production in the device-compose-files folder (Generated via github workflow). Here are the steps of generating a new docker-compose.yml file:
 
 **Step 1:** Update the settings.ini file to accept the new values which you wish to set in the generation of the docker-compose.yml file
 
