@@ -1,0 +1,105 @@
+version: '2'
+
+services:
+
+  gateway-config:
+    image: nebraltd/hm-config:900aeed
+    depends_on:
+      - dbus-session
+      - diagnostics
+    environment:
+      - FIRMWARE_VERSION=2022.01.12.1-1
+      - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
+      - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
+    privileged: true
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - miner-storage:/var/data
+      - dbus:/session/dbus
+    labels:
+      io.balena.features.sysfs: 1
+      io.balena.features.kernel-modules: 1
+      io.balena.features.dbus: 1
+    stop_signal: SIGINT
+
+  packet-forwarder:
+    image: nebraltd/hm-pktfwd:8aaee4a
+    depends_on:
+      - helium-miner
+    restart: always
+    privileged: true
+    volumes:
+      - pktfwdr:/var/pktfwd
+    environment:
+      - FIRMWARE_VERSION=2022.01.12.1-1
+
+  helium-miner:
+    image: nebraltd/hm-miner:arm64-78f6dae
+    depends_on:
+      - dbus-session
+      - diagnostics
+    expose:
+      - "1680"
+      - "4467"
+    ports:
+      - "44158:44158/tcp"
+    volumes:
+      - miner-storage:/var/data
+      - miner-log:/var/log/miner
+      - pktfwdr:/var/pktfwd
+      - dbus:/session/dbus
+    cap_add:
+      - SYS_RAWIO
+    devices:
+      - /dev/i2c-1:/dev/i2c-1
+    restart: on-failure
+    environment:
+      - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
+      - FIRMWARE_VERSION=2022.01.12.1-1
+
+  diagnostics:
+    image: nebraltd/hm-diag:6f323fe
+    environment:
+      - FIRMWARE_VERSION=2022.01.12.1-1
+      - DIAGNOSTICS_VERSION=6f323fe
+      - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
+    volumes:
+      - pktfwdr:/var/pktfwd
+      - miner-storage:/var/data
+    ports:
+      - "80:5000"
+    cap_add:
+      - SYS_RAWIO
+    devices:
+      - /dev/i2c-1:/dev/i2c-1
+    privileged: true
+    labels:
+      io.balena.features.sysfs: 1
+      io.balena.features.procfs: 1
+      io.balena.features.dbus: 1
+
+  upnp:
+    image: nebraltd/hm-upnp:e6aae2b
+    network_mode: host
+    restart: on-failure
+    environment:
+      - FIRMWARE_VERSION=2022.01.12.1-1
+    volumes:
+      - pktfwdr:/var/pktfwd
+
+  dbus-session:
+    image: balenablocks/dbus:rpi-0.0.2
+    restart: always
+    volumes:
+      - dbus:/session/dbus
+    environment:
+      - DBUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
+      - FIRMWARE_VERSION=2022.01.12.1-1
+
+volumes:
+  miner-storage:
+  miner-log:
+  pktfwdr:
+  dbus:

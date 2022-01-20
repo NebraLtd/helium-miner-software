@@ -3,12 +3,12 @@ version: '2'
 services:
 
   gateway-config:
-    image: nebraltd/hm-config:900aeed
+    image: nebraltd/hm-config:{{CONFIG_VERSION}}
     depends_on:
       - dbus-session
       - diagnostics
     environment:
-      - FIRMWARE_VERSION=2022.01.12.1
+      - FIRMWARE_VERSION={{FIRMWARE_VERSION}}
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
       - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
     privileged: true
@@ -25,7 +25,7 @@ services:
     stop_signal: SIGINT
 
   packet-forwarder:
-    image: nebraltd/hm-pktfwd:77bfb42
+    image: nebraltd/hm-pktfwd:{{PKTFWD_VERSION}}
     depends_on:
       - helium-miner
     restart: always
@@ -33,10 +33,10 @@ services:
     volumes:
       - pktfwdr:/var/pktfwd
     environment:
-      - FIRMWARE_VERSION=2022.01.12.1
+      - FIRMWARE_VERSION={{FIRMWARE_VERSION}}
 
   helium-miner:
-    image: nebraltd/hm-miner:arm64-78f6dae
+    image: nebraltd/hm-miner:{{ARCH}}-{{MINER_VERSION}}
     depends_on:
       - dbus-session
       - diagnostics
@@ -53,18 +53,17 @@ services:
     cap_add:
       - SYS_RAWIO
     devices:
-      - /dev/i2c-1:/dev/i2c-1
+      - {{I2C_DEVICE}}:{{I2C_DEVICE}}
     restart: on-failure
     environment:
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - RELEASE_BUMPER=foobar
-      - FIRMWARE_VERSION=2022.01.12.1
+      - FIRMWARE_VERSION={{FIRMWARE_VERSION}}
 
   diagnostics:
-    image: nebraltd/hm-diag:6f323fe
+    image: nebraltd/hm-diag:{{DIAGNOSTICS_VERSION}}
     environment:
-      - FIRMWARE_VERSION=2022.01.12.1
-      - DIAGNOSTICS_VERSION=6f323fe
+      - FIRMWARE_VERSION={{FIRMWARE_VERSION}}
+      - DIAGNOSTICS_VERSION={{DIAGNOSTICS_VERSION}}
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
     volumes:
       - pktfwdr:/var/pktfwd
@@ -74,7 +73,7 @@ services:
     cap_add:
       - SYS_RAWIO
     devices:
-      - /dev/i2c-1:/dev/i2c-1
+      - {{I2C_DEVICE}}:{{I2C_DEVICE}}
     privileged: true
     labels:
       io.balena.features.sysfs: 1
@@ -82,13 +81,13 @@ services:
       io.balena.features.dbus: 1
 
   upnp:
-    image: nebraltd/hm-upnp:e6aae2b
+    image: nebraltd/hm-upnp:{{UPNP_VERSION}}
     network_mode: host
     restart: on-failure
+    environment:
+      - FIRMWARE_VERSION={{FIRMWARE_VERSION}}
     volumes:
       - pktfwdr:/var/pktfwd
-    environment:
-      - FIRMWARE_VERSION=2022.01.12.1
 
   dbus-session:
     image: balenablocks/dbus:rpi-0.0.2
@@ -97,7 +96,7 @@ services:
       - dbus:/session/dbus
     environment:
       - DBUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - FIRMWARE_VERSION=2022.01.12.1
+      - FIRMWARE_VERSION={{FIRMWARE_VERSION}}
 
 volumes:
   miner-storage:

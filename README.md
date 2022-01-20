@@ -1,6 +1,6 @@
 # Helium Miner Software
 
-This repository includes the main [docker-compose.yml](https://github.com/NebraLtd/helium-miner-software/blob/master/docker-compose.yml) file that powers the Nebra miners.
+This repository generates the main docker-compose.yml (follow the steps to generate this [here](#generating-docker-compose-file)) file that powers the Nebra miners.
 
 The `docker-compose.yml` file is pushed to [Balena](https://www.balena.io/) (using GitHub Actions), which in turn pulls down the various Docker images outlined below.
 
@@ -53,6 +53,26 @@ This is a guide to help you get started with the repository and get it running o
 - Computer for development and pushing to the device
 - Git installed - [download here](https://git-scm.com/downloads)
 - [Balena CLI](https://github.com/balena-io/balena-cli) (Install located on Balena step in quick start steps below)
+
+### Generating Docker Compose File
+
+This is used for deploying locally, it automatically generates one for each device as part of the github workflow.
+
+You may notice that after cloning the repo that you are missing a docker-compose.yml file which is required to push the containers to balena. This is a result of us generating the docker-compose file based on a settings.ini file in the root directory. You can also find the latest docker-compose files used in production in the [device-compose-files folder](https://github.com/NebraLtd/helium-miner-software/tree/master/device-compose-files) (generated via github workflow). Here are the steps of generating a new docker-compose.yml file:
+
+**Step 1:** Update the settings.ini file to accept the new values which you wish to set in the generation of the docker-compose.yml file
+
+**Step 2:** Generate your respective .yml file based on the device you will be pushing to:
+- RPI (Raspberry Pi based device): `python gen_docker_compose.py rpi -o device-compose-files/docker-compose-rpi.yml`
+- ROCKPI (ROCK Pi based device): `python gen_docker_compose.py rockpi -o device-compose-files/docker-compose-rockpi.yml`
+
+**Step 3:** Copy device compose file into root directory as docker-compose.yml:
+- RPI: `cp device-compose-files/docker-compose-rpi.yml ./docker-compose.yml`
+- ROCKPI: `cp device-compose-files/docker-compose-rockpi.yml ./docker-compose.yml`
+
+**Step 4:** Validate that the changed values you applied to settings.ini were applied in the docker-compose.yml file
+
+**Step 5:** Continue with the steps below to push the containers to your fleet via balena
 
 ### Quick Start Steps
 
