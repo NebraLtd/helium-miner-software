@@ -68,7 +68,6 @@ jobs:
       - name: Random sleep (balena API workaround)
         run:  sleep $[ ( $RANDOM % 180 )  + 1 ]s
       - name: Generate Docker Compose for RaspberryPi
-        if: matrix.sbc == 'raspi'
         run: |
           python gen_docker_compose.py rpi -o docker-compose.yml
       - name: Balena Deploy
