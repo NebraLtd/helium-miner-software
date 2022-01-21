@@ -36,7 +36,7 @@ services:
       - FIRMWARE_VERSION=2022.01.12.1-1
 
   helium-miner:
-    image: nebraltd/hm-miner:arm64-78f6dae
+    image: nebraltd/hm-miner:arm64-32253cf
     depends_on:
       - dbus-session
       - diagnostics
