@@ -60,6 +60,14 @@ This is used for deploying locally, it automatically generates one for each devi
 
 You may notice that after cloning the repo that you are missing a docker-compose.yml file which is required to push the containers to balena. This is a result of us generating the docker-compose file based on a settings.ini file in the root directory. You can also find the latest docker-compose files used in production in the [device-compose-files folder](https://github.com/NebraLtd/helium-miner-software/tree/master/device-compose-files) (generated via github workflow). Here are the steps of generating a new docker-compose.yml file:
 
+*Note for generating the file for local tests: The repo's short Git SHA is fetched from GitHub pipeline automatically while working with standard procedure. But if you need to test your working copy locally, you need to create an environment variable first via running following command on Linux:*
+
+```sh  
+$ export FIRMWARE_SHORT_HASH=$(git rev-parse --short HEAD)
+```
+
+*Then generate the docker compose file in the same console with following procedures.*
+
 **Step 1:** Update the settings.ini file to accept the new values which you wish to set in the generation of the docker-compose.yml file
 
 **Step 2:** Generate your respective .yml file based on the device you will be pushing to:
