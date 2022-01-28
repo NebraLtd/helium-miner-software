@@ -13,6 +13,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Export short SHA of current commit
+        run: |
+          FIRMWARE_SHORT_HASH=$( echo ${GITHUB_SHA:0:7} )
+          echo "FIRMWARE_SHORT_HASH=$FIRMWARE_SHORT_HASH" >> $GITHUB_ENV
       - name: Random sleep (balena API workaround)
         run:  sleep $[ ( $RANDOM % 180 )  + 1 ]s
       - name: Generate Docker Compose for RockPi

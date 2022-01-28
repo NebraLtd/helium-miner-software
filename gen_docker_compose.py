@@ -79,6 +79,8 @@ class DockerComposer:
         for k, v in self.config['versions'].items():
             template_args[k] = v
 
+        template_args["ENV"] = os.environ
+
         for k, v in self.config[f'device_{device_type}'].items():
             template_args[k] = v
 
