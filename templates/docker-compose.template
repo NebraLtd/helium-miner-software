@@ -82,16 +82,6 @@ services:
       io.balena.features.procfs: 1
       io.balena.features.dbus: 1
 
-  upnp:
-    image: nebraltd/hm-upnp:{{UPNP_VERSION}}
-    network_mode: host
-    restart: on-failure
-    environment:
-      - FIRMWARE_VERSION={{FIRMWARE_VERSION}}
-      - FIRMWARE_SHORT_HASH={{ENV.FIRMWARE_SHORT_HASH}}
-    volumes:
-      - pktfwdr:/var/pktfwd
-
   dbus-session:
     image: balenablocks/dbus:rpi-0.0.2
     restart: always

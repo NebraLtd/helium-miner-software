@@ -26,17 +26,15 @@ Repo: [github.com/NebraLtd/hm-config](https://github.com/NebraLtd/hm-config)
 
 This container is (partially) responsible for the device onboarding and provides the Bluetooth LE to allow the hotspot to be configured via the Helium App. It is also responsible for configuring WiFi.
 
+As of 27th Jan 2022, we have also moved the UPnP functionality into this repo instead of the (now archived) [UPnP repo](https://github.com/NebraLtd/hm-upnp). This attempts to use UPnP to set up a port forwarding rule if your router supports it and the function is turned on in your router settings. This is possible in hm-config because we already use "host networking" in this container.
+
+Removing the UPnP container reduces CPU overhead and redundant code.
+
 ## Helium Miner
 
 Repo: [github.com/NebraLtd/hm-miner](https://github.com/NebraLtd/hm-miner)
 
 This container is the actual Helium Miner software (from upstream), with the required configuration files added.
-
-## UPnP
-
-Repo: [github.com/NebraLtd/hm-upnp](https://github.com/NebraLtd/hm-upnp)
-
-This container attempts to use UPnP to set up a port forwarding rule, if your router supports it and the function is turned on in your router settings.
 
 ## DBus Session
 
