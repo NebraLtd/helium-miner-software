@@ -9,7 +9,7 @@ services:
       - diagnostics
     environment:
       - FIRMWARE_VERSION=2022.01.29.0
-      - FIRMWARE_SHORT_HASH=148cfac
+      - FIRMWARE_SHORT_HASH=d8d75e2
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
       - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
     privileged: true
@@ -64,7 +64,7 @@ services:
     image: nebraltd/hm-diag:a467c93
     environment:
       - FIRMWARE_VERSION=2022.01.29.0
-      - FIRMWARE_SHORT_HASH=148cfac
+      - FIRMWARE_SHORT_HASH=d8d75e2
       - DIAGNOSTICS_VERSION=a467c93
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
     volumes:
@@ -90,7 +90,7 @@ services:
     environment:
       - DBUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
       - FIRMWARE_VERSION=2022.01.29.0
-      - FIRMWARE_SHORT_HASH=148cfac
+      - FIRMWARE_SHORT_HASH=d8d75e2
 
 volumes:
   miner-storage:
