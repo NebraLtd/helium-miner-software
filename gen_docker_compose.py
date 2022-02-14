@@ -81,6 +81,9 @@ class DockerComposer:
 
         template_args["ENV"] = os.environ
 
+        for k, v in self.config['quectel_modem'].items():
+            template_args[k] = v
+
         for k, v in self.config[f'device_{device_type}'].items():
             template_args[k] = v
 
