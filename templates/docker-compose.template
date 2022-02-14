@@ -76,6 +76,10 @@ services:
       - SYS_RAWIO
     devices:
       - {{I2C_DEVICE}}:{{I2C_DEVICE}}
+      - {{MODEM_SERIAL0}}:{{MODEM_SERIAL0}}
+      - {{MODEM_SERIAL1}}:{{MODEM_SERIAL1}}
+      - {{MODEM_SERIAL2}}:{{MODEM_SERIAL2}}
+      - {{MODEM_SERIAL3}}:{{MODEM_SERIAL3}}
     privileged: true
     labels:
       io.balena.features.sysfs: 1
