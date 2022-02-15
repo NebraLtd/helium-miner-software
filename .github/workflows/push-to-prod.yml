@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        sbc: [raspi, rockpi]
+        sbc: [raspi, rockpi, rak]
         frequency: [470, 868, 915]
         variant: [indoor, outdoor]
     steps:
@@ -30,8 +30,8 @@ jobs:
           python gen_docker_compose.py rockpi -o docker-compose.yml
           ROCKPI="-rockpi"
           echo "ROCKPI=$ROCKPI" >> $GITHUB_ENV
-      - name: Generate Docker Compose for RaspberryPi
-        if: matrix.sbc == 'raspi'
+      - name: Generate Docker Compose for RaspberryPi & RAK
+        if: matrix.sbc == 'raspi' || matrix.sbc == 'rak'
         run: |
           python gen_docker_compose.py rpi -o docker-compose.yml
       - name: Balena Deploy
@@ -46,6 +46,12 @@ jobs:
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_1}}
           balena_command: "deploy nebraltd/helium-${{ matrix.variant }}-${{ matrix.frequency }} --logs --debug --nocache --build"
+      - name: Balena Deploy (RAK)
+        uses: nebraltd/balena-cli-action@v13.1.10
+        if: matrix.sbc == 'rak' && success()
+        with:
+          balena_api_token: ${{secrets.BALENA_API_TOKEN_2}}
+          balena_command: "deploy nebraltd/helium-rak-${{ matrix.frequency }} --logs --debug --nocache --build"
 
   open-fleet:
     runs-on: ubuntu-latest
