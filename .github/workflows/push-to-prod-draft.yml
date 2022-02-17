@@ -12,6 +12,9 @@ jobs:
         sbc: [raspi, rockpi, rak]
         frequency: [470, 868, 915]
         variant: [indoor, outdoor]
+        exclude:
+          - sbc: rak
+            variant: outdoor
     steps:
       - name: Checkout
         uses: actions/checkout@v2
