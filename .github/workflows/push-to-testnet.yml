@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        sbc: [raspi, rockpi]
+        sbc: [raspi, rockpi, rak]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -31,8 +31,8 @@ jobs:
           cp device-compose-files/docker-compose-rockpi.yml docker-compose.yml
           ROCKPI="-rockpi"
           echo "ROCKPI=$ROCKPI" >> $GITHUB_ENV
-      - name: Generate Docker Compose for RaspberryPi
-        if: matrix.sbc == 'raspi'
+      - name: Generate Docker Compose for RaspberryPi & RAK
+        if: matrix.sbc == 'raspi' || matrix.sbc == 'rak'
         run: |
           python gen_docker_compose.py rpi -o device-compose-files/docker-compose-rpi.yml
           cp device-compose-files/docker-compose-rpi.yml docker-compose.yml
@@ -48,6 +48,12 @@ jobs:
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_1}}
           balena_command: "deploy nebraltd/helium-testnet --logs --debug --nocache --build"
+      - name: Balena Deploy (RAK)
+        uses: nebraltd/balena-cli-action@v13.1.10
+        if: matrix.sbc == 'rak' && success()
+        with:
+          balena_api_token: ${{secrets.BALENA_API_TOKEN_2}}
+          balena_command: "deploy nebraltd/helium-testnet-rak --logs --debug --nocache --build"
       - name: Push updated docker compose file (ROCK Pi)
         if: matrix.sbc == 'rockpi' && success()
         uses: test-room-7/action-update-file@v1
@@ -56,8 +62,8 @@ jobs:
           file-path: device-compose-files/docker-compose-rockpi.yml
           commit-msg: Update ROCK Pi docker compose output
           github-token: ${{ secrets.MR_BUMP }}
-      - name: Push updated docker compose file (RasPi)
-        if: matrix.sbc == 'raspi' && success()
+      - name: Push updated docker compose file (RasPi & RAK)
+        if: (matrix.sbc == 'raspi' || matrix.sbc == 'rak') && success()
         uses: test-room-7/action-update-file@v1
         with:
           branch: master
