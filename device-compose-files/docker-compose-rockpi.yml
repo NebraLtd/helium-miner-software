@@ -8,8 +8,8 @@ services:
       - dbus-session
       - diagnostics
     environment:
-      - FIRMWARE_VERSION=2022.01.29.0-5
-      - FIRMWARE_SHORT_HASH=612ebd0
+      - FIRMWARE_VERSION=2022.01.29.0-6
+      - FIRMWARE_SHORT_HASH=fc297f9
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
       - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
     privileged: true
@@ -34,7 +34,7 @@ services:
     volumes:
       - pktfwdr:/var/pktfwd
     environment:
-      - FIRMWARE_VERSION=2022.01.29.0-5
+      - FIRMWARE_VERSION=2022.01.29.0-6
 
   helium-miner:
     image: nebraltd/hm-miner:arm64-ea828a3
@@ -58,14 +58,16 @@ services:
     restart: on-failure
     environment:
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - FIRMWARE_VERSION=2022.01.29.0-5
+      - FIRMWARE_VERSION=2022.01.29.0-6
 
   diagnostics:
-    image: nebraltd/hm-diag:2498024
+    image: nebraltd/hm-diag:45c371b
+    depends_on:
+      - dbus-session
     environment:
-      - FIRMWARE_VERSION=2022.01.29.0-5
-      - FIRMWARE_SHORT_HASH=612ebd0
-      - DIAGNOSTICS_VERSION=2498024
+      - FIRMWARE_VERSION=2022.01.29.0-6
+      - FIRMWARE_SHORT_HASH=fc297f9
+      - DIAGNOSTICS_VERSION=45c371b
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
     volumes:
       - pktfwdr:/var/pktfwd
@@ -76,6 +78,10 @@ services:
       - SYS_RAWIO
     devices:
       - /dev/i2c-7:/dev/i2c-7
+      - /dev/ttyUSB0:/dev/ttyUSB0
+      - /dev/ttyUSB1:/dev/ttyUSB1
+      - /dev/ttyUSB2:/dev/ttyUSB2
+      - /dev/ttyUSB3:/dev/ttyUSB3
     privileged: true
     labels:
       io.balena.features.sysfs: 1
@@ -89,8 +95,8 @@ services:
       - dbus:/session/dbus
     environment:
       - DBUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - FIRMWARE_VERSION=2022.01.29.0-5
-      - FIRMWARE_SHORT_HASH=612ebd0
+      - FIRMWARE_VERSION=2022.01.29.0-6
+      - FIRMWARE_SHORT_HASH=fc297f9
 
 volumes:
   miner-storage:
