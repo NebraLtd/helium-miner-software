@@ -62,6 +62,8 @@ services:
 
   diagnostics:
     image: nebraltd/hm-diag:{{DIAGNOSTICS_VERSION}}
+    depends_on:
+      - dbus-session
     environment:
       - FIRMWARE_VERSION={{FIRMWARE_VERSION}}
       - FIRMWARE_SHORT_HASH={{ENV.FIRMWARE_SHORT_HASH}}
