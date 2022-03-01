@@ -32,19 +32,19 @@ jobs:
           python gen_docker_compose.py rpi -o device-compose-files/docker-compose-rpi.yml
           cp device-compose-files/docker-compose-rpi.yml docker-compose.yml
       - name: Balena Deploy (Nebra ROCK Pi)
-        uses: nebraltd/balena-cli-action@v13.1.10
+        uses: nebraltd/balena-cli-action@v13.3.0
         if: matrix.sbc == 'rockpi' && success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
           balena_command: "deploy nebraltd/helium-testnet${{ env.ROCKPI }} --logs --debug --nocache --build --draft"
       - name: Balena Deploy (Nebra RasPi)
-        uses: nebraltd/balena-cli-action@v13.1.10
+        uses: nebraltd/balena-cli-action@v13.3.0
         if: matrix.sbc == 'raspi' && success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_1}}
           balena_command: "deploy nebraltd/helium-testnet --logs --debug --nocache --build --draft"
       - name: Balena Deploy (RAK and other non-Nebra RasPi)
-        uses: nebraltd/balena-cli-action@v13.1.10
+        uses: nebraltd/balena-cli-action@v13.3.0
         if: success() && (matrix.sbc == 'rak' || matrix.sbc == 'og' || matrix.sbc == 'sensecap' || matrix.sbc == 'finestra' || matrix.sbc == 'controllino')
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_2}}
