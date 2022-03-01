@@ -9,7 +9,7 @@ services:
       - diagnostics
     environment:
       - FIRMWARE_VERSION=2022.02.22.0
-      - FIRMWARE_SHORT_HASH=ba1e9c4
+      - FIRMWARE_SHORT_HASH=9329c2b
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
       - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
     privileged: true
@@ -66,7 +66,7 @@ services:
       - dbus-session
     environment:
       - FIRMWARE_VERSION=2022.02.22.0
-      - FIRMWARE_SHORT_HASH=ba1e9c4
+      - FIRMWARE_SHORT_HASH=9329c2b
       - DIAGNOSTICS_VERSION=e871161
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
     volumes:
@@ -96,7 +96,7 @@ services:
     environment:
       - DBUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
       - FIRMWARE_VERSION=2022.02.22.0
-      - FIRMWARE_SHORT_HASH=ba1e9c4
+      - FIRMWARE_SHORT_HASH=9329c2b
 
 volumes:
   miner-storage:
