@@ -1,12 +1,7 @@
 name: BalenaCloud Deploy (Testnet - Draft Deploy)
 
 on:
-  push:
-    # Only run workflow for pushes to specific branches
-    branches:
-      - master
-    paths-ignore:
-      - 'device-compose-files/**'
+  workflow_dispatch:
 
 jobs:
   testnet:
