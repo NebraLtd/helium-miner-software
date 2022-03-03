@@ -12,12 +12,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        sbc: [raspi, rockpi, rak]
+        sbc: [raspi, rockpi, rak, pisces]
         frequency: [470, 868, 915]
         variant: [indoor, outdoor]
         exclude:
           - sbc: rak
             variant: outdoor
+          - sbc: pisces
+        include:
+          - sbc: pisces
+            variant: indoor
+            frequency: 868
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -26,7 +31,7 @@ jobs:
           FIRMWARE_SHORT_HASH=$( echo ${GITHUB_SHA:0:7} )
           echo "FIRMWARE_SHORT_HASH=$FIRMWARE_SHORT_HASH" >> $GITHUB_ENV
       - name: Random sleep (balena API workaround)
-        run:  sleep $[ ( $RANDOM % 180 )  + 1 ]s
+        run:  sleep $[ ( $RANDOM % 360 ) + 1 ]s
       - name: Generate Docker Compose for RockPi
         if: matrix.sbc == 'rockpi'
         run: |
@@ -37,6 +42,11 @@ jobs:
         if: matrix.sbc == 'raspi' || matrix.sbc == 'rak'
         run: |
           python gen_docker_compose.py rpi -o docker-compose.yml
+      - name: Generate Docker Compose for Pisces
+        if: matrix.sbc == 'pisces'
+        run: |
+          python gen_docker_compose.py pisces -o device-compose-files/docker-compose-pisces.yml
+          cp device-compose-files/docker-compose-pisces.yml docker-compose.yml
       - name: Balena Deploy
         uses: nebraltd/balena-cli-action@v13.3.0
         if: matrix.sbc == 'rockpi' && success()
@@ -55,6 +65,12 @@ jobs:
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_2}}
           balena_command: "deploy nebraltd/helium-${{ matrix.sbc }}-${{ matrix.frequency }} --logs --debug --nocache --build"
+      - name: Balena Deploy (Pisces P100)
+        if: matrix.sbc == 'pisces' && success()
+        uses: nebraltd/balena-cli-action@v13.3.0
+        with:
+          balena_api_token: ${{secrets.BALENA_API_TOKEN_3}}
+          balena_command: "deploy nebraltd/helium-${{ matrix.sbc }} --logs --debug --nocache --build"
 
   open-fleet:
     runs-on: ubuntu-latest
@@ -66,7 +82,7 @@ jobs:
           FIRMWARE_SHORT_HASH=$( echo ${GITHUB_SHA:0:7} )
           echo "FIRMWARE_SHORT_HASH=$FIRMWARE_SHORT_HASH" >> $GITHUB_ENV
       - name: Random sleep (balena API workaround)
-        run:  sleep $[ ( $RANDOM % 180 )  + 1 ]s
+        run:  sleep $[ ( $RANDOM % 360 ) + 1 ]s
       - name: Generate Docker Compose for RaspberryPi
         run: |
           python gen_docker_compose.py rpi -o docker-compose.yml
@@ -87,7 +103,7 @@ jobs:
           FIRMWARE_SHORT_HASH=$( echo ${GITHUB_SHA:0:7} )
           echo "FIRMWARE_SHORT_HASH=$FIRMWARE_SHORT_HASH" >> $GITHUB_ENV
       - name: Random sleep (balena API workaround)
-        run:  sleep $[ ( $RANDOM % 180 )  + 1 ]s
+        run:  sleep $[ ( $RANDOM % 360 ) + 1 ]s
       - name: Generate Docker Compose for RaspberryPi
         run: |
           python gen_docker_compose.py rpi -o docker-compose.yml
