@@ -64,7 +64,7 @@ jobs:
         if: matrix.sbc == 'rak' && success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_2}}
-          balena_command: "deploy nebraltd/helium-${{ matrix.sbc }}-${{ matrix.frequency }} --logs --debug --nocache --build"
+          balena_command: "deploy nebraltd/helium-${{ matrix.sbc }} --logs --debug --nocache --build"
       - name: Balena Deploy (Pisces P100)
         if: matrix.sbc == 'pisces' && success()
         uses: nebraltd/balena-cli-action@v13.3.0
@@ -90,7 +90,7 @@ jobs:
         uses: nebraltd/balena-cli-action@v13.3.0
         if: success()
         with:
-          balena_api_token: ${{secrets.BALENA_API_TOKEN_2}}
+          balena_api_token: ${{secrets.BALENA_API_TOKEN_4}}
           balena_command: "deploy nebraltd/helium-miner --logs --debug --nocache --build"
 
   commercial:
@@ -111,5 +111,5 @@ jobs:
         uses: nebraltd/balena-cli-action@v13.3.0
         if: success()
         with:
-          balena_api_token: ${{secrets.BALENA_API_TOKEN_3}}
+          balena_api_token: ${{secrets.BALENA_API_TOKEN_5}}
           balena_command: "deploy nebraltd/helium-miner-commercial --logs --debug --nocache --build"
