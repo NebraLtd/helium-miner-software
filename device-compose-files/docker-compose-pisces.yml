@@ -1,0 +1,105 @@
+version: '2'
+
+services:
+
+  gateway-config:
+    image: nebraltd/hm-config:bee8b91
+    depends_on:
+      - dbus-session
+      - diagnostics
+    environment:
+      - FIRMWARE_VERSION=2022.03.07.0-1
+      - FIRMWARE_SHORT_HASH=492e946
+      - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
+      - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
+    privileged: true
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - miner-storage:/var/data
+      - dbus:/session/dbus
+    labels:
+      io.balena.features.sysfs: 1
+      io.balena.features.kernel-modules: 1
+      io.balena.features.dbus: 1
+    stop_signal: SIGINT
+
+  packet-forwarder:
+    image: nebraltd/hm-pktfwd:8d78298
+    depends_on:
+      - helium-miner
+    restart: always
+    privileged: true
+    volumes:
+      - pktfwdr:/var/pktfwd
+    environment:
+      - FIRMWARE_VERSION=2022.03.07.0-1
+
+  helium-miner:
+    image: nebraltd/hm-miner:arm64-9564845
+    depends_on:
+      - dbus-session
+      - diagnostics
+    expose:
+      - "1680"
+      - "4467"
+    ports:
+      - "44158:44158/tcp"
+    volumes:
+      - miner-storage:/var/data
+      - miner-log:/var/log/miner
+      - pktfwdr:/var/pktfwd
+      - dbus:/session/dbus
+    cap_add:
+      - SYS_RAWIO
+    devices:
+      - /dev/i2c-0:/dev/i2c-0
+    restart: on-failure
+    environment:
+      - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
+      - FIRMWARE_VERSION=2022.03.07.0-1
+
+  diagnostics:
+    image: nebraltd/hm-diag:f0c4817
+    depends_on:
+      - dbus-session
+    environment:
+      - FIRMWARE_VERSION=2022.03.07.0-1
+      - FIRMWARE_SHORT_HASH=492e946
+      - DIAGNOSTICS_VERSION=f0c4817
+      - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
+    volumes:
+      - pktfwdr:/var/pktfwd
+      - miner-storage:/var/data
+    ports:
+      - "80:5000"
+    cap_add:
+      - SYS_RAWIO
+    devices:
+      - /dev/i2c-0:/dev/i2c-0
+      - /dev/ttyUSB0:/dev/ttyUSB0
+      - /dev/ttyUSB1:/dev/ttyUSB1
+      - /dev/ttyUSB2:/dev/ttyUSB2
+      - /dev/ttyUSB3:/dev/ttyUSB3
+    privileged: true
+    labels:
+      io.balena.features.sysfs: 1
+      io.balena.features.procfs: 1
+      io.balena.features.dbus: 1
+
+  dbus-session:
+    image: balenablocks/dbus:rpi-0.0.2
+    restart: always
+    volumes:
+      - dbus:/session/dbus
+    environment:
+      - DBUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
+      - FIRMWARE_VERSION=2022.03.07.0-1
+      - FIRMWARE_SHORT_HASH=492e946
+
+volumes:
+  miner-storage:
+  miner-log:
+  pktfwdr:
+  dbus:
