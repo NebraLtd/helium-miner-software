@@ -17,10 +17,12 @@ jobs:
         variant: [indoor, outdoor]
         exclude:
           - sbc: rak
-            variant: outdoor
           - sbc: pisces
         include:
           - sbc: pisces
+            variant: indoor
+            frequency: 868
+          - sbc: rak
             variant: indoor
             frequency: 868
     steps:
