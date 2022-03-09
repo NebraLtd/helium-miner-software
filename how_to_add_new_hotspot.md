@@ -10,11 +10,14 @@ This configuration information has to be supplied in different places of the sta
 * Create custom inputs (e.g. additional buttons) and outputs (e.g. additional LED's) in the new variant and update the logic in other repositories if necessary.
 * Release and publish it via CI/CD pipeline
 * Bump hm-pyhelper for hm-pktfwd, hm-diag and hm-config repositories and push them to create necessary docker images (could take a while) (Example [pull request](https://github.com/NebraLtd/hm-config/pull/169) for hm-config in such case)
-* Create related production fleets as "helium-<freq>-<device_type>"
+* Create related production Balena fleets (will be called just fleets from now on) as "helium-<device_type>-[variant]-[frequency]-[user]" (parameters in brackets are optional)
 * Edit configuration parameters of the fleet
 * Add `VARIANT` and `FREQ` environment variables into fleet variables
 * Update automation steps in this repository for newly created fleets
 * Add sentry environment variables into fleet variables
+* Modify `generate-images.sh` from NebraLtd/hotspot-production-images repo root.
+* Modify `generate-urls.sh` from NebraLtd/hotspot-production-images repo root.
+* Modify `generate-images.yml` from NebraLtd/hotspot-production-images repo under `.github/workflows` folder.
 
 ## Defining the variant in hm-pyhelper project and releasing it
 
@@ -75,7 +78,7 @@ This is the hotspots status LED's output GPIO index, which is usually a single g
 #### BUTTON
 This parameter defines the GPIO input for Bluetooth advertisement start.
 
-Hotspots needed to be accessed via Bluetooth sometimes. Especially at the beginning, onboarding time. But keeping the required Bluetooth interface on all the time imposes two problems. First, it is a security thread and leaks some information to trace the device. Second it also effects power consumption negatively as the device is expected to work 7/24.
+Hotspots needed to be accessed via Bluetooth sometimes. Especially at the beginning, onboarding time. But keeping the required Bluetooth interface on all the time imposes two problems. Firstly, it is a security threat and leaks some information to trace the devices. It also effects power consumption negatively as the device is expected to work 7/24.
 
 This input triggers the Bluetooth advertisement process and then the user can access it via Bluetooth interface.
 
@@ -147,3 +150,20 @@ Sentry API endpoint for `diagnostics` container.
 
 #### SENTRY_PKTFWD
 Sentry API endpoint for `packet_forwarder` container.
+
+
+## Modifying hotspot-production-images repo
+This repo is used to create production images for the devices. The scripts in the repo could be used with automation pipeline or manually. The YAML files under the `.github/workflows` folder are the CI/CD automation pipeline configurations.
+
+### Modifying generate-images.sh
+Usually adding the new device type into [the three lines](https://github.com/NebraLtd/hotspot-production-images/blob/3929275e5fe13950326b9c0f816f1f5d4eedf543/generate-images.sh#L12) should be enough if the new device will need an image for all variant and frequency combinations.
+
+If not, like RAK, then the device should be also included in [the if clause](https://github.com/NebraLtd/hotspot-production-images/blob/3929275e5fe13950326b9c0f816f1f5d4eedf543/generate-images.sh#L301).
+
+If the device needs config.txt injection like our RaspberryPi based miners or RAK, then this should be indicated in [this if clause](https://github.com/NebraLtd/hotspot-production-images/blob/3929275e5fe13950326b9c0f816f1f5d4eedf543/generate-images.sh#L105). Also if it need a different configuration than the default, a new type of `config.txt.<dev_type>` has to be created in root folder and this has to be supplied in [the necessary if clause](https://github.com/NebraLtd/hotspot-production-images/blob/3929275e5fe13950326b9c0f816f1f5d4eedf543/generate-images.sh#L122)
+
+### Modifying generate-urls.sh
+This script is used for creating URL's which are posted to our Slack channel. This way, the manufacturer(s) would be able to see the updates automatically and use the most recent one in production. It has be in sync with `generate-images.sh` as the URL's would be pointing the URLs actually created and uploaded by it.
+
+### Modifying generate-images.yml
+The CI/CD automation has to be updated for the new device type. Usually addition to the [pipeline matrix](https://github.com/NebraLtd/hotspot-production-images/blob/3929275e5fe13950326b9c0f816f1f5d4eedf543/.github/workflows/generate-images.yml#L16) would be enough. But if it needs special exclusions, like RAK device, then it would be necessary at those into the [exclude](https://github.com/NebraLtd/hotspot-production-images/blob/3929275e5fe13950326b9c0f816f1f5d4eedf543/.github/workflows/generate-images.yml#L19) section.
