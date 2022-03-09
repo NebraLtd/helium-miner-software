@@ -18,6 +18,7 @@ This configuration information has to be supplied in different places of the sta
 * Modify `generate-images.sh` from NebraLtd/hotspot-production-images repo root.
 * Modify `generate-urls.sh` from NebraLtd/hotspot-production-images repo root.
 * Modify `generate-images.yml` from NebraLtd/hotspot-production-images repo under `.github/workflows` folder.
+* Modify `settings.ini` file if necessary
 
 ## Defining the variant in hm-pyhelper project and releasing it
 
@@ -166,4 +167,7 @@ If the device needs config.txt injection like our RaspberryPi based miners or RA
 This script is used for creating URL's which are posted to our Slack channel. This way, the manufacturer(s) would be able to see the updates automatically and use the most recent one in production. It has be in sync with `generate-images.sh` as the URL's would be pointing the URLs actually created and uploaded by it.
 
 ### Modifying generate-images.yml
-The CI/CD automation has to be updated for the new device type. Usually addition to the [pipeline matrix](https://github.com/NebraLtd/hotspot-production-images/blob/3929275e5fe13950326b9c0f816f1f5d4eedf543/.github/workflows/generate-images.yml#L16) would be enough. But if it needs special exclusions, like RAK device, then it would be necessary at those into the [exclude](https://github.com/NebraLtd/hotspot-production-images/blob/3929275e5fe13950326b9c0f816f1f5d4eedf543/.github/workflows/generate-images.yml#L19) section.
+The CI/CD automation has to be updated for the new device type. Usually addition to the [pipeline matrix](https://github.com/NebraLtd/hotspot-production-images/blob/3929275e5fe13950326b9c0f816f1f5d4eedf543/.github/workflows/generate-images.yml#L16) would be enough. But if it needs special exclusions, like RAK device, then it would be necessary to add those into the [exclude](https://github.com/NebraLtd/hotspot-production-images/blob/3929275e5fe13950326b9c0f816f1f5d4eedf543/.github/workflows/generate-images.yml#L19) section.
+
+## Modifying settings.ini
+The necessary `docker-compose.yml` file is created by the `gen_docker_compose.py` script via consuming the parameters from the `settings.ini` file. The current logic includes also a hardware definition for CPU architecture and I2C bus device. It is not strictly necessary to add those if they are equal to an existing option (Like similarity between Nebra RasPi devices and RAK devices).
