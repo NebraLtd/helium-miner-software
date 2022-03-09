@@ -3,13 +3,13 @@ version: '2'
 services:
 
   gateway-config:
-    image: nebraltd/hm-config:bee8b91
+    image: nebraltd/hm-config:e5ac58c
     depends_on:
       - dbus-session
       - diagnostics
     environment:
-      - FIRMWARE_VERSION=2022.03.07.0-1
-      - FIRMWARE_SHORT_HASH=e30c3bf
+      - FIRMWARE_VERSION=2022.03.07.0-2
+      - FIRMWARE_SHORT_HASH=a8e5808
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
       - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
     privileged: true
@@ -26,7 +26,7 @@ services:
     stop_signal: SIGINT
 
   packet-forwarder:
-    image: nebraltd/hm-pktfwd:8d78298
+    image: nebraltd/hm-pktfwd:b95cc46
     depends_on:
       - helium-miner
     restart: always
@@ -34,7 +34,7 @@ services:
     volumes:
       - pktfwdr:/var/pktfwd
     environment:
-      - FIRMWARE_VERSION=2022.03.07.0-1
+      - FIRMWARE_VERSION=2022.03.07.0-2
 
   helium-miner:
     image: nebraltd/hm-miner:arm64-9564845
@@ -58,16 +58,16 @@ services:
     restart: on-failure
     environment:
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - FIRMWARE_VERSION=2022.03.07.0-1
+      - FIRMWARE_VERSION=2022.03.07.0-2
 
   diagnostics:
-    image: nebraltd/hm-diag:f0c4817
+    image: nebraltd/hm-diag:fb63618
     depends_on:
       - dbus-session
     environment:
-      - FIRMWARE_VERSION=2022.03.07.0-1
-      - FIRMWARE_SHORT_HASH=e30c3bf
-      - DIAGNOSTICS_VERSION=f0c4817
+      - FIRMWARE_VERSION=2022.03.07.0-2
+      - FIRMWARE_SHORT_HASH=a8e5808
+      - DIAGNOSTICS_VERSION=fb63618
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
     volumes:
       - pktfwdr:/var/pktfwd
@@ -95,8 +95,8 @@ services:
       - dbus:/session/dbus
     environment:
       - DBUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - FIRMWARE_VERSION=2022.03.07.0-1
-      - FIRMWARE_SHORT_HASH=e30c3bf
+      - FIRMWARE_VERSION=2022.03.07.0-2
+      - FIRMWARE_SHORT_HASH=a8e5808
 
 volumes:
   miner-storage:
