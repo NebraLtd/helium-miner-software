@@ -1,0 +1,30 @@
+name: nebra-helium-controllino
+type: sw.application
+description: >-
+  Manage your Controllino Helium Miner remotely using Nebra and balenaCloud.
+post-provisioning: >-
+  ## Usage instructions
+  
+  
+  Once your device joins the fleet you'll need to allow some time for it to download the application and start forwarding packets to the Helium Network.
+  
+  
+  For detailed instructions on how to use Nebra Helium Controllino check out [our GitHub repo](https://github.com/NebraLtd/helium-controllino).
+  
+  
+  For support you can [open an issue](https://github.com/NebraLtd/helium-controllino/issues) on the repo or reach out to us via one of the methods listed [on our support page](https://helium.nebra.com/support).
+assets:
+  repository:
+    type: blob.asset
+    data:
+      url: "https://github.com/NebraLtd/helium-controllino"
+  logo:
+    type: blob.asset
+    data:
+      url: >-
+        https://cdn.shopify.com/s/files/1/0071/2281/3001/files/Nebra-Icon-Blue_bb758eaa-b10d-4ea6-a55e-babd69135b69.png?v=1620938774
+data:
+  defaultDeviceType: raspberrypi4-64
+  supportedDeviceTypes:
+    - raspberrypi4-64
+version: 0.0.1
