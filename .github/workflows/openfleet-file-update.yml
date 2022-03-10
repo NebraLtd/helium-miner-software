@@ -16,4 +16,4 @@ jobs:
         with:
           token: ${{ secrets.MR_BUMP }}
           event-type: file-update
-          repository: NebraLtd/helium-miner-software
+          repository: NebraLtd/helium-pisces
