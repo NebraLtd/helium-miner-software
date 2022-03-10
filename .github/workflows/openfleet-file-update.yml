@@ -11,7 +11,7 @@ jobs:
   file-update:
     runs-on: ubuntu-latest
     steps:
-- name: Trigger PR action in helium-miner-software repo
+      - name: Trigger PR action in helium-miner-software repo
         uses: peter-evans/repository-dispatch@v1
         with:
           token: ${{ secrets.MR_BUMP }}
