@@ -1,0 +1,19 @@
+name: Update files in OpenFleets repos
+
+on:
+  push:
+    paths:
+      - "balena/*.yml"
+      - "device-compose-files/*.yml"
+  workflow_dispatch:
+
+jobs:
+  file-update:
+    runs-on: ubuntu-latest
+    steps:
+- name: Trigger PR action in helium-miner-software repo
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.MR_BUMP }}
+          event-type: file-update
+          repository: NebraLtd/helium-miner-software
