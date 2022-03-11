@@ -151,6 +151,9 @@ Typically before merging into production the following checks are performed:
 - Check to see if units on testnet are still synced, beaconing & witnessing as expected. (Typically Teeny Felt Rook & Gigantic Basil Turtle are good choices to check due to their locations)
 - If all looks good, merge into production branch and monitor updates on balena dashboard.
 
+# How To Add New Type Of Hotspots
+Please refer to [this](https://github.com/NebraLtd/helium-miner-software/blob/master/how_to_add_new_hotspot.md) guide for more information.
+
 # Credits
 
 This software uses a mixture of information from:

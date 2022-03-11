@@ -12,12 +12,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        sbc: [raspi, rockpi, rak, pisces]
+        sbc: [raspi, rockpi, rak, pisces, og, sensecap, finestra, controllino]
         frequency: [470, 868, 915]
         variant: [indoor, outdoor]
         exclude:
           - sbc: rak
           - sbc: pisces
+          - sbc: og
+          - sbc: sensecap
+          - sbc: finestra
+          - sbc: controllino
         include:
           - sbc: pisces
             variant: indoor
@@ -25,6 +29,18 @@ jobs:
           - sbc: rak
             variant: indoor
             frequency: 868
+          - sbc: og
+            variant: indoor
+            frequency: 868
+          - sbc: sensecap
+            variant: indoor
+            frequency: 868
+          - sbc: finestra
+            variant: indoor
+            frequency: 868
+          - sbc: controllino
+            variant: indoor
+            frequency: 868
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -34,84 +50,47 @@ jobs:
           echo "FIRMWARE_SHORT_HASH=$FIRMWARE_SHORT_HASH" >> $GITHUB_ENV
       - name: Random sleep (balena API workaround)
         run:  sleep $[ ( $RANDOM % 360 ) + 1 ]s
-      - name: Generate Docker Compose for RockPi
+      - name: Generate Docker Compose for ROCK Pi
         if: matrix.sbc == 'rockpi'
         run: |
           python gen_docker_compose.py rockpi -o docker-compose.yml
           ROCKPI="-rockpi"
           echo "ROCKPI=$ROCKPI" >> $GITHUB_ENV
-      - name: Generate Docker Compose for RaspberryPi & RAK
-        if: matrix.sbc == 'raspi' || matrix.sbc == 'rak'
+      - name: Generate Docker Compose for Nebra RasPi
+        if: matrix.sbc == 'raspi'
         run: |
           python gen_docker_compose.py rpi -o docker-compose.yml
+      - name: Generate Docker Compose for RAK and Non-Nebra RasPi
+        if: matrix.sbc == 'rak' || matrix.sbc == 'og' || matrix.sbc == 'sensecap' || matrix.sbc == 'finestra' || matrix.sbc == 'controllino'
+        run: |
+          python gen_docker_compose.py rpi -o docker-compose.yml  
+          cp balena/balena.yml.${{ matrix.sbc }} balena.yml
       - name: Generate Docker Compose for Pisces
         if: matrix.sbc == 'pisces'
         run: |
-          python gen_docker_compose.py pisces -o device-compose-files/docker-compose-pisces.yml
-          cp device-compose-files/docker-compose-pisces.yml docker-compose.yml
-      - name: Balena Deploy
+          python gen_docker_compose.py pisces -o docker-compose.yml
+          cp balena/balena.yml.pisces balena.yml
+      - name: Balena Deploy (Nebra ROCK Pi)
         uses: nebraltd/balena-cli-action@v13.3.0
         if: matrix.sbc == 'rockpi' && success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
           balena_command: "deploy nebraltd/helium-${{ matrix.variant }}-${{ matrix.frequency }}${{ env.ROCKPI }} --logs --debug --nocache --build"
-      - name: Balena Deploy (RasPi)
+      - name: Balena Deploy (Nebra RasPi)
         uses: nebraltd/balena-cli-action@v13.3.0
         if: matrix.sbc == 'raspi' && success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_1}}
           balena_command: "deploy nebraltd/helium-${{ matrix.variant }}-${{ matrix.frequency }} --logs --debug --nocache --build"
-      - name: Balena Deploy (RAK)
+      - name: Balena Deploy (RAK and Non-Nebra RasPi)
         uses: nebraltd/balena-cli-action@v13.3.0
-        if: matrix.sbc == 'rak' && success()
+        if: ( matrix.sbc == 'rak' || matrix.sbc == 'og' || matrix.sbc == 'sensecap' || matrix.sbc == 'finestra' || matrix.sbc == 'controllino' ) && success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_2}}
           balena_command: "deploy nebraltd/helium-${{ matrix.sbc }} --logs --debug --nocache --build"
       - name: Balena Deploy (Pisces P100)
-        if: matrix.sbc == 'pisces' && success()
         uses: nebraltd/balena-cli-action@v13.3.0
+        if: matrix.sbc == 'pisces' && success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_3}}
           balena_command: "deploy nebraltd/helium-${{ matrix.sbc }} --logs --debug --nocache --build"
-
-  open-fleet:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Export short SHA of current commit
-        run: |
-          FIRMWARE_SHORT_HASH=$( echo ${GITHUB_SHA:0:7} )
-          echo "FIRMWARE_SHORT_HASH=$FIRMWARE_SHORT_HASH" >> $GITHUB_ENV
-      - name: Random sleep (balena API workaround)
-        run:  sleep $[ ( $RANDOM % 360 ) + 1 ]s
-      - name: Generate Docker Compose for RaspberryPi
-        run: |
-          python gen_docker_compose.py rpi -o docker-compose.yml
-      - name: Balena Deploy
-        uses: nebraltd/balena-cli-action@v13.3.0
-        if: success()
-        with:
-          balena_api_token: ${{secrets.BALENA_API_TOKEN_4}}
-          balena_command: "deploy nebraltd/helium-miner --logs --debug --nocache --build"
-
-  commercial:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Export short SHA of current commit
-        run: |
-          FIRMWARE_SHORT_HASH=$( echo ${GITHUB_SHA:0:7} )
-          echo "FIRMWARE_SHORT_HASH=$FIRMWARE_SHORT_HASH" >> $GITHUB_ENV
-      - name: Random sleep (balena API workaround)
-        run:  sleep $[ ( $RANDOM % 360 ) + 1 ]s
-      - name: Generate Docker Compose for RaspberryPi
-        run: |
-          python gen_docker_compose.py rpi -o docker-compose.yml
-      - name: Balena Deploy
-        uses: nebraltd/balena-cli-action@v13.3.0
-        if: success()
-        with:
-          balena_api_token: ${{secrets.BALENA_API_TOKEN_5}}
-          balena_command: "deploy nebraltd/helium-miner-commercial --logs --debug --nocache --build"
