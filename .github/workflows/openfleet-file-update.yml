@@ -10,10 +10,14 @@ on:
 jobs:
   file-update:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sbc: [rak, pisces, og, sensecap, finestra, controllino]
     steps:
-      - name: Trigger PR action in helium-miner-software repo
+      - name: Trigger PR action in helium-{{ matrix.sbc }} repo
         uses: peter-evans/repository-dispatch@v1
         with:
           token: ${{ secrets.MR_BUMP }}
           event-type: file-update
-          repository: NebraLtd/helium-pisces
+          repository: NebraLtd/helium-{{ matrix.sbc }}
