@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        sbc: [raspi, rockpi, rak]
+        sbc: [raspi, rockpi, rak, finestra, sensecap, og, controllino, pisces]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -18,7 +18,7 @@ jobs:
           FIRMWARE_SHORT_HASH=$( echo ${GITHUB_SHA:0:7} )
           echo "FIRMWARE_SHORT_HASH=$FIRMWARE_SHORT_HASH" >> $GITHUB_ENV
       - name: Random sleep (balena API workaround)
-        run:  sleep $[ ( $RANDOM % 180 )  + 1 ]s
+        run:  sleep $[ ( $RANDOM % 360 ) + 1 ]s
       - name: Generate Docker Compose for RockPi
         if: matrix.sbc == 'rockpi'
         run: |
@@ -26,29 +26,34 @@ jobs:
           cp device-compose-files/docker-compose-rockpi.yml docker-compose.yml
           ROCKPI="-rockpi"
           echo "ROCKPI=$ROCKPI" >> $GITHUB_ENV
-      - name: Generate Docker Compose for RaspberryPi & RAK
-        if: matrix.sbc == 'raspi' || matrix.sbc == 'rak'
+      - name: Generate Docker Compose for RaspberryPi & RAK & Other RasPi based vendors
+        if: matrix.sbc == 'raspi' || matrix.sbc == 'rak' || matrix.sbc == 'og' || matrix.sbc == 'sensecap' || matrix.sbc == 'finestra' || matrix.sbc == 'controllino'
         run: |
           python gen_docker_compose.py rpi -o device-compose-files/docker-compose-rpi.yml
           cp device-compose-files/docker-compose-rpi.yml docker-compose.yml
-      - name: Balena Deploy (ROCK Pi)
-        uses: nebraltd/balena-cli-action@v13.1.10
+      - name: Generate Docker Compose for Pisces
+        if: matrix.sbc == 'pisces'
+        run: |
+          python gen_docker_compose.py pisces -o device-compose-files/docker-compose-pisces.yml
+          cp device-compose-files/docker-compose-pisces.yml docker-compose.yml
+      - name: Balena Deploy (Nebra ROCK Pi)
+        uses: nebraltd/balena-cli-action@v13.3.0
         if: matrix.sbc == 'rockpi' && success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
           balena_command: "deploy nebraltd/helium-testnet${{ env.ROCKPI }} --logs --debug --nocache --build --draft"
-      - name: Balena Deploy (RasPi)
-        uses: nebraltd/balena-cli-action@v13.1.10
+      - name: Balena Deploy (Nebra RasPi)
+        uses: nebraltd/balena-cli-action@v13.3.0
         if: matrix.sbc == 'raspi' && success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_1}}
           balena_command: "deploy nebraltd/helium-testnet --logs --debug --nocache --build --draft"
-      - name: Balena Deploy (RAK)
-        uses: nebraltd/balena-cli-action@v13.1.10
-        if: matrix.sbc == 'rak' && success()
+      - name: Balena Deploy (RAK and other non-Nebra RasPi)
+        uses: nebraltd/balena-cli-action@v13.3.0
+        if: success() && (matrix.sbc == 'rak' || matrix.sbc == 'og' || matrix.sbc == 'sensecap' || matrix.sbc == 'finestra' || matrix.sbc == 'controllino' || matrix.sbc == 'pisces')
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_2}}
-          balena_command: "deploy nebraltd/helium-testnet-rak --logs --debug --nocache --build --draft"
+          balena_command: "deploy nebraltd/helium-testnet-${{ matrix.sbc }} --logs --debug --nocache --build --draft"
       - name: Push updated docker compose file (ROCK Pi)
         if: matrix.sbc == 'rockpi' && success()
         uses: test-room-7/action-update-file@v1
@@ -57,11 +62,19 @@ jobs:
           file-path: device-compose-files/docker-compose-rockpi.yml
           commit-msg: Update ROCK Pi docker compose output
           github-token: ${{ secrets.MR_BUMP }}
-      - name: Push updated docker compose file (RasPi)
-        if: (matrix.sbc == 'raspi' || matrix.sbc == 'rak') && success()
+      - name: Push updated docker compose file (Nebra RasPi, RAK and other RasPi based vendors)
+        if: (matrix.sbc == 'raspi' || matrix.sbc == 'rak' || matrix.sbc == 'og' || matrix.sbc == 'sensecap' || matrix.sbc == 'finestra' || matrix.sbc == 'controllino') && success()
         uses: test-room-7/action-update-file@v1
         with:
           branch: master
           file-path: device-compose-files/docker-compose-rpi.yml
           commit-msg: Update Raspberry Pi docker compose output              
+          github-token: ${{ secrets.MR_BUMP }}
+      - name: Push updated docker compose file (Pisces)
+        if: matrix.sbc == 'pisces' && success()
+        uses: test-room-7/action-update-file@v1
+        with:
+          branch: master
+          file-path: device-compose-files/docker-compose-pisces.yml
+          commit-msg: Update Pisces P100 docker compose output              
           github-token: ${{ secrets.MR_BUMP }}
