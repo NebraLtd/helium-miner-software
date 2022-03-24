@@ -30,17 +30,17 @@ As of 27th Jan 2022, we have also moved the UPnP functionality into this repo in
 
 Removing the UPnP container reduces CPU overhead and redundant code.
 
-## Helium Miner
+## Helium Gateway-rs
 
-Repo: [github.com/NebraLtd/hm-miner](https://github.com/NebraLtd/hm-miner)
+Repo: [github.com/NebraLtd/hm-gatewayrs](https://github.com/NebraLtd/hm-gatewayrs)
 
-This container is the actual Helium Miner software (from upstream), with the required configuration files added.
+This container is the actual Helium Gateway-rs software (from upstream), with the required configuration files added.
 
 ## DBus Session
 
 Repo: [github.com/balenablocks/dbus](https://github.com/balenablocks/dbus)
 
-This container configures a DBus session bus instance that is used by the gateway config container to communicate with the miner code (note that there is also a separate system bus running on the host OS which is used by gateway config to communicate with bluez for configuring Bluetooth services). This removes the need to have a custom `com.helium.Miner.conf` dbus config file on the host OS as was done previously (and meant we had to run a custom balena device type).
+This container doesn't serve any purpose any more and will be removed.
 
 #  Quick Start
 
