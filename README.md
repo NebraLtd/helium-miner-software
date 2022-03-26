@@ -4,7 +4,7 @@ This repository generates the main docker-compose.yml (follow the steps to gener
 
 The `docker-compose.yml` file is pushed to [Balena](https://www.balena.io/) (using GitHub Actions), which in turn pulls down the various Docker images outlined below.
 
-There are currently six different services running within this device, which are all outlined below.
+There are currently five different services running within this device, which are all outlined below.
 
 ## Diagnostics
 
