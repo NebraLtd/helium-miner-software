@@ -41,19 +41,19 @@ jobs:
         if: matrix.sbc == 'rockpi' && success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
-          balena_command: "deploy nebraltd/helium-testnet${{ env.ROCKPI }} --logs --debug --nocache --build --draft"
+          balena_command: "deploy nebraltd/helium-light-testnet${{ env.ROCKPI }} --logs --debug --nocache --build --draft"
       - name: Balena Deploy (Nebra RasPi)
         uses: nebraltd/balena-cli-action@v13.3.0
         if: matrix.sbc == 'raspi' && success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_1}}
-          balena_command: "deploy nebraltd/helium-testnet --logs --debug --nocache --build --draft"
+          balena_command: "deploy nebraltd/helium-light-testnet --logs --debug --nocache --build --draft"
       - name: Balena Deploy (RAK and other non-Nebra RasPi)
         uses: nebraltd/balena-cli-action@v13.3.0
         if: success() && (matrix.sbc == 'rak' || matrix.sbc == 'og' || matrix.sbc == 'sensecap' || matrix.sbc == 'finestra' || matrix.sbc == 'controllino' || matrix.sbc == 'pisces')
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_2}}
-          balena_command: "deploy nebraltd/helium-testnet-${{ matrix.sbc }} --logs --debug --nocache --build --draft"
+          balena_command: "deploy nebraltd/helium-light-testnet-${{ matrix.sbc }} --logs --debug --nocache --build --draft"
       - name: Push updated docker compose file (ROCK Pi)
         if: matrix.sbc == 'rockpi' && success()
         uses: test-room-7/action-update-file@v1
@@ -68,7 +68,7 @@ jobs:
         with:
           branch: master
           file-path: device-compose-files/docker-compose-rpi.yml
-          commit-msg: Update Raspberry Pi docker compose output              
+          commit-msg: Update Raspberry Pi docker compose output
           github-token: ${{ secrets.MR_BUMP }}
       - name: Push updated docker compose file (Pisces)
         if: matrix.sbc == 'pisces' && success()
@@ -76,5 +76,5 @@ jobs:
         with:
           branch: master
           file-path: device-compose-files/docker-compose-pisces.yml
-          commit-msg: Update Pisces P100 docker compose output              
+          commit-msg: Update Pisces P100 docker compose output
           github-token: ${{ secrets.MR_BUMP }}

@@ -13,34 +13,6 @@ jobs:
       fail-fast: false
       matrix:
         sbc: [raspi, rockpi, rak, pisces, og, sensecap, finestra, controllino]
-        frequency: [470, 868, 915]
-        variant: [indoor, outdoor]
-        exclude:
-          - sbc: rak
-          - sbc: pisces
-          - sbc: og
-          - sbc: sensecap
-          - sbc: finestra
-          - sbc: controllino
-        include:
-          - sbc: pisces
-            variant: indoor
-            frequency: 868
-          - sbc: rak
-            variant: indoor
-            frequency: 868
-          - sbc: og
-            variant: indoor
-            frequency: 868
-          - sbc: sensecap
-            variant: indoor
-            frequency: 868
-          - sbc: finestra
-            variant: indoor
-            frequency: 868
-          - sbc: controllino
-            variant: indoor
-            frequency: 868
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -63,7 +35,7 @@ jobs:
       - name: Generate Docker Compose for RAK and Non-Nebra RasPi
         if: matrix.sbc == 'rak' || matrix.sbc == 'og' || matrix.sbc == 'sensecap' || matrix.sbc == 'finestra' || matrix.sbc == 'controllino'
         run: |
-          python gen_docker_compose.py rpi -o docker-compose.yml  
+          python gen_docker_compose.py rpi -o docker-compose.yml
           cp balena/balena.yml.${{ matrix.sbc }} balena.yml
       - name: Generate Docker Compose for Pisces
         if: matrix.sbc == 'pisces'
@@ -75,13 +47,13 @@ jobs:
         if: matrix.sbc == 'rockpi' && success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
-          balena_command: "deploy nebraltd/helium-${{ matrix.variant }}-${{ matrix.frequency }}${{ env.ROCKPI }} --logs --debug --nocache --build"
+          balena_command: "deploy nebraltd/helium${{ env.ROCKPI }} --logs --debug --nocache --build"
       - name: Balena Deploy (Nebra RasPi)
         uses: nebraltd/balena-cli-action@v13.3.0
         if: matrix.sbc == 'raspi' && success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_1}}
-          balena_command: "deploy nebraltd/helium-${{ matrix.variant }}-${{ matrix.frequency }} --logs --debug --nocache --build"
+          balena_command: "deploy nebraltd/helium-light-hotspot --logs --debug --nocache --build"
       - name: Balena Deploy (RAK and Non-Nebra RasPi)
         uses: nebraltd/balena-cli-action@v13.3.0
         if: ( matrix.sbc == 'rak' || matrix.sbc == 'og' || matrix.sbc == 'sensecap' || matrix.sbc == 'finestra' || matrix.sbc == 'controllino' ) && success()
