@@ -4,7 +4,7 @@ This repository generates the main docker-compose.yml (follow the steps to gener
 
 The `docker-compose.yml` file is pushed to [Balena](https://www.balena.io/) (using GitHub Actions), which in turn pulls down the various Docker images outlined below.
 
-There are currently six different services running within this device, which are all outlined below.
+There are currently four different services running within this device, which are all outlined below.
 
 ## Diagnostics
 
@@ -35,12 +35,6 @@ Removing the UPnP container reduces CPU overhead and redundant code.
 Repo: [github.com/NebraLtd/hm-gatewayrs](https://github.com/NebraLtd/hm-gatewayrs)
 
 This container is the actual Helium Gateway-rs software (from upstream), with the required configuration files added.
-
-## DBus Session
-
-Repo: [github.com/balenablocks/dbus](https://github.com/balenablocks/dbus)
-
-This container doesn't serve any purpose any more and will be removed.
 
 #  Quick Start
 
