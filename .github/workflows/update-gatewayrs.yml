@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        with: 
+        with:
           ref: ${{ github.ref }}
       - run: |
           LATEST_GA=${{ github.event.client_payload.tag }}
@@ -18,11 +18,11 @@ jobs:
 
           echo "We're not on the latest Helium gateway-rs release. Updating to $LATEST_GA with SHA $SHORT_SHA."
           sed -i -E "s/FIRMWARE_VERSION=.*/FIRMWARE_VERSION=$LATEST_GA/g" settings.ini
-          sed -i -E "s/GATEWAY_VERSION=.*/GATEWAY_VERSION=$SHORT_SHA/g" settings.ini
+          sed -i -E "s/GATEWAYRS_VERSION=.*/GATEWAYRS_VERSION=$SHORT_SHA/g" settings.ini
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
-          commit-message: Update Gatewayrs to latest GA ${{ env.LATEST_GA }}
+          commit-message: Update Gateway-rs to latest GA ${{ env.LATEST_GA }}
           branch: gatewayrs-bump/${{ env.LATEST_GA }}
           delete-branch: true
           base: master
