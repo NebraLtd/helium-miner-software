@@ -9,7 +9,7 @@ services:
       - diagnostics
     environment:
       - FIRMWARE_VERSION=2022.03.23.1-2
-      - FIRMWARE_SHORT_HASH=1a5ad1d
+      - FIRMWARE_SHORT_HASH=c681112
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
       - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
     privileged: true
@@ -61,13 +61,13 @@ services:
       - FIRMWARE_VERSION=2022.03.23.1-2
 
   diagnostics:
-    image: nebraltd/hm-diag:fb63618
+    image: nebraltd/hm-diag:e28cc38
     depends_on:
       - dbus-session
     environment:
       - FIRMWARE_VERSION=2022.03.23.1-2
-      - FIRMWARE_SHORT_HASH=1a5ad1d
-      - DIAGNOSTICS_VERSION=fb63618
+      - FIRMWARE_SHORT_HASH=c681112
+      - DIAGNOSTICS_VERSION=e28cc38
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
     volumes:
       - pktfwdr:/var/pktfwd
@@ -87,6 +87,7 @@ services:
       io.balena.features.sysfs: 1
       io.balena.features.procfs: 1
       io.balena.features.dbus: 1
+      io.balena.features.supervisor-api: '1'
 
   dbus-session:
     image: balenablocks/dbus:rpi-0.0.2
@@ -96,7 +97,7 @@ services:
     environment:
       - DBUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
       - FIRMWARE_VERSION=2022.03.23.1-2
-      - FIRMWARE_SHORT_HASH=1a5ad1d
+      - FIRMWARE_SHORT_HASH=c681112
 
 volumes:
   miner-storage:
