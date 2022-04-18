@@ -37,7 +37,7 @@ Repo: [github.com/NebraLtd/hm-gatewayrs](https://github.com/NebraLtd/hm-gatewayr
 This container is the actual Helium Gateway-rs software (from upstream), with the required configuration files added.
 
 Gatewayrs container requires two IP ports exposed as default.
-- [1680](https://github.com/helium/gateway-rs/blob/d6e140fc8f102d2e1008ddf6d58cef32c4f60392/src/settings.rs#L18): For connecting to packet-forwarder over localhost (127.0.0.1)
+- [1680](https://github.com/helium/gateway-rs/blob/d6e140fc8f102d2e1008ddf6d58cef32c4f60392/src/settings.rs#L18): For connecting to packet-forwarder.
 - [4467](https://github.com/helium/gateway-rs/blob/d6e140fc8f102d2e1008ddf6d58cef32c4f60392/src/settings.rs#L22): For connecting to gRPC API over WAN.
 
 Both of these ports can be changed via settings (toml) file.
