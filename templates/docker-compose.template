@@ -5,7 +5,7 @@ services:
   gateway-config:
     image: nebraltd/hm-config:{{CONFIG_VERSION}}
     depends_on:
-      - gatewayrs
+      - helium-miner
       - diagnostics
     environment:
       - FIRMWARE_VERSION={{FIRMWARE_VERSION}}
@@ -24,7 +24,7 @@ services:
   packet-forwarder:
     image: nebraltd/hm-pktfwd:{{PKTFWD_VERSION}}
     depends_on:
-      - gatewayrs
+      - helium-miner
     restart: always
     privileged: true
     network_mode: host
@@ -54,7 +54,7 @@ services:
   diagnostics:
     image: nebraltd/hm-diag:{{DIAGNOSTICS_VERSION}}
     depends_on:
-      - gatewayrs
+      - helium-miner
     environment:
       - FIRMWARE_VERSION={{FIRMWARE_VERSION}}
       - FIRMWARE_SHORT_HASH={{ENV.FIRMWARE_SHORT_HASH}}
