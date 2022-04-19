@@ -72,6 +72,7 @@ services:
     volumes:
       - pktfwdr:/var/pktfwd
       - miner-storage:/var/data
+      - miner-log:/var/log/miner
     ports:
       - "80:5000"
     cap_add:
