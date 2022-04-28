@@ -3,13 +3,13 @@ version: '2'
 services:
 
   gateway-config:
-    image: nebraltd/hm-config:e5ac58c
+    image: nebraltd/hm-config:e3cf0d6
     depends_on:
       - dbus-session
       - diagnostics
     environment:
-      - FIRMWARE_VERSION=2022.03.07.0-2
-      - FIRMWARE_SHORT_HASH=793143a
+      - FIRMWARE_VERSION=2022.04.19.0-1
+      - FIRMWARE_SHORT_HASH=830931a
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
       - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
     privileged: true
@@ -34,10 +34,10 @@ services:
     volumes:
       - pktfwdr:/var/pktfwd
     environment:
-      - FIRMWARE_VERSION=2022.03.07.0-2
+      - FIRMWARE_VERSION=2022.04.19.0-1
 
   helium-miner:
-    image: nebraltd/hm-miner:arm64-9564845
+    image: nebraltd/hm-miner:arm64-3d36693
     depends_on:
       - dbus-session
       - diagnostics
@@ -58,16 +58,16 @@ services:
     restart: on-failure
     environment:
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - FIRMWARE_VERSION=2022.03.07.0-2
+      - FIRMWARE_VERSION=2022.04.19.0-1
 
   diagnostics:
-    image: nebraltd/hm-diag:fb63618
+    image: nebraltd/hm-diag:24240cc
     depends_on:
       - dbus-session
     environment:
-      - FIRMWARE_VERSION=2022.03.07.0-2
-      - FIRMWARE_SHORT_HASH=793143a
-      - DIAGNOSTICS_VERSION=fb63618
+      - FIRMWARE_VERSION=2022.04.19.0-1
+      - FIRMWARE_SHORT_HASH=830931a
+      - DIAGNOSTICS_VERSION=24240cc
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
     volumes:
       - pktfwdr:/var/pktfwd
@@ -87,6 +87,7 @@ services:
       io.balena.features.sysfs: 1
       io.balena.features.procfs: 1
       io.balena.features.dbus: 1
+      io.balena.features.supervisor-api: '1'
 
   dbus-session:
     image: balenablocks/dbus:rpi-0.0.2
@@ -95,8 +96,8 @@ services:
       - dbus:/session/dbus
     environment:
       - DBUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - FIRMWARE_VERSION=2022.03.07.0-2
-      - FIRMWARE_SHORT_HASH=793143a
+      - FIRMWARE_VERSION=2022.04.19.0-1
+      - FIRMWARE_SHORT_HASH=830931a
 
 volumes:
   miner-storage:
