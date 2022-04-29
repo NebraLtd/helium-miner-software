@@ -38,7 +38,7 @@ services:
       - FIRMWARE_SHORT_HASH={{ENV.FIRMWARE_SHORT_HASH}}
 
   helium-miner:
-    image: nebraltd/hm-gatewayrs:{{GATEWAY_VERSION}}
+    image: nebraltd/hm-gatewayrs:{{GATEWAYRS_VERSION}}
     network_mode: host
     cap_add:
       - SYS_RAWIO
