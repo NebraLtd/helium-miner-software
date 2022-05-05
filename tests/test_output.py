@@ -10,8 +10,7 @@ from os.path import abspath, dirname, join, exists
 here = dirname(abspath(__file__))
 parent = dirname(here)
 template_file = 'docker-compose.template'
-rpi_output_file = join(here, 'rpi.yml')
-rockpi_output_file = join(here, 'rockpi.yml')
+output_file = join(here, 'dc.yml')
 
 sys.path.insert(1, parent)
 
@@ -27,28 +26,17 @@ class TestValidComposeFileOutput(unittest.TestCase):
         return super().tearDown()
 
     def _remove_output_files(self):
-        for filename in (rpi_output_file, rockpi_output_file):
-            if exists(filename):
-                unlink(filename)
+        if exists(output_file):
+            unlink(output_file)
 
-    def test_rpi_compose_output_is_valid(self):
+    def test_compose_output_is_valid(self):
         # Uncomment line below if want to test custom templates.
         # dc = DockerComposer(templates_folder=templates_folder)
         dc = DockerComposer()
-        dc.generate_compose_file('rpi', template_file, rpi_output_file)
+        dc.generate_compose_file(template_file, output_file)
 
         # On failure or non-zero return code this returns CalledProcessError
         # so if this runs without that, it's considered successful as
         # `docker-compose config -q` returns 1 on invalid config
         check_call(
-            f'docker-compose -f {rpi_output_file} config -q', shell=True)
-
-    def test_rockpi_compose_output_is_valid(self):
-        dc = DockerComposer()
-        dc.generate_compose_file('rockpi', template_file, rockpi_output_file)
-
-        # On failure or non-zero return code this returns CalledProcessError
-        # so if this runs without that, it's considered successful as
-        # `docker-compose config -q` returns 1 on invalid config
-        check_call(
-            f'docker-compose -f {rockpi_output_file} config -q', shell=True)
+            f'docker-compose -f {output_file} config -q', shell=True)
