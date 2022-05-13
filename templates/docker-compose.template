@@ -35,6 +35,7 @@ services:
       - pktfwdr:/var/pktfwd
     environment:
       - FIRMWARE_VERSION={{FIRMWARE_VERSION}}
+      - FIRMWARE_SHORT_HASH={{ENV.FIRMWARE_SHORT_HASH}}
 
   helium-miner:
     image: nebraltd/hm-miner:{{ARCH}}-{{MINER_VERSION}}
@@ -59,6 +60,7 @@ services:
     environment:
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
       - FIRMWARE_VERSION={{FIRMWARE_VERSION}}
+      - FIRMWARE_SHORT_HASH={{ENV.FIRMWARE_SHORT_HASH}}
 
   diagnostics:
     image: nebraltd/hm-diag:{{DIAGNOSTICS_VERSION}}
