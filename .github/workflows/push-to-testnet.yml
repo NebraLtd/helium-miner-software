@@ -55,7 +55,7 @@ jobs:
           balena_command: "deploy nebraltd/helium-testnet --logs --debug --nocache --build"
       - name: Balena Deploy (RAK and other non-Nebra RasPi)
         uses: nebraltd/balena-cli-action@v13.3.0
-        if: success() && (matrix.sbc == 'rak' || matrix.sbc == 'og' || matrix.sbc == 'sensecap' || matrix.sbc == 'finestra' || matrix.sbc == 'controllino' || matrix.sbc == 'pisces')
+        if: success() && (matrix.sbc == 'rak' || matrix.sbc == 'og' || matrix.sbc == 'sensecap' || matrix.sbc == 'finestra' || matrix.sbc == 'controllino' || matrix.sbc == 'pisces' || matrix.sbc == 'pantherx1')
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_2}}
           balena_command: "deploy nebraltd/helium-testnet-${{ matrix.sbc }} --logs --debug --nocache --build"
