@@ -45,8 +45,6 @@ services:
     expose:
       - "1680"
       - "4467"
-    ports:
-      - "44158:44158/tcp"
     volumes:
       - miner-storage:/var/data
       - miner-log:/var/log/miner
