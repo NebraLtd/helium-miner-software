@@ -69,7 +69,7 @@ services:
     environment:
       - FIRMWARE_VERSION=2022.06.09.0
       - FIRMWARE_SHORT_HASH=ec8c915
-      - DIAGNOSTICS_VERSION=b25814b
+      - DIAGNOSTICS_VERSION=eabd38c
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
     volumes:
       - pktfwdr:/var/pktfwd
