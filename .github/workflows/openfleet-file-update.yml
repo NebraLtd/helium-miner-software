@@ -13,11 +13,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        sbc: [rak, pisces, og, sensecap, finestra, controllino, cotx]
+        variant: [nebra-indoor1, nebra-outdoor1, nebra-indoor2, nebra-outdoor2, nebra-light1, nebra-light2, nebra-light3, cotx3-v1, finestra-v1, helium-v1, panther-v1, pisces-v1, rak-v1, senscap-v1]
     steps:
-      - name: Trigger PR action in helium-${{ matrix.sbc }} repo
+      - name: Trigger PR action in hnt-${{ matrix.variant }} repo
         uses: peter-evans/repository-dispatch@v1
         with:
           token: ${{ secrets.MR_BUMP }}
           event-type: file-update
-          repository: NebraLtd/helium-${{ matrix.sbc }}
+          repository: NebraLtd/hnt-${{ matrix.variant }}

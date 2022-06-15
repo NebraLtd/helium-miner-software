@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        sbc: [raspi, rockpi, rak, finestra, sensecap, og, controllino, pisces, cotx, pantherx1]
+        variant: [nebra-indoor1, nebra-outdoor1, nebra-indoor2, nebra-outdoor2, nebra-light1, nebra-light2, nebra-light3, cotx3-v1, finestra-v1, helium-v1, panther-v1, pisces-v1, rak-v1, senscap-v1]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -24,62 +24,34 @@ jobs:
           echo "FIRMWARE_SHORT_HASH=$FIRMWARE_SHORT_HASH" >> $GITHUB_ENV
       - name: Random sleep (balena API workaround)
         run:  sleep $[ ( $RANDOM % 360 ) + 1 ]s
-      - name: Generate Docker Compose for RockPi
-        if: matrix.sbc == 'rockpi'
-        run: |
-          python gen_docker_compose.py rockpi -o device-compose-files/docker-compose-rockpi.yml
-          cp device-compose-files/docker-compose-rockpi.yml docker-compose.yml
-          ROCKPI="-rockpi"
-          echo "ROCKPI=$ROCKPI" >> $GITHUB_ENV
-      - name: Generate Docker Compose for RaspberryPi & RAK & Other RasPi based vendors
-        if: matrix.sbc == 'raspi' || matrix.sbc == 'rak' || matrix.sbc == 'og' || matrix.sbc == 'sensecap' || matrix.sbc == 'finestra' || matrix.sbc == 'controllino' || matrix.sbc == 'cotx' || matrix.sbc == 'pantherx1'
-        run: |
-          python gen_docker_compose.py rpi -o device-compose-files/docker-compose-rpi.yml
-          cp device-compose-files/docker-compose-rpi.yml docker-compose.yml
-      - name: Generate Docker Compose for Pisces
-        if: matrix.sbc == 'pisces'
-        run: |
-          python gen_docker_compose.py pisces -o device-compose-files/docker-compose-pisces.yml
-          cp device-compose-files/docker-compose-pisces.yml docker-compose.yml
-      - name: Balena Deploy (Nebra ROCK Pi)
+      - name: Generate All Docker Compose Files for All Variants
+        if: matrix.variant == 'nebra-indoor1'
+        run: python gen_docker_compose.py -a
+      - name: Copy Variant Docker Compose For Deployment
+        run: cp device-compose-files/docker-compose-${{matrix.variant}}.yml docker-compose.yml
+      - name: Balena Deploy Testnet
         uses: nebraltd/balena-cli-action@v13.3.0
-        if: matrix.sbc == 'rockpi' && success()
-        with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
-          balena_command: "deploy nebraltd/helium-testnet${{ env.ROCKPI }} --logs --debug --nocache --build"
-      - name: Balena Deploy (Nebra RasPi)
-        uses: nebraltd/balena-cli-action@v13.3.0
-        if: matrix.sbc == 'raspi' && success()
-        with:
-          balena_api_token: ${{secrets.BALENA_API_TOKEN_1}}
-          balena_command: "deploy nebraltd/helium-testnet --logs --debug --nocache --build"
-      - name: Balena Deploy (RAK and other non-Nebra RasPi)
-        uses: nebraltd/balena-cli-action@v13.3.0
-        if: success() && (matrix.sbc == 'rak' || matrix.sbc == 'og' || matrix.sbc == 'sensecap' || matrix.sbc == 'finestra' || matrix.sbc == 'controllino' || matrix.sbc == 'pisces' || matrix.sbc == 'cotx' || matrix.sbc == 'pantherx1')
-        with:
-          balena_api_token: ${{secrets.BALENA_API_TOKEN_2}}
-          balena_command: "deploy nebraltd/helium-testnet-${{ matrix.sbc }} --logs --debug --nocache --build"
-      - name: Push updated docker compose file (ROCK Pi)
-        if: matrix.sbc == 'rockpi' && success()
+          balena_command: "deploy nebraltd/${{ matrix.variant }}_testnet_commercial --logs --debug --nocache --build"
+      - name: Push updated docker compose files
+        if: matrix.variant == 'nebra-indoor1'
         uses: test-room-7/action-update-file@v1
         with:
           branch: master
-          file-path: device-compose-files/docker-compose-rockpi.yml
-          commit-msg: Update ROCK Pi docker compose output
-          github-token: ${{ secrets.MR_BUMP }}
-      - name: Push updated docker compose file (Nebra RasPi, RAK and other RasPi based vendors)
-        if: (matrix.sbc == 'raspi' || matrix.sbc == 'rak' || matrix.sbc == 'og' || matrix.sbc == 'sensecap' || matrix.sbc == 'finestra' || matrix.sbc == 'controllino' || matrix.sbc == 'cotx' || matrix.sbc == 'pantherx1') && success()
-        uses: test-room-7/action-update-file@v1
-        with:
-          branch: master
-          file-path: device-compose-files/docker-compose-rpi.yml
-          commit-msg: Update Raspberry Pi docker compose output
-          github-token: ${{ secrets.MR_BUMP }}
-      - name: Push updated docker compose file (Pisces)
-        if: matrix.sbc == 'pisces' && success()
-        uses: test-room-7/action-update-file@v1
-        with:
-          branch: master
-          file-path: device-compose-files/docker-compose-pisces.yml
-          commit-msg: Update Pisces P100 docker compose output
+          file-path: |
+            device-compose-files/docker-compose-nebra-indoor1.yml
+            device-compose-files/docker-compose-nebra-outdoor1.yml
+            device-compose-files/docker-compose-nebra-indoor2.yml
+            device-compose-files/docker-compose-nebra-outdoor2.yml
+            device-compose-files/docker-compose-nebra-light1.yml
+            device-compose-files/docker-compose-nebra-light2.yml
+            device-compose-files/docker-compose-nebra-light3.yml
+            device-compose-files/docker-compose-cotx3-v1.yml
+            device-compose-files/docker-compose-finestra-v1.yml
+            device-compose-files/docker-compose-helium-v1.yml
+            device-compose-files/docker-compose-panther-v1.yml
+            device-compose-files/docker-compose-pisces-v1.yml
+            device-compose-files/docker-compose-rak-v1.yml
+            device-compose-files/docker-compose-senscap-v1.yml
+          commit-msg: Update all docker compose outputs
           github-token: ${{ secrets.MR_BUMP }}
