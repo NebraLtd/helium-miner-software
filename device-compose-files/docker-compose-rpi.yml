@@ -3,13 +3,13 @@ version: '2'
 services:
 
   gateway-config:
-    image: nebraltd/hm-config:b24dce9
+    image: nebraltd/hm-config:cb65002
     depends_on:
       - dbus-session
       - diagnostics
     environment:
-      - FIRMWARE_VERSION=2022.06.09.1
-      - FIRMWARE_SHORT_HASH=08267b4
+      - FIRMWARE_VERSION=2022.06.09.0
+      - FIRMWARE_SHORT_HASH=ec8c915
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
       - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
     privileged: true
@@ -26,7 +26,7 @@ services:
     stop_signal: SIGINT
 
   packet-forwarder:
-    image: nebraltd/hm-pktfwd:d2e5ba2
+    image: nebraltd/hm-pktfwd:7a80a3e
     depends_on:
       - helium-miner
     restart: always
@@ -34,8 +34,8 @@ services:
     volumes:
       - pktfwdr:/var/pktfwd
     environment:
-      - FIRMWARE_VERSION=2022.06.09.1
-      - FIRMWARE_SHORT_HASH=08267b4
+      - FIRMWARE_VERSION=2022.06.09.0
+      - FIRMWARE_SHORT_HASH=ec8c915
 
   helium-miner:
     image: nebraltd/hm-miner:arm64-6ebab28
@@ -59,22 +59,21 @@ services:
     restart: on-failure
     environment:
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - FIRMWARE_VERSION=2022.06.09.1
-      - FIRMWARE_SHORT_HASH=08267b4
+      - FIRMWARE_VERSION=2022.06.09.0
+      - FIRMWARE_SHORT_HASH=ec8c915
 
   diagnostics:
-    image: nebraltd/hm-diag:22a67fa
+    image: nebraltd/hm-diag:eabd38c
     depends_on:
       - dbus-session
     environment:
-      - FIRMWARE_VERSION=2022.06.09.1
-      - FIRMWARE_SHORT_HASH=08267b4
-      - DIAGNOSTICS_VERSION=22a67fa
+      - FIRMWARE_VERSION=2022.06.09.0
+      - FIRMWARE_SHORT_HASH=ec8c915
+      - DIAGNOSTICS_VERSION=eabd38c
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
     volumes:
       - pktfwdr:/var/pktfwd
       - miner-storage:/var/data
-      - watchdog-log:/var/watchdog
     ports:
       - "80:5000"
     cap_add:
@@ -99,12 +98,11 @@ services:
       - dbus:/session/dbus
     environment:
       - DBUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - FIRMWARE_VERSION=2022.06.09.1
-      - FIRMWARE_SHORT_HASH=08267b4
+      - FIRMWARE_VERSION=2022.06.09.0
+      - FIRMWARE_SHORT_HASH=ec8c915
 
 volumes:
   miner-storage:
   miner-log:
-  watchdog-log:
   pktfwdr:
   dbus:
