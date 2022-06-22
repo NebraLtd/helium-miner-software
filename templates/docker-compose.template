@@ -74,6 +74,7 @@ services:
     volumes:
       - pktfwdr:/var/pktfwd
       - miner-storage:/var/data
+      - watchdog-log:/var/watchdog
     ports:
       - "80:5000"
     cap_add:
@@ -104,5 +105,6 @@ services:
 volumes:
   miner-storage:
   miner-log:
+  watchdog-log:
   pktfwdr:
   dbus:
