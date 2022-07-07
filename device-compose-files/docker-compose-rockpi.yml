@@ -3,13 +3,13 @@ version: '2'
 services:
 
   gateway-config:
-    image: nebraltd/hm-config:b24dce9
+    image: nebraltd/hm-config:282b43e
     depends_on:
       - dbus-session
       - diagnostics
     environment:
-      - FIRMWARE_VERSION=2022.06.09.0-2
-      - FIRMWARE_SHORT_HASH=233dd2e
+      - FIRMWARE_VERSION=2022.06.09.0-3
+      - FIRMWARE_SHORT_HASH=99094e4
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
       - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
     privileged: true
@@ -26,7 +26,7 @@ services:
     stop_signal: SIGINT
 
   packet-forwarder:
-    image: nebraltd/hm-pktfwd:d2e5ba2
+    image: nebraltd/hm-pktfwd:460a615
     depends_on:
       - helium-miner
     restart: always
@@ -34,8 +34,8 @@ services:
     volumes:
       - pktfwdr:/var/pktfwd
     environment:
-      - FIRMWARE_VERSION=2022.06.09.0-2
-      - FIRMWARE_SHORT_HASH=233dd2e
+      - FIRMWARE_VERSION=2022.06.09.0-3
+      - FIRMWARE_SHORT_HASH=99094e4
 
   helium-miner:
     image: nebraltd/hm-miner:arm64-6ebab28
@@ -59,17 +59,17 @@ services:
     restart: on-failure
     environment:
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - FIRMWARE_VERSION=2022.06.09.0-2
-      - FIRMWARE_SHORT_HASH=233dd2e
+      - FIRMWARE_VERSION=2022.06.09.0-3
+      - FIRMWARE_SHORT_HASH=99094e4
 
   diagnostics:
-    image: nebraltd/hm-diag:87190b8
+    image: nebraltd/hm-diag:b3f5e3a
     depends_on:
       - dbus-session
     environment:
-      - FIRMWARE_VERSION=2022.06.09.0-2
-      - FIRMWARE_SHORT_HASH=233dd2e
-      - DIAGNOSTICS_VERSION=87190b8
+      - FIRMWARE_VERSION=2022.06.09.0-3
+      - FIRMWARE_SHORT_HASH=99094e4
+      - DIAGNOSTICS_VERSION=b3f5e3a
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
     volumes:
       - pktfwdr:/var/pktfwd
@@ -99,8 +99,8 @@ services:
       - dbus:/session/dbus
     environment:
       - DBUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - FIRMWARE_VERSION=2022.06.09.0-2
-      - FIRMWARE_SHORT_HASH=233dd2e
+      - FIRMWARE_VERSION=2022.06.09.0-3
+      - FIRMWARE_SHORT_HASH=99094e4
 
 volumes:
   miner-storage:
