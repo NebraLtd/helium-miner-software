@@ -1,0 +1,41 @@
+version: '2.1'
+services:
+  packet-forwarder:
+    image: 'nebraltd/hm-pktfwd:f375067'
+    privileged: true
+    cap_add:
+      - SYS_RAWIO
+    volumes:
+      - 'pktfwdr:/var/pktfwd'
+  helium-miner:
+    image: 'quay.io/team-helium/miner:miner-amd64_2022.08.02.0_GA'
+    expose:
+      - '1680'
+      - '4467'
+    ports:
+      - '4467:4467'
+    volumes:
+      - 'miner-storage:/var/data'
+      - 'miner-log:/var/log/miner'
+      - 'pktfwdr:/var/pktfwd'
+    cap_add:
+      - SYS_RAWIO
+  qctesting:
+    image: 'balenalib/amd64-ubuntu-python'
+    entrypoint: tail
+    command: ["tail", "-f", "/dev/null"]
+    environment:
+      FIRMWARE_VERSION: v1.0.0-alpha.23
+      FIRMWARE_SHORT_HASH: ''
+      DIAGNOSTICS_VERSION: fb63618
+    network_mode: host
+    cap_add:
+      - SYS_RAWIO
+    privileged: true
+    labels:
+      io.balena.features.sysfs: '1'
+      io.balena.features.procfs: '1'
+volumes:
+  miner-storage: {}
+  miner-log: {}
+  pktfwdr: {}
