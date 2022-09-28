@@ -1,9 +1,9 @@
-name: Update Miner GA (Testnet)
+name: Update Gatewayrs GA (Testnet)
 on:
   repository_dispatch:
-    types: [miner-update]
+    types: [gatewayrs-update]
 jobs:
-  miner-update:
+  gatewayrs-update:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -16,19 +16,19 @@ jobs:
           echo "LATEST_GA=$LATEST_GA" >> $GITHUB_ENV
           echo "LONG_SHA=$LONG_SHA" >> $GITHUB_ENV
 
-          echo "We're not on the latest Helium GA release. Updating to $LATEST_GA with SHA $SHORT_SHA."
+          echo "We're not on the latest Helium gateway-rs release. Updating to $LATEST_GA with SHA $SHORT_SHA."
           sed -i -E "s/FIRMWARE_VERSION=.*/FIRMWARE_VERSION=$LATEST_GA/g" settings.ini
-          sed -i -E "s/MINER_VERSION=.*/MINER_VERSION=$SHORT_SHA/g" settings.ini
+          sed -i -E "s/GATEWAY_VERSION=.*/GATEWAY_VERSION=$SHORT_SHA/g" settings.ini
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
-          commit-message: Update miner to latest GA ${{ env.LATEST_GA }}
-          branch: miner-bump/${{ env.LATEST_GA }}
+          commit-message: Update Gatewayrs to latest GA ${{ env.LATEST_GA }}
+          branch: gatewayrs-bump/${{ env.LATEST_GA }}
           delete-branch: true
           base: master
-          title: "release(testnet): Update miner to latest GA ${{ env.LATEST_GA }}"
+          title: "release(testnet): Update Gatewayrs to latest GA ${{ env.LATEST_GA }}"
           body: |
-            Update miner to latest GA ${{ env.LATEST_GA }}
+            Update gatewayrs to latest GA ${{ env.LATEST_GA }}
 
-            Ref NebraLtd/hm-miner@${{ env.LONG_SHA }}
+            Ref NebraLtd/hm-gatewayrs@${{ env.LONG_SHA }}
           draft: false

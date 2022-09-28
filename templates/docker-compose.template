@@ -5,8 +5,9 @@ services:
   gateway-config:
     image: nebraltd/hm-config:{{CONFIG_VERSION}}
     depends_on:
-      - dbus-session
+      - helium-miner
       - diagnostics
+      - dbus-session
     environment:
       - FIRMWARE_VERSION={{FIRMWARE_VERSION}}
       - FIRMWARE_SHORT_HASH={{ENV.FIRMWARE_SHORT_HASH}}
@@ -38,20 +39,10 @@ services:
       - FIRMWARE_SHORT_HASH={{ENV.FIRMWARE_SHORT_HASH}}
 
   helium-miner:
-    image: nebraltd/hm-miner:{{ARCH}}-{{MINER_VERSION}}
-    depends_on:
-      - dbus-session
-      - diagnostics
+    image: nebraltd/hm-gatewayrs:{{GATEWAY_VERSION}}
     expose:
       - "1680"
       - "4467"
-    ports:
-      - "44158:44158/tcp"
-    volumes:
-      - miner-storage:/var/data
-      - miner-log:/var/log/miner
-      - pktfwdr:/var/pktfwd
-      - dbus:/session/dbus
     cap_add:
       - SYS_RAWIO
     devices:
@@ -61,10 +52,12 @@ services:
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
       - FIRMWARE_VERSION={{FIRMWARE_VERSION}}
       - FIRMWARE_SHORT_HASH={{ENV.FIRMWARE_SHORT_HASH}}
+      - I2C_DEVICE={{I2C_DEVICE}}
 
   diagnostics:
     image: nebraltd/hm-diag:{{DIAGNOSTICS_VERSION}}
     depends_on:
+      - helium-miner
       - dbus-session
     environment:
       - FIRMWARE_VERSION={{FIRMWARE_VERSION}}
