@@ -7,19 +7,14 @@ services:
     depends_on:
       - helium-miner
       - diagnostics
-      - dbus-session
     environment:
       - FIRMWARE_VERSION={{FIRMWARE_VERSION}}
       - FIRMWARE_SHORT_HASH={{ENV.FIRMWARE_SHORT_HASH}}
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
-      - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
     privileged: true
     network_mode: host
     cap_add:
       - NET_ADMIN
-    volumes:
-      - miner-storage:/var/data
-      - dbus:/session/dbus
     labels:
       io.balena.features.sysfs: 1
       io.balena.features.kernel-modules: 1
@@ -49,16 +44,17 @@ services:
       - {{I2C_DEVICE}}:{{I2C_DEVICE}}
     restart: on-failure
     environment:
-      - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
       - FIRMWARE_VERSION={{FIRMWARE_VERSION}}
       - FIRMWARE_SHORT_HASH={{ENV.FIRMWARE_SHORT_HASH}}
       - I2C_DEVICE={{I2C_DEVICE}}
+    volumes:
+      - pktfwdr:/var/pktfwd
+      - miner-storage:/var/data
 
   diagnostics:
     image: nebraltd/hm-diag:{{DIAGNOSTICS_VERSION}}
     depends_on:
       - helium-miner
-      - dbus-session
     environment:
       - FIRMWARE_VERSION={{FIRMWARE_VERSION}}
       - FIRMWARE_SHORT_HASH={{ENV.FIRMWARE_SHORT_HASH}}
@@ -85,19 +81,8 @@ services:
       io.balena.features.dbus: 1
       io.balena.features.supervisor-api: '1'
 
-  dbus-session:
-    image: balenablocks/dbus:rpi-0.0.2
-    restart: always
-    volumes:
-      - dbus:/session/dbus
-    environment:
-      - DBUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - FIRMWARE_VERSION={{FIRMWARE_VERSION}}
-      - FIRMWARE_SHORT_HASH={{ENV.FIRMWARE_SHORT_HASH}}
-
 volumes:
   miner-storage:
   miner-log:
   watchdog-log:
   pktfwdr:
-  dbus:
