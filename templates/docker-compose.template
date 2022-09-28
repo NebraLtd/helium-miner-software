@@ -27,6 +27,10 @@ services:
       - helium-miner
     restart: always
     privileged: true
+    network_mode: host
+    # host networking doesn't export hostnames
+    extra_hosts:
+        - "helium-miner:127.0.0.1"
     volumes:
       - pktfwdr:/var/pktfwd
     environment:
@@ -35,9 +39,7 @@ services:
 
   helium-miner:
     image: nebraltd/hm-gatewayrs:{{GATEWAY_VERSION}}
-    expose:
-      - "1680"
-      - "4467"
+    network_mode: host
     cap_add:
       - SYS_RAWIO
     devices:
@@ -64,8 +66,10 @@ services:
       - pktfwdr:/var/pktfwd
       - miner-storage:/var/data
       - watchdog-log:/var/watchdog
-    ports:
-      - "80:5000"
+    network_mode: host
+    # host networking doesn't export hostnames
+    extra_hosts:
+        - "helium-miner:127.0.0.1"
     cap_add:
       - SYS_RAWIO
     devices:
@@ -86,3 +90,13 @@ volumes:
   miner-log:
   watchdog-log:
   pktfwdr:
+
+# balena keeps on changing the subnet, making it impossible
+# to use extra_hosts for naming host IPs
+networks:
+  default:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.0.0/16
