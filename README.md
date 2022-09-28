@@ -36,6 +36,12 @@ Repo: [github.com/NebraLtd/hm-gatewayrs](https://github.com/NebraLtd/hm-gatewayr
 
 This container is the actual Helium Gateway-rs software (from upstream), with the required configuration files added.
 
+Gatewayrs container requires two IP ports exposed as default.
+- [1680](https://github.com/helium/gateway-rs/blob/d6e140fc8f102d2e1008ddf6d58cef32c4f60392/src/settings.rs#L18): For connecting to packet-forwarder over localhost (127.0.0.1)
+- [4467](https://github.com/helium/gateway-rs/blob/d6e140fc8f102d2e1008ddf6d58cef32c4f60392/src/settings.rs#L22): For connecting to gRPC API over WAN.
+
+Both of these ports can be changed via settings (toml) file.
+
 #  Quick Start
 
 This is a guide to help you get started with the repository and get it running on your local device. This guide is focused on pushing the repository onto a Raspberry Pi using Balena.
@@ -54,7 +60,7 @@ You may notice that after cloning the repo that you are missing a docker-compose
 
 *Note for generating the file for local tests: The repo's short Git SHA is fetched from GitHub pipeline automatically while working with standard procedure. But if you need to test your working copy locally, you need to create an environment variable first via running following command on Linux:*
 
-```sh  
+```sh
 $ export FIRMWARE_SHORT_HASH=$(git rev-parse --short HEAD)
 ```
 
