@@ -3,6 +3,7 @@ name: Update files in OpenFleets repos
 on:
   push:
     paths:
+      - "settings.ini"
       - "balena/*.yml"
       - "device-compose-files/*.yml"
   workflow_dispatch:
