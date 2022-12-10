@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - "settings.ini"
-      - "balena/*.yml"
+      - "balena/balena.yml.*"
       - "device-compose-files/*.yml"
   workflow_dispatch:
 
