@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        sbc: [rak, pisces, og, sensecap, finestra, controllino, cotx, linxdot]
+        sbc: [rak, pisces, og, sensecap, finestra, controllino, cotx, pantherx1, linxdot, pycom, syncrobit, risinghf]
     steps:
       - name: Trigger PR action in helium-${{ matrix.sbc }} repo
         uses: peter-evans/repository-dispatch@v1

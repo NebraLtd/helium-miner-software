@@ -1,7 +1,7 @@
-name: nebra-helium-controllino
+name: nebra-helium-pantherx1
 type: sw.application
 description: >-
-  Manage your Controllino or Conelcom Helium Miner remotely using Nebra and balenaCloud.
+  Manage your Panther X1 Helium Miner remotely using Nebra and balenaCloud.
 post-provisioning: >-
   ## Usage instructions
   
@@ -9,15 +9,15 @@ post-provisioning: >-
   Once your device joins the fleet you'll need to allow some time for it to download the application and start forwarding packets to the Helium Network.
   
   
-  For detailed instructions on how to use Nebra Helium Controllino check out [our GitHub repo](https://github.com/NebraLtd/helium-controllino).
+  For detailed instructions on how to use Nebra Helium Panther X1 check out [our GitHub repo](https://github.com/NebraLtd/helium-pantherx1).
   
   
-  For support you can [open an issue](https://github.com/NebraLtd/helium-controllino/issues) on the repo or reach out to us via one of the methods listed [on our support page](https://helium.nebra.com).
+  For support you can [open an issue](https://github.com/NebraLtd/helium-pantherx1/issues) on the repo or reach out to us via one of the methods listed [on our support page](https://helium.nebra.com).
 assets:
   repository:
     type: blob.asset
     data:
-      url: "https://github.com/NebraLtd/helium-controllino"
+      url: "https://github.com/NebraLtd/helium-pantherx1"
   logo:
     type: blob.asset
     data:
