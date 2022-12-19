@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        sbc: [raspi, rockpi, rak, pisces, og, sensecap, finestra, controllino, cotx]
+        sbc: [raspi, rockpi, rak, pisces, og, sensecap, finestra, controllino, cotx, pantherx1, linxdot, syncrobit, pycom, risinghf]
         frequency: [470, 868, 915]
         variant: [indoor, outdoor]
         exclude:
@@ -23,6 +23,11 @@ jobs:
           - sbc: finestra
           - sbc: controllino
           - sbc: cotx
+          - sbc: pantherx1
+          - sbc: linxdot
+          - sbc: syncrobit
+          - sbc: pycom
+          - sbc: risinghf
         include:
           - sbc: pisces
             variant: indoor
@@ -45,6 +50,21 @@ jobs:
           - sbc: cotx
             variant: indoor
             frequency: 868
+          - sbc: pantherx1
+            variant: indoor
+            frequency: 868
+          - sbc: linxdot
+            variant: indoor
+            frequency: 868
+          - sbc: syncrobit
+            variant: indoor
+            frequency: 868
+          - sbc: pycom
+            variant: indoor
+            frequency: 868
+          - sbc: risinghf
+            variant: indoor
+            frequency: 868
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -65,7 +85,7 @@ jobs:
         run: |
           python gen_docker_compose.py rpi -o docker-compose.yml
       - name: Generate Docker Compose for RAK and Non-Nebra RasPi
-        if: matrix.sbc == 'rak' || matrix.sbc == 'og' || matrix.sbc == 'sensecap' || matrix.sbc == 'finestra' || matrix.sbc == 'controllino' || matrix.sbc == 'cotx'
+        if: matrix.sbc == 'rak' || matrix.sbc == 'og' || matrix.sbc == 'sensecap' || matrix.sbc == 'finestra' || matrix.sbc == 'controllino' || matrix.sbc == 'cotx' || matrix.sbc == 'pantherx1' || matrix.sbc == 'linxdot' || matrix.sbc == 'syncrobit' || matrix.sbc == 'pycom' || matrix.sbc == 'risinghf'
         run: |
           python gen_docker_compose.py rpi -o docker-compose.yml
           cp balena/balena.yml.${{ matrix.sbc }} balena.yml
@@ -88,7 +108,7 @@ jobs:
           balena_command: "deploy nebraltd/helium-${{ matrix.variant }}-${{ matrix.frequency }} --logs --debug --nocache --build"
       - name: Balena Deploy (RAK and Non-Nebra RasPi)
         uses: nebraltd/balena-cli-action@v13.3.0
-        if: ( matrix.sbc == 'rak' || matrix.sbc == 'og' || matrix.sbc == 'sensecap' || matrix.sbc == 'finestra' || matrix.sbc == 'controllino' || matrix.sbc == 'cotx' ) && success()
+        if: ( matrix.sbc == 'rak' || matrix.sbc == 'og' || matrix.sbc == 'sensecap' || matrix.sbc == 'finestra' || matrix.sbc == 'controllino' || matrix.sbc == 'cotx' || matrix.sbc == 'pantherx1' || matrix.sbc == 'linxdot' || matrix.sbc == 'syncrobit' || matrix.sbc == 'pycom' || matrix.sbc == 'risinghf') && success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_2}}
           balena_command: "deploy nebraltd/helium-${{ matrix.sbc }} --logs --debug --nocache --build"
@@ -98,3 +118,10 @@ jobs:
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_3}}
           balena_command: "deploy nebraltd/helium-${{ matrix.sbc }} --logs --debug --nocache --build"
+      - name: Trigger build action in helium-${{ matrix.sbc }} repo
+        uses: peter-evans/repository-dispatch@v1
+        if: ( matrix.sbc == 'rak' || matrix.sbc == 'pisces' || matrix.sbc == 'og' || matrix.sbc == 'sensecap' || matrix.sbc == 'finestra' || matrix.sbc == 'controllino' || matrix.sbc == 'cotx' || matrix.sbc == 'pantherx1' || matrix.sbc == 'linxdot' || matrix.sbc == 'syncrobit' || matrix.sbc == 'pycom' || matrix.sbc == 'risinghf') && success()
+        with:
+          token: ${{ secrets.MR_BUMP }}
+          event-type: build-open-fleet
+          repository: NebraLtd/helium-${{ matrix.sbc }}
