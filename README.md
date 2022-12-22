@@ -154,7 +154,11 @@ This is the same full featured software that we run natively on our Nebra Helium
 - fully open source software stack (the only one in the Helium community!)
 - COMING SOON: access to [remote management dashboard](https://dashboard.nebra.com) (paid extra)
 
-In the future, we also plan to add [Nebra dashboard](https://dashboard.nebra.com) support for third party miners. We also plan to apply for a Helium Foundation grant in order to expand this effort further, improve the software and add all currently available Helium Miners to the mix. **If you have found this software useful we would be very grateful if you would consider [sponsoring the project via GitHub Sponsors](https://github.com/sponsors/NebraLtd) as this will enable us to continue supporting this software into the future.**
+In the future, we also plan to add [Nebra dashboard](https://dashboard.nebra.com) support for third party miners. We also plan to apply for a Helium Foundation grant in order to expand this effort further, improve the software and add all currently available Helium Miners to the mix.
+
+**If you have found this software useful we would be very grateful if you would consider [sponsoring the project via GitHub Sponsors](https://github.com/sponsors/NebraLtd) as this will enable us to continue supporting this software into the future.**
+
+### Third party build repos
 
 - [RAKwireless / MNTD](https://github.com/NebraLtd/helium-rak)
 - [Sensecap](https://github.com/NebraLtd/helium-sensecap)
