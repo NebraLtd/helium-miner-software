@@ -160,16 +160,16 @@ In the future, we also plan to add [Nebra dashboard](https://dashboard.nebra.com
 
 ### Third party build repos
 
-- [RAKwireless / MNTD](https://github.com/NebraLtd/helium-rak)
-- [Sensecap](https://github.com/NebraLtd/helium-sensecap)
+- [RAKwireless / MNTD (RAK v1.5, RAK v2, MNTD)](https://github.com/NebraLtd/helium-rak)
+- [Sensecap (M1)](https://github.com/NebraLtd/helium-sensecap)
 - [Controllino / Conelcom](https://github.com/NebraLtd/helium-controllino)
-- [Pisces](https://github.com/NebraLtd/helium-pisces)
-- [Linxdot](https://github.com/NebraLtd/helium-linxdot)
-- [Helium OG](https://github.com/NebraLtd/helium-og)
-- [Pycom](https://github.com/NebraLtd/helium-pycom)
-- [Cotx](https://github.com/NebraLtd/helium-cotx)
-- [Syncrobit](https://github.com/NebraLtd/helium-syncrobit)
-- [Panther X1](https://github.com/NebraLtd/helium-pantherx1)
+- [Pisces (P100)](https://github.com/NebraLtd/helium-pisces)
+- [Linxdot (CM4 version)](https://github.com/NebraLtd/helium-linxdot)
+- [Helium OG (Pi 3 and Pi 4 version)](https://github.com/NebraLtd/helium-og)
+- [Pycom (CM4 version)](https://github.com/NebraLtd/helium-pycom)
+- [Cotx (X3)](https://github.com/NebraLtd/helium-cotx)
+- [Syncrobit (CM4 version)](https://github.com/NebraLtd/helium-syncrobit)
+- [Panther (X1)](https://github.com/NebraLtd/helium-pantherx1)
 - [Finestra / Mimiq](https://github.com/NebraLtd/helium-finestra)
 - [Rising HF](https://github.com/NebraLtd/helium-risinghf)
 
