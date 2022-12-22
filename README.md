@@ -138,7 +138,7 @@ Once this has completed and the draft builds have been pushed to balena, you wil
 
 # [BalenaHub](https://hub.balena.io) builds (OpenFleets) for third party Helium Miners
 
-We are passionate about open source hardware and software and so we have put significant time and effort into making our software hardware agnostic, and a number of Helium manufacturers already use parts of our software on their devices. On that note, we maintain a variety of fully open source software builds for third party Helium Miners. If you follow the links to the various repos below, you can find the builds and detailed instructions on how to deploy them on your third party hotspot miner.
+We are passionate about open source hardware and software and so we have put significant time and effort into making our software hardware agnostic, and a number of Helium manufacturers already use parts of our software on their devices. On that note, we maintain a variety of fully open source software builds for third party Helium Miners. If you follow the [links to the various repos below](#third-party-build-repos), you can find the builds and detailed instructions on how to deploy them on your third party hotspot miner.
 
 Not only does this further decentralise the software stack, but also future proofs the Helium network and the hotspot owners from their devices becoming obsolete from manufacturers going bankrupt or being unreliable with ongoing updates.
 
