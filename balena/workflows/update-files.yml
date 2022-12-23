@@ -1,0 +1,67 @@
+name: Update Files
+on:
+  repository_dispatch:
+    types: [file-update]
+  workflow_dispatch:
+jobs:
+  file-update-prod:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with: 
+          ref: master
+      - run: |
+          cd /home/runner/work/helium-rak/helium-rak
+          rm -f balena.yml
+          rm -f docker-compose.yml
+          rm -f ./.github/workflows/*.yml
+          rm -f config.txt
+          
+          wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/balena.yml.rak -O balena.yml
+          wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/device-compose-files/docker-compose-rpi.yml -O docker-compose.yml
+          wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/workflows/update-files.yml -O .github/workflows/update-files.yml
+          wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/workflows/build-open-fleet.yml -O .github/workflows/build-open-fleet.yml
+          wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/config/config.txt.rak -O config.txt
+      - name: Push updated docker compose and balena.yml files
+        if: success()
+        uses: test-room-7/action-update-file@v1
+        with:
+          branch: master
+          file-path: |
+            balena.yml
+            docker-compose.yml
+            config.txt
+            ./.github/workflows/*.yml
+          commit-msg: Update OpenFleet core files (production)
+          github-token: ${{ secrets.MR_BUMP }}
+
+  file-update-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with: 
+          ref: testnet
+      - run: |
+          cd /home/runner/work/helium-rak/helium-rak
+          rm -f balena.yml
+          rm -f docker-compose.yml
+          rm -f ./.github/workflows/*.yml
+          rm -f config.txt
+          
+          wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/balena.yml.rak -O balena.yml
+          wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/device-compose-files/docker-compose-rpi.yml -O docker-compose.yml
+          wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/workflows/update-files.yml -O .github/workflows/update-files.yml
+          wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/workflows/build-open-fleet.yml -O .github/workflows/build-open-fleet.yml
+          wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/config/config.txt.rak -O config.txt
+      - name: Push updated docker compose and balena.yml files
+        if: success()
+        uses: test-room-7/action-update-file@v1
+        with:
+          branch: testnet
+          file-path: |
+            balena.yml
+            docker-compose.yml
+            config.txt
+            ./.github/workflows/*.yml
+          commit-msg: Update OpenFleet core files (testnet)
+          github-token: ${{ secrets.MR_BUMP }}
