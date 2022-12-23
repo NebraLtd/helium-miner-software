@@ -47,25 +47,40 @@ jobs:
           unzip balena-cli-*-linux-x64-standalone.zip
           sudo ln -s /opt/balena-cli/balena /usr/bin/
           cd ~
+
       - name: Balena login
         run: balena login --token ${{ secrets.BALENA_API_TOKEN }} > /dev/null
 
       - name: Generate a Balena OS image for the given board, variant, frequency
         run: |
+          LATEST_GA=${{ github.event.client_payload.tag }}
+          if [ $LATEST_GA != "" ] ; then
+            echo "New releae pushed to main repo: $LATEST_GA"
+            echo "LATEST_GA=$LATEST_GA" >> $GITHUB_ENV
+          else
+            echo "No release version provided! Applying tag TEST"
+            echo "LATEST_GA=TEST" >> $GITHUB_ENV
+          fi
+
           IMAGE_BASE_PATH="$HOME/images"
           DATE=$(date +%F)
           USER=""
           NODRYRUN=true
           VERBOSE=true     
+
           # Make the base path for the generated images.
           mkdir -p "$IMAGE_BASE_PATH"
+
           # Print the parameters for generating images.
+
           if [[ $USER != "" ]]; then
             echo " - user: ${USER}"
           fi
+
           if [[ $NODRYRUN == false ]]; then
             echo "(Dryrun mode enabled)"
           fi
+
           if $VERBOSE ; then
             echo "(Verbose mode enabled)"
           fi
@@ -82,10 +97,13 @@ jobs:
             balena_os="raspberrypi4-64"
             balena_os_version="${{ env.raspberrypi4-64 }}"
           fi
+
           base_image_path="$IMAGE_BASE_PATH/balena-base-${{ github.event.repository.name }}.img"
+
           if $VERBOSE ; then
             echo -e "Downloading image ${balena_os} for version ${balena_os_version} and writing to ${base_image_path}"
           fi
+
           if $NODRYRUN ; then
             # Download the base image
             balena os download "$balena_os" \
@@ -202,15 +220,17 @@ jobs:
         run: |
           echo "timestamp=$(date +'%s')" >> $GITHUB_ENV
           echo "day=$(date +'%F')" >> $GITHUB_ENV
+
       - name: Copy OS image file and checksum to final location
         run: |
           cp "${{ env.COMPRESSED_IMAGE_PATH }}" "${{ env.IMAGE_NAME }}.zip"
           cp "${{ env.COMPRESSED_IMAGE_PATH }}.sha512" "${{ env.IMAGE_NAME }}.zip.sha512"          
+
       - name: Upload image file and checksum to release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ${{ env.IMAGE_NAME }}.*
-          tag: ${{ env.IMAGE_NAME }}
+          tag: ${{ env.LATEST_GA }}-${{ env.IMAGE_NAME }}-OpenFleet
           overwrite: true
           file_glob: true

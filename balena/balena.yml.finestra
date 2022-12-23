@@ -24,6 +24,18 @@ assets:
       url: >-
         https://cdn.shopify.com/s/files/1/0071/2281/3001/files/Nebra-Icon-Blue_bb758eaa-b10d-4ea6-a55e-babd69135b69.png?v=1620938774
 data:
+  applicationEnvironmentVariables:
+    - VARIANT: COMP-FINESTRA
+    - HELIUM_MINER_HEIGHT_URL: "https://api.helium.io/v1/blocks/height"
+  applicationConfigVariables:
+    - RESIN_HOST_CONFIG_dtparam: '"i2c_arm=on","spi=on","audio=on"'
+    - RESIN_HOST_CONFIG_dtoverlay: '"spi0-1cs"'
+    - RESIN_HOST_CONFIG_gpu_mem: 16
+    - RESIN_HOST_CONFIG_avoid_warnings: 1
+    - RESIN_HOST_CONFIG_disable_overscan: 1
+    - RESIN_HOST_CONFIG_disable_splash: "1"
+    - RESIN_HOST_CONFIG_core_freq: 400
+    - RESIN_OVERRIDE_LOCK: 1
   defaultDeviceType: raspberrypi4-64
   supportedDeviceTypes:
     - raspberrypi4-64
