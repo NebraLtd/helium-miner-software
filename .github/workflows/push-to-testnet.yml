@@ -46,7 +46,7 @@ jobs:
         if: matrix.sbc == 'rockpi' && success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
-          balena_command: "deploy nebraltd/helium-testnet${{ env.ROCKPI }} --logs --debug --nocache --build"
+          balena_command: "deploy nebraltd/helium-testnet${{ env.ROCKPI }} --debug --nocache --build"
       - name: Balena Deploy (Nebra RasPi)
         uses: nebraltd/balena-cli-action@v14.5.15
         if: matrix.sbc == 'raspi' && success()
