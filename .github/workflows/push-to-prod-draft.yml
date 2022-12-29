@@ -72,7 +72,7 @@ jobs:
             frequency: 868
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: production
       - name: Export short SHA of current commit

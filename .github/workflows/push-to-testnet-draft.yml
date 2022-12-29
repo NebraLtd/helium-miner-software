@@ -12,7 +12,7 @@ jobs:
         sbc: [raspi, rockpi, rak, finestra, sensecap, og, controllino, pisces, cotx, pantherx1, linxdot, linxdot-rkcm3, syncrobit, syncrobit-rkcm3, pycom, risinghf]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Export short SHA of current commit
         run: |
           FIRMWARE_SHORT_HASH=$( echo ${GITHUB_SHA:0:7} )
