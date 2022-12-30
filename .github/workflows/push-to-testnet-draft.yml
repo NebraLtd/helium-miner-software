@@ -9,18 +9,18 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        sbc: [raspi, rockpi, rak, finestra, sensecap, og, controllino, pisces, cotx, pantherx1, linxdot, syncrobit, pycom, risinghf]
+        sbc: [raspi, rockpi, rak, finestra, sensecap, og, controllino, pisces, cotx, pantherx1, linxdot, linxdot-rkcm3, syncrobit, syncrobit-rkcm3, pycom, risinghf]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Export short SHA of current commit
         run: |
           FIRMWARE_SHORT_HASH=$( echo ${GITHUB_SHA:0:7} )
           echo "FIRMWARE_SHORT_HASH=$FIRMWARE_SHORT_HASH" >> $GITHUB_ENV
       - name: Random sleep (balena API workaround)
         run:  sleep $[ ( $RANDOM % 360 ) + 1 ]s
-      - name: Generate Docker Compose for RockPi
-        if: matrix.sbc == 'rockpi'
+      - name: Generate Docker Compose for RockPi and Non-Nebra ROCK Pi
+        if: matrix.sbc == 'rockpi' || matrix.sbc == 'linxdot-rkcm3' || matrix.sbc == 'syncrobit-rkcm3'
         run: |
           python gen_docker_compose.py rockpi -o device-compose-files/docker-compose-rockpi.yml
           cp device-compose-files/docker-compose-rockpi.yml docker-compose.yml
@@ -37,25 +37,31 @@ jobs:
           python gen_docker_compose.py pisces -o device-compose-files/docker-compose-pisces.yml
           cp device-compose-files/docker-compose-pisces.yml docker-compose.yml
       - name: Balena Deploy (Nebra ROCK Pi)
-        uses: nebraltd/balena-cli-action@v13.3.0
+        uses: nebraltd/balena-cli-action@v14.5.15
         if: matrix.sbc == 'rockpi' && success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
-          balena_command: "deploy nebraltd/helium-testnet${{ env.ROCKPI }} --logs --debug --nocache --build --draft"
+          balena_command: "deploy nebraltd/helium-testnet${{ env.ROCKPI }} --debug --nocache --build --draft"
       - name: Balena Deploy (Nebra RasPi)
-        uses: nebraltd/balena-cli-action@v13.3.0
+        uses: nebraltd/balena-cli-action@v14.5.15
         if: matrix.sbc == 'raspi' && success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_1}}
-          balena_command: "deploy nebraltd/helium-testnet --logs --debug --nocache --build --draft"
+          balena_command: "deploy nebraltd/helium-testnet --debug --nocache --build --draft"
       - name: Balena Deploy (RAK and other non-Nebra RasPi)
-        uses: nebraltd/balena-cli-action@v13.3.0
+        uses: nebraltd/balena-cli-action@v14.5.15
         if: success() && (matrix.sbc == 'rak' || matrix.sbc == 'og' || matrix.sbc == 'sensecap' || matrix.sbc == 'finestra' || matrix.sbc == 'controllino' || matrix.sbc == 'pisces' || matrix.sbc == 'cotx' || matrix.sbc == 'pantherx1' || matrix.sbc == 'linxdot' || matrix.sbc == 'syncrobit' || matrix.sbc == 'pycom' || matrix.sbc == 'risinghf')
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_2}}
-          balena_command: "deploy nebraltd/helium-testnet-${{ matrix.sbc }} --logs --debug --nocache --build --draft"
+          balena_command: "deploy nebraltd/helium-testnet-${{ matrix.sbc }} --debug --nocache --build --draft"
+      - name: Balena Deploy (Non-Nebra ROCK Pi)
+        uses: nebraltd/balena-cli-action@v14.5.15
+        if: success() && (matrix.sbc == 'linxdot-rkcm3' || matrix.sbc == 'syncrobit-rkcm3')
+        with:
+          balena_api_token: ${{secrets.BALENA_API_TOKEN_3}}
+          balena_command: "deploy nebraltd/helium-testnet-${{ matrix.sbc }} --debug --nocache --build --draft"
       - name: Push updated docker compose file (ROCK Pi)
-        if: matrix.sbc == 'rockpi' && success()
+        if: (matrix.sbc == 'rockpi' || matrix.sbc == 'linxdot-rkcm3' || matrix.sbc == 'syncrobit-rkcm3') && success()
         uses: test-room-7/action-update-file@v1
         with:
           branch: master
