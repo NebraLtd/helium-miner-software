@@ -28,7 +28,7 @@ data:
     - VARIANT: COMP-PYCOM
     - HELIUM_MINER_HEIGHT_URL: "https://api.helium.io/v1/blocks/height"
   applicationConfigVariables:
-    - RESIN_HOST_CONFIG_dtparam: '"i2c_arm=on","spi=on","audio=on"'
+    - RESIN_HOST_CONFIG_dtparam: '"i2c_arm=on","spi=on","audio=on","i2c_vc=on"'
     - RESIN_HOST_CONFIG_dtoverlay: '"spi0-1cs"'
     - RESIN_HOST_CONFIG_gpu_mem: 16
     - RESIN_HOST_CONFIG_avoid_warnings: 1
