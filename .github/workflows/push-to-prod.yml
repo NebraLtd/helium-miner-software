@@ -160,7 +160,7 @@ jobs:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_5}}
           balena_command: "deploy nebraltd/helium-${{ matrix.sbc }} --debug --nocache --build"
       - name: Trigger build action in helium-${{ matrix.sbc }} repo
-        uses: peter-evans/repository-dispatch@v1
+        uses: peter-evans/repository-dispatch@v2
         if: ( matrix.sbc == 'rak' || matrix.sbc == 'pisces' || matrix.sbc == 'og' || matrix.sbc == 'sensecap' || matrix.sbc == 'finestra' || matrix.sbc == 'controllino' || matrix.sbc == 'cotx' || matrix.sbc == 'pantherx1' || matrix.sbc == 'linxdot' || matrix.sbc == 'linxdot-rkcm3' || matrix.sbc == 'syncrobit' || matrix.sbc == 'syncrobit-rkcm3' || matrix.sbc == 'pycom' || matrix.sbc == 'risinghf' ) && success()
         with:
           token: ${{ secrets.MR_BUMP }}
