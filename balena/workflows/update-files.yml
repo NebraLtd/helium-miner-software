@@ -29,7 +29,7 @@ jobs:
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/config/config.txt.pisces -O config.txt
           elif [ $miner == 'pycom' ] ; then  
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/device-compose-files/docker-compose-pycom.yml -O docker-compose.yml
-            wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/config/config.txt.pisces -O config.txt
+            wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/config/config.txt.pycom -O config.txt
           elif [ $miner == 'nebra1' ] || [ $miner == 'nebra2' ] ; then  
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/device-compose-files/docker-compose-rpi.yml -O docker-compose.yml
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/config/config.txt.nebra-raspi -O config.txt
@@ -89,7 +89,7 @@ jobs:
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/config/config.txt.pisces -O config.txt
           elif [ $miner == 'pycom' ] ; then  
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/device-compose-files/docker-compose-pycom.yml -O docker-compose.yml
-            wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/config/config.txt.pisces -O config.txt
+            wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/config/config.txt.pycom -O config.txt
           elif [ $miner == 'nebra1' ] || [ $miner == 'nebra2' ] ; then  
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/device-compose-files/docker-compose-rpi.yml -O docker-compose.yml
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/config/config.txt.nebra-raspi -O config.txt
