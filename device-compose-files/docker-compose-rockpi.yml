@@ -3,13 +3,13 @@ version: '2'
 services:
 
   gateway-config:
-    image: nebraltd/hm-config:45878d6
+    image: nebraltd/hm-config:559a0e3
     depends_on:
       - dbus-session
       - diagnostics
     environment:
-      - FIRMWARE_VERSION=2022.12.13.0
-      - FIRMWARE_SHORT_HASH=e385133
+      - FIRMWARE_VERSION=2022.12.13.0-1
+      - FIRMWARE_SHORT_HASH=c929925
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
       - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
     privileged: true
@@ -26,7 +26,7 @@ services:
     stop_signal: SIGINT
 
   packet-forwarder:
-    image: nebraltd/hm-pktfwd:49fb0b3
+    image: nebraltd/hm-pktfwd:49d8ffc
     depends_on:
       - helium-miner
     restart: always
@@ -34,11 +34,11 @@ services:
     volumes:
       - pktfwdr:/var/pktfwd
     environment:
-      - FIRMWARE_VERSION=2022.12.13.0
-      - FIRMWARE_SHORT_HASH=e385133
+      - FIRMWARE_VERSION=2022.12.13.0-1
+      - FIRMWARE_SHORT_HASH=c929925
 
   helium-miner:
-    image: nebraltd/hm-miner:arm64-9e390ca
+    image: nebraltd/hm-miner:arm64-29d179e
     depends_on:
       - dbus-session
       - diagnostics
@@ -59,17 +59,17 @@ services:
     restart: on-failure
     environment:
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - FIRMWARE_VERSION=2022.12.13.0
-      - FIRMWARE_SHORT_HASH=e385133
+      - FIRMWARE_VERSION=2022.12.13.0-1
+      - FIRMWARE_SHORT_HASH=c929925
 
   diagnostics:
-    image: nebraltd/hm-diag:c211dcc
+    image: nebraltd/hm-diag:bea2919
     depends_on:
       - dbus-session
     environment:
-      - FIRMWARE_VERSION=2022.12.13.0
-      - FIRMWARE_SHORT_HASH=e385133
-      - DIAGNOSTICS_VERSION=c211dcc
+      - FIRMWARE_VERSION=2022.12.13.0-1
+      - FIRMWARE_SHORT_HASH=c929925
+      - DIAGNOSTICS_VERSION=bea2919
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
     volumes:
       - pktfwdr:/var/pktfwd
@@ -99,8 +99,8 @@ services:
       - dbus:/session/dbus
     environment:
       - DBUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - FIRMWARE_VERSION=2022.12.13.0
-      - FIRMWARE_SHORT_HASH=e385133
+      - FIRMWARE_VERSION=2022.12.13.0-1
+      - FIRMWARE_SHORT_HASH=c929925
 
 volumes:
   miner-storage:
