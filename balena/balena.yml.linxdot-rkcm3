@@ -29,7 +29,7 @@ data:
     - HELIUM_MINER_HEIGHT_URL: "https://api.helium.io/v1/blocks/height"
   applicationConfigVariables:
     - RESIN_OVERRIDE_LOCK: 1
-  defaultDeviceType: raspberrypicm4-ioboard
+  defaultDeviceType: rockpicm3-ioboard
   supportedDeviceTypes:
-    - raspberrypicm4-ioboard
+    - rockpicm3-ioboard
 version: 0.0.1

@@ -55,7 +55,7 @@ services:
     cap_add:
       - SYS_RAWIO
     devices:
-      - /dev/i2c-1:/dev/i2c-1
+      - /dev/i2c-10:/dev/i2c-10
     restart: on-failure
     environment:
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
@@ -80,7 +80,7 @@ services:
     cap_add:
       - SYS_RAWIO
     devices:
-      - /dev/i2c-1:/dev/i2c-1
+      - /dev/i2c-10:/dev/i2c-10
       - /dev/ttyUSB0:/dev/ttyUSB0
       - /dev/ttyUSB1:/dev/ttyUSB1
       - /dev/ttyUSB2:/dev/ttyUSB2

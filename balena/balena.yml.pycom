@@ -26,15 +26,17 @@ assets:
 data:
   applicationEnvironmentVariables:
     - VARIANT: COMP-PYCOM
+    - SX125x_RESET_PIN_OVERRIDE: 2
     - HELIUM_MINER_HEIGHT_URL: "https://api.helium.io/v1/blocks/height"
   applicationConfigVariables:
-    - RESIN_HOST_CONFIG_dtparam: '"i2c_arm=on","spi=on","audio=on"'
+    - RESIN_HOST_CONFIG_dtparam: '"i2c_arm=on","spi=on","audio=on","i2c_vc=on"'
     - RESIN_HOST_CONFIG_dtoverlay: '"spi0-1cs"'
     - RESIN_HOST_CONFIG_gpu_mem: 16
     - RESIN_HOST_CONFIG_avoid_warnings: 1
     - RESIN_HOST_CONFIG_disable_overscan: 1
     - RESIN_HOST_CONFIG_disable_splash: "1"
     - RESIN_HOST_CONFIG_core_freq: 400
+    - RESIN_HOST_CONFIG_gpio: '"25=op,dh","13=op,dh"'
     - RESIN_OVERRIDE_LOCK: 1
   defaultDeviceType: raspberrypicm4-ioboard
   supportedDeviceTypes:
