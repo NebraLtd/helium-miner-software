@@ -110,8 +110,8 @@ jobs:
           LATEST_GA=$FIRMWARE_VERSION
           GITHUB_BRANCH=$( echo "${{ github.ref }}" | sed 's/refs\/heads\///g' )
           
-          if [ ${{ matrix.commercial }}="yes" ]
-          then
+          if [ "${{ matrix.commercial }}" = "yes" ] ; then
+            echo " Deploying to commercial fleet!"
             COMMERCIAL="-c"
           fi
           
