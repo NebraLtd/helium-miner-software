@@ -119,7 +119,7 @@ jobs:
           echo "GITHUB_BRANCH=$GITHUB_BRANCH" >> $GITHUB_ENV
           echo "COMMERCIAL=$COMMERCIAL" >> $GITHUB_ENV
       - name: Random sleep (balena API workaround)
-        run:  sleep $[ ( $RANDOM % 360 ) + 1 ]s
+        run:  sleep $[ ( $RANDOM % 540 ) + 1 ]s
       - name: Generate Docker Compose for ROCK Pi
         if: matrix.sbc == 'rockpi'
         run: |
@@ -156,25 +156,25 @@ jobs:
           cp balena/balena.yml.pisces balena.yml
       - name: Balena Deploy (Nebra ROCK Pi)
         uses: nebraltd/balena-cli-action@v15.0.0
-        if: matrix.sbc == 'rockpi' && matrix.commercial = 'no' && success()
+        if: matrix.sbc == 'rockpi' && matrix.commercial == 'no' && success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
           balena_command: "deploy nebraltd/helium-${{ matrix.variant }}-${{ matrix.frequency }}${{ env.ROCKPI }} --debug --nocache --build --draft"
       - name: Balena Deploy (Nebra RasPi)
         uses: nebraltd/balena-cli-action@v15.0.0
-        if: matrix.sbc == 'raspi' && matrix.commercial = 'no' && success()
+        if: matrix.sbc == 'raspi' && matrix.commercial == 'no' && success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_1}}
           balena_command: "deploy nebraltd/helium-${{ matrix.variant }}-${{ matrix.frequency }} --debug --nocache --build --draft"
       - name: Balena Deploy (Nebra ROCK Pi Commercial)
         uses: nebraltd/balena-cli-action@v15.0.0
-        if: matrix.sbc == 'rockpi' && matrix.commercial = 'yes' && success()
+        if: matrix.sbc == 'rockpi' && matrix.commercial == 'yes' && success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_2}}
           balena_command: "deploy nebraltd/helium-${{ matrix.variant }}-${{ matrix.frequency }}${{ env.ROCKPI }}${{ env.COMMERCIAL }} --debug --nocache --build --draft"
       - name: Balena Deploy (Nebra RasPi Commercial)
         uses: nebraltd/balena-cli-action@v15.0.0
-        if: matrix.sbc == 'raspi' && matrix.commercial = 'yes' && success()
+        if: matrix.sbc == 'raspi' && matrix.commercial == 'yes' && success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_3}}
           balena_command: "deploy nebraltd/helium-${{ matrix.variant }}-${{ matrix.frequency }}${{ env.COMMERCIAL }} --debug --nocache --build --draft"
