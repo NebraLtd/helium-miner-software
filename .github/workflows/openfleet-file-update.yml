@@ -34,6 +34,9 @@ jobs:
         exclude:
           - sbc: rockpi
             freq: 470
+          - sbc: rockpi
+            freq: 868
+            variant: outdoor
     steps:
       - name: Generate fleet name
         run: |
