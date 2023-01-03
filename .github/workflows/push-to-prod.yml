@@ -97,10 +97,12 @@ jobs:
           python gen_docker_compose.py rockpi -o docker-compose.yml
           ROCKPI="-rockpi"
           echo "ROCKPI=$ROCKPI" >> $GITHUB_ENV
+          cp balena/balena.yml.${{ matrix.sbc }}-${{ matrix.variant }} balena.yml
       - name: Generate Docker Compose for Nebra RasPi
         if: matrix.sbc == 'raspi'
         run: |
           python gen_docker_compose.py rpi -o docker-compose.yml
+          cp balena/balena.yml.${{ matrix.sbc }}-${{ matrix.variant }} balena.yml
       - name: Generate Docker Compose for RAK and Non-Nebra RasPi
         if: matrix.sbc == 'rak' || matrix.sbc == 'og' || matrix.sbc == 'sensecap' || matrix.sbc == 'finestra' || matrix.sbc == 'controllino' || matrix.sbc == 'cotx' || matrix.sbc == 'pantherx1' || matrix.sbc == 'linxdot' || matrix.sbc == 'syncrobit' || matrix.sbc == 'pycom' || matrix.sbc == 'risinghf'
         run: |
