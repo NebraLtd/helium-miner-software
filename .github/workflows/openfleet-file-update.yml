@@ -33,7 +33,7 @@ jobs:
         freq: [470, 868, 915]
         exclude:
           - sbc: rockpi
-            frequency: 470
+            freq: 470
     steps:
       - name: Generate fleet name
         run: |
