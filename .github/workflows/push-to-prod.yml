@@ -31,6 +31,15 @@ jobs:
           - sbc: syncrobit-rkcm3
           - sbc: pycom
           - sbc: risinghf
+          - sbc: rockpi
+            variant: outdoor
+            commercial: yes
+          - variant: indoor
+            commercial: yes
+            frequency: 470
+          - sbc: raspi
+            commercial: yes
+            frequency: 470
         include:
           - sbc: pisces
             variant: indoor
