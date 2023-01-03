@@ -22,3 +22,31 @@ jobs:
           token: ${{ secrets.MR_BUMP }}
           event-type: file-update
           repository: NebraLtd/helium-${{ matrix.sbc }}
+
+  file-update-nebra:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sbc: [raspi, rockpi]
+        variant: [indoor, outdoor]
+        freq: [470, 868, 915]
+        exclude:
+          - sbc: rockpi
+            frequency: 470
+    steps:
+      - name: Generate fleet name
+        run: |
+          if [ "${{ matrix.sbc }}" = "rockpi" ] ; then
+            FLEET="helium-${{ matrix.variant }}-${{ matrix.freq }}-${{ matrix.sbc }}
+          else
+            FLEET="helium-${{ matrix.variant }}-${{ matrix.freq }}
+          fi
+
+          echo "FLEET=$FLEET" >> $GITHUB_ENV
+      - name: Trigger PR action in ${{ env.FLEET }} repo
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.MR_BUMP }}
+          event-type: file-update
+          repository: NebraLtd/${{ env.FLEET }}
