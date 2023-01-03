@@ -38,9 +38,9 @@ jobs:
       - name: Generate fleet name
         run: |
           if [ "${{ matrix.sbc }}" = "rockpi" ] ; then
-            FLEET="helium-${{ matrix.variant }}-${{ matrix.freq }}-${{ matrix.sbc }}
+            FLEET="helium-${{ matrix.variant }}-${{ matrix.freq }}-${{ matrix.sbc }}"
           else
-            FLEET="helium-${{ matrix.variant }}-${{ matrix.freq }}
+            FLEET="helium-${{ matrix.variant }}-${{ matrix.freq }}"
           fi
 
           echo "FLEET=$FLEET" >> $GITHUB_ENV
