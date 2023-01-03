@@ -47,25 +47,25 @@ jobs:
           python gen_docker_compose.py pisces -o device-compose-files/docker-compose-pisces.yml
           cp device-compose-files/docker-compose-pisces.yml docker-compose.yml
       - name: Balena Deploy (Nebra ROCK Pi)
-        uses: nebraltd/balena-cli-action@v14.5.18
+        uses: nebraltd/balena-cli-action@v15.0.0
         if: matrix.sbc == 'rockpi' && success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
           balena_command: "deploy nebraltd/helium-testnet${{ env.ROCKPI }} --debug --nocache --build"
       - name: Balena Deploy (Nebra RasPi)
-        uses: nebraltd/balena-cli-action@v14.5.18
+        uses: nebraltd/balena-cli-action@v15.0.0
         if: matrix.sbc == 'raspi' && success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_1}}
           balena_command: "deploy nebraltd/helium-testnet --debug --nocache --build"
       - name: Balena Deploy (RAK and other non-Nebra RasPi)
-        uses: nebraltd/balena-cli-action@v14.5.18
+        uses: nebraltd/balena-cli-action@v15.0.0
         if: success() && (matrix.sbc == 'rak' || matrix.sbc == 'og' || matrix.sbc == 'sensecap' || matrix.sbc == 'finestra' || matrix.sbc == 'controllino' || matrix.sbc == 'pisces' || matrix.sbc == 'cotx' || matrix.sbc == 'pantherx1' || matrix.sbc == 'linxdot' || matrix.sbc == 'syncrobit' || matrix.sbc == 'pycom' || matrix.sbc == 'risinghf')
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_2}}
           balena_command: "deploy nebraltd/helium-testnet-${{ matrix.sbc }} --debug --nocache --build"
       - name: Balena Deploy (Non-Nebra ROCK Pi)
-        uses: nebraltd/balena-cli-action@v14.5.18
+        uses: nebraltd/balena-cli-action@v15.0.0
         if: success() && (matrix.sbc == 'linxdot-rkcm3' || matrix.sbc == 'syncrobit-rkcm3')
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_3}}

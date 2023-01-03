@@ -6,22 +6,52 @@ on:
   workflow_dispatch:
 
 env:
-  balena-cli: v14.5.18
+  balena-cli: v15.0.0
   raspberrypi3-64: 2022.10.0
   raspberrypi4-64: 2022.10.0
   raspberrypicm4-ioboard: 2.88.4+rev0
+  rockpi-4b-rk3399: 2022.4.2
 
 jobs:
   build-open-fleet:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
       - uses: actions/checkout@v3
         with: 
           ref: master
 
+      - name: Determine if Raspberry Pi 3
+        run: |
+          repo="${{ github.event.repository.name }}"
+
+          if grep -q "-rockpi" <<<"$repo"; then
+            echo "Not RasPi 3"
+            RASPI3="NO"
+            ROCKPI="YES"
+          elif grep -q "outdoor" <<<"$repo"; then
+            echo "RasPi Outdoor"
+            RASPI3="YES"
+            ROCKPI="NO"
+          elif grep -q "indoor" <<<"$repo"; then
+            echo "RasPi Indoor"
+            RASPI3="YES"
+            ROCKPI="NO"
+          elif grep -q "risinghf" <<<"$repo"; then
+            echo "RisingHF"
+            RASPI3="YES"
+            ROCKPI="NO"
+          else
+            echo "Not RasPi 3"
+            RASPI3="NO"
+            
+          fi
+
+          echo "RASPI3=$RASPI3" >> $GITHUB_ENV
+          echo "ROCKPI=$ROCKPI" >> $GITHUB_ENV
+
       - name: Install latest balena-cli (raspi 3)
-        if: github.event.repository.name == 'helium-risinghf'
+        if: env.RASPI3 == 'YES'
         run: |
           sudo apt-get update
           sudo apt-get install -y curl unzip zip lxc libarchive-tools aufs-tools
@@ -37,7 +67,7 @@ jobs:
           cd ~
           
       - name: Install latest balena-cli (rockpi, raspi4)
-        if: github.event.repository.name != 'helium-risinghf'
+        if: env.RASPI3 == 'NO'
         run: |
           sudo apt-get update
           sudo apt-get install -y curl unzip zip
@@ -87,12 +117,15 @@ jobs:
           
           # Download balena OS
           
-          if [ ${{ github.event.repository.name }} == 'helium-risinghf' ] ; then
+          if [ ${{ env.RASPI3 }} == 'YES' ] ; then
             balena_os="raspberrypi3-64"
             balena_os_version="${{ env.raspberrypi3-64 }}"
           elif [ ${{ github.event.repository.name }} == 'helium-syncrobit' ] || [ ${{ github.event.repository.name }} == 'helium-linxdot' ] || [ ${{ github.event.repository.name }} == 'helium-pycom' ] ; then
             balena_os="raspberrypicm4-ioboard"
             balena_os_version="${{ env.raspberrypicm4-ioboard }}"
+          elif [ ${{ env.ROCKPI }} == 'YES' ] ; then
+            balena_os="rockpi-4b-rk3399"
+            balena_os_version="${{ env.rockpi-4b-rk3399 }}"
           else
             balena_os="raspberrypi4-64"
             balena_os_version="${{ env.raspberrypi4-64 }}"
