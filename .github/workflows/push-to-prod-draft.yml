@@ -119,7 +119,7 @@ jobs:
           echo "GITHUB_BRANCH=$GITHUB_BRANCH" >> $GITHUB_ENV
           echo "COMMERCIAL=$COMMERCIAL" >> $GITHUB_ENV
       - name: Random sleep (balena API workaround)
-        run:  sleep $[ ( $RANDOM % 360 ) + 1 ]s
+        run:  sleep $[ ( $RANDOM % 540 ) + 1 ]s
       - name: Generate Docker Compose for ROCK Pi
         if: matrix.sbc == 'rockpi'
         run: |
