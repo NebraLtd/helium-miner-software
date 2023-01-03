@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        sbc: [rak, pisces, og, sensecap, finestra, controllino, cotx, pantherx1, linxdot, linxdot-rkcm3, pycom, syncrobit, syncrobit-rkcm3, risinghf]
+        sbc: [raspi, rockpi, rak, pisces, og, sensecap, finestra, controllino, cotx, pantherx1, linxdot, linxdot-rkcm3, pycom, syncrobit, syncrobit-rkcm3, risinghf]
         frequency: [470, 868, 915]
         variant: [indoor, outdoor]
         commercial: [yes, no]
