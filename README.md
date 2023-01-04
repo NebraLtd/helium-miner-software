@@ -161,7 +161,7 @@ In the future, we also plan to add [Nebra dashboard](https://dashboard.nebra.com
 ### Nebra build repos
 
 - [Indoor 470](https://github.com/NebraLtd/helium-indoor-470)
-- [Indoor 868)](https://github.com/NebraLtd/helium-indoor-868)
+- [Indoor 868](https://github.com/NebraLtd/helium-indoor-868)
 - [Indoor 915](https://github.com/NebraLtd/helium-indoor-915)
 - [Outdoor 470](https://github.com/NebraLtd/helium-outdoor-470)
 - [Outdoor 868](https://github.com/NebraLtd/helium-outdoor-868)
