@@ -44,11 +44,14 @@ jobs:
           else
             echo "Not RasPi 3"
             RASPI3="NO"
-            
+            ROCKPI="NO"
           fi
 
           echo "RASPI3=$RASPI3" >> $GITHUB_ENV
           echo "ROCKPI=$ROCKPI" >> $GITHUB_ENV
+
+      - name: Random sleep (balena API workaround)
+        run:  sleep $[ ( $RANDOM % 540 ) + 1 ]s
 
       - name: Install latest balena-cli (raspi 3)
         if: env.RASPI3 == 'YES'
@@ -79,7 +82,16 @@ jobs:
           cd ~
 
       - name: Balena login
-        run: balena login --token ${{ secrets.BALENA_API_TOKEN }} > /dev/null
+        run: |
+          if [ ${{ env.RASPI3 }} == 'YES' ] ; then
+            balena login --token ${{ secrets.BALENA_API_TOKEN }} > /dev/null
+          elif [ ${{ github.event.repository.name }} == 'helium-syncrobit' ] || [ ${{ github.event.repository.name }} == 'helium-linxdot' ] || [ ${{ github.event.repository.name }} == 'helium-pycom' ] ; then
+            balena login --token ${{ secrets.BALENA_API_TOKEN_2 }} > /dev/null
+          elif [ ${{ env.ROCKPI }} == 'YES' ] ; then
+            balena login --token ${{ secrets.BALENA_API_TOKEN_3 }} > /dev/null
+          else
+            balena login --token ${{ secrets.BALENA_API_TOKEN_4 }} > /dev/null
+          fi
 
       - name: Generate a Balena OS image for the given board, variant, frequency
         run: |
