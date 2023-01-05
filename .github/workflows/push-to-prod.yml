@@ -156,49 +156,49 @@ jobs:
           python gen_docker_compose.py pisces -o docker-compose.yml
           cp balena/balena.yml.pisces balena.yml
       - name: Balena Deploy (Nebra ROCK Pi)
-        uses: nebraltd/balena-cli-action@v15.0.0
+        uses: nebraltd/balena-cli-action@v15.0.3
         if: matrix.sbc == 'rockpi' && matrix.commercial == 'no' && success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
           balena_command: "deploy nebraltd/helium-${{ matrix.variant }}-${{ matrix.frequency }}${{ env.ROCKPI }} --debug --nocache --build"
       - name: Balena Deploy (Nebra RasPi)
-        uses: nebraltd/balena-cli-action@v15.0.0
+        uses: nebraltd/balena-cli-action@v15.0.3
         if: matrix.sbc == 'raspi' && matrix.commercial == 'no' && success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_1}}
           balena_command: "deploy nebraltd/helium-${{ matrix.variant }}-${{ matrix.frequency }} --debug --nocache --build"
       - name: Balena Deploy (Nebra ROCK Pi Commercial)
-        uses: nebraltd/balena-cli-action@v15.0.0
+        uses: nebraltd/balena-cli-action@v15.0.3
         if: matrix.sbc == 'rockpi' && matrix.commercial == 'yes' && success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_2}}
           balena_command: "deploy nebraltd/helium-${{ matrix.variant }}-${{ matrix.frequency }}${{ env.ROCKPI }}${{ env.COMMERCIAL }} --debug --nocache --build"
       - name: Balena Deploy (Nebra RasPi Commercial)
-        uses: nebraltd/balena-cli-action@v15.0.0
+        uses: nebraltd/balena-cli-action@v15.0.3
         if: matrix.sbc == 'raspi' && matrix.commercial == 'yes' && success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_3}}
           balena_command: "deploy nebraltd/helium-${{ matrix.variant }}-${{ matrix.frequency }}${{ env.COMMERCIAL }} --debug --nocache --build"
       - name: Balena Deploy (RAK and Non-Nebra RasPi)
-        uses: nebraltd/balena-cli-action@v15.0.0
+        uses: nebraltd/balena-cli-action@v15.0.3
         if: ( matrix.sbc == 'rak' || matrix.sbc == 'og' || matrix.sbc == 'sensecap' || matrix.sbc == 'finestra' || matrix.sbc == 'controllino' || matrix.sbc == 'cotx' || matrix.sbc == 'pantherx1' || matrix.sbc == 'linxdot' || matrix.sbc == 'syncrobit' || matrix.sbc == 'risinghf' ) && success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_4}}
           balena_command: "deploy nebraltd/helium-${{ matrix.sbc }} --debug --nocache --build"
       - name: Balena Deploy (Non-Nebra ROCK Pi)
-        uses: nebraltd/balena-cli-action@v15.0.0
+        uses: nebraltd/balena-cli-action@v15.0.3
         if: ( matrix.sbc == 'linxdot-rkcm3' || matrix.sbc == 'syncrobit-rkcm3' ) && success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_5}}
           balena_command: "deploy nebraltd/helium-${{ matrix.sbc }} --debug --nocache --build"
       - name: Balena Deploy (Pycom CM4)
-        uses: nebraltd/balena-cli-action@v15.0.0
+        uses: nebraltd/balena-cli-action@v15.0.3
         if: matrix.sbc == 'pycom' && success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_6}}
           balena_command: "deploy nebraltd/helium-${{ matrix.sbc }} --debug --nocache --build"
       - name: Balena Deploy (Pisces P100)
-        uses: nebraltd/balena-cli-action@v15.0.0
+        uses: nebraltd/balena-cli-action@v15.0.3
         if: matrix.sbc == 'pisces' && success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_7}}

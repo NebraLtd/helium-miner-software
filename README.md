@@ -30,6 +30,8 @@ As of 27th Jan 2022, we have also moved the UPnP functionality into this repo in
 
 Removing the UPnP container reduces CPU overhead and redundant code.
 
+As of the 2022.12.13.0-4 firmware version, UPnP has been removed from the miners entirely as it is no longer necessary to open ports on the miner after the move to gateway-rs upstream.
+
 ## Helium Miner
 
 Repo: [github.com/NebraLtd/hm-miner](https://github.com/NebraLtd/hm-miner)

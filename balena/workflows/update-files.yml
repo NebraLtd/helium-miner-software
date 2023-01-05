@@ -1,5 +1,7 @@
 name: Update Files
 on:
+  schedule:
+    - cron:  "0 0 * * 0" # Run weekly at midnight Sunday
   repository_dispatch:
     types: [file-update]
   workflow_dispatch:
@@ -35,6 +37,8 @@ jobs:
           wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/balena.yml."$balena" -O balena.yml
           wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/workflows/update-files.yml -O .github/workflows/update-files.yml
           wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/workflows/build-open-fleet.yml -O .github/workflows/build-open-fleet.yml
+          wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/workflows/update-action-prod.yml -O .github/workflows/update-action-prod.yml
+          wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/workflows/update-action-test.yml -O .github/workflows/update-action-test.yml
 
           if [ $miner == 'pisces' ] ; then  
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/device-compose-files/docker-compose-pisces.yml -O docker-compose.yml
@@ -106,6 +110,8 @@ jobs:
           wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/balena.yml."$balena" -O balena.yml
           wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/workflows/update-files.yml -O .github/workflows/update-files.yml
           wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/workflows/build-open-fleet.yml -O .github/workflows/build-open-fleet.yml
+          wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/workflows/update-action-prod.yml -O .github/workflows/update-action-prod.yml
+          wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/workflows/update-action-test.yml -O .github/workflows/update-action-test.yml
 
           if [ $miner == 'pisces' ] ; then  
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/device-compose-files/docker-compose-pisces.yml -O docker-compose.yml
