@@ -1,5 +1,5 @@
 """
-Generate docker-compose.yml based on docker-compose.template file.
+Generate docker-compose.yml based on docker-compose.tempalte file.
 
 Some how balena doesn't like output of:
 

@@ -136,57 +136,6 @@ This can either be done manually by someone with the right privileges on our bal
 
 Once this has completed and the draft builds have been pushed to balena, you will need to either finalise the releases using balena CLI locally, or visit the releases menu of each fleet with a draft release, click on the release and then select `Finalize Release` from the dropdown menu.
 
-# [BalenaHub](https://hub.balena.io) builds (OpenFleets) for Nebra and third party Helium Miners
-
-We are passionate about open source hardware and software and so we have put significant time and effort into making our software hardware agnostic, and a number of Helium manufacturers already use parts of our software on their devices. On that note, we maintain a variety of fully open source software builds for third party Helium Miners, as well as our Nebra miners. If you follow the links to the various repos below, you can find the builds and detailed instructions on how to deploy them on your [Nebra](#nebra-build-repos) or [third party hotspot miner](#third-party-build-repos).
-
-Not only does this further decentralise the software stack, but also future proofs the Helium network and the hotspot owners from their devices becoming obsolete from manufacturers going bankrupt or being unreliable with ongoing updates.
-
-This is the same full featured software that we run natively on our Nebra Helium Miners...
-
-**Key features:**
-
-- local IP diagnostics dashboard
-- updated regularly (our automated system means this will get updates at the same time as the entire Nebra fleet)
-- automatic updates (if installed via [balenaHub](https://hub.balena.io)) or option to fork and manage your own fleet
-- powered by [balenaOS](https://balena.io/os) which is optimised for edge devices and very secure
-- access to new features as added to the core Nebra software
-- fully open source software stack (the only one in the Helium community!)
-- COMING SOON: access to [remote management dashboard](https://dashboard.nebra.com) (paid extra)
-
-In the future, we also plan to add [Nebra dashboard](https://dashboard.nebra.com) support for third party miners. We also plan to apply for a Helium Foundation grant in order to expand this effort further, improve the software and add all currently available Helium Miners to the mix.
-
-**If you have found this software useful we would be very grateful if you would consider [sponsoring the project via GitHub Sponsors](https://github.com/sponsors/NebraLtd) as this will enable us to continue supporting this software into the future.**
-
-### Nebra build repos
-
-- [Indoor 470](https://github.com/NebraLtd/helium-indoor-470)
-- [Indoor 868](https://github.com/NebraLtd/helium-indoor-868)
-- [Indoor 915](https://github.com/NebraLtd/helium-indoor-915)
-- [Outdoor 470](https://github.com/NebraLtd/helium-outdoor-470)
-- [Outdoor 868](https://github.com/NebraLtd/helium-outdoor-868)
-- [Outdoor 915](https://github.com/NebraLtd/helium-outdoor-915)
-- [ROCK Pi Indoor 868](https://github.com/NebraLtd/helium-indoor-868-rockpi)
-- [ROCK Pi Indoor 915](https://github.com/NebraLtd/helium-indoor-915-rockpi)
-- [ROCK Pi Outdoor 915](https://github.com/NebraLtd/helium-outdoor-915-rockpi)
-
-### Third party build repos
-
-- [RAKwireless / MNTD (RAK v1.5, RAK v2, MNTD)](https://github.com/NebraLtd/helium-rak)
-- [Sensecap (M1)](https://github.com/NebraLtd/helium-sensecap)
-- [Controllino / Conelcom](https://github.com/NebraLtd/helium-controllino)
-- [Pisces (P100)](https://github.com/NebraLtd/helium-pisces)
-- [Linxdot (RasPi CM4 version)](https://github.com/NebraLtd/helium-linxdot)
-- [Linxdot (ROCK / Radxa CM3 version)](https://github.com/NebraLtd/helium-linxdot-rkcm3)
-- [Helium OG (RasPi 3 and RasPi 4 version)](https://github.com/NebraLtd/helium-og)
-- [Pycom (RasPi CM4 version)](https://github.com/NebraLtd/helium-pycom)
-- [Cotx (X3)](https://github.com/NebraLtd/helium-cotx)
-- [Syncrobit (RasPi CM4 version)](https://github.com/NebraLtd/helium-syncrobit)
-- [Syncrobit (ROCK / Radxa CM3 version)](https://github.com/NebraLtd/helium-syncrobit-rkcm3)
-- [Panther (X1)](https://github.com/NebraLtd/helium-pantherx1)
-- [Finestra / Mimiq](https://github.com/NebraLtd/helium-finestra)
-- [Rising HF](https://github.com/NebraLtd/helium-risinghf)
-
 # Production Checks
 
 @TODO:
