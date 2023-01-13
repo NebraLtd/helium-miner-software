@@ -1,7 +1,7 @@
-name: nebra-helium-controllino
+name: nebra-helium-risinghf
 type: sw.application
 description: >-
-  Manage your Controllino or Conelcom Helium Miner remotely using Nebra and balenaCloud.
+  Manage your Rising HF Helium Miner remotely using Nebra and balenaCloud.
 post-provisioning: >-
   ## Usage instructions
   
@@ -9,15 +9,15 @@ post-provisioning: >-
   Once your device joins the fleet you'll need to allow some time for it to download the application and start forwarding packets to the Helium Network.
   
   
-  For detailed instructions on how to use Nebra Helium Controllino check out [our GitHub repo](https://github.com/NebraLtd/helium-controllino).
+  For detailed instructions on how to use Nebra Helium Rising HF check out [our GitHub repo](https://github.com/NebraLtd/helium-risinghf).
   
   
-  For support you can [open an issue](https://github.com/NebraLtd/helium-controllino/issues) on the repo or reach out to us via one of the methods listed [on our support page](https://helium.nebra.com).
+  For support you can [open an issue](https://github.com/NebraLtd/helium-risinghf/issues) on the repo or reach out to us via one of the methods listed [on our support page](https://helium.nebra.com/support).
 assets:
   repository:
     type: blob.asset
     data:
-      url: "https://github.com/NebraLtd/helium-controllino"
+      url: "https://github.com/NebraLtd/helium-risinghf"
   logo:
     type: blob.asset
     data:
@@ -25,19 +25,20 @@ assets:
         https://cdn.shopify.com/s/files/1/0071/2281/3001/files/Nebra-Icon-Blue_bb758eaa-b10d-4ea6-a55e-babd69135b69.png?v=1620938774
 data:
   applicationEnvironmentVariables:
-    - VARIANT: COMP-CONTROLLINO
+    - VARIANT: COMP-RISINGHF
     - HELIUM_MINER_HEIGHT_URL: "https://api.helium.io/v1/blocks/height"
   applicationConfigVariables:
-    - RESIN_HOST_CONFIG_dtparam: '"i2c_arm=on","spi=on","audio=on"'
-    - RESIN_HOST_CONFIG_dtoverlay: '"spi0-1cs"'
+    - RESIN_HOST_CONFIG_dtparam: '"i2c_arm=on","spi=on","audio=on","watchdog=on"'
+    - RESIN_HOST_CONFIG_dtoverlay: '"spi1-1cs","vc4-kms-v3d","uart1,txd1_pin=32,rxd1_pin=33","sdio,poll_once=off"'
     - RESIN_HOST_CONFIG_gpu_mem: 16
     - RESIN_HOST_CONFIG_avoid_warnings: 1
     - RESIN_HOST_CONFIG_disable_overscan: 1
     - RESIN_HOST_CONFIG_disable_splash: "1"
     - RESIN_HOST_CONFIG_core_freq: 400
-    - RESIN_HOST_CONFIG_gpio: '"17=op,dh"'
+    - RESIN_HOST_CONFIG_max_framebuffers: 2
+    - RESIN_HOST_CONFIG_arm_64bit: 1
     - RESIN_OVERRIDE_LOCK: 1
-  defaultDeviceType: raspberrypi4-64
+  defaultDeviceType: raspberrypi3-64
   supportedDeviceTypes:
-    - raspberrypi4-64
+    - raspberrypi3-64
 version: 0.0.1
