@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        sbc: [raspi, rockpi, rak, pisces, og, sensecap, finestra, controllino, cotx]
+        sbc: [raspi, rockpi, rak, pisces, og, sensecap, finestra, controllino]
         frequency: [470, 868, 915]
         variant: [indoor, outdoor]
         exclude:
@@ -19,7 +19,6 @@ jobs:
           - sbc: sensecap
           - sbc: finestra
           - sbc: controllino
-          - sbc: cotx
         include:
           - sbc: pisces
             variant: indoor
@@ -37,9 +36,6 @@ jobs:
             variant: indoor
             frequency: 868
           - sbc: controllino
-            variant: indoor
-            frequency: 868
-          - sbc: cotx
             variant: indoor
             frequency: 868
     steps:
@@ -64,9 +60,9 @@ jobs:
         run: |
           python gen_docker_compose.py rpi -o docker-compose.yml
       - name: Generate Docker Compose for RAK and Non-Nebra RasPi
-        if: matrix.sbc == 'rak' || matrix.sbc == 'og' || matrix.sbc == 'sensecap' || matrix.sbc == 'finestra' || matrix.sbc == 'controllino' || matrix.sbc == 'cotx'
+        if: matrix.sbc == 'rak' || matrix.sbc == 'og' || matrix.sbc == 'sensecap' || matrix.sbc == 'finestra' || matrix.sbc == 'controllino'
         run: |
-          python gen_docker_compose.py rpi -o docker-compose.yml
+          python gen_docker_compose.py rpi -o docker-compose.yml  
           cp balena/balena.yml.${{ matrix.sbc }} balena.yml
       - name: Generate Docker Compose for Pisces
         if: matrix.sbc == 'pisces'
@@ -87,7 +83,7 @@ jobs:
           balena_command: "deploy nebraltd/helium-${{ matrix.variant }}-${{ matrix.frequency }} --logs --debug --nocache --build --draft"
       - name: Balena Deploy (RAK and Non-Nebra RasPi)
         uses: nebraltd/balena-cli-action@v13.3.0
-        if: ( matrix.sbc == 'rak' || matrix.sbc == 'og' || matrix.sbc == 'sensecap' || matrix.sbc == 'finestra' || matrix.sbc == 'controllino' || matrix.sbc == 'cotx' ) && success()
+        if: ( matrix.sbc == 'rak' || matrix.sbc == 'og' || matrix.sbc == 'sensecap' || matrix.sbc == 'finestra' || matrix.sbc == 'controllino' ) && success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_2}}
           balena_command: "deploy nebraltd/helium-${{ matrix.sbc }} --logs --debug --nocache --build --draft"
