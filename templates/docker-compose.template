@@ -63,7 +63,6 @@ services:
     volumes:
       - pktfwdr:/var/pktfwd
       - miner-storage:/var/data
-      - watchdog-log:/var/watchdog
     network_mode: host
     # host networking doesn't export hostnames
     extra_hosts:
@@ -75,12 +74,9 @@ services:
       io.balena.features.sysfs: 1
       io.balena.features.procfs: 1
       io.balena.features.dbus: 1
-      io.balena.features.supervisor-api: '1'
 
 volumes:
   miner-storage:
-  miner-log:
-  watchdog-log:
   pktfwdr:
 
 # balena keeps on changing the subnet, making it impossible
