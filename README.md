@@ -69,12 +69,20 @@ $ export FIRMWARE_SHORT_HASH=$(git rev-parse --short HEAD)
 **Step 1:** Update the settings.ini file to accept the new values which you wish to set in the generation of the docker-compose.yml file
 
 **Step 2:** Generate your respective .yml file based on the device you will be pushing to:
-- RPI (Raspberry Pi based device): `python gen_docker_compose.py rpi -o device-compose-files/docker-compose-rpi.yml`
-- ROCKPI (ROCK Pi based device): `python gen_docker_compose.py rockpi -o device-compose-files/docker-compose-rockpi.yml`
+- RPi (Raspberry Pi based device): `python gen_docker_compose.py rpi -o device-compose-files/docker-compose-rpi.yml`
+- ROCK Pi (ROCK Pi based device): `python gen_docker_compose.py rockpi -o device-compose-files/docker-compose-rockpi.yml`
+- Pycom (Pycom CM4 miner): `python gen_docker_compose.py pycom -o device-compose-files/docker-compose-pycom.yml`
+- Radxa Zero (Radxa Zero based device): `python gen_docker_compose.py radxazero -o device-compose-files/docker-compose-radxazero.yml`
+- ROCK CM3 (ROCK CM3 based device): `python gen_docker_compose.py rkcm3 -o device-compose-files/docker-compose-rkcm3.yml`
+- Pisces (Pisces P100 miner): `python gen_docker_compose.py pisces -o device-compose-files/docker-compose-pisces.yml`
 
 **Step 3:** Copy device compose file into root directory as docker-compose.yml:
-- RPI: `cp device-compose-files/docker-compose-rpi.yml ./docker-compose.yml`
-- ROCKPI: `cp device-compose-files/docker-compose-rockpi.yml ./docker-compose.yml`
+- RPi: `cp device-compose-files/docker-compose-rpi.yml ./docker-compose.yml`
+- ROCK Pi: `cp device-compose-files/docker-compose-rockpi.yml ./docker-compose.yml`
+- Pycom: `cp device-compose-files/docker-compose-pycom.yml ./docker-compose.yml`
+- Radxa Zero: `cp device-compose-files/docker-compose-radxazero.yml ./docker-compose.yml`
+- ROCK CM3: `cp device-compose-files/docker-compose-rkcm3.yml ./docker-compose.yml`
+- Pisces: `cp device-compose-files/docker-compose-pisces.yml ./docker-compose.yml`
 
 **Step 4:** Validate that the changed values you applied to settings.ini were applied in the docker-compose.yml file
 

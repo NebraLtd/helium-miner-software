@@ -7,10 +7,12 @@ on:
 
 env:
   balena-cli: v15.0.0
-  raspberrypi3-64: 2022.10.0
-  raspberrypi4-64: 2022.10.0
+  raspberrypi3-64: 2023.1.0
+  raspberrypi4-64: 2023.1.0
   raspberrypicm4-ioboard: 2.88.4+rev0
-  rockpi-4b-rk3399: 2022.4.2
+  rockpi-4b-rk3399: 2023.1.0
+  radxa-cm3-rpicm4-ioboard: 2023.1.0
+  radxa-zero: 2023.1.0
 
 jobs:
   build-open-fleet:
@@ -29,26 +31,50 @@ jobs:
             echo "Not RasPi 3"
             RASPI3="NO"
             ROCKPI="YES"
+            RADXAZERO="NO"
+            RKCM3="NO"
+          elif grep -q "-radxazero" <<<"$repo"; then
+            echo "Not RasPi 3"
+            RASPI3="NO"
+            ROCKPI="NO"
+            RADXAZERO="YES"
+            RKCM3="NO"
+          elif grep -q "-rkcm3" <<<"$repo"; then
+            echo "Not RasPi 3"
+            RASPI3="NO"
+            ROCKPI="NO"
+            RADXAZERO="NO"
+            RKCM3="YES"
           elif grep -q "outdoor" <<<"$repo"; then
             echo "RasPi Outdoor"
             RASPI3="YES"
             ROCKPI="NO"
+            RADXAZERO="NO"
+            RKCM3="NO"
           elif grep -q "indoor" <<<"$repo"; then
             echo "RasPi Indoor"
             RASPI3="YES"
             ROCKPI="NO"
+            RADXAZERO="NO"
+            RKCM3="NO"
           elif grep -q "risinghf" <<<"$repo"; then
             echo "RisingHF"
             RASPI3="YES"
             ROCKPI="NO"
+            RADXAZERO="NO"
+            RKCM3="NO"
           else
             echo "Not RasPi 3"
             RASPI3="NO"
             ROCKPI="NO"
+            RADXAZERO="NO"
+            RKCM3="NO"
           fi
 
           echo "RASPI3=$RASPI3" >> $GITHUB_ENV
           echo "ROCKPI=$ROCKPI" >> $GITHUB_ENV
+          echo "RADXAZERO=$RADXAZERO" >> $GITHUB_ENV
+          echo "RKCM3=$RKCM3" >> $GITHUB_ENV
 
       - name: Random sleep (balena API workaround)
         run:  sleep $[ ( $RANDOM % 540 ) + 1 ]s
@@ -86,11 +112,15 @@ jobs:
           if [ ${{ env.RASPI3 }} == 'YES' ] ; then
             balena login --token ${{ secrets.BALENA_API_TOKEN }} > /dev/null
           elif [ ${{ github.event.repository.name }} == 'helium-syncrobit' ] || [ ${{ github.event.repository.name }} == 'helium-linxdot' ] || [ ${{ github.event.repository.name }} == 'helium-pycom' ] ; then
-            balena login --token ${{ secrets.BALENA_API_TOKEN_2 }} > /dev/null
+            balena login --token ${{ secrets.BALENA_API_TOKEN_1 }} > /dev/null
           elif [ ${{ env.ROCKPI }} == 'YES' ] ; then
+            balena login --token ${{ secrets.BALENA_API_TOKEN_2 }} > /dev/null
+          elif [ ${{ env.RADXAZERO }} == 'YES' ] ; then
             balena login --token ${{ secrets.BALENA_API_TOKEN_3 }} > /dev/null
-          else
+          elif [ ${{ env.RKCM3 }} == 'YES' ] ; then
             balena login --token ${{ secrets.BALENA_API_TOKEN_4 }} > /dev/null
+          else
+            balena login --token ${{ secrets.BALENA_API_TOKEN_5 }} > /dev/null
           fi
 
       - name: Generate a Balena OS image for the given board, variant, frequency
@@ -138,6 +168,12 @@ jobs:
           elif [ ${{ env.ROCKPI }} == 'YES' ] ; then
             balena_os="rockpi-4b-rk3399"
             balena_os_version="${{ env.rockpi-4b-rk3399 }}"
+          elif [ ${{ env.RADXAZERO }} == 'YES' ] ; then
+            balena_os="radxa-zero"
+            balena_os_version="${{ env.radxa-zero }}"
+          elif [ ${{ env.RKCM3 }} == 'YES' ] ; then
+            balena_os="radxa-cm3-rpicm4-ioboard"
+            balena_os_version="${{ env.radxa-cm3-rpicm4-ioboard }}"
           else
             balena_os="raspberrypi4-64"
             balena_os_version="${{ env.raspberrypi4-64 }}"
