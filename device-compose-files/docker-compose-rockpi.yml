@@ -8,8 +8,8 @@ services:
       - dbus-session
       - diagnostics
     environment:
-      - FIRMWARE_VERSION=2022.12.13.0-6
-      - FIRMWARE_SHORT_HASH=eb4d71e
+      - FIRMWARE_VERSION=2022.12.13.0-7
+      - FIRMWARE_SHORT_HASH=51f1517
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
       - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
     privileged: true
@@ -34,8 +34,8 @@ services:
     volumes:
       - pktfwdr:/var/pktfwd
     environment:
-      - FIRMWARE_VERSION=2022.12.13.0-6
-      - FIRMWARE_SHORT_HASH=eb4d71e
+      - FIRMWARE_VERSION=2022.12.13.0-7
+      - FIRMWARE_SHORT_HASH=51f1517
 
   helium-miner:
     image: nebraltd/hm-miner:arm64-c1f8791
@@ -59,17 +59,17 @@ services:
     restart: on-failure
     environment:
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - FIRMWARE_VERSION=2022.12.13.0-6
-      - FIRMWARE_SHORT_HASH=eb4d71e
+      - FIRMWARE_VERSION=2022.12.13.0-7
+      - FIRMWARE_SHORT_HASH=51f1517
 
   diagnostics:
-    image: nebraltd/hm-diag:c2cb714
+    image: nebraltd/hm-diag:eab4760
     depends_on:
       - dbus-session
     environment:
-      - FIRMWARE_VERSION=2022.12.13.0-6
-      - FIRMWARE_SHORT_HASH=eb4d71e
-      - DIAGNOSTICS_VERSION=c2cb714
+      - FIRMWARE_VERSION=2022.12.13.0-7
+      - FIRMWARE_SHORT_HASH=51f1517
+      - DIAGNOSTICS_VERSION=eab4760
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
     volumes:
       - pktfwdr:/var/pktfwd
@@ -99,8 +99,8 @@ services:
       - dbus:/session/dbus
     environment:
       - DBUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - FIRMWARE_VERSION=2022.12.13.0-6
-      - FIRMWARE_SHORT_HASH=eb4d71e
+      - FIRMWARE_VERSION=2022.12.13.0-7
+      - FIRMWARE_SHORT_HASH=51f1517
 
 volumes:
   miner-storage:
