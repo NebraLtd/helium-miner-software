@@ -6,11 +6,11 @@ on:
   workflow_dispatch:
 
 env:
-  balena-cli: v15.0.0
-  raspberrypi3-64: 2022.10.0
-  raspberrypi4-64: 2022.10.0
+  balena-cli: v15.0.2
+  raspberrypi3-64: 2023.1.0
+  raspberrypi4-64: 2023.1.0
   raspberrypicm4-ioboard: 2.88.4+rev0
-  rockpi-4b-rk3399: 2022.4.2
+  rockpi-4b-rk3399: 2023.1.0
 
 jobs:
   build-open-fleet:
