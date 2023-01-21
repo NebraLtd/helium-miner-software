@@ -1,0 +1,20 @@
+name: Update files in Commercial Fleets repo
+
+on:
+  push:
+    paths:
+      - "settings.ini"
+      - "balena/*"
+      - "device-compose-files/*.yml"
+  workflow_dispatch:
+
+jobs:
+  file-update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger PR action in commercial-hotspot-software repo
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.MR_BUMP }}
+          event-type: file-update
+          repository: NebraLtd/commercial-hotspot-software
