@@ -7,12 +7,8 @@ Some how balena doesn't like output of:
 
 That's probably because output for `docker-compose config` does not retain the
 order of the sections present in the file. So as a workaround this small file
-tries to do the same thing but without re-arranging sections and just replacing
-placeholder values.
-
-In future if desired this can use a proper templating system like mako or jinja2.
-For the time being to avoid adding dependencies to the project it just uses python
-format strings.
+uses jinja2 and tries to do the same thing but without re-arranging sections
+and just replacing placeholder values.
 """
 
 import sys
