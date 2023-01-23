@@ -29,7 +29,7 @@ class TestValidComposeFileOutput(unittest.TestCase):
         return super().tearDown()
 
     def _remove_output_files(self):
-        for filename in (rpi_output_file, rockpi_output_file):
+        for filename in (rpi_output_file, rockpi_output_file, pycom_output_file, pisces_output_file):
             if exists(filename):
                 unlink(filename)
 
