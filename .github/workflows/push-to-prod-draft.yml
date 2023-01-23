@@ -12,7 +12,6 @@ jobs:
         sbc: [raspi, rockpi, rak, pisces, og, sensecap, finestra, controllino, cotx, pantherx1, linxdot, linxdot-rkcm3, pycom, syncrobit, syncrobit-rkcm3, risinghf]
         frequency: [470, 868, 915]
         variant: [indoor, outdoor]
-        commercial: [yes, no]
         exclude:
           - sbc: rak
           - sbc: pisces
@@ -28,72 +27,49 @@ jobs:
           - sbc: syncrobit-rkcm3
           - sbc: pycom
           - sbc: risinghf
-          - sbc: rockpi
-            variant: outdoor
-            commercial: yes
-          - variant: indoor
-            commercial: yes
-            frequency: 470
-          - sbc: raspi
-            commercial: yes
-            frequency: 470
         include:
           - sbc: pisces
             variant: indoor
             frequency: 868
-            commercial: no
           - sbc: rak
             variant: indoor
             frequency: 868
-            commercial: no
           - sbc: og
             variant: indoor
             frequency: 868
-            commercial: no
           - sbc: sensecap
             variant: indoor
             frequency: 868
-            commercial: no
           - sbc: finestra
             variant: indoor
             frequency: 868
-            commercial: no
           - sbc: controllino
             variant: indoor
             frequency: 868
-            commercial: no
           - sbc: cotx
             variant: indoor
             frequency: 868
-            commercial: no
           - sbc: pantherx1
             variant: indoor
             frequency: 868
-            commercial: no
           - sbc: linxdot
             variant: indoor
             frequency: 868
-            commercial: no
           - sbc: linxdot-rkcm3
             variant: indoor
             frequency: 868
-            commercial: no
           - sbc: syncrobit
             variant: indoor
             frequency: 868
-            commercial: no
           - sbc: syncrobit-rkcm3
             variant: indoor
             frequency: 868
-            commercial: no
           - sbc: pycom
             variant: indoor
             frequency: 868
-            commercial: no
           - sbc: risinghf
             variant: indoor
             frequency: 868
-            commercial: no
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -110,14 +86,8 @@ jobs:
           LATEST_GA=$FIRMWARE_VERSION
           GITHUB_BRANCH=$( echo "${{ github.ref }}" | sed 's/refs\/heads\///g' )
           
-          if [ "${{ matrix.commercial }}" = "yes" ] ; then
-            echo " Deploying to commercial fleet!"
-            COMMERCIAL="-c"
-          fi
-          
           echo "LATEST_GA=$LATEST_GA" >> $GITHUB_ENV
           echo "GITHUB_BRANCH=$GITHUB_BRANCH" >> $GITHUB_ENV
-          echo "COMMERCIAL=$COMMERCIAL" >> $GITHUB_ENV
       - name: Random sleep (balena API workaround)
         run:  sleep $[ ( $RANDOM % 540 ) + 1 ]s
       - name: Generate Docker Compose for ROCK Pi
@@ -155,52 +125,40 @@ jobs:
           python gen_docker_compose.py pisces -o docker-compose.yml
           cp balena/balena.yml.pisces balena.yml
       - name: Balena Deploy (Nebra ROCK Pi)
-        uses: nebraltd/balena-cli-action@v15.0.0
-        if: matrix.sbc == 'rockpi' && matrix.commercial == 'no' && success()
+        uses: nebraltd/balena-cli-action@v15.0.3
+        if: matrix.sbc == 'rockpi' && success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
           balena_command: "deploy nebraltd/helium-${{ matrix.variant }}-${{ matrix.frequency }}${{ env.ROCKPI }} --debug --nocache --build --draft"
       - name: Balena Deploy (Nebra RasPi)
-        uses: nebraltd/balena-cli-action@v15.0.0
-        if: matrix.sbc == 'raspi' && matrix.commercial == 'no' && success()
+        uses: nebraltd/balena-cli-action@v15.0.3
+        if: matrix.sbc == 'raspi' && success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_1}}
           balena_command: "deploy nebraltd/helium-${{ matrix.variant }}-${{ matrix.frequency }} --debug --nocache --build --draft"
-      - name: Balena Deploy (Nebra ROCK Pi Commercial)
-        uses: nebraltd/balena-cli-action@v15.0.0
-        if: matrix.sbc == 'rockpi' && matrix.commercial == 'yes' && success()
+      - name: Balena Deploy (RAK and Non-Nebra RasPi)
+        uses: nebraltd/balena-cli-action@v15.0.3
+        if: ( matrix.sbc == 'rak' || matrix.sbc == 'og' || matrix.sbc == 'sensecap' || matrix.sbc == 'finestra' || matrix.sbc == 'controllino' || matrix.sbc == 'cotx' || matrix.sbc == 'pantherx1' || matrix.sbc == 'linxdot' || matrix.sbc == 'syncrobit' || matrix.sbc == 'risinghf' ) && success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_2}}
-          balena_command: "deploy nebraltd/helium-${{ matrix.variant }}-${{ matrix.frequency }}${{ env.ROCKPI }}${{ env.COMMERCIAL }} --debug --nocache --build --draft"
-      - name: Balena Deploy (Nebra RasPi Commercial)
-        uses: nebraltd/balena-cli-action@v15.0.0
-        if: matrix.sbc == 'raspi' && matrix.commercial == 'yes' && success()
+          balena_command: "deploy nebraltd/helium-${{ matrix.sbc }} --debug --nocache --build --draft"
+      - name: Balena Deploy (Non-Nebra ROCK Pi)
+        uses: nebraltd/balena-cli-action@v15.0.3
+        if: ( matrix.sbc == 'linxdot-rkcm3' || matrix.sbc == 'syncrobit-rkcm3' ) && success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_3}}
-          balena_command: "deploy nebraltd/helium-${{ matrix.variant }}-${{ matrix.frequency }}${{ env.COMMERCIAL }} --debug --nocache --build --draft"
-      - name: Balena Deploy (RAK and Non-Nebra RasPi)
-        uses: nebraltd/balena-cli-action@v15.0.0
-        if: ( matrix.sbc == 'rak' || matrix.sbc == 'og' || matrix.sbc == 'sensecap' || matrix.sbc == 'finestra' || matrix.sbc == 'controllino' || matrix.sbc == 'cotx' || matrix.sbc == 'pantherx1' || matrix.sbc == 'linxdot' || matrix.sbc == 'syncrobit' || matrix.sbc == 'risinghf' ) && success()
+          balena_command: "deploy nebraltd/helium-${{ matrix.sbc }} --debug --nocache --build --draft"
+      - name: Balena Deploy (Pycom CM4)
+        uses: nebraltd/balena-cli-action@v15.0.3
+        if: matrix.sbc == 'pycom' && success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_4}}
           balena_command: "deploy nebraltd/helium-${{ matrix.sbc }} --debug --nocache --build --draft"
-      - name: Balena Deploy (Non-Nebra ROCK Pi)
-        uses: nebraltd/balena-cli-action@v15.0.0
-        if: ( matrix.sbc == 'linxdot-rkcm3' || matrix.sbc == 'syncrobit-rkcm3' ) && success()
-        with:
-          balena_api_token: ${{secrets.BALENA_API_TOKEN_5}}
-          balena_command: "deploy nebraltd/helium-${{ matrix.sbc }} --debug --nocache --build --draft"
-      - name: Balena Deploy (Pycom CM4)
-        uses: nebraltd/balena-cli-action@v15.0.0
-        if: matrix.sbc == 'pycom' && success()
-        with:
-          balena_api_token: ${{secrets.BALENA_API_TOKEN_6}}
-          balena_command: "deploy nebraltd/helium-${{ matrix.sbc }} --debug --nocache --build --draft"
       - name: Balena Deploy (Pisces P100)
-        uses: nebraltd/balena-cli-action@v15.0.0
+        uses: nebraltd/balena-cli-action@v15.0.3
         if: matrix.sbc == 'pisces' && success()
         with:
-          balena_api_token: ${{secrets.BALENA_API_TOKEN_7}}
+          balena_api_token: ${{secrets.BALENA_API_TOKEN_5}}
           balena_command: "deploy nebraltd/helium-${{ matrix.sbc }} --debug --nocache --build --draft"
       - name: Trigger build action in helium-${{ matrix.sbc }} repo
         uses: peter-evans/repository-dispatch@v2
@@ -209,4 +167,12 @@ jobs:
           token: ${{ secrets.MR_BUMP }}
           event-type: build-open-fleet
           repository: NebraLtd/helium-${{ matrix.sbc }}
+          client-payload: '{"release": "${{ env.LATEST_GA }}_GA", "tag": "${{ env.LATEST_GA }}"}'
+      - name: Trigger build action in helium-${{ matrix.variant }}-${{ matrix.frequency }}${{ env.ROCKPI }} repo
+        uses: peter-evans/repository-dispatch@v2
+        if: ( matrix.sbc == 'raspi' || matrix.sbc == 'rockpi' ) && success()
+        with:
+          token: ${{ secrets.MR_BUMP }}
+          event-type: build-open-fleet
+          repository: NebraLtd/helium-${{ matrix.variant }}-${{ matrix.frequency }}${{ env.ROCKPI }}
           client-payload: '{"release": "${{ env.LATEST_GA }}_GA", "tag": "${{ env.LATEST_GA }}"}'
