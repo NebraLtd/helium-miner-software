@@ -8,8 +8,8 @@ services:
       - dbus-session
       - diagnostics
     environment:
-      - FIRMWARE_VERSION=2022.12.13.0-12
-      - FIRMWARE_SHORT_HASH=a7f63bd
+      - FIRMWARE_VERSION=2022.12.13.0-13
+      - FIRMWARE_SHORT_HASH=68d7838
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
       - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
     privileged: true
@@ -26,16 +26,24 @@ services:
     stop_signal: SIGINT
 
   packet-forwarder:
-    image: nebraltd/hm-pktfwd:7713945
+    image: nebraltd/hm-pktfwd:f607655
     depends_on:
-      - helium-miner
+      - multiplexer 
     restart: always
     privileged: true
     volumes:
       - pktfwdr:/var/pktfwd
     environment:
-      - FIRMWARE_VERSION=2022.12.13.0-12
-      - FIRMWARE_SHORT_HASH=a7f63bd
+      - FIRMWARE_VERSION=2022.12.13.0-13
+      - FIRMWARE_SHORT_HASH=68d7838
+
+  multiplexer:
+    image: nebraltd/hm-pktmux:57cc687
+    restart: always
+    depends_on:
+      - helium-miner
+    expose:
+      - "1700"
 
   helium-miner:
     image: nebraltd/hm-miner:arm64-c1f8791
@@ -59,16 +67,16 @@ services:
     restart: on-failure
     environment:
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - FIRMWARE_VERSION=2022.12.13.0-12
-      - FIRMWARE_SHORT_HASH=a7f63bd
+      - FIRMWARE_VERSION=2022.12.13.0-13
+      - FIRMWARE_SHORT_HASH=68d7838
 
   diagnostics:
     image: nebraltd/hm-diag:4b0e204
     depends_on:
       - dbus-session
     environment:
-      - FIRMWARE_VERSION=2022.12.13.0-12
-      - FIRMWARE_SHORT_HASH=a7f63bd
+      - FIRMWARE_VERSION=2022.12.13.0-13
+      - FIRMWARE_SHORT_HASH=68d7838
       - DIAGNOSTICS_VERSION=4b0e204
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
     volumes:
@@ -99,8 +107,8 @@ services:
       - dbus:/session/dbus
     environment:
       - DBUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - FIRMWARE_VERSION=2022.12.13.0-12
-      - FIRMWARE_SHORT_HASH=a7f63bd
+      - FIRMWARE_VERSION=2022.12.13.0-13
+      - FIRMWARE_SHORT_HASH=68d7838
 
 volumes:
   miner-storage:
