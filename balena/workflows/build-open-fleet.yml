@@ -49,25 +49,8 @@ jobs:
 
           echo "RASPI3=$RASPI3" >> $GITHUB_ENV
           echo "ROCKPI=$ROCKPI" >> $GITHUB_ENV
-
-      - name: Install latest balena-cli (raspi 3)
-        if: env.RASPI3 == 'YES'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y curl unzip zip lxc libarchive-tools aufs-tools
-          sudo modprobe aufs
-          cd /opt/
-          echo "Uses Balena CLI version: ${{ env.balena-cli }}"
-          cat /etc/docker/daemon.json
-          echo "$(grep aufs /proc/filesystems)"
-          echo "$(docker info)" 
-          curl -O -sSL "https://github.com/balena-io/balena-cli/releases/download/${{ env.balena-cli }}/balena-cli-${{ env.balena-cli }}-linux-x64-standalone.zip"
-          unzip balena-cli-*-linux-x64-standalone.zip
-          sudo ln -s /opt/balena-cli/balena /usr/bin/
-          cd ~
           
-      - name: Install latest balena-cli (rockpi, raspi4)
-        if: env.RASPI3 == 'NO'
+      - name: Install latest balena-cli
         run: |
           sudo apt-get update
           sudo apt-get install -y curl unzip zip
