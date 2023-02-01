@@ -8,8 +8,8 @@ services:
       - dbus-session
       - diagnostics
     environment:
-      - FIRMWARE_VERSION=2022.12.13.0-13
-      - FIRMWARE_SHORT_HASH=68d7838
+      - FIRMWARE_VERSION=2022.12.13.0-14
+      - FIRMWARE_SHORT_HASH=0652739
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
       - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
     privileged: true
@@ -28,14 +28,14 @@ services:
   packet-forwarder:
     image: nebraltd/hm-pktfwd:f607655
     depends_on:
-      - multiplexer 
+      - multiplexer
     restart: always
     privileged: true
     volumes:
       - pktfwdr:/var/pktfwd
     environment:
-      - FIRMWARE_VERSION=2022.12.13.0-13
-      - FIRMWARE_SHORT_HASH=68d7838
+      - FIRMWARE_VERSION=2022.12.13.0-14
+      - FIRMWARE_SHORT_HASH=0652739
 
   multiplexer:
     image: nebraltd/hm-pktmux:57cc687
@@ -67,22 +67,23 @@ services:
     restart: on-failure
     environment:
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - FIRMWARE_VERSION=2022.12.13.0-13
-      - FIRMWARE_SHORT_HASH=68d7838
+      - FIRMWARE_VERSION=2022.12.13.0-14
+      - FIRMWARE_SHORT_HASH=0652739
 
   diagnostics:
-    image: nebraltd/hm-diag:4b0e204
+    image: nebraltd/hm-diag:c3d8f51
     depends_on:
       - dbus-session
     environment:
-      - FIRMWARE_VERSION=2022.12.13.0-13
-      - FIRMWARE_SHORT_HASH=68d7838
-      - DIAGNOSTICS_VERSION=4b0e204
+      - FIRMWARE_VERSION=2022.12.13.0-14
+      - FIRMWARE_SHORT_HASH=0652739
+      - DIAGNOSTICS_VERSION=c3d8f51
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
     volumes:
       - pktfwdr:/var/pktfwd
       - miner-storage:/var/data
       - watchdog-log:/var/watchdog
+      - nebra:/var/nebra
     ports:
       - "80:5000"
     cap_add:
@@ -107,8 +108,8 @@ services:
       - dbus:/session/dbus
     environment:
       - DBUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - FIRMWARE_VERSION=2022.12.13.0-13
-      - FIRMWARE_SHORT_HASH=68d7838
+      - FIRMWARE_VERSION=2022.12.13.0-14
+      - FIRMWARE_SHORT_HASH=0652739
 
 volumes:
   miner-storage:
@@ -116,3 +117,4 @@ volumes:
   watchdog-log:
   pktfwdr:
   dbus:
+  nebra:
