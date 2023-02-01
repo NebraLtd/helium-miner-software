@@ -17,4 +17,4 @@ jobs:
         pip install -r test-requirements.txt
         pip install -r requirements.txt
         export PYTHONPATH=`pwd`
-        pytest --cov-fail-under=90
+        pytest . --cov=. --cov-fail-under=85

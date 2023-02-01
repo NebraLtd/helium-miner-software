@@ -28,7 +28,7 @@ services:
   packet-forwarder:
     image: nebraltd/hm-pktfwd:{{PKTFWD_VERSION}}
     depends_on:
-      - helium-miner
+      - multiplexer
     restart: always
     privileged: true
     volumes:
@@ -36,6 +36,14 @@ services:
     environment:
       - FIRMWARE_VERSION={{FIRMWARE_VERSION}}
       - FIRMWARE_SHORT_HASH={{ENV.FIRMWARE_SHORT_HASH}}
+
+  multiplexer:
+    image: nebraltd/hm-pktmux:{{PKTMUX_VERSION}}
+    restart: always
+    depends_on:
+      - helium-miner
+    expose:
+      - "1700"
 
   helium-miner:
     image: nebraltd/hm-miner:{{ARCH}}-{{MINER_VERSION}}
@@ -75,6 +83,7 @@ services:
       - pktfwdr:/var/pktfwd
       - miner-storage:/var/data
       - watchdog-log:/var/watchdog
+      - nebra:/var/nebra
     ports:
       - "80:5000"
     cap_add:
@@ -108,3 +117,4 @@ volumes:
   watchdog-log:
   pktfwdr:
   dbus:
+  nebra:
