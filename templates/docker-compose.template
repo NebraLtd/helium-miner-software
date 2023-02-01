@@ -28,7 +28,7 @@ services:
   packet-forwarder:
     image: nebraltd/hm-pktfwd:{{PKTFWD_VERSION}}
     depends_on:
-      - multiplexer 
+      - multiplexer
     restart: always
     privileged: true
     volumes:
@@ -83,6 +83,7 @@ services:
       - pktfwdr:/var/pktfwd
       - miner-storage:/var/data
       - watchdog-log:/var/watchdog
+      - nebra:/var/nebra
     ports:
       - "80:5000"
     cap_add:
@@ -116,3 +117,4 @@ volumes:
   watchdog-log:
   pktfwdr:
   dbus:
+  nebra:
