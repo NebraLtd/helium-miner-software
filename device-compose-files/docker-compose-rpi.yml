@@ -9,7 +9,7 @@ services:
       - diagnostics
     environment:
       - FIRMWARE_VERSION=2022.12.13.0-18
-      - FIRMWARE_SHORT_HASH=71caf7f
+      - FIRMWARE_SHORT_HASH=4a06881
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
       - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
     privileged: true
@@ -35,7 +35,7 @@ services:
       - pktfwdr:/var/pktfwd
     environment:
       - FIRMWARE_VERSION=2022.12.13.0-18
-      - FIRMWARE_SHORT_HASH=71caf7f
+      - FIRMWARE_SHORT_HASH=4a06881
 
   multiplexer:
     image: nebraltd/hm-pktmux:999ffe4
@@ -68,7 +68,7 @@ services:
     environment:
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
       - FIRMWARE_VERSION=2022.12.13.0-18
-      - FIRMWARE_SHORT_HASH=71caf7f
+      - FIRMWARE_SHORT_HASH=4a06881
 
   diagnostics:
     image: nebraltd/hm-diag:b71f1ad
@@ -76,7 +76,7 @@ services:
       - dbus-session
     environment:
       - FIRMWARE_VERSION=2022.12.13.0-18
-      - FIRMWARE_SHORT_HASH=71caf7f
+      - FIRMWARE_SHORT_HASH=4a06881
       - DIAGNOSTICS_VERSION=b71f1ad
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
     volumes:
@@ -109,7 +109,7 @@ services:
     environment:
       - DBUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
       - FIRMWARE_VERSION=2022.12.13.0-18
-      - FIRMWARE_SHORT_HASH=71caf7f
+      - FIRMWARE_SHORT_HASH=4a06881
 
 volumes:
   miner-storage:
