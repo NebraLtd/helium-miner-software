@@ -173,7 +173,7 @@ jobs:
           client-payload: '{"release": "${{ env.LATEST_GA }}_GA", "tag": "${{ env.LATEST_GA }}"}'
       - name: Trigger build action in helium-${{ matrix.variant }}-${{ matrix.frequency }}${{ env.ROCKPI }} repo
         uses: peter-evans/repository-dispatch@v2
-        if: ( matrix.sbc == 'raspi' || ( matrix.sbc == 'rockpi' && ( matrix.frequency != 470 || ( matrix.frequency == 868 && matrix.variant != 'outdoor' ) ) ) ) && success()
+        if: ( matrix.sbc == 'raspi' || ( matrix.sbc == 'rockpi' && matrix.frequency != 470 ) || ( matrix.sbc == 'rockpi' && matrix.frequency == 868 && matrix.variant != 'outdoor' ) ) && success()
         with:
           token: ${{ secrets.MR_BUMP }}
           event-type: build-open-fleet
