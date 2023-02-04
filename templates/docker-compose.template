@@ -36,6 +36,9 @@ services:
     environment:
       - FIRMWARE_VERSION={{FIRMWARE_VERSION}}
       - FIRMWARE_SHORT_HASH={{ENV.FIRMWARE_SHORT_HASH}}
+    labels:
+      io.balena.features.sysfs: 1
+      io.balena.features.procfs: 1
 
   multiplexer:
     image: nebraltd/hm-pktmux:{{PKTMUX_VERSION}}
@@ -44,6 +47,9 @@ services:
       - helium-miner
     expose:
       - "1700"
+    labels:
+      io.balena.features.sysfs: 1
+      io.balena.features.procfs: 1
 
   helium-miner:
     image: nebraltd/hm-miner:{{ARCH}}-{{MINER_VERSION}}
