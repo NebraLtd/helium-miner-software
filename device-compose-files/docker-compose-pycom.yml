@@ -8,8 +8,8 @@ services:
       - dbus-session
       - diagnostics
     environment:
-      - FIRMWARE_VERSION=2022.12.13.0-18
-      - FIRMWARE_SHORT_HASH=09e6239
+      - FIRMWARE_VERSION=2022.12.13.0-19
+      - FIRMWARE_SHORT_HASH=69b14fa
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
       - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
     privileged: true
@@ -26,7 +26,7 @@ services:
     stop_signal: SIGINT
 
   packet-forwarder:
-    image: nebraltd/hm-pktfwd:072d3a9
+    image: nebraltd/hm-pktfwd:3a1a662
     depends_on:
       - multiplexer
     restart: always
@@ -34,16 +34,22 @@ services:
     volumes:
       - pktfwdr:/var/pktfwd
     environment:
-      - FIRMWARE_VERSION=2022.12.13.0-18
-      - FIRMWARE_SHORT_HASH=09e6239
+      - FIRMWARE_VERSION=2022.12.13.0-19
+      - FIRMWARE_SHORT_HASH=69b14fa
+    labels:
+      io.balena.features.sysfs: 1
+      io.balena.features.procfs: 1
 
   multiplexer:
-    image: nebraltd/hm-pktmux:999ffe4
+    image: nebraltd/hm-pktmux:1f2b30c
     restart: always
     depends_on:
       - helium-miner
     expose:
       - "1700"
+    labels:
+      io.balena.features.sysfs: 1
+      io.balena.features.procfs: 1
 
   helium-miner:
     image: nebraltd/hm-miner:arm64-c1f8791
@@ -67,16 +73,16 @@ services:
     restart: on-failure
     environment:
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - FIRMWARE_VERSION=2022.12.13.0-18
-      - FIRMWARE_SHORT_HASH=09e6239
+      - FIRMWARE_VERSION=2022.12.13.0-19
+      - FIRMWARE_SHORT_HASH=69b14fa
 
   diagnostics:
     image: nebraltd/hm-diag:b71f1ad
     depends_on:
       - dbus-session
     environment:
-      - FIRMWARE_VERSION=2022.12.13.0-18
-      - FIRMWARE_SHORT_HASH=09e6239
+      - FIRMWARE_VERSION=2022.12.13.0-19
+      - FIRMWARE_SHORT_HASH=69b14fa
       - DIAGNOSTICS_VERSION=b71f1ad
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
     volumes:
@@ -108,8 +114,8 @@ services:
       - dbus:/session/dbus
     environment:
       - DBUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - FIRMWARE_VERSION=2022.12.13.0-18
-      - FIRMWARE_SHORT_HASH=09e6239
+      - FIRMWARE_VERSION=2022.12.13.0-19
+      - FIRMWARE_SHORT_HASH=69b14fa
 
 volumes:
   miner-storage:
