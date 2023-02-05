@@ -8,8 +8,8 @@ services:
       - dbus-session
       - diagnostics
     environment:
-      - FIRMWARE_VERSION=2022.12.13.0-20
-      - FIRMWARE_SHORT_HASH=fd67d80
+      - FIRMWARE_VERSION=2022.12.13.0-21
+      - FIRMWARE_SHORT_HASH=aa84162
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
       - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
     privileged: true
@@ -34,8 +34,8 @@ services:
     volumes:
       - pktfwdr:/var/pktfwd
     environment:
-      - FIRMWARE_VERSION=2022.12.13.0-20
-      - FIRMWARE_SHORT_HASH=fd67d80
+      - FIRMWARE_VERSION=2022.12.13.0-21
+      - FIRMWARE_SHORT_HASH=aa84162
     labels:
       io.balena.features.sysfs: 1
       io.balena.features.procfs: 1
@@ -73,17 +73,17 @@ services:
     restart: on-failure
     environment:
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - FIRMWARE_VERSION=2022.12.13.0-20
-      - FIRMWARE_SHORT_HASH=fd67d80
+      - FIRMWARE_VERSION=2022.12.13.0-21
+      - FIRMWARE_SHORT_HASH=aa84162
 
   diagnostics:
-    image: nebraltd/hm-diag:e0d46a2
+    image: nebraltd/hm-diag:0565196
     depends_on:
       - dbus-session
     environment:
-      - FIRMWARE_VERSION=2022.12.13.0-20
-      - FIRMWARE_SHORT_HASH=fd67d80
-      - DIAGNOSTICS_VERSION=e0d46a2
+      - FIRMWARE_VERSION=2022.12.13.0-21
+      - FIRMWARE_SHORT_HASH=aa84162
+      - DIAGNOSTICS_VERSION=0565196
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
     volumes:
       - pktfwdr:/var/pktfwd
@@ -114,8 +114,8 @@ services:
       - dbus:/session/dbus
     environment:
       - DBUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - FIRMWARE_VERSION=2022.12.13.0-20
-      - FIRMWARE_SHORT_HASH=fd67d80
+      - FIRMWARE_VERSION=2022.12.13.0-21
+      - FIRMWARE_SHORT_HASH=aa84162
 
 volumes:
   miner-storage:
