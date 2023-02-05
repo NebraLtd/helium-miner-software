@@ -33,6 +33,7 @@ services:
     privileged: true
     volumes:
       - pktfwdr:/var/pktfwd
+      - nebra:/var/nebra
     environment:
       - FIRMWARE_VERSION={{FIRMWARE_VERSION}}
       - FIRMWARE_SHORT_HASH={{ENV.FIRMWARE_SHORT_HASH}}
