@@ -9,7 +9,7 @@ services:
       - diagnostics
     environment:
       - FIRMWARE_VERSION=2022.12.13.0-22
-      - FIRMWARE_SHORT_HASH=f6f68d6
+      - FIRMWARE_SHORT_HASH=6327331
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
       - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
     privileged: true
@@ -33,9 +33,10 @@ services:
     privileged: true
     volumes:
       - pktfwdr:/var/pktfwd
+      - nebra:/var/nebra
     environment:
       - FIRMWARE_VERSION=2022.12.13.0-22
-      - FIRMWARE_SHORT_HASH=f6f68d6
+      - FIRMWARE_SHORT_HASH=6327331
     labels:
       io.balena.features.sysfs: 1
       io.balena.features.procfs: 1
@@ -74,7 +75,7 @@ services:
     environment:
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
       - FIRMWARE_VERSION=2022.12.13.0-22
-      - FIRMWARE_SHORT_HASH=f6f68d6
+      - FIRMWARE_SHORT_HASH=6327331
 
   diagnostics:
     image: nebraltd/hm-diag:0565196
@@ -82,7 +83,7 @@ services:
       - dbus-session
     environment:
       - FIRMWARE_VERSION=2022.12.13.0-22
-      - FIRMWARE_SHORT_HASH=f6f68d6
+      - FIRMWARE_SHORT_HASH=6327331
       - DIAGNOSTICS_VERSION=0565196
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
     volumes:
@@ -115,7 +116,7 @@ services:
     environment:
       - DBUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
       - FIRMWARE_VERSION=2022.12.13.0-22
-      - FIRMWARE_SHORT_HASH=f6f68d6
+      - FIRMWARE_SHORT_HASH=6327331
 
 volumes:
   miner-storage:
