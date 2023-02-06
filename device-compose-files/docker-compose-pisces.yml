@@ -8,8 +8,8 @@ services:
       - dbus-session
       - diagnostics
     environment:
-      - FIRMWARE_VERSION=2022.12.13.0-24
-      - FIRMWARE_SHORT_HASH=294f011
+      - FIRMWARE_VERSION=2023.02.04.0
+      - FIRMWARE_SHORT_HASH=e92b858
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
       - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
     privileged: true
@@ -35,8 +35,8 @@ services:
       - pktfwdr:/var/pktfwd
       - nebra:/var/nebra
     environment:
-      - FIRMWARE_VERSION=2022.12.13.0-24
-      - FIRMWARE_SHORT_HASH=294f011
+      - FIRMWARE_VERSION=2023.02.04.0
+      - FIRMWARE_SHORT_HASH=e92b858
     labels:
       io.balena.features.sysfs: 1
       io.balena.features.procfs: 1
@@ -53,7 +53,7 @@ services:
       io.balena.features.procfs: 1
 
   helium-miner:
-    image: nebraltd/hm-miner:arm64-d936613
+    image: nebraltd/hm-miner:arm64-79664ee
     depends_on:
       - dbus-session
       - diagnostics
@@ -74,16 +74,16 @@ services:
     restart: on-failure
     environment:
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - FIRMWARE_VERSION=2022.12.13.0-24
-      - FIRMWARE_SHORT_HASH=294f011
+      - FIRMWARE_VERSION=2023.02.04.0
+      - FIRMWARE_SHORT_HASH=e92b858
 
   diagnostics:
     image: nebraltd/hm-diag:9265285
     depends_on:
       - dbus-session
     environment:
-      - FIRMWARE_VERSION=2022.12.13.0-24
-      - FIRMWARE_SHORT_HASH=294f011
+      - FIRMWARE_VERSION=2023.02.04.0
+      - FIRMWARE_SHORT_HASH=e92b858
       - DIAGNOSTICS_VERSION=9265285
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
     volumes:
@@ -115,8 +115,8 @@ services:
       - dbus:/session/dbus
     environment:
       - DBUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - FIRMWARE_VERSION=2022.12.13.0-24
-      - FIRMWARE_SHORT_HASH=294f011
+      - FIRMWARE_VERSION=2023.02.04.0
+      - FIRMWARE_SHORT_HASH=e92b858
 
 volumes:
   miner-storage:
