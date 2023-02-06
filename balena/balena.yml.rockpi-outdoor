@@ -25,6 +25,7 @@ assets:
         https://cdn.shopify.com/s/files/1/0071/2281/3001/files/Nebra-Icon-Blue_bb758eaa-b10d-4ea6-a55e-babd69135b69.png?v=1620938774
 data:
   applicationEnvironmentVariables:
+    - FREQ: "N/A (Not Required)"
     - VARIANT: NEBHNT-OUT1
     - HELIUM_MINER_HEIGHT_URL: "https://api.helium.io/v1/blocks/height"
   applicationConfigVariables:
