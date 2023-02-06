@@ -14,6 +14,12 @@ The diagnostics container is designed for local troubleshooting. It runs a local
 
 Note that this container is also responsible for serving content to the [Hotspot-Production-Tool](https://github.com/NebraLtd/Hotspot-Production-Tool) and also contains the [gateway-mfr-rs](https://github.com/helium/gateway-mfr-rs) tool which configures the ECC Key in production.
 
+## Multiplexer
+
+Repo: [github.com/NebraLtd/hm-pktfwd](https://github.com/NebraLtd/hm-pktmux)
+
+This container is a multiplexer which receives the ouput from the lora gateway packet forwarder and forwards it to a variety of relevant services such as the helium miner, ThingsIX and The Things Network.
+
 ## Packet Forwarder
 
 Repo: [github.com/NebraLtd/hm-pktfwd](https://github.com/NebraLtd/hm-pktfwd)
