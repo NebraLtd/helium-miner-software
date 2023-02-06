@@ -16,7 +16,7 @@ Note that this container is also responsible for serving content to the [Hotspot
 
 ## Multiplexer
 
-Repo: [github.com/NebraLtd/hm-pktfwd](https://github.com/NebraLtd/hm-pktmux)
+Repo: [github.com/NebraLtd/hm-pktmux](https://github.com/NebraLtd/hm-pktmux)
 
 This container is a multiplexer which receives the ouput from the lora gateway packet forwarder and forwards it to a variety of relevant services such as the helium miner, ThingsIX and The Things Network.
 
