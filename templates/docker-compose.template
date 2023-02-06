@@ -50,6 +50,8 @@ services:
     labels:
       io.balena.features.sysfs: 1
       io.balena.features.procfs: 1
+    volumes:
+      - nebra:/var/nebra
 
   helium-miner:
     image: nebraltd/hm-miner:{{ARCH}}-{{MINER_VERSION}}
