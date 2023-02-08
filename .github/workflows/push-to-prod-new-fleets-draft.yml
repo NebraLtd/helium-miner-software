@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        variant: [nebra-indoor1, nebra-outdoor1, nebra-indoor2, nebra-outdoor2] # TODO add nebra-light2 later
+        variant: [nebra-indoor1, nebra-outdoor1, nebra-indoor2] # TODO add nebra-light2 later
 
     steps:
       - name: Checkout
