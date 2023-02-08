@@ -36,7 +36,7 @@ jobs:
           echo "LATEST_GA=$LATEST_GA" >> $GITHUB_ENV
           echo "GITHUB_BRANCH=$GITHUB_BRANCH" >> $GITHUB_ENV
       - name: Random sleep (balena API workaround)
-        run:  sleep $[ ( $RANDOM % 540 ) + 1 ]s
+        run:  sleep $[ ( $RANDOM % 300 ) + 1 ]s
       - name: Generate Docker Compose
         run: |
           python gen_docker_compose_by_variant.py ${{matrix.variant}} -o docker-compose.yml
@@ -45,4 +45,4 @@ jobs:
         with:
           balena_api_token: ${{secrets.NEBRAOS_CLOUD_TOKEN}}
           nebraos_cloud: true
-          balena_command: "deploy admin/helium-${{matrix.variant}}-${{matrix.freq}} --debug --nocache --build"
+          balena_command: "deploy admin/helium-${{matrix.variant}}-${{matrix.frequency}} --debug --nocache --build"
