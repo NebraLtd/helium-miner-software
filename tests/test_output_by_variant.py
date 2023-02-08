@@ -4,16 +4,16 @@ import sys
 import unittest
 from os import unlink
 from subprocess import check_call
-from gen_docker_compose import DockerComposer
+from gen_docker_compose_by_variant import DockerComposer
 from os.path import abspath, dirname, join, exists
 
 here = dirname(abspath(__file__))
 parent = dirname(here)
 template_file = 'docker-compose.template'
-rpi_output_file = join(here, 'rpi.yml')
-rockpi_output_file = join(here, 'rockpi.yml')
-pycom_output_file = join(here, 'pycom.yml')
-pisces_output_file = join(here, 'pisces.yml')
+nebra_indoor1_output_file = join(here, 'nebra-indoor1.yml')
+nebra_outdoor1_output_file = join(here, 'nebra-outdoor1.yml')
+nebra_indoor2_output_file = join(here, 'nebra-indoor2.yml')
+nebra_outdoor2_output_file = join(here, 'nebra-outdoor2.yml')
 
 sys.path.insert(1, parent)
 
@@ -29,51 +29,51 @@ class TestValidComposeFileOutput(unittest.TestCase):
         return super().tearDown()
 
     def _remove_output_files(self):
-        for filename in (rpi_output_file,
-                         rockpi_output_file,
-                         pycom_output_file,
-                         pisces_output_file):
+        for filename in (nebra_indoor1_output_file,
+                         nebra_outdoor1_output_file,
+                         nebra_indoor2_output_file,
+                         nebra_outdoor2_output_file):
             if exists(filename):
                 unlink(filename)
 
-    def test_rpi_compose_output_is_valid(self):
+    def test_nebra_indoor1_compose_output_is_valid(self):
         # Uncomment line below if want to test custom templates.
         # dc = DockerComposer(templates_folder=templates_folder)
         dc = DockerComposer()
-        dc.generate_compose_file('rpi', template_file, rpi_output_file)
+        dc.generate_compose_file('nebra-indoor1', template_file, nebra_indoor1_output_file)
 
         # On failure or non-zero return code this returns CalledProcessError
         # so if this runs without that, it's considered successful as
         # `docker-compose config -q` returns 1 on invalid config
         check_call(
-            f'docker-compose -f {rpi_output_file} config -q', shell=True)
+            f'docker-compose -f {nebra_indoor1_output_file} config -q', shell=True)
 
-    def test_rockpi_compose_output_is_valid(self):
+    def test_nebra_outdoor1_compose_output_is_valid(self):
         dc = DockerComposer()
-        dc.generate_compose_file('rockpi', template_file, rockpi_output_file)
+        dc.generate_compose_file('nebra-outdoor1', template_file, nebra_outdoor1_output_file)
 
         # On failure or non-zero return code this returns CalledProcessError
         # so if this runs without that, it's considered successful as
         # `docker-compose config -q` returns 1 on invalid config
         check_call(
-            f'docker-compose -f {rockpi_output_file} config -q', shell=True)
+            f'docker-compose -f {nebra_outdoor1_output_file} config -q', shell=True)
 
-    def test_pycom_compose_output_is_valid(self):
+    def test_nebra_indoor2_compose_output_is_valid(self):
         dc = DockerComposer()
-        dc.generate_compose_file('pycom', template_file, pycom_output_file)
+        dc.generate_compose_file('nebra-indoor2', template_file, nebra_indoor2_output_file)
 
         # On failure or non-zero return code this returns CalledProcessError
         # so if this runs without that, it's considered successful as
         # `docker-compose config -q` returns 1 on invalid config
         check_call(
-            f'docker-compose -f {pycom_output_file} config -q', shell=True)
+            f'docker-compose -f {nebra_indoor2_output_file} config -q', shell=True)
 
-    def test_pisces_compose_output_is_valid(self):
+    def test_nebra_outdoor2_compose_output_is_valid(self):
         dc = DockerComposer()
-        dc.generate_compose_file('pisces', template_file, pisces_output_file)
+        dc.generate_compose_file('nebra-outdoor2', template_file, nebra_outdoor2_output_file)
 
         # On failure or non-zero return code this returns CalledProcessError
         # so if this runs without that, it's considered successful as
         # `docker-compose config -q` returns 1 on invalid config
         check_call(
-            f'docker-compose -f {pisces_output_file} config -q', shell=True)
+            f'docker-compose -f {nebra_outdoor2_output_file} config -q', shell=True)
