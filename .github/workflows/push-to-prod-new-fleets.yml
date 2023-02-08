@@ -42,5 +42,5 @@ jobs:
       - name: Balena Deploy
         uses: nebraltd/balena-cli-action@v15.0.3-1
         with:
-          balena_api_token: ${{secrets.NEBRAOS_CLOUD_TOKEN}}
+          balena_api_token: ${{secrets.BALENA_API_TOKEN_1}}
           balena_command: "deploy nebraltd/helium-${{matrix.variant}} --debug --nocache --build"
