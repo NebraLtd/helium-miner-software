@@ -19,6 +19,7 @@ services:
     volumes:
       - miner-storage:/var/data
       - dbus:/session/dbus
+      - nebra:/var/nebra
     labels:
       io.balena.features.sysfs: 1
       io.balena.features.kernel-modules: 1
