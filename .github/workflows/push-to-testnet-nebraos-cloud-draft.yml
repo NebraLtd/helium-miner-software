@@ -30,7 +30,7 @@ jobs:
         with:
           balena_api_token: ${{secrets.NEBRAOS_CLOUD_TOKEN}}
           nebraos_cloud: true
-          balena_command: "deploy admin/testnet-helium-${{matrix.variant}} --debug --nocache --build --draft"
+          balena_command: "deploy nebraltd/testnet-helium-${{matrix.variant}} --debug --nocache --build --draft"
       - name: Push updated docker compose file
         uses: test-room-7/action-update-file@v1
         with:
