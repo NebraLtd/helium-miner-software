@@ -8,8 +8,8 @@ services:
       - dbus-session
       - diagnostics
     environment:
-      - FIRMWARE_VERSION=2023.02.07.0-8
-      - FIRMWARE_SHORT_HASH=ed3f6e8
+      - FIRMWARE_VERSION=2023.02.07.0-9
+      - FIRMWARE_SHORT_HASH=7dd40f2
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
       - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
     privileged: true
@@ -36,8 +36,8 @@ services:
       - pktfwdr:/var/pktfwd
       - nebra:/var/nebra
     environment:
-      - FIRMWARE_VERSION=2023.02.07.0-8
-      - FIRMWARE_SHORT_HASH=ed3f6e8
+      - FIRMWARE_VERSION=2023.02.07.0-9
+      - FIRMWARE_SHORT_HASH=7dd40f2
     labels:
       io.balena.features.sysfs: 1
       io.balena.features.procfs: 1
@@ -77,17 +77,17 @@ services:
     restart: on-failure
     environment:
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - FIRMWARE_VERSION=2023.02.07.0-8
-      - FIRMWARE_SHORT_HASH=ed3f6e8
+      - FIRMWARE_VERSION=2023.02.07.0-9
+      - FIRMWARE_SHORT_HASH=7dd40f2
 
   diagnostics:
-    image: nebraltd/hm-diag:71900ce
+    image: nebraltd/hm-diag:1e1ee0a
     depends_on:
       - dbus-session
     environment:
-      - FIRMWARE_VERSION=2023.02.07.0-8
-      - FIRMWARE_SHORT_HASH=ed3f6e8
-      - DIAGNOSTICS_VERSION=71900ce
+      - FIRMWARE_VERSION=2023.02.07.0-9
+      - FIRMWARE_SHORT_HASH=7dd40f2
+      - DIAGNOSTICS_VERSION=1e1ee0a
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
     volumes:
       - pktfwdr:/var/pktfwd
@@ -118,8 +118,8 @@ services:
       - dbus:/session/dbus
     environment:
       - DBUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - FIRMWARE_VERSION=2023.02.07.0-8
-      - FIRMWARE_SHORT_HASH=ed3f6e8
+      - FIRMWARE_VERSION=2023.02.07.0-9
+      - FIRMWARE_SHORT_HASH=7dd40f2
 
 volumes:
   miner-storage:
