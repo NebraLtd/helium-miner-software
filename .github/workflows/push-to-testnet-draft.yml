@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        sbc: [raspi, rockpi, rak, finestra, sensecap, og, controllino, pisces, cotx, pantherx1, linxdot, linxdot-rkcm3, syncrobit, syncrobit-rkcm3, pycom, risinghf]
+        sbc: [raspi, rockpi, rak, finestra, sensecap, og, controllino, pisces, cotx, pantherx1, linxdot, linxdot-rkcm3, syncrobit, syncrobit-rkcm3, pycom, risinghf, midas]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -27,7 +27,7 @@ jobs:
           ROCKPI="-rockpi"
           echo "ROCKPI=$ROCKPI" >> $GITHUB_ENV
       - name: Generate Docker Compose for RaspberryPi & RAK & Other RasPi based vendors
-        if: matrix.sbc == 'raspi' || matrix.sbc == 'rak' || matrix.sbc == 'og' || matrix.sbc == 'sensecap' || matrix.sbc == 'finestra' || matrix.sbc == 'controllino' || matrix.sbc == 'cotx' || matrix.sbc == 'pantherx1' || matrix.sbc == 'linxdot' || matrix.sbc == 'syncrobit' || matrix.sbc == 'risinghf'
+        if: matrix.sbc == 'raspi' || matrix.sbc == 'rak' || matrix.sbc == 'og' || matrix.sbc == 'sensecap' || matrix.sbc == 'finestra' || matrix.sbc == 'controllino' || matrix.sbc == 'cotx' || matrix.sbc == 'pantherx1' || matrix.sbc == 'linxdot' || matrix.sbc == 'syncrobit' || matrix.sbc == 'risinghf' || matrix.sbc == 'midas'
         run: |
           python gen_docker_compose.py rpi -o device-compose-files/docker-compose-rpi.yml
           cp device-compose-files/docker-compose-rpi.yml docker-compose.yml
@@ -55,7 +55,7 @@ jobs:
           balena_command: "deploy nebraltd/helium-testnet --debug --nocache --build --draft"
       - name: Balena Deploy (RAK and other non-Nebra RasPi)
         uses: nebraltd/balena-cli-action@v15.0.3
-        if: success() && (matrix.sbc == 'rak' || matrix.sbc == 'og' || matrix.sbc == 'sensecap' || matrix.sbc == 'finestra' || matrix.sbc == 'controllino' || matrix.sbc == 'pisces' || matrix.sbc == 'cotx' || matrix.sbc == 'pantherx1' || matrix.sbc == 'linxdot' || matrix.sbc == 'syncrobit' || matrix.sbc == 'pycom' || matrix.sbc == 'risinghf')
+        if: success() && (matrix.sbc == 'rak' || matrix.sbc == 'og' || matrix.sbc == 'sensecap' || matrix.sbc == 'finestra' || matrix.sbc == 'controllino' || matrix.sbc == 'pisces' || matrix.sbc == 'cotx' || matrix.sbc == 'pantherx1' || matrix.sbc == 'linxdot' || matrix.sbc == 'syncrobit' || matrix.sbc == 'pycom' || matrix.sbc == 'risinghf' || matrix.sbc == 'midas')
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_2}}
           balena_command: "deploy nebraltd/helium-testnet-${{ matrix.sbc }} --debug --nocache --build --draft"
@@ -74,7 +74,7 @@ jobs:
           commit-msg: Update ROCK Pi docker compose output
           github-token: ${{ secrets.MR_BUMP }}
       - name: Push updated docker compose file (Nebra RasPi, RAK and other RasPi based vendors)
-        if: (matrix.sbc == 'raspi' || matrix.sbc == 'rak' || matrix.sbc == 'og' || matrix.sbc == 'sensecap' || matrix.sbc == 'finestra' || matrix.sbc == 'controllino' || matrix.sbc == 'cotx' || matrix.sbc == 'pantherx1' || matrix.sbc == 'linxdot' || matrix.sbc == 'syncrobit' || matrix.sbc == 'risinghf') && success()
+        if: (matrix.sbc == 'raspi' || matrix.sbc == 'rak' || matrix.sbc == 'og' || matrix.sbc == 'sensecap' || matrix.sbc == 'finestra' || matrix.sbc == 'controllino' || matrix.sbc == 'cotx' || matrix.sbc == 'pantherx1' || matrix.sbc == 'linxdot' || matrix.sbc == 'syncrobit' || matrix.sbc == 'risinghf' || matrix.sbc == 'midas') && success()
         uses: test-room-7/action-update-file@v1
         with:
           branch: master
