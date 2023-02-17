@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 env:
-  balena-cli: v15.0.2
+  balena-cli: v15.0.3
   raspberrypi3-64: 2023.1.0
   raspberrypi4-64: 2023.1.0
   raspberrypicm4-ioboard: 2.88.4+rev0
@@ -53,24 +53,7 @@ jobs:
       - name: Random sleep (balena API workaround)
         run:  sleep $[ ( $RANDOM % 540 ) + 1 ]s
 
-      - name: Install latest balena-cli (raspi 3)
-        if: env.RASPI3 == 'YES'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y curl unzip zip lxc libarchive-tools aufs-tools
-          sudo modprobe aufs
-          cd /opt/
-          echo "Uses Balena CLI version: ${{ env.balena-cli }}"
-          cat /etc/docker/daemon.json
-          echo "$(grep aufs /proc/filesystems)"
-          echo "$(docker info)" 
-          curl -O -sSL "https://github.com/balena-io/balena-cli/releases/download/${{ env.balena-cli }}/balena-cli-${{ env.balena-cli }}-linux-x64-standalone.zip"
-          unzip balena-cli-*-linux-x64-standalone.zip
-          sudo ln -s /opt/balena-cli/balena /usr/bin/
-          cd ~
-          
-      - name: Install latest balena-cli (rockpi, raspi4)
-        if: env.RASPI3 == 'NO'
+      - name: Install latest balena-cli
         run: |
           sudo apt-get update
           sudo apt-get install -y curl unzip zip
@@ -85,7 +68,7 @@ jobs:
         run: |
           if [ ${{ env.RASPI3 }} == 'YES' ] ; then
             balena login --token ${{ secrets.BALENA_API_TOKEN }} > /dev/null
-          elif [ ${{ github.event.repository.name }} == 'helium-syncrobit' ] || [ ${{ github.event.repository.name }} == 'helium-linxdot' ] || [ ${{ github.event.repository.name }} == 'helium-pycom' ] ; then
+          elif [ ${{ github.event.repository.name }} == 'helium-syncrobit' ] || [ ${{ github.event.repository.name }} == 'helium-linxdot' ] || [ ${{ github.event.repository.name }} == 'helium-pycom' ] || [ ${{ github.event.repository.name }} == 'helium-midas' ] ; then
             balena login --token ${{ secrets.BALENA_API_TOKEN_2 }} > /dev/null
           elif [ ${{ env.ROCKPI }} == 'YES' ] ; then
             balena login --token ${{ secrets.BALENA_API_TOKEN_3 }} > /dev/null
@@ -132,7 +115,7 @@ jobs:
           if [ ${{ env.RASPI3 }} == 'YES' ] ; then
             balena_os="raspberrypi3-64"
             balena_os_version="${{ env.raspberrypi3-64 }}"
-          elif [ ${{ github.event.repository.name }} == 'helium-syncrobit' ] || [ ${{ github.event.repository.name }} == 'helium-linxdot' ] || [ ${{ github.event.repository.name }} == 'helium-pycom' ] ; then
+          elif [ ${{ github.event.repository.name }} == 'helium-syncrobit' ] || [ ${{ github.event.repository.name }} == 'helium-linxdot' ] || [ ${{ github.event.repository.name }} == 'helium-pycom' ] || [ ${{ github.event.repository.name }} == 'helium-midas' ] ; then
             balena_os="raspberrypicm4-ioboard"
             balena_os_version="${{ env.raspberrypicm4-ioboard }}"
           elif [ ${{ env.ROCKPI }} == 'YES' ] ; then

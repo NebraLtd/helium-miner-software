@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        sbc: [raspi, rockpi, rak, pisces, og, sensecap, finestra, controllino, cotx, pantherx1, linxdot, linxdot-rkcm3, pycom, syncrobit, syncrobit-rkcm3, risinghf]
+        sbc: [raspi, rockpi, rak, pisces, og, sensecap, finestra, controllino, cotx, pantherx1, linxdot, linxdot-rkcm3, pycom, syncrobit, syncrobit-rkcm3, risinghf, midas]
         frequency: [470, 868, 915]
         variant: [indoor, outdoor]
         exclude:
@@ -30,6 +30,7 @@ jobs:
           - sbc: syncrobit-rkcm3
           - sbc: pycom
           - sbc: risinghf
+          - sbc: midas
         include:
           - sbc: pisces
             variant: indoor
@@ -73,6 +74,9 @@ jobs:
           - sbc: risinghf
             variant: indoor
             frequency: 868
+          - sbc: midas
+            variant: indoor
+            frequency: 868
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -106,7 +110,7 @@ jobs:
           python gen_docker_compose.py rpi -o docker-compose.yml
           cp balena/balena.yml.${{ matrix.sbc }}-${{ matrix.variant }} balena.yml
       - name: Generate Docker Compose for RAK and Non-Nebra RasPi
-        if: matrix.sbc == 'rak' || matrix.sbc == 'og' || matrix.sbc == 'sensecap' || matrix.sbc == 'finestra' || matrix.sbc == 'controllino' || matrix.sbc == 'cotx' || matrix.sbc == 'pantherx1' || matrix.sbc == 'linxdot' || matrix.sbc == 'syncrobit' || matrix.sbc == 'risinghf'
+        if: matrix.sbc == 'rak' || matrix.sbc == 'og' || matrix.sbc == 'sensecap' || matrix.sbc == 'finestra' || matrix.sbc == 'controllino' || matrix.sbc == 'cotx' || matrix.sbc == 'pantherx1' || matrix.sbc == 'linxdot' || matrix.sbc == 'syncrobit' || matrix.sbc == 'risinghf' || matrix.sbc == 'midas'
         run: |
           python gen_docker_compose.py rpi -o docker-compose.yml
           cp balena/balena.yml.${{ matrix.sbc }} balena.yml
@@ -141,7 +145,7 @@ jobs:
           balena_command: "deploy nebraltd/helium-${{ matrix.variant }}-${{ matrix.frequency }} --debug --nocache --build"
       - name: Balena Deploy (RAK and Non-Nebra RasPi)
         uses: nebraltd/balena-cli-action@v15.0.3
-        if: ( matrix.sbc == 'rak' || matrix.sbc == 'og' || matrix.sbc == 'sensecap' || matrix.sbc == 'finestra' || matrix.sbc == 'controllino' || matrix.sbc == 'cotx' || matrix.sbc == 'pantherx1' || matrix.sbc == 'linxdot' || matrix.sbc == 'syncrobit' || matrix.sbc == 'risinghf' ) && success()
+        if: ( matrix.sbc == 'rak' || matrix.sbc == 'og' || matrix.sbc == 'sensecap' || matrix.sbc == 'finestra' || matrix.sbc == 'controllino' || matrix.sbc == 'cotx' || matrix.sbc == 'pantherx1' || matrix.sbc == 'linxdot' || matrix.sbc == 'syncrobit' || matrix.sbc == 'risinghf' || matrix.sbc == 'midas' ) && success()
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN_2}}
           balena_command: "deploy nebraltd/helium-${{ matrix.sbc }} --debug --nocache --build"
@@ -165,7 +169,7 @@ jobs:
           balena_command: "deploy nebraltd/helium-${{ matrix.sbc }} --debug --nocache --build"
       - name: Trigger build action in helium-${{ matrix.sbc }} repo
         uses: peter-evans/repository-dispatch@v2
-        if: ( matrix.sbc == 'rak' || matrix.sbc == 'pisces' || matrix.sbc == 'og' || matrix.sbc == 'sensecap' || matrix.sbc == 'finestra' || matrix.sbc == 'controllino' || matrix.sbc == 'cotx' || matrix.sbc == 'pantherx1' || matrix.sbc == 'linxdot' || matrix.sbc == 'linxdot-rkcm3' || matrix.sbc == 'syncrobit' || matrix.sbc == 'syncrobit-rkcm3' || matrix.sbc == 'pycom' || matrix.sbc == 'risinghf' ) && success()
+        if: ( matrix.sbc == 'rak' || matrix.sbc == 'pisces' || matrix.sbc == 'og' || matrix.sbc == 'sensecap' || matrix.sbc == 'finestra' || matrix.sbc == 'controllino' || matrix.sbc == 'cotx' || matrix.sbc == 'pantherx1' || matrix.sbc == 'linxdot' || matrix.sbc == 'linxdot-rkcm3' || matrix.sbc == 'syncrobit' || matrix.sbc == 'syncrobit-rkcm3' || matrix.sbc == 'pycom' || matrix.sbc == 'risinghf' || matrix.sbc == 'midas' ) && success()
         with:
           token: ${{ secrets.MR_BUMP }}
           event-type: build-open-fleet

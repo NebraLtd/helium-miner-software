@@ -36,31 +36,31 @@ jobs:
           wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/workflows/update-files.yml -O .github/workflows/update-files.yml
           wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/workflows/build-open-fleet.yml -O .github/workflows/build-open-fleet.yml
 
-          if [ $miner == 'pisces' ] ; then  
+          if [ $miner == 'pisces' ] ; then
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/device-compose-files/docker-compose-pisces.yml -O docker-compose.yml
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/config/config.txt.pisces -O config.txt
-          elif [ $miner == 'pycom' ] ; then  
+          elif [ $miner == 'pycom' ] ; then
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/device-compose-files/docker-compose-pycom.yml -O docker-compose.yml
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/config/config.txt.pycom -O config.txt
-          elif [ $miner == 'indoor-868' ] || [ $miner == 'indoor-915' ] || [ $miner == 'indoor-470' ] || [ $miner == 'outdoor-915' ] || [ $miner == 'outdoor-868' ] || [ $miner == 'outdoor-470' ] ; then  
+          elif [ $miner == 'indoor-868' ] || [ $miner == 'indoor-915' ] || [ $miner == 'indoor-470' ] || [ $miner == 'outdoor-915' ] || [ $miner == 'outdoor-868' ] || [ $miner == 'outdoor-470' ] ; then
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/device-compose-files/docker-compose-rpi.yml -O docker-compose.yml
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/config/config.txt.nebra-raspi -O config.txt
-          elif [ $miner == 'indoor-868-rockpi' ] || [ $miner == 'indoor-915-rockpi' ] || [ $miner == 'indoor-470-rockpi' ] || [ $miner == 'oudoor-868-rockpi' ] || [ $miner == 'outdoor-915-rockpi' ] || [ $miner == 'outdoor-470-rockpi' ] ; then  
+          elif [ $miner == 'indoor-868-rockpi' ] || [ $miner == 'indoor-915-rockpi' ] || [ $miner == 'indoor-470-rockpi' ] || [ $miner == 'oudoor-868-rockpi' ] || [ $miner == 'outdoor-915-rockpi' ] || [ $miner == 'outdoor-470-rockpi' ] ; then
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/device-compose-files/docker-compose-rockpi.yml -O docker-compose.yml
-          elif [ $miner == 'linxdot-rkcm3' ] || [ $miner == 'syncrobit-rkcm3' ] ; then  
+          elif [ $miner == 'linxdot-rkcm3' ] || [ $miner == 'syncrobit-rkcm3' ] ; then
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/device-compose-files/docker-compose-rockpi.yml -O docker-compose.yml
-          elif [ $miner == 'controllino' ] ; then  
+          elif [ $miner == 'controllino' ] ; then
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/device-compose-files/docker-compose-rpi.yml -O docker-compose.yml
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/config/config.txt.controllino -O config.txt
-          elif [ $miner == 'sensecap' ] || [ $miner == 'cotx' ] || [ $miner == 'finestra' ] || [ $miner == 'linxdot' ] || [ $miner == 'pantherx1' ] || [ $miner == 'syncrobit' ] ; then  
+          elif [ $miner == 'sensecap' ] || [ $miner == 'cotx' ] || [ $miner == 'finestra' ] || [ $miner == 'linxdot' ] || [ $miner == 'midas' ] || [ $miner == 'pantherx1' ] || [ $miner == 'syncrobit' ] ; then
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/device-compose-files/docker-compose-rpi.yml -O docker-compose.yml
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/config/config.txt.sensecap -O config.txt
-          elif [ $miner == 'risinghf' ] ; then  
+          elif [ $miner == 'risinghf' ] ; then
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/device-compose-files/docker-compose-rpi.yml -O docker-compose.yml
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/config/config.txt.risinghf -O config.txt
           else
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/device-compose-files/docker-compose-rpi.yml -O docker-compose.yml
-            wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/config/config.txt.rak -O config.txt 
+            wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/config/config.txt.rak -O config.txt
           fi
       - name: Push updated docker compose and balena.yml files
         if: success()
@@ -107,31 +107,31 @@ jobs:
           wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/workflows/update-files.yml -O .github/workflows/update-files.yml
           wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/workflows/build-open-fleet.yml -O .github/workflows/build-open-fleet.yml
 
-          if [ $miner == 'pisces' ] ; then  
+          if [ $miner == 'pisces' ] ; then
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/device-compose-files/docker-compose-pisces.yml -O docker-compose.yml
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/config/config.txt.pisces -O config.txt
-          elif [ $miner == 'pycom' ] ; then  
+          elif [ $miner == 'pycom' ] ; then
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/device-compose-files/docker-compose-pycom.yml -O docker-compose.yml
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/config/config.txt.pycom -O config.txt
-          elif [ $miner == 'indoor-868' ] || [ $miner == 'indoor-915' ] || [ $miner == 'indoor-470' ] || [ $miner == 'outdoor-915' ] || [ $miner == 'outdoor-868' ] || [ $miner == 'outdoor-470' ] ; then  
+          elif [ $miner == 'indoor-868' ] || [ $miner == 'indoor-915' ] || [ $miner == 'indoor-470' ] || [ $miner == 'outdoor-915' ] || [ $miner == 'outdoor-868' ] || [ $miner == 'outdoor-470' ] ; then
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/device-compose-files/docker-compose-rpi.yml -O docker-compose.yml
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/config/config.txt.nebra-raspi -O config.txt
-          elif [ $miner == 'indoor-868-rockpi' ] || [ $miner == 'indoor-915-rockpi' ] || [ $miner == 'indoor-470-rockpi' ] || [ $miner == 'oudoor-868-rockpi' ] || [ $miner == 'outdoor-915-rockpi' ] || [ $miner == 'outdoor-470-rockpi' ] ; then  
+          elif [ $miner == 'indoor-868-rockpi' ] || [ $miner == 'indoor-915-rockpi' ] || [ $miner == 'indoor-470-rockpi' ] || [ $miner == 'oudoor-868-rockpi' ] || [ $miner == 'outdoor-915-rockpi' ] || [ $miner == 'outdoor-470-rockpi' ] ; then
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/device-compose-files/docker-compose-rockpi.yml -O docker-compose.yml
-          elif [ $miner == 'linxdot-rkcm3' ] || [ $miner == 'syncrobit-rkcm3' ] ; then  
+          elif [ $miner == 'linxdot-rkcm3' ] || [ $miner == 'syncrobit-rkcm3' ] ; then
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/device-compose-files/docker-compose-rockpi.yml -O docker-compose.yml
-          elif [ $miner == 'controllino' ] ; then  
+          elif [ $miner == 'controllino' ] ; then
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/device-compose-files/docker-compose-rpi.yml -O docker-compose.yml
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/config/config.txt.controllino -O config.txt
-          elif [ $miner == 'sensecap' ] || [ $miner == 'cotx' ] || [ $miner == 'finestra' ] || [ $miner == 'linxdot' ] || [ $miner == 'pantherx1' ] || [ $miner == 'syncrobit' ] ; then  
+          elif [ $miner == 'sensecap' ] || [ $miner == 'cotx' ] || [ $miner == 'finestra' ] || [ $miner == 'linxdot' ] || [ $miner == 'midas' ] || [ $miner == 'pantherx1' ] || [ $miner == 'syncrobit' ] ; then
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/device-compose-files/docker-compose-rpi.yml -O docker-compose.yml
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/config/config.txt.sensecap -O config.txt
-          elif [ $miner == 'risinghf' ] ; then  
+          elif [ $miner == 'risinghf' ] ; then
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/device-compose-files/docker-compose-rpi.yml -O docker-compose.yml
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/config/config.txt.risinghf -O config.txt
           else
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/device-compose-files/docker-compose-rpi.yml -O docker-compose.yml
-            wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/config/config.txt.rak -O config.txt 
+            wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/config/config.txt.rak -O config.txt
           fi
       - name: Push updated docker compose and balena.yml files
         if: success()
