@@ -12,6 +12,7 @@ services:
       - FIRMWARE_SHORT_HASH={{ENV.FIRMWARE_SHORT_HASH}}
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
       - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
+    restart: on-failure
     privileged: true
     network_mode: host
     cap_add:
@@ -104,6 +105,7 @@ services:
       - {{MODEM_SERIAL1}}:{{MODEM_SERIAL1}}
       - {{MODEM_SERIAL2}}:{{MODEM_SERIAL2}}
       - {{MODEM_SERIAL3}}:{{MODEM_SERIAL3}}
+    restart: always
     privileged: true
     labels:
       io.balena.features.sysfs: 1
