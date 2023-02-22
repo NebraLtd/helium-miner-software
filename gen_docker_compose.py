@@ -14,7 +14,7 @@ and just replacing placeholder values.
 import sys
 import os
 import argparse
-import subprocess
+import subprocess  # nosec
 from typing import Union
 from configparser import ConfigParser
 
@@ -52,7 +52,7 @@ class DockerComposer:
         try:
             os.chdir(here)
             cmd = ['git', 'rev-parse', '--short', 'HEAD']
-            short_hash = subprocess.check_output(cmd).decode('utf-8').strip()
+            short_hash = subprocess.check_output(cmd).decode('utf-8').strip()  # nosec
         except Exception as e:
             print(f"failed to run git rev-parse, {e}")
         return short_hash
