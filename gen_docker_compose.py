@@ -14,11 +14,13 @@ and just replacing placeholder values.
 import sys
 import os
 import argparse
+import subprocess  # nosec
 from typing import Union
 from configparser import ConfigParser
 
 from jinja2 import Environment, select_autoescape, FileSystemLoader
 
+SHORT_HASH_KEY = "FIRMWARE_SHORT_HASH"
 
 prog_name = os.path.basename(os.path.abspath(__file__))
 here = os.path.dirname(os.path.abspath(__file__))
@@ -44,6 +46,16 @@ class DockerComposer:
         config.optionxform = lambda option: option
         config.read('settings.ini')
         self.config = config
+
+    def short_hash(self) -> str:
+        short_hash = 'fffffff'
+        try:
+            os.chdir(here)
+            cmd = ['git', 'rev-parse', '--short', 'HEAD']
+            short_hash = subprocess.check_output(cmd).decode('utf-8').strip()  # nosec
+        except Exception as e:
+            print(f"failed to run git rev-parse, {e}")
+        return short_hash
 
     def generate_compose_file(
             self,
@@ -74,6 +86,10 @@ class DockerComposer:
 
         for k, v in self.config['versions'].items():
             template_args[k] = v
+
+        # insert git short has if not inherited from env
+        if SHORT_HASH_KEY not in os.environ:
+            os.environ[SHORT_HASH_KEY] = self.short_hash()
 
         template_args["ENV"] = os.environ
 

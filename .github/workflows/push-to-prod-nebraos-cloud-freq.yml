@@ -45,4 +45,4 @@ jobs:
         with:
           balena_api_token: ${{secrets.NEBRAOS_CLOUD_TOKEN}}
           nebraos_cloud: true
-          balena_command: "deploy admin/helium-${{matrix.variant}}-${{matrix.frequency}} --debug --nocache --build"
+          balena_command: "deploy nebraltd/helium-${{matrix.variant}}-${{matrix.frequency}} --debug --nocache --build"
