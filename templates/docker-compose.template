@@ -44,12 +44,12 @@ services:
       io.balena.features.procfs: 1
 
   multiplexer:
-    image: nebraltd/hm-multiplexer:{{MULTIPLEXER_VERSION}}
+    image: nebraltd/hm-pktmux:{{PKTMUX_VERSION}}
     restart: always
     depends_on:
       - helium-miner
     expose:
-      - "1681"
+      - "1700"
     labels:
       io.balena.features.sysfs: 1
       io.balena.features.procfs: 1
