@@ -33,6 +33,7 @@ jobs:
           fi
 
           wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/balena.yml."$balena" -O balena.yml
+          wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/workflows/balena-app.yml -O .github/workflows/balena-app.yml
           wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/workflows/update-files.yml -O .github/workflows/update-files.yml
           wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/workflows/build-open-fleet.yml -O .github/workflows/build-open-fleet.yml
 
@@ -104,6 +105,7 @@ jobs:
           fi
 
           wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/balena.yml."$balena" -O balena.yml
+          wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/workflows/balena-app.yml -O .github/workflows/balena-app.yml
           wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/workflows/update-files.yml -O .github/workflows/update-files.yml
           wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/workflows/build-open-fleet.yml -O .github/workflows/build-open-fleet.yml
 
