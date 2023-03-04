@@ -80,7 +80,7 @@ jobs:
         run: |
           LATEST_GA=${{ github.event.client_payload.tag }}
           if [ $LATEST_GA != "" ] ; then
-            echo "New releae pushed to main repo: $LATEST_GA"
+            echo "New release pushed to main repo: $LATEST_GA"
             echo "LATEST_GA=$LATEST_GA" >> $GITHUB_ENV
           else
             echo "No release version provided! Applying tag TEST"
