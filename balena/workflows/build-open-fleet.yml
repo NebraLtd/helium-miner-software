@@ -7,10 +7,10 @@ on:
 
 env:
   balena-cli: v15.0.3
-  raspberrypi3-64: 2023.1.0
-  raspberrypi4-64: 2023.1.0
-  raspberrypicm4-ioboard: 2.88.4+rev0
-  rockpi-4b-rk3399: 2023.1.0
+  raspberrypi3-64: 2.108.27
+  raspberrypi4-64: 2.108.27
+  raspberrypicm4-ioboard: 2.112.12
+  rockpi-4b-rk3399: 2.108.25+rev1
 
 jobs:
   build-open-fleet:
@@ -80,7 +80,7 @@ jobs:
         run: |
           LATEST_GA=${{ github.event.client_payload.tag }}
           if [ $LATEST_GA != "" ] ; then
-            echo "New releae pushed to main repo: $LATEST_GA"
+            echo "New release pushed to main repo: $LATEST_GA"
             echo "LATEST_GA=$LATEST_GA" >> $GITHUB_ENV
           else
             echo "No release version provided! Applying tag TEST"
