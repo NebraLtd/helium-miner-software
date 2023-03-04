@@ -1,0 +1,27 @@
+name: BalenaCloud App Deploy
+
+on:
+  repository_dispatch:
+    types: [build-open-fleet]
+  workflow_dispatch:
+
+jobs:
+  testnet:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Export short SHA of current commit
+        run: |
+          FIRMWARE_SHORT_HASH=$( echo ${GITHUB_SHA:0:7} )
+          echo "FIRMWARE_SHORT_HASH=$FIRMWARE_SHORT_HASH" >> $GITHUB_ENV
+          miner="$(echo ${{ github.event.repository.name }} | cut -d '-' -f2-)"
+          echo "$miner"
+          echo "miner=$miner" >> $GITHUB_ENV
+      - name: Random sleep (balena API workaround)
+        run:  sleep $[ ( $RANDOM % 360 ) + 1 ]s
+      - name: Balena Deploy
+        uses: nebraltd/balena-cli-action@v15.0.3
+        with:
+          balena_api_token: ${{secrets.BALENA_API_TOKEN}}
+          balena_command: "deploy nebraltd/helium-${{ env.miner }}-app --debug --nocache --build"
