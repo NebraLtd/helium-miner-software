@@ -4,13 +4,14 @@ import sys
 import unittest
 from os import unlink
 from subprocess import check_call
-from gen_docker_compose import DockerComposer
+from gen_docker_compose_by_variant import DockerComposer
 from os.path import abspath, dirname, join, exists
 
 here = dirname(abspath(__file__))
 parent = dirname(here)
 template_file = 'docker-compose.template'
 output_file = join(here, 'dc.yml')
+variant_type = "nebra-indoor2"
 
 sys.path.insert(1, parent)
 
@@ -33,7 +34,8 @@ class TestValidComposeFileOutput(unittest.TestCase):
         # Uncomment line below if want to test custom templates.
         # dc = DockerComposer(templates_folder=templates_folder)
         dc = DockerComposer()
-        dc.generate_compose_file(template_file, output_file)
+        print(f"Output File: {output_file}")
+        dc.generate_compose_file(variant_type, template_file, output_file)
 
         # On failure or non-zero return code this returns CalledProcessError
         # so if this runs without that, it's considered successful as
