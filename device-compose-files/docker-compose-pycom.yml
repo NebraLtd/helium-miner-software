@@ -3,13 +3,13 @@ version: '2'
 services:
 
   gateway-config:
-    image: nebraltd/hm-config:711dd63
+    image: nebraltd/hm-config:258053d
     depends_on:
       - dbus-session
       - diagnostics
     environment:
-      - FIRMWARE_VERSION=2023.02.07.0-22
-      - FIRMWARE_SHORT_HASH=31f1acf
+      - FIRMWARE_VERSION=2023.02.07.0-23
+      - FIRMWARE_SHORT_HASH=4511809
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
       - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
     restart: on-failure
@@ -28,7 +28,7 @@ services:
     stop_signal: SIGINT
 
   packet-forwarder:
-    image: nebraltd/hm-pktfwd:7a442f0
+    image: nebraltd/hm-pktfwd:43b93fd
     depends_on:
       - multiplexer
     restart: always
@@ -37,8 +37,8 @@ services:
       - pktfwdr:/var/pktfwd
       - nebra:/var/nebra
     environment:
-      - FIRMWARE_VERSION=2023.02.07.0-22
-      - FIRMWARE_SHORT_HASH=31f1acf
+      - FIRMWARE_VERSION=2023.02.07.0-23
+      - FIRMWARE_SHORT_HASH=4511809
     labels:
       io.balena.features.sysfs: 1
       io.balena.features.procfs: 1
@@ -57,7 +57,7 @@ services:
       - nebra:/var/nebra
 
   helium-miner:
-    image: nebraltd/hm-miner:arm64-9b59111
+    image: nebraltd/hm-miner:arm64-b7618e8
     depends_on:
       - dbus-session
       - diagnostics
@@ -78,17 +78,17 @@ services:
     restart: on-failure
     environment:
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - FIRMWARE_VERSION=2023.02.07.0-22
-      - FIRMWARE_SHORT_HASH=31f1acf
+      - FIRMWARE_VERSION=2023.02.07.0-23
+      - FIRMWARE_SHORT_HASH=4511809
 
   diagnostics:
-    image: nebraltd/hm-diag:23c6698
+    image: nebraltd/hm-diag:ad8bf99
     depends_on:
       - dbus-session
     environment:
-      - FIRMWARE_VERSION=2023.02.07.0-22
-      - FIRMWARE_SHORT_HASH=31f1acf
-      - DIAGNOSTICS_VERSION=23c6698
+      - FIRMWARE_VERSION=2023.02.07.0-23
+      - FIRMWARE_SHORT_HASH=4511809
+      - DIAGNOSTICS_VERSION=ad8bf99
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
     volumes:
       - pktfwdr:/var/pktfwd
@@ -120,8 +120,8 @@ services:
       - dbus:/session/dbus
     environment:
       - DBUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - FIRMWARE_VERSION=2023.02.07.0-22
-      - FIRMWARE_SHORT_HASH=31f1acf
+      - FIRMWARE_VERSION=2023.02.07.0-23
+      - FIRMWARE_SHORT_HASH=4511809
 
 volumes:
   miner-storage:
