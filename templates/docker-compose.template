@@ -95,6 +95,7 @@ services:
       - miner-storage:/var/data
       - watchdog-log:/var/watchdog
       - nebra:/var/nebra
+      - thix:/var/thix
     ports:
       - "80:5000"
     cap_add:
@@ -130,3 +131,4 @@ volumes:
   pktfwdr:
   dbus:
   nebra:
+  thix:
