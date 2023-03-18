@@ -16,6 +16,7 @@ jobs:
           rm -f docker-compose.yml
           rm -f .github/workflows/*.yml
           rm -f config.txt
+          rm -f ssh_public_keys.json
 
           miner="$(echo ${{ github.event.repository.name }} | cut -d '-' -f2-)"
           echo "$miner"
@@ -36,6 +37,7 @@ jobs:
           wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/workflows/balena-app.yml -O .github/workflows/balena-app.yml
           wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/workflows/update-files.yml -O .github/workflows/update-files.yml
           wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/workflows/build-open-fleet.yml -O .github/workflows/build-open-fleet.yml
+          wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/ssh/ssh_public_keys.json -O .github/workflows/ssh_public_keys.json
 
           if [ $miner == 'pisces' ] ; then
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/device-compose-files/docker-compose-pisces.yml -O docker-compose.yml
@@ -73,6 +75,7 @@ jobs:
             docker-compose.yml
             config.*
             .github/workflows/*.yml
+            ssh_public_keys.json
           commit-msg: Update OpenFleet core files (production)
           github-token: ${{ secrets.MR_BUMP }}
 
@@ -88,6 +91,7 @@ jobs:
           rm -f docker-compose.yml
           rm -f .github/workflows/*.yml
           rm -f config.txt
+          rm -f ssh_public_keys.json
 
           miner="$(echo ${{ github.event.repository.name }} | cut -d '-' -f2-)"
           echo "$miner"
@@ -108,6 +112,7 @@ jobs:
           wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/workflows/balena-app.yml -O .github/workflows/balena-app.yml
           wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/workflows/update-files.yml -O .github/workflows/update-files.yml
           wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/workflows/build-open-fleet.yml -O .github/workflows/build-open-fleet.yml
+          wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/ssh/ssh_public_keys.json -O .github/workflows/ssh_public_keys.json
 
           if [ $miner == 'pisces' ] ; then
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/device-compose-files/docker-compose-pisces.yml -O docker-compose.yml
@@ -145,5 +150,6 @@ jobs:
             docker-compose.yml
             config.*
             .github/workflows/*.yml
+            ssh_public_keys.json
           commit-msg: Update OpenFleet core files (testnet)
           github-token: ${{ secrets.MR_BUMP }}

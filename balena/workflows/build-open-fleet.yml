@@ -6,11 +6,12 @@ on:
   workflow_dispatch:
 
 env:
-  balena-cli: v15.0.3
-  raspberrypi3-64: 2.108.27
-  raspberrypi4-64: 2.108.27
+  balena-cli: v15.1.1
+  raspberrypi3-64: 2.113.18
+  raspberrypi4-64: 2.113.18
   raspberrypicm4-ioboard: 2.112.12
   rockpi-4b-rk3399: 2.108.25+rev1
+  cloud: nebra-cloud
 
 jobs:
   build-open-fleet:
@@ -63,18 +64,6 @@ jobs:
           unzip balena-cli-*-linux-x64-standalone.zip
           sudo ln -s /opt/balena-cli/balena /usr/bin/
           cd ~
-
-      - name: Balena login
-        run: |
-          if [ ${{ env.RASPI3 }} == 'YES' ] ; then
-            balena login --token ${{ secrets.BALENA_API_TOKEN }} > /dev/null
-          elif [ ${{ github.event.repository.name }} == 'helium-syncrobit' ] || [ ${{ github.event.repository.name }} == 'helium-linxdot' ] || [ ${{ github.event.repository.name }} == 'helium-pycom' ] || [ ${{ github.event.repository.name }} == 'helium-midas' ] ; then
-            balena login --token ${{ secrets.BALENA_API_TOKEN_2 }} > /dev/null
-          elif [ ${{ env.ROCKPI }} == 'YES' ] ; then
-            balena login --token ${{ secrets.BALENA_API_TOKEN_3 }} > /dev/null
-          else
-            balena login --token ${{ secrets.BALENA_API_TOKEN_4 }} > /dev/null
-          fi
 
       - name: Generate a Balena OS image for the given board, variant, frequency
         run: |
@@ -139,6 +128,25 @@ jobs:
               --version "$balena_os_version"
           fi
     
+      - name: Balena login
+        run: |
+          if [ "${{ env.cloud }}" = "nebra-cloud" ]; then
+            echo "balenaUrl: cloud.nebra.com" > ~/.balenarc.yml
+            balena login --token ${{ secrets.NEBRAOS_CLOUD_TOKEN }} > /dev/null
+          else
+            if [ ${{ env.RASPI3 }} == 'YES' ] ; then
+              balena login --token ${{ secrets.BALENA_API_TOKEN }} > /dev/null
+            elif [ ${{ github.event.repository.name }} == 'helium-syncrobit' ] || [ ${{ github.event.repository.name }} == 'helium-linxdot' ] || [ ${{ github.event.repository.name }} == 'helium-pycom' ] || [ ${{ github.event.repository.name }} == 'helium-midas' ] ; then
+              balena login --token ${{ secrets.BALENA_API_TOKEN_2 }} > /dev/null
+            elif [ ${{ env.ROCKPI }} == 'YES' ] ; then
+              balena login --token ${{ secrets.BALENA_API_TOKEN_3 }} > /dev/null
+            else
+              balena login --token ${{ secrets.BALENA_API_TOKEN_4 }} > /dev/null
+            fi
+          fi
+
+      - name: Configure Balena OS image for the given board, variant, frequency
+        run: |
           # Generate image path for the given board, variant, frequency and user
 
           fleet_name="${{ github.event.repository.name }}"
@@ -178,9 +186,20 @@ jobs:
 
           if $NODRYRUN ; then
             balena preload "$image_path" \
-              --pin-device-to-release \
               --fleet "nebraltd/$fleet_name" \
               -c "current"
+          fi
+
+          if $VERBOSE ; then
+            echo "Adding ssh keys to the image"
+          fi
+
+          if $NODRYRUN ; then
+            final_json_filename=/tmp/final.json
+            ssh_public_keys=$(cat ssh_public_keys.json)
+            sudo balena config read --drive "$image_path" -j \
+                | jq ". += $ssh_public_keys" > $final_json_filename
+            sudo balena config inject $final_json_filename --drive "$image_path"
           fi
 
           # Copy configuration files into boot and root partition of the balena image
