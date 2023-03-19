@@ -252,7 +252,7 @@ jobs:
           fi
 
           if $VERBOSE ; then
-            echo "Generating checkum"
+            echo "Generating checksum"
           fi
 
           if $NODRYRUN ; then
