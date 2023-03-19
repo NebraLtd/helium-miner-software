@@ -37,7 +37,7 @@ jobs:
           wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/workflows/balena-app.yml -O .github/workflows/balena-app.yml
           wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/workflows/update-files.yml -O .github/workflows/update-files.yml
           wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/workflows/build-open-fleet.yml -O .github/workflows/build-open-fleet.yml
-          wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/ssh/ssh_public_keys.json -O .github/workflows/ssh_public_keys.json
+          wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/ssh/ssh_public_keys.json -O ssh_public_keys.json
 
           if [ $miner == 'pisces' ] ; then
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/device-compose-files/docker-compose-pisces.yml -O docker-compose.yml
@@ -112,7 +112,7 @@ jobs:
           wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/workflows/balena-app.yml -O .github/workflows/balena-app.yml
           wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/workflows/update-files.yml -O .github/workflows/update-files.yml
           wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/workflows/build-open-fleet.yml -O .github/workflows/build-open-fleet.yml
-          wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/ssh/ssh_public_keys.json -O .github/workflows/ssh_public_keys.json
+          wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/ssh/ssh_public_keys.json -O ssh_public_keys.json
 
           if [ $miner == 'pisces' ] ; then
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/device-compose-files/docker-compose-pisces.yml -O docker-compose.yml
