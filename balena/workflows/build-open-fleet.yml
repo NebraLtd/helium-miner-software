@@ -131,10 +131,11 @@ jobs:
           echo "IMAGE_BASE_PATH=$IMAGE_BASE_PATH" >> $GITHUB_ENV
           echo "DATE=$DATE" >> $GITHUB_ENV
           echo "base_image_path=$base_image_path" >> $GITHUB_ENV
+          echo "balena_os_version=$balena_os_version" >> $GITHUB_ENV
     
       - name: Balena login
         run: |
-          if [ "${{ env.cloud }}" = "nebra-cloud" ]; then
+          if [ "${{ env.cloud }}" == "nebra-cloud" ]; then
             echo "balenaUrl: cloud.nebra.com" > ~/.balenarc.yml
             balena login --token ${{ secrets.NEBRAOS_CLOUD_TOKEN }} > /dev/null
           else
@@ -179,7 +180,7 @@ jobs:
             balena os configure "$image_path" \
               --fleet "nebraltd/$fleet_name" \
               --config-network ethernet \
-              --version "$balena_os_version"
+              --version "${{ env.balena_os_version }}"
           fi
 
           if $VERBOSE ; then
