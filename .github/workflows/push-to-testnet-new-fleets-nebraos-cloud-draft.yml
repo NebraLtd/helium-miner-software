@@ -13,28 +13,47 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        
       - name: Setup Python Libraries
         run: pip install -r requirements.txt
+        
       - name: Export short SHA of current commit
         run: |
           FIRMWARE_SHORT_HASH=$( echo ${GITHUB_SHA:0:7} )
           echo "FIRMWARE_SHORT_HASH=$FIRMWARE_SHORT_HASH" >> $GITHUB_ENV
+          
+          # Get the latest GA release and branch
+          source <(grep FIRMWARE_VERSION settings.ini)
+          LATEST_GA=$FIRMWARE_VERSION
+          GITHUB_BRANCH=$( echo "${{ github.ref }}" | sed 's/refs\/heads\///g' )
+          
+          echo "LATEST_GA=$LATEST_GA" >> $GITHUB_ENV
+          echo "GITHUB_BRANCH=$GITHUB_BRANCH" >> $GITHUB_ENV
+          
       - name: Random sleep (balena API workaround)
-        run:  sleep $[ ( $RANDOM % 60 ) + 1 ]s
+        run:  sleep $[ ( $RANDOM % 360 ) + 1 ]s
+        
       - name: Generate Docker Compose
         run: |
-          python gen_docker_compose_by_variant.py ${{matrix.variant}} -o device-compose-files/docker-compose-${{matrix.variant}}.yml
-          cp device-compose-files/docker-compose-${{matrix.variant}}.yml docker-compose.yml
+          repo="helium-${{matrix.variant}}"
+          echo "REPO=$repo" >> $GITHUB_ENV
+          echo "Repo: $repo"
+          
+          FIRMWARE_SHORT_HASH=${{ env.FIRMWARE_SHORT_HASH }}
+          
+          python gen_docker_compose_by_variant.py ${{matrix.variant}} -o docker-compose.yml
+          
       - name: Balena Deploy
-        uses: nebraltd/balena-cli-action@v15.0.3-1
+        uses: nebraltd/balena-cli-action@v15.1.1
         with:
           balena_api_token: ${{secrets.NEBRAOS_CLOUD_TOKEN}}
           nebraos_cloud: true
-          balena_command: "deploy nebraltd/testnet-helium-${{matrix.variant}} --debug --nocache --build --draft"
-      - name: Push updated docker compose file
-        uses: test-room-7/action-update-file@v1
+          balena_command: "deploy nebraltd/testnet-${{ env.REPO}} --debug --nocache --build --draft"
+
+      - name: Trigger build action in ${{ env.REPO }} repo
+        uses: peter-evans/repository-dispatch@v2
         with:
-          branch: master
-          file-path: device-compose-files/docker-compose-${{matrix.variant}}.yml
-          commit-msg: Update ${{matrix.variant}} variant docker compose output
-          github-token: ${{ secrets.MR_BUMP }}
+          token: ${{ secrets.MR_BUMP }}
+          event-type: build-open-fleet
+          repository: NebraLtd/${{ env.REPO }}
+          client-payload: '{"release": "${{ env.LATEST_GA }}_GA", "tag": "${{ env.LATEST_GA }}", "firmware": "${{ env.FIRMWARE_SHORT_HASH }}", "branch": "${{ env.GITHUB_BRANCH }}"}'

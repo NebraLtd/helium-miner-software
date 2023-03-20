@@ -1,10 +1,7 @@
-name: NebraOS Cloud Deploy (Testnet - old fleets)
+name: NebraOS Cloud Deploy (Testnet - old fleets - draft)
 
 on:
-  push:
-    # Only run workflow for pushes to specific branches
-    branches:
-      - master
+  workflow_dispatch:
 
 jobs:
   testnet:
@@ -69,7 +66,7 @@ jobs:
         with:
           balena_api_token: ${{secrets.NEBRAOS_CLOUD_TOKEN}}
           nebraos_cloud: true
-          balena_command: "deploy nebraltd/${{ env.FLEET }} --debug --nocache --build"
+          balena_command: "deploy nebraltd/${{ env.FLEET }} --debug --nocache --build --draft"
 
       - name: Trigger build action in ${{ env.REPO }} repo
         uses: peter-evans/repository-dispatch@v2
