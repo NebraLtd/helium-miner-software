@@ -45,6 +45,10 @@ jobs:
             variant="nebra-indoor2"
             fleet="helium-testnet-rockpi"
             repo="helium-$variant"
+          elif [[ "$miner" == "og" ]] ; then
+            variant="helium-fl1"
+            fleet="helium-testnet-og"
+            repo="helium-og"
           else
             variant="$miner-fl1"
             fleet="helium-testnet-$miner"
