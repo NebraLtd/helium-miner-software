@@ -113,6 +113,8 @@ jobs:
             variant="nebra-indoor2"
           elif [[ "$miner" == "rockpi" ]] && [[ "$type" == "outdoor" ]] ; then
             variant="nebra-outdoor2"
+          elif [[ "$miner" == "og" ]] ; then
+            variant="helium-fl1"
           else
             variant="$miner-fl1"
           fi
