@@ -1,5 +1,7 @@
 name: Update Files
 on:
+  schedule:
+    - cron:  "0 0 * * 0" # Run weekly at midnight Sunday
   repository_dispatch:
     types: [file-update]
   workflow_dispatch:
@@ -37,6 +39,8 @@ jobs:
           wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/workflows/balena-app.yml -O .github/workflows/balena-app.yml
           wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/workflows/update-files.yml -O .github/workflows/update-files.yml
           wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/workflows/build-open-fleet.yml -O .github/workflows/build-open-fleet.yml
+          wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/workflows/update-action-prod.yml -O workflows/update-action-prod.yml
+          wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/workflows/update-action-test.yml -O workflows/update-action-test.yml
           wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/ssh/ssh_public_keys.json -O ssh_public_keys.json
 
           if [ $miner == 'pisces' ] ; then
@@ -76,6 +80,7 @@ jobs:
             config.*
             .github/workflows/*.yml
             ssh_public_keys.json
+            workflows/update-action*
           commit-msg: Update OpenFleet core files (production)
           github-token: ${{ secrets.MR_BUMP }}
 
@@ -112,6 +117,8 @@ jobs:
           wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/workflows/balena-app.yml -O .github/workflows/balena-app.yml
           wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/workflows/update-files.yml -O .github/workflows/update-files.yml
           wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/workflows/build-open-fleet.yml -O .github/workflows/build-open-fleet.yml
+          wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/workflows/update-action-prod.yml -O workflows/update-action-prod.yml
+          wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/workflows/update-action-test.yml -O workflows/update-action-test.yml
           wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/ssh/ssh_public_keys.json -O ssh_public_keys.json
 
           if [ $miner == 'pisces' ] ; then
@@ -151,5 +158,6 @@ jobs:
             config.*
             .github/workflows/*.yml
             ssh_public_keys.json
+            workflows/update-action*
           commit-msg: Update OpenFleet core files (testnet)
           github-token: ${{ secrets.MR_BUMP }}

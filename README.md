@@ -36,6 +36,8 @@ As of 27th Jan 2022, we have also moved the UPnP functionality into this repo in
 
 Removing the UPnP container reduces CPU overhead and redundant code.
 
+As of the 2022.12.13.0-4 firmware version, UPnP has been removed from the miners entirely as it is no longer necessary to open ports on the miner after the move to gateway-rs upstream.
+
 ## Helium Miner
 
 Repo: [github.com/NebraLtd/hm-miner](https://github.com/NebraLtd/hm-miner)
@@ -169,6 +171,7 @@ In the future, we also plan to add [Nebra dashboard](https://dashboard.nebra.com
 - [Indoor (470, 868 and 915)](https://github.com/NebraLtd/helium-nebra-indoor1)
 - [Outdoor (470, 868 and 915)](https://github.com/NebraLtd/helium-nebra-outdoor1)
 - [ROCK Pi Indoor (470, 868 and 915)](https://github.com/NebraLtd/helium-nebra-indoor2)
+- [ROCK Pi Outdoor (470, 868 and 915)](https://github.com/NebraLtd/helium-nebra-outdoor2)
 
 ### Third party build repos
 
@@ -203,6 +206,7 @@ You can visit [balenaHub apps page](https://hub.balena.io/apps) and search for `
 - [Indoor (470, 868 and 915)](https://hub.balena.io/apps/2033013/helium-nebra-indoor1-app)
 - [Outdoor (470, 868 and 915)](https://hub.balena.io/apps/2033015/helium-nebra-outdoor1-app)
 - [ROCK Pi Indoor (470, 868 and 915)](https://hub.balena.io/apps/2033014/helium-nebra-indoor2-app)
+- [ROCK Pi Outdoor (470, 868 and 915)](https://hub.balena.io/apps/2033014/helium-nebra-outdoor2-app)
 
 ### Third party balenaHub App build repos
 
