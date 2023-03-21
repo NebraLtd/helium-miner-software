@@ -60,6 +60,8 @@ jobs:
           echo "Repo: $miner"
           if [[ "$miner" =~ "nebra" ]] ; then
             variant="$miner"
+          elif [[ "$miner" == "og" ]] ; then
+            variant="helium-fl1"
           else
             variant="$miner-fl1"
           fi
