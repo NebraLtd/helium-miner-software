@@ -105,8 +105,8 @@ jobs:
         
       - name: Generate Docker Compose
         run: |
-          miner="${{ matrix.sbc }}
-          type="${{ matrix.variant }}
+          miner="${{ matrix.sbc }}"
+          type="${{ matrix.variant }}"
           
           if [[ "$miner" == "raspi" ]] && [[ "$type" == "indoor" ]] ; then
             variant="nebra-indoor1"
