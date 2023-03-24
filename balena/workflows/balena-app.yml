@@ -2,7 +2,7 @@ name: BalenaCloud App Deploy
 
 on:
   repository_dispatch:
-    types: [build-open-fleet]
+    types: [build-balena-app]
   workflow_dispatch:
 
 jobs:
@@ -11,15 +11,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Export short SHA of current commit
+      - name: Export miner type from repo
         run: |
-          FIRMWARE_SHORT_HASH=$( echo ${GITHUB_SHA:0:7} )
-          echo "FIRMWARE_SHORT_HASH=$FIRMWARE_SHORT_HASH" >> $GITHUB_ENV
           miner="$(echo ${{ github.event.repository.name }} | cut -d '-' -f2-)"
           echo "$miner"
           echo "miner=$miner" >> $GITHUB_ENV
       - name: Random sleep (balena API workaround)
-        run:  sleep $[ ( $RANDOM % 360 ) + 1 ]s
+        run:  sleep $[ ( $RANDOM % 600 ) + 1 ]s
       - name: Balena Deploy
         uses: nebraltd/balena-cli-action@v15.1.1
         with:
