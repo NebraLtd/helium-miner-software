@@ -41,12 +41,10 @@ jobs:
             variant="nebra-indoor1"
             fleet="helium-testnet"
             repo="helium-$variant"
-            repo2="helium-nebra-outdoor1"
           elif [[ "$miner" == "rockpi" ]] ; then
             variant="nebra-indoor2"
             fleet="helium-testnet-rockpi"
             repo="helium-$variant"
-            repo2="helium-nebra-outdoor2"
           elif [[ "$miner" == "og" ]] ; then
             variant="helium-fl1"
             fleet="helium-testnet-og"
@@ -62,15 +60,6 @@ jobs:
           echo "Repo: $repo"
           echo "FLEET=$fleet" >> $GITHUB_ENV
           echo "Fleet: $fleet"
-
-          if [ -z "$repo2" ] ; then
-            echo "Repo2 variable not set. Skipping."
-            echo "REPO2=False" >> $GITHUB_ENV
-            echo "Repo 2: False"
-          else
-            echo "REPO2=$repo2" >> $GITHUB_ENV
-            echo "Repo 2: $repo2"
-          fi
           
           FIRMWARE_SHORT_HASH=${{ env.FIRMWARE_SHORT_HASH }}
           
@@ -85,17 +74,9 @@ jobs:
 
       - name: Trigger build action in ${{ env.REPO }} repo
         uses: peter-evans/repository-dispatch@v2
+        if: matrix.sbc != 'raspi' && matrix.sbc != 'rockpi'
         with:
           token: ${{ secrets.MR_BUMP }}
           event-type: build-open-fleet
           repository: NebraLtd/${{ env.REPO }}
-          client-payload: '{"release": "${{ env.LATEST_GA }}_GA", "tag": "${{ env.LATEST_GA }}", "firmware": "${{ env.FIRMWARE_SHORT_HASH }}", "branch": "${{ env.GITHUB_BRANCH }}"}'
-
-      - name: Trigger build action in ${{ env.REPO2 }} repo
-        uses: peter-evans/repository-dispatch@v2
-        if: env.REPO2 != 'False'
-        with:
-          token: ${{ secrets.MR_BUMP }}
-          event-type: build-open-fleet
-          repository: NebraLtd/${{ env.REPO2 }}
           client-payload: '{"release": "${{ env.LATEST_GA }}_GA", "tag": "${{ env.LATEST_GA }}", "firmware": "${{ env.FIRMWARE_SHORT_HASH }}", "branch": "${{ env.GITHUB_BRANCH }}"}'
