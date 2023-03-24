@@ -146,6 +146,7 @@ jobs:
 
       - name: Trigger build action in ${{ env.REPO }} repo
         uses: peter-evans/repository-dispatch@v2
+        if: matrix.sbc != 'raspi' && matrix.sbc != 'rockpi'
         with:
           token: ${{ secrets.MR_BUMP }}
           event-type: build-open-fleet
