@@ -78,15 +78,19 @@ jobs:
         run: |
           repo="${{ github.event.repository.name }}"
 
-          if grep -q "-rockpi" <<<"$repo"; then
+          if grep -q "outdoor2" <<<"$repo"; then
             echo "Not RasPi 3"
             RASPI3="NO"
             ROCKPI="YES"
-          elif grep -q "outdoor" <<<"$repo"; then
+          elif grep -q "indoor2" <<<"$repo"; then
+            echo "Not RasPi 3"
+            RASPI3="NO"
+            ROCKPI="YES"
+          elif grep -q "outdoor1" <<<"$repo"; then
             echo "RasPi Outdoor"
             RASPI3="YES"
             ROCKPI="NO"
-          elif grep -q "indoor" <<<"$repo"; then
+          elif grep -q "indoor1" <<<"$repo"; then
             echo "RasPi Indoor"
             RASPI3="YES"
             ROCKPI="NO"
@@ -354,3 +358,10 @@ jobs:
           file-path: docker-compose.yml
           commit-msg: Update ${{ env.VARIANT }} variant docker compose output (${{ env.BRANCH }})
           github-token: ${{ secrets.MR_BUMP }}
+
+      - name: Trigger Balena App build action in ${{ github.event.repository.name }} repo
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.MR_BUMP }}
+          event-type: build-balena-app
+          repository: ${{ github.event.repository.name }}
