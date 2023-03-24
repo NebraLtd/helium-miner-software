@@ -358,3 +358,10 @@ jobs:
           file-path: docker-compose.yml
           commit-msg: Update ${{ env.VARIANT }} variant docker compose output (${{ env.BRANCH }})
           github-token: ${{ secrets.MR_BUMP }}
+
+      - name: Trigger Balena App build action in ${{ github.event.repository.name }} repo
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.MR_BUMP }}
+          event-type: build-balena-app
+          repository: ${{ github.event.repository.name }}
