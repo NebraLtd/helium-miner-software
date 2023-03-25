@@ -364,4 +364,4 @@ jobs:
         with:
           token: ${{ secrets.MR_BUMP }}
           event-type: build-balena-app
-          repository: ${{ github.event.repository.name }}
+          repository: ${{ github.repository }}
