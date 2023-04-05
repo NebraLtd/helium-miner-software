@@ -27,6 +27,8 @@ jobs:
           LATEST_GA=$FIRMWARE_VERSION
           GITHUB_BRANCH=$( echo "${{ github.ref }}" | sed 's/refs\/heads\///g' )
           
+          echo "timestamp=$(date +'%s')" >> $GITHUB_ENV
+          echo "day=$(date +'%F')" >> $GITHUB_ENV
           echo "LATEST_GA=$LATEST_GA" >> $GITHUB_ENV
           echo "GITHUB_BRANCH=$GITHUB_BRANCH" >> $GITHUB_ENV
           
@@ -44,12 +46,28 @@ jobs:
           python gen_docker_compose_by_variant.py ${{matrix.variant}} -o docker-compose.yml
           
       - name: Balena Deploy
-        uses: nebraltd/balena-cli-action@v15.1.1
+        uses: nebraltd/balena-cli-action@v15.1.2
         with:
           balena_api_token: ${{secrets.NEBRAOS_CLOUD_TOKEN}}
           nebraos_cloud: true
-          balena_command: "deploy nebraltd/testnet-${{ env.REPO}} --debug --nocache --build --draft"
+          balena_command: "deploy nebraltd/testnet-${{ env.REPO }} --debug --nocache --build --draft"
 
+      - name: Upload docker-compose.yml artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: docker-compose.yml.${{ env.REPO }}.testnet
+          path: docker-compose.yml
+
+      - name: Upload docker-compose.yml to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: docker-compose.yml
+          asset_name: docker-compose.yml.${{ env.REPO }}
+          tag: TESTNET-${{ env.LATEST_GA }}-${{ env.day }}
+          overwrite: true
+          body: "TESTNET: This is helium-miner-software release TESTNET-${{ env.LATEST_GA }}-${{ env.day }}"
+          
       - name: Trigger build action in ${{ env.REPO }} repo
         uses: peter-evans/repository-dispatch@v2
         with:
