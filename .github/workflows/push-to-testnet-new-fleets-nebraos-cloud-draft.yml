@@ -55,7 +55,7 @@ jobs:
       - name: Upload docker-compose.yml artifact
         uses: actions/upload-artifact@v3
         with:
-          name: docker-compose.yml.${{ env.REPO }}
+          name: docker-compose.yml.${{ env.REPO }}.testnet
           path: docker-compose.yml
 
       - name: Upload docker-compose.yml to release
@@ -64,9 +64,9 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: docker-compose.yml
           asset_name: docker-compose.yml.${{ env.REPO }}
-          tag: ${{ env.LATEST_GA }}-${{ env.day }}
+          tag: TESTNET-${{ env.LATEST_GA }}-${{ env.day }}
           overwrite: true
-          body: "This is helium-miner-software release ${{ env.LATEST_GA }}-${{ env.day }}"
+          body: "TESTNET: This is helium-miner-software release TESTNET-${{ env.LATEST_GA }}-${{ env.day }}"
           
       - name: Trigger build action in ${{ env.REPO }} repo
         uses: peter-evans/repository-dispatch@v2
