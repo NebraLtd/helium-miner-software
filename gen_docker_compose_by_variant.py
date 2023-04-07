@@ -71,11 +71,8 @@ class DockerComposer:
 
         template_args["ENV"] = os.environ
 
-        template_args['ARCH'] = variant_definitions[variant_type]['CPU_ARCH']
-        template_args['I2C_DEVICE'] = variant_definitions[variant_type]['KEY_STORAGE_BUS']
-
-        for k, v in self.config['quectel_modem'].items():
-            template_args[k] = v
+        template_args["ARCH"] = variant_definitions[variant_type]["CPU_ARCH"]
+        template_args["SWARM_KEY_URI"] = variant_definitions[variant_type]["SWARM_KEY_URI"][0]
 
         output = template.render(**template_args)
         with open(output_file, 'w') as template_output:
