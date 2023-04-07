@@ -31,12 +31,12 @@ services:
   packet-forwarder:
     image: nebraltd/hm-pktfwd:{{PKTFWD_VERSION}}
     depends_on:
-      - helium-miner
+      - multiplexer
     restart: always
     privileged: true
     network_mode: host
     extra_hosts:
-        - "helium-miner:127.0.0.1"
+        - "multiplexer:127.0.0.1"
     volumes:
       - pktfwdr:/var/pktfwd
       - nebra:/var/nebra
@@ -46,6 +46,20 @@ services:
     labels:
       io.balena.features.sysfs: 1
       io.balena.features.procfs: 1
+
+  multiplexer:
+    image: nebraltd/hm-multiplexer:{{MULTIPLEXER_VERSION}}
+    restart: always
+    depends_on:
+      - helium-miner
+    network_mode: host
+    extra_hosts:
+        - "helium-miner:127.0.0.1"
+    labels:
+      io.balena.features.sysfs: 1
+      io.balena.features.procfs: 1
+    volumes:
+      - nebra:/var/nebra
 
   helium-miner:
     image: nebraltd/hm-gatewayrs:{{ARCH}}-{{GATEWAYRS_VERSION}}
