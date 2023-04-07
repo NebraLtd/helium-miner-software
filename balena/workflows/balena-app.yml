@@ -1,0 +1,25 @@
+name: BalenaCloud App Deploy
+
+on:
+  repository_dispatch:
+    types: [build-balena-app]
+  workflow_dispatch:
+
+jobs:
+  build-app:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Export miner type from repo
+        run: |
+          miner="$(echo ${{ github.event.repository.name }} | cut -d '-' -f2-)"
+          echo "$miner"
+          echo "miner=$miner" >> $GITHUB_ENV
+      - name: Random sleep (balena API workaround)
+        run:  sleep $[ ( $RANDOM % 600 ) + 1 ]s
+      - name: Balena Deploy
+        uses: nebraltd/balena-cli-action@v15.1.1
+        with:
+          balena_api_token: ${{secrets.BALENA_API_TOKEN}}
+          balena_command: "deploy nebraltd/helium-${{ env.miner }}-app --debug --nocache --build"

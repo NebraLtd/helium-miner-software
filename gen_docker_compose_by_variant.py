@@ -1,5 +1,5 @@
 """
-Generate docker-compose.yml based on docker-compose.template file.
+Generate docker-compose.yml based on docker-compose.tempalte file.
 
 Some how balena doesn't like output of:
 
@@ -14,6 +14,7 @@ and just replacing placeholder values.
 import os
 import argparse
 from typing import Union
+from urllib.parse import urlparse
 from configparser import ConfigParser
 from jinja2 import Environment, select_autoescape, FileSystemLoader
 from hm_pyhelper.hardware_definitions import variant_definitions
@@ -46,14 +47,20 @@ class DockerComposer:
 
     def generate_compose_file(
             self,
+<<<<<<<< HEAD:gen_docker_compose.py
+========
             variant_type: str,
+>>>>>>>> master:gen_docker_compose_by_variant.py
             template_file: str,
             output_file: str
     ) -> None:
         """generate_compose_file Render template_file to generate compose file.
 
         Args:
+<<<<<<<< HEAD:gen_docker_compose.py
+========
             variant_type (str): The target device variant for the docker compose file.
+>>>>>>>> master:gen_docker_compose_by_variant.py
             template_file (str): Template file name without folder name.
                 Should be present in the templates folder.
             output_file (str): Output filename. Can be a path. Otherwise
@@ -71,9 +78,20 @@ class DockerComposer:
 
         template_args["ENV"] = os.environ
 
-        template_args["ARCH"] = variant_definitions[variant_type]["CPU_ARCH"]
-        template_args["SWARM_KEY_URI"] = variant_definitions[variant_type]["SWARM_KEY_URI"][0]
+<<<<<<<< HEAD:gen_docker_compose.py
+========
+        for k, v in self.config['quectel_modem'].items():
+            template_args[k] = v
 
+        swarm_key_uri = variant_definitions[variant_type]['SWARM_KEY_URI'][0]
+        parse_result = urlparse(swarm_key_uri)
+        i2c_bus = parse_result.hostname
+        i2c_device = f'/dev/{i2c_bus}'
+
+        template_args['ARCH'] = variant_definitions[variant_type]['CPU_ARCH']
+        template_args['I2C_DEVICE'] = i2c_device
+
+>>>>>>>> master:gen_docker_compose_by_variant.py
         output = template.render(**template_args)
         with open(output_file, 'w') as template_output:
             template_output.write(output)
@@ -82,8 +100,12 @@ class DockerComposer:
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser("Generate docker-compose.yml.")
+<<<<<<<< HEAD:gen_docker_compose.py
+
+========
     parser.add_argument('variant_type',
                         help="Target variant.")
+>>>>>>>> master:gen_docker_compose_by_variant.py
     parser.add_argument('--template', '-t', default='docker-compose.template',
                         help="Input template file. Should be present in "
                              "templates folder.")
@@ -93,5 +115,9 @@ if __name__ == '__main__':
     # print(args)
 
     composer = DockerComposer()
+<<<<<<<< HEAD:gen_docker_compose.py
+    composer.generate_compose_file(args.template, args.output)
+========
     composer.generate_compose_file(
         args.variant_type, args.template, args.output)
+>>>>>>>> master:gen_docker_compose_by_variant.py
