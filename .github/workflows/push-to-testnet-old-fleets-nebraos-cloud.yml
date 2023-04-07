@@ -1,0 +1,103 @@
+name: NebraOS Cloud Deploy (Testnet - old fleets)
+
+on:
+  push:
+    # Only run workflow for pushes to specific branches
+    branches:
+      - master
+
+jobs:
+  testnet:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sbc: [raspi, rockpi, rak, finestra, sensecap, og, controllino, pisces, cotx, pantherx1, linxdot, linxdot-rkcm3, syncrobit, syncrobit-rkcm3, pycom, risinghf, midas]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Python Libraries
+        run: pip install -r requirements.txt
+
+      - name: Export short SHA of current commit
+        run: |
+          FIRMWARE_SHORT_HASH=$( echo ${GITHUB_SHA:0:7} )
+          echo "FIRMWARE_SHORT_HASH=$FIRMWARE_SHORT_HASH" >> $GITHUB_ENV
+
+          # Get the latest GA release and branch
+          source <(grep FIRMWARE_VERSION settings.ini)
+          LATEST_GA=$FIRMWARE_VERSION
+          GITHUB_BRANCH=$( echo "${{ github.ref }}" | sed 's/refs\/heads\///g' )
+
+          echo "timestamp=$(date +'%s')" >> $GITHUB_ENV
+          echo "day=$(date +'%F')" >> $GITHUB_ENV
+          echo "LATEST_GA=$LATEST_GA" >> $GITHUB_ENV
+          echo "GITHUB_BRANCH=$GITHUB_BRANCH" >> $GITHUB_ENV
+
+      - name: Random sleep (balena API workaround)
+        run:  sleep $[ ( $RANDOM % 360 ) + 1 ]s
+
+      - name: Generate Docker Compose
+        run: |
+          miner="${{ matrix.sbc }}"
+
+          if [[ "$miner" == "raspi" ]] ; then
+            variant="nebra-indoor1"
+            fleet="helium-testnet"
+            repo="helium-$variant"
+          elif [[ "$miner" == "rockpi" ]] ; then
+            variant="nebra-indoor2"
+            fleet="helium-testnet-rockpi"
+            repo="helium-$variant"
+          elif [[ "$miner" == "og" ]] ; then
+            variant="helium-fl1"
+            fleet="helium-testnet-og"
+            repo="helium-og"
+          else
+            variant="$miner-fl1"
+            fleet="helium-testnet-$miner"
+            repo="helium-$miner"
+          fi
+
+          echo "Variant: $variant"
+          echo "REPO=$repo" >> $GITHUB_ENV
+          echo "Repo: $repo"
+          echo "FLEET=$fleet" >> $GITHUB_ENV
+          echo "Fleet: $fleet"
+
+          FIRMWARE_SHORT_HASH=${{ env.FIRMWARE_SHORT_HASH }}
+
+          python gen_docker_compose_by_variant.py "$variant" -o docker-compose.yml
+
+      - name: Balena Deploy
+        uses: nebraltd/balena-cli-action@v15.1.2
+        with:
+          balena_api_token: ${{secrets.NEBRAOS_CLOUD_TOKEN}}
+          nebraos_cloud: true
+          balena_command: "deploy nebraltd/${{ env.FLEET }} --debug --nocache --build"
+
+      - name: Upload docker-compose.yml artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: docker-compose.yml.${{ env.REPO }}.testnet
+          path: docker-compose.yml
+
+      - name: Upload docker-compose.yml to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: docker-compose.yml
+          asset_name: docker-compose.yml.${{ env.REPO }}
+          tag: TESTNET-${{ env.LATEST_GA }}-${{ env.day }}
+          overwrite: true
+          body: "TESTNET: This is helium-miner-software release TESTNET-${{ env.LATEST_GA }}-${{ env.day }}"
+
+      - name: Trigger build action in ${{ env.REPO }} repo
+        uses: peter-evans/repository-dispatch@v2
+        if: matrix.sbc != 'raspi' && matrix.sbc != 'rockpi'
+        with:
+          token: ${{ secrets.MR_BUMP }}
+          event-type: build-open-fleet
+          repository: NebraLtd/${{ env.REPO }}
+          client-payload: '{"release": "${{ env.LATEST_GA }}_GA", "tag": "${{ env.LATEST_GA }}", "firmware": "${{ env.FIRMWARE_SHORT_HASH }}", "branch": "${{ env.GITHUB_BRANCH }}"}'

@@ -1,0 +1,172 @@
+name: NebraOS Cloud Deploy (Production - old fleets - draft)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-prod:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sbc: [raspi, rockpi, rak, pisces, og, sensecap, finestra, controllino, cotx, pantherx1, linxdot, linxdot-rkcm3, pycom, syncrobit, syncrobit-rkcm3, risinghf, midas]
+        frequency: [470, 868, 915]
+        variant: [indoor, outdoor]
+        exclude:
+          - sbc: rak
+          - sbc: pisces
+          - sbc: og
+          - sbc: sensecap
+          - sbc: finestra
+          - sbc: controllino
+          - sbc: cotx
+          - sbc: pantherx1
+          - sbc: linxdot
+          - sbc: linxdot-rkcm3
+          - sbc: syncrobit
+          - sbc: syncrobit-rkcm3
+          - sbc: pycom
+          - sbc: risinghf
+          - sbc: midas
+        include:
+          - sbc: pisces
+            variant: indoor
+            frequency: 868
+          - sbc: rak
+            variant: indoor
+            frequency: 868
+          - sbc: og
+            variant: indoor
+            frequency: 868
+          - sbc: sensecap
+            variant: indoor
+            frequency: 868
+          - sbc: finestra
+            variant: indoor
+            frequency: 868
+          - sbc: controllino
+            variant: indoor
+            frequency: 868
+          - sbc: cotx
+            variant: indoor
+            frequency: 868
+          - sbc: pantherx1
+            variant: indoor
+            frequency: 868
+          - sbc: linxdot
+            variant: indoor
+            frequency: 868
+          - sbc: linxdot-rkcm3
+            variant: indoor
+            frequency: 868
+          - sbc: syncrobit
+            variant: indoor
+            frequency: 868
+          - sbc: syncrobit-rkcm3
+            variant: indoor
+            frequency: 868
+          - sbc: pycom
+            variant: indoor
+            frequency: 868
+          - sbc: risinghf
+            variant: indoor
+            frequency: 868
+          - sbc: midas
+            variant: indoor
+            frequency: 868
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: production
+
+      - name: Setup Python Libraries
+        run: pip install -r requirements.txt
+
+      - name: Export short SHA of current commit
+        shell: bash
+        run: |
+          FIRMWARE_SHORT_HASH=$( echo ${GITHUB_SHA:0:7} )
+          echo "FIRMWARE_SHORT_HASH=$FIRMWARE_SHORT_HASH" >> $GITHUB_ENV
+
+          # Get the latest GA release and branch
+          source <(grep FIRMWARE_VERSION settings.ini)
+          LATEST_GA=$FIRMWARE_VERSION
+          GITHUB_BRANCH=$( echo "${{ github.ref }}" | sed 's/refs\/heads\///g' )
+
+          echo "timestamp=$(date +'%s')" >> $GITHUB_ENV
+          echo "day=$(date +'%F')" >> $GITHUB_ENV
+          echo "LATEST_GA=$LATEST_GA" >> $GITHUB_ENV
+          echo "GITHUB_BRANCH=$GITHUB_BRANCH" >> $GITHUB_ENV
+
+      - name: Random sleep (balena API workaround)
+        run:  sleep $[ ( $RANDOM % 540 ) + 1 ]s
+
+      - name: Generate Docker Compose
+        run: |
+          miner="${{ matrix.sbc }}"
+          type="${{ matrix.variant }}"
+
+          if [[ "$miner" == "raspi" ]] && [[ "$type" == "indoor" ]] ; then
+            variant="nebra-indoor1"
+          elif [[ "$miner" == "raspi" ]] && [[ "$type" == "outdoor" ]] ; then
+            variant="nebra-outdoor1"
+          elif [[ "$miner" == "rockpi" ]] && [[ "$type" == "indoor" ]] ; then
+            variant="nebra-indoor2"
+          elif [[ "$miner" == "rockpi" ]] && [[ "$type" == "outdoor" ]] ; then
+            variant="nebra-outdoor2"
+          elif [[ "$miner" == "og" ]] ; then
+            variant="helium-fl1"
+          else
+            variant="$miner-fl1"
+          fi
+
+          if [[ "$miner" == "rockpi" ]] ; then
+            ROCKPI="-rockpi"
+          fi
+
+          if [[ "$miner" == "rockpi" ]] || [[ "$miner" == "raspi" ]] ; then
+            repo="helium-${{ matrix.variant }}-${{ matrix.frequency }}$ROCKPI"
+          else
+            repo="helium-$miner"
+          fi
+
+          echo "Variant: $variant"
+          echo "REPO=$repo" >> $GITHUB_ENV
+          echo "Repo: $repo"
+
+          FIRMWARE_SHORT_HASH=${{ env.FIRMWARE_SHORT_HASH }}
+
+          python gen_docker_compose_by_variant.py "$variant" -o docker-compose.yml
+
+      - name: Balena Deploy
+        uses: nebraltd/balena-cli-action@v15.1.2
+        with:
+          balena_api_token: ${{secrets.NEBRAOS_CLOUD_TOKEN}}
+          nebraos_cloud: true
+          balena_command: "deploy nebraltd/${{ env.REPO }} --debug --nocache --build --draft"
+
+      - name: Upload docker-compose.yml artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: docker-compose.yml.${{ env.REPO }}
+          path: docker-compose.yml
+
+      - name: Upload docker-compose.yml to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: docker-compose.yml
+          asset_name: docker-compose.yml.${{ env.REPO }}
+          tag: ${{ env.LATEST_GA }}-${{ env.day }}
+          overwrite: true
+          body: "This is helium-miner-software release ${{ env.LATEST_GA }}-${{ env.day }}"
+
+      - name: Trigger build action in ${{ env.REPO }} repo
+        uses: peter-evans/repository-dispatch@v2
+        if: matrix.sbc != 'raspi' && matrix.sbc != 'rockpi'
+        with:
+          token: ${{ secrets.MR_BUMP }}
+          event-type: build-open-fleet
+          repository: NebraLtd/${{ env.REPO }}
+          client-payload: '{"release": "${{ env.LATEST_GA }}_GA", "tag": "${{ env.LATEST_GA }}", "firmware": "${{ env.FIRMWARE_SHORT_HASH }}", "branch": "${{ env.GITHUB_BRANCH }}"}'
