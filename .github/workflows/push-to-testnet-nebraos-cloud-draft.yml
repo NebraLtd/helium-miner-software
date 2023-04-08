@@ -1,4 +1,4 @@
-name: NebraOS Cloud Deploy (Testnet - old fleets - draft)
+name: NebraOS Cloud Deploy (Testnet - draft)
 
 on:
   workflow_dispatch:
@@ -43,23 +43,29 @@ jobs:
             variant="nebra-indoor1"
             fleet="helium-testnet"
             repo="helium-$variant"
+            repo2="helium-nebra-outdoor1"
           elif [[ "$miner" == "rockpi" ]] ; then
             variant="nebra-indoor2"
             fleet="helium-testnet-rockpi"
             repo="helium-$variant"
+            repo2="helium-nebra-outdoor2"
           elif [[ "$miner" == "og" ]] ; then
             variant="helium-fl1"
             fleet="helium-testnet-og"
             repo="helium-og"
+            repo2="None"
           else
             variant="$miner-fl1"
             fleet="helium-testnet-$miner"
             repo="helium-$miner"
+            repo2="None"
           fi
           
           echo "Variant: $variant"
           echo "REPO=$repo" >> $GITHUB_ENV
           echo "Repo: $repo"
+          echo "REPO2=$repo2" >> $GITHUB_ENV
+          echo "Repo 2: $repo2"
           echo "FLEET=$fleet" >> $GITHUB_ENV
           echo "Fleet: $fleet"
           
@@ -92,9 +98,17 @@ jobs:
           
       - name: Trigger build action in ${{ env.REPO }} repo
         uses: peter-evans/repository-dispatch@v2
-        if: matrix.sbc != 'raspi' && matrix.sbc != 'rockpi'
         with:
           token: ${{ secrets.MR_BUMP }}
           event-type: build-open-fleet
           repository: NebraLtd/${{ env.REPO }}
           client-payload: '{"release": "${{ env.LATEST_GA }}_GA", "tag": "${{ env.LATEST_GA }}", "firmware": "${{ env.FIRMWARE_SHORT_HASH }}", "branch": "${{ env.GITHUB_BRANCH }}"}'
+
+      - name: Trigger build action in ${{ env.REPO2 }} repo
+        uses: peter-evans/repository-dispatch@v2
+        if: matrix.sbc == 'raspi' || matrix.sbc == 'rockpi'
+        with:
+          token: ${{ secrets.MR_BUMP }}
+          event-type: build-open-fleet
+          repository: NebraLtd/${{ env.REPO2 }}
+          client-payload: '{"release": "${{ env.LATEST_GA }}_GA", "tag": "${{ env.LATEST_GA }}", "firmware": "${{ env.FIRMWARE_SHORT_HASH }}", "branch": "${{ env.GITHUB_BRANCH }}"}
