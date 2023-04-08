@@ -44,7 +44,7 @@ jobs:
             variant2="nebra-outdoor1"
             fleet="helium-testnet"
             repo="helium-$variant"
-            repo2="helium-nebra-$variant2"
+            repo2="helium-$variant2"
           elif [[ "$miner" == "rockpi" ]] ; then
             variant="nebra-indoor2"
             variant2="nebra-outdoor2"
