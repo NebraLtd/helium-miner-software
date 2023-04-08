@@ -50,6 +50,9 @@ services:
       - helium-miner
     expose:
       - "1681"
+    environment:
+      - FIRMWARE_VERSION={{FIRMWARE_VERSION}}
+      - FIRMWARE_SHORT_HASH={{ENV.FIRMWARE_SHORT_HASH}}
     labels:
       io.balena.features.sysfs: 1
       io.balena.features.procfs: 1
