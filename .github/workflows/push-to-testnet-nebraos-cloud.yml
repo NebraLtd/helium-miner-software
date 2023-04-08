@@ -114,4 +114,4 @@ jobs:
           token: ${{ secrets.MR_BUMP }}
           event-type: build-open-fleet
           repository: NebraLtd/${{ env.REPO2 }}
-          client-payload: '{"release": "${{ env.LATEST_GA }}_GA", "tag": "${{ env.LATEST_GA }}", "firmware": "${{ env.FIRMWARE_SHORT_HASH }}", "branch": "${{ env.GITHUB_BRANCH }}"}
+          client-payload: '{"release": "${{ env.LATEST_GA }}_GA", "tag": "${{ env.LATEST_GA }}", "firmware": "${{ env.FIRMWARE_SHORT_HASH }}", "branch": "${{ env.GITHUB_BRANCH }}"}'
