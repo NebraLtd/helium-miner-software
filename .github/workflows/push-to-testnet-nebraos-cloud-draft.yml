@@ -110,6 +110,7 @@ jobs:
           body: "TESTNET: This is helium-miner-software release TESTNET-${{ env.LATEST_GA }}-${{ env.day }}"
 
       - name: Upload docker-compose.yml to release (repo2)
+        if: env.REPO2 != 'None'
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
