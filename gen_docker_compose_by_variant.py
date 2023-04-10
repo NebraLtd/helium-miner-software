@@ -72,7 +72,6 @@ class DockerComposer:
         template_args["ENV"] = os.environ
 
         template_args["ARCH"] = variant_definitions[variant_type]["CPU_ARCH"]
-        template_args["SWARM_KEY_URI"] = variant_definitions[variant_type]["SWARM_KEY_URI"][0]
 
         output = template.render(**template_args)
         with open(output_file, 'w') as template_output:

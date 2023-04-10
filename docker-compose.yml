@@ -3,14 +3,14 @@ version: '2'
 services:
 
   gateway-config:
-    image: nebraltd/hm-config:{{CONFIG_VERSION}}
+    image: nebraltd/hm-config:1f564d0
     depends_on:
       - dbus-session
       - helium-miner
       - diagnostics
     environment:
-      - FIRMWARE_VERSION={{FIRMWARE_VERSION}}
-      - FIRMWARE_SHORT_HASH={{ENV.FIRMWARE_SHORT_HASH}}
+      - FIRMWARE_VERSION=v1.0.0-RC48
+      - FIRMWARE_SHORT_HASH=FFFFFFF
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
       - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
     restart: on-failure
@@ -29,7 +29,7 @@ services:
     stop_signal: SIGINT
 
   packet-forwarder:
-    image: nebraltd/hm-pktfwd:{{PKTFWD_VERSION}}
+    image: nebraltd/hm-pktfwd:c39fcf7
     depends_on:
       - multiplexer
     restart: always
@@ -41,14 +41,14 @@ services:
       - pktfwdr:/var/pktfwd
       - nebra:/var/nebra
     environment:
-      - FIRMWARE_VERSION={{FIRMWARE_VERSION}}
-      - FIRMWARE_SHORT_HASH={{ENV.FIRMWARE_SHORT_HASH}}
+      - FIRMWARE_VERSION=v1.0.0-RC48
+      - FIRMWARE_SHORT_HASH=FFFFFFF
     labels:
       io.balena.features.sysfs: 1
       io.balena.features.procfs: 1
 
   multiplexer:
-    image: nebraltd/hm-multiplexer:{{MULTIPLEXER_VERSION}}
+    image: nebraltd/hm-multiplexer:a1fc09b
     restart: always
     depends_on:
       - helium-miner
@@ -61,31 +61,31 @@ services:
     volumes:
       - nebra:/var/nebra
     environment:
-      - FIRMWARE_VERSION={{FIRMWARE_VERSION}}
-      - FIRMWARE_SHORT_HASH={{ENV.FIRMWARE_SHORT_HASH}}
+      - FIRMWARE_VERSION=v1.0.0-RC48
+      - FIRMWARE_SHORT_HASH=FFFFFFF
 
   helium-miner:
-    image: nebraltd/hm-gatewayrs:{{ARCH}}-{{GATEWAYRS_VERSION}}
+    image: nebraltd/hm-gatewayrs:arm64-ca18684
     network_mode: host
     cap_add:
       - SYS_RAWIO
     privileged: true
     restart: always
     environment:
-      - FIRMWARE_VERSION={{FIRMWARE_VERSION}}
-      - FIRMWARE_SHORT_HASH={{ENV.FIRMWARE_SHORT_HASH}}
+      - FIRMWARE_VERSION=v1.0.0-RC48
+      - FIRMWARE_SHORT_HASH=FFFFFFF
     volumes:
       - pktfwdr:/var/pktfwd
       - miner-storage:/var/data
 
   diagnostics:
-    image: nebraltd/hm-diag:{{ARCH}}-{{DIAGNOSTICS_VERSION}}
+    image: nebraltd/hm-diag:arm64-5bc4892
     depends_on:
       - dbus-session
     environment:
-      - FIRMWARE_VERSION={{FIRMWARE_VERSION}}
-      - FIRMWARE_SHORT_HASH={{ENV.FIRMWARE_SHORT_HASH}}
-      - DIAGNOSTICS_VERSION={{DIAGNOSTICS_VERSION}}
+      - FIRMWARE_VERSION=v1.0.0-RC48
+      - FIRMWARE_SHORT_HASH=FFFFFFF
+      - DIAGNOSTICS_VERSION=5bc4892
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
     volumes:
       - pktfwdr:/var/pktfwd
@@ -112,8 +112,8 @@ services:
       - dbus:/session/dbus
     environment:
       - DBUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
-      - FIRMWARE_VERSION={{FIRMWARE_VERSION}}
-      - FIRMWARE_SHORT_HASH={{ENV.FIRMWARE_SHORT_HASH}}
+      - FIRMWARE_VERSION=v1.0.0-RC48
+      - FIRMWARE_SHORT_HASH=FFFFFFF
 
 volumes:
   miner-storage:
