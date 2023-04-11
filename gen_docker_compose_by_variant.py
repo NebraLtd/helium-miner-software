@@ -14,7 +14,6 @@ and just replacing placeholder values.
 import os
 import argparse
 from typing import Union
-from urllib.parse import urlparse
 from configparser import ConfigParser
 from jinja2 import Environment, select_autoescape, FileSystemLoader
 from hm_pyhelper.hardware_definitions import variant_definitions
@@ -72,16 +71,7 @@ class DockerComposer:
 
         template_args["ENV"] = os.environ
 
-        for k, v in self.config['quectel_modem'].items():
-            template_args[k] = v
-
-        swarm_key_uri = variant_definitions[variant_type]['SWARM_KEY_URI'][0]
-        parse_result = urlparse(swarm_key_uri)
-        i2c_bus = parse_result.hostname
-        i2c_device = f'/dev/{i2c_bus}'
-
-        template_args['ARCH'] = variant_definitions[variant_type]['CPU_ARCH']
-        template_args['I2C_DEVICE'] = i2c_device
+        template_args["ARCH"] = variant_definitions[variant_type]["CPU_ARCH"]
 
         output = template.render(**template_args)
         with open(output_file, 'w') as template_output:

@@ -10,8 +10,8 @@ jobs:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-        with: 
+      - uses: actions/checkout@v2
+        with:
           ref: ${{ github.ref }}
           fetch-depth: 0
       - name: Set current date and latest GA as env variable, check PR title
@@ -40,8 +40,8 @@ jobs:
           title: "release(prod): Update miner to latest GA ${{ env.LATEST_GA }}"
           body: |
             Update miner to latest GA ${{ env.LATEST_GA }}
-            
+
             Ref #${{ github.event.number }}
-            
+
             Pushed to testnet at ${{ env.NOW }}
           draft: false

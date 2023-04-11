@@ -2,7 +2,7 @@ name: NebraOS Cloud Deploy (Production - old fleets - draft)
 
 on:
   workflow_dispatch:
-    
+
 jobs:
   build-prod:
     runs-on: ubuntu-latest
@@ -79,34 +79,34 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: production
-          
+
       - name: Setup Python Libraries
         run: pip install -r requirements.txt
-        
+
       - name: Export short SHA of current commit
         shell: bash
         run: |
           FIRMWARE_SHORT_HASH=$( echo ${GITHUB_SHA:0:7} )
           echo "FIRMWARE_SHORT_HASH=$FIRMWARE_SHORT_HASH" >> $GITHUB_ENV
-          
+
           # Get the latest GA release and branch
           source <(grep FIRMWARE_VERSION settings.ini)
           LATEST_GA=$FIRMWARE_VERSION
           GITHUB_BRANCH=$( echo "${{ github.ref }}" | sed 's/refs\/heads\///g' )
-          
+
           echo "timestamp=$(date +'%s')" >> $GITHUB_ENV
           echo "day=$(date +'%F')" >> $GITHUB_ENV
           echo "LATEST_GA=$LATEST_GA" >> $GITHUB_ENV
           echo "GITHUB_BRANCH=$GITHUB_BRANCH" >> $GITHUB_ENV
-          
+
       - name: Random sleep (balena API workaround)
         run:  sleep $[ ( $RANDOM % 540 ) + 1 ]s
-        
+
       - name: Generate Docker Compose
         run: |
           miner="${{ matrix.sbc }}"
           type="${{ matrix.variant }}"
-          
+
           if [[ "$miner" == "raspi" ]] && [[ "$type" == "indoor" ]] ; then
             variant="nebra-indoor1"
           elif [[ "$miner" == "raspi" ]] && [[ "$type" == "outdoor" ]] ; then
@@ -120,25 +120,25 @@ jobs:
           else
             variant="$miner-fl1"
           fi
-          
+
           if [[ "$miner" == "rockpi" ]] ; then
             ROCKPI="-rockpi"
           fi
-          
+
           if [[ "$miner" == "rockpi" ]] || [[ "$miner" == "raspi" ]] ; then
             repo="helium-${{ matrix.variant }}-${{ matrix.frequency }}$ROCKPI"
           else
             repo="helium-$miner"
           fi
-          
+
           echo "Variant: $variant"
           echo "REPO=$repo" >> $GITHUB_ENV
           echo "Repo: $repo"
-          
+
           FIRMWARE_SHORT_HASH=${{ env.FIRMWARE_SHORT_HASH }}
-          
+
           python gen_docker_compose_by_variant.py "$variant" -o docker-compose.yml
-          
+
       - name: Balena Deploy
         uses: nebraltd/balena-cli-action@v15.1.2
         with:
@@ -161,7 +161,7 @@ jobs:
           tag: ${{ env.LATEST_GA }}-${{ env.day }}
           overwrite: true
           body: "This is helium-miner-software release ${{ env.LATEST_GA }}-${{ env.day }}"
-          
+
       - name: Trigger build action in ${{ env.REPO }} repo
         uses: peter-evans/repository-dispatch@v2
         if: matrix.sbc != 'raspi' && matrix.sbc != 'rockpi'
