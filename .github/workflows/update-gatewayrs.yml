@@ -6,7 +6,7 @@ jobs:
   gatewayrs-update:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           ref: ${{ github.ref }}
       - run: |
@@ -20,7 +20,7 @@ jobs:
           sed -i -E "s/FIRMWARE_VERSION=.*/FIRMWARE_VERSION=$LATEST_GA/g" settings.ini
           sed -i -E "s/GATEWAYRS_VERSION=.*/GATEWAYRS_VERSION=$SHORT_SHA/g" settings.ini
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v3
+        uses: peter-evans/create-pull-request@v5
         with:
           commit-message: Update Gateway-rs to latest GA ${{ env.LATEST_GA }}
           branch: gatewayrs-bump/${{ env.LATEST_GA }}
