@@ -49,6 +49,8 @@ services:
     restart: always
     depends_on:
       - helium-miner
+    expose:
+      - "1681"
     labels:
       io.balena.features.sysfs: 1
       io.balena.features.procfs: 1
@@ -60,6 +62,13 @@ services:
 
   helium-miner:
     image: nebraltd/hm-gatewayrs:{{ARCH}}-{{GATEWAYRS_VERSION}}
+    depends_on:
+      - diagnostics
+    expose:
+      - "1680"
+      - "4467"
+    ports:
+      - "44158:44158/tcp"
     cap_add:
       - SYS_RAWIO
     privileged: true
@@ -85,6 +94,8 @@ services:
       - miner-storage:/var/data
       - watchdog-log:/var/watchdog
       - nebra:/var/nebra
+    ports:
+      - "80:80"
     cap_add:
       - SYS_RAWIO
     restart: always
