@@ -79,6 +79,7 @@ services:
     volumes:
       - pktfwdr:/var/pktfwd
       - miner-storage:/var/data
+      - nebra:/var/nebra
 
   diagnostics:
     image: nebraltd/hm-diag:{{ARCH}}-{{DIAGNOSTICS_VERSION}}
