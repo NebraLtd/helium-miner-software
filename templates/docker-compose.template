@@ -34,9 +34,6 @@ services:
       - multiplexer
     restart: always
     privileged: true
-    network_mode: host
-    extra_hosts:
-        - "multiplexer:127.0.0.1"
     volumes:
       - pktfwdr:/var/pktfwd
       - nebra:/var/nebra
@@ -52,9 +49,8 @@ services:
     restart: always
     depends_on:
       - helium-miner
-    network_mode: host
-    extra_hosts:
-        - "helium-miner:127.0.0.1"
+    expose:
+      - "1681"
     labels:
       io.balena.features.sysfs: 1
       io.balena.features.procfs: 1
@@ -66,7 +62,13 @@ services:
 
   helium-miner:
     image: nebraltd/hm-gatewayrs:{{ARCH}}-{{GATEWAYRS_VERSION}}
-    network_mode: host
+    depends_on:
+      - diagnostics
+    expose:
+      - "1680"
+      - "4467"
+    ports:
+      - "44158:44158/tcp"
     cap_add:
       - SYS_RAWIO
     privileged: true
@@ -77,6 +79,7 @@ services:
     volumes:
       - pktfwdr:/var/pktfwd
       - miner-storage:/var/data
+      - nebra:/var/nebra
 
   diagnostics:
     image: nebraltd/hm-diag:{{ARCH}}-{{DIAGNOSTICS_VERSION}}
@@ -92,9 +95,8 @@ services:
       - miner-storage:/var/data
       - watchdog-log:/var/watchdog
       - nebra:/var/nebra
-    network_mode: host
-    extra_hosts:
-        - "helium-miner:127.0.0.1"
+    ports:
+      - "80:80"
     cap_add:
       - SYS_RAWIO
     restart: always
@@ -121,13 +123,3 @@ volumes:
   dbus:
   nebra:
   watchdog-log:
-
-# balena keeps on changing the subnet, making it impossible
-# to use extra_hosts for naming host IPs
-networks:
-  default:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.20.0.0/16
