@@ -22,13 +22,13 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
-          commit-message: Update Gateway-rs to latest GA ${{ env.LATEST_GA }}
+          commit-message: Update gateway-rs to latest GA ${{ env.LATEST_GA }}
           branch: gatewayrs-bump/${{ env.LATEST_GA }}
           delete-branch: true
           base: master
-          title: "release(testnet): Update Gatewayrs to latest GA ${{ env.LATEST_GA }}"
+          title: "release(testnet): update gateway-rs to latest GA ${{ env.LATEST_GA }}"
           body: |
-            Update gatewayrs to latest GA ${{ env.LATEST_GA }}
+            Update gateway-rs to latest GA ${{ env.LATEST_GA }}
 
             Ref NebraLtd/hm-gatewayrs@${{ env.LONG_SHA }}
           draft: false
