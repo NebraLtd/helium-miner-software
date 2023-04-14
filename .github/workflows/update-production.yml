@@ -18,7 +18,7 @@ jobs:
       - name: Set current date and latest GA as env variable, check PR title
         run: |
           # Get the latest GA release name
-          LATEST_GA=$(curl -s  https://quay.io/v1/repositories/team-helium/miner/tags | jq -r --sort-keys '. | keys[] | select(. | endswith("GA"))' | tail -n 1 | sed 's/miner-arm64_//g' | sed 's/_GA//g')
+          LATEST_GA=$(curl -s  https://quay.io/v1/repositories/team-helium/miner/tags | jq -r --sort-keys '. | keys[] | select(. | startswith("gateway-v"))' | tail -n 1 | sed 's/gateway-//g' )
           echo "LATEST_GA=$LATEST_GA" >> $GITHUB_ENV
 
           # Get the UTC date and time
