@@ -24,7 +24,7 @@ jobs:
           echo "NOW=$(date -u)" >> $GITHUB_ENV
 
           # Check pull request title
-          PR_TITLE_CHECK="release(testnet): Update miner to latest GA"
+          PR_TITLE_CHECK="release(testnet): Update Gatewayrs to latest GA"
           if grep -q "$PR_TITLE_CHECK" <<< "${{ github.event.pull_request.title }}"; then
             UPDATED=true
             echo "UPDATED=$UPDATED" >> $GITHUB_ENV
