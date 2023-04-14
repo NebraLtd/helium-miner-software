@@ -3,7 +3,7 @@ version: '2'
 services:
 
   gateway-config:
-    image: nebraltd/hm-config:{{CONFIG_VERSION}}
+    image: nebraltd/hm-config:{{ARCH}}-{{CONFIG_VERSION}}
     depends_on:
       - dbus-session
       - helium-miner
@@ -15,7 +15,6 @@ services:
       - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
     restart: on-failure
     privileged: true
-    network_mode: host
     cap_add:
       - NET_ADMIN
     volumes:
@@ -49,8 +48,6 @@ services:
     restart: always
     depends_on:
       - helium-miner
-    expose:
-      - "1681"
     labels:
       io.balena.features.sysfs: 1
       io.balena.features.procfs: 1
@@ -59,20 +56,22 @@ services:
     environment:
       - FIRMWARE_VERSION={{FIRMWARE_VERSION}}
       - FIRMWARE_SHORT_HASH={{ENV.FIRMWARE_SHORT_HASH}}
+    expose:
+      - "1681"
 
   helium-miner:
     image: nebraltd/hm-gatewayrs:{{ARCH}}-{{GATEWAYRS_VERSION}}
     depends_on:
       - diagnostics
+    cap_add:
+      - SYS_RAWIO
+    privileged: true
+    restart: always
     expose:
       - "1680"
       - "4467"
     ports:
       - "44158:44158/tcp"
-    cap_add:
-      - SYS_RAWIO
-    privileged: true
-    restart: always
     environment:
       - FIRMWARE_VERSION={{FIRMWARE_VERSION}}
       - FIRMWARE_SHORT_HASH={{ENV.FIRMWARE_SHORT_HASH}}
