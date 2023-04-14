@@ -25,7 +25,7 @@ jobs:
           echo "NOW=$(date -u)" >> $GITHUB_ENV
 
           # Check pull request title
-          PR_TITLE_CHECK="release(testnet): Update gateway-rs to latest GA"
+          PR_TITLE_CHECK="release(testnet): update gateway-rs to latest GA"
           if grep -q "$PR_TITLE_CHECK" <<< "${{ github.event.pull_request.title }}"; then
             UPDATED=true
             echo "UPDATED=$UPDATED" >> $GITHUB_ENV
@@ -39,7 +39,7 @@ jobs:
           source_branch: master
           target_branch: production
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          title: "release(prod): Update miner to latest GA ${{ env.LATEST_GA }}"
+          title: "release(prod): update gateway-rs to latest GA ${{ env.LATEST_GA }}"
           body: |
             Update gateway-rs to latest GA ${{ env.LATEST_GA }}
 
