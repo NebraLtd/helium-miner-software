@@ -126,7 +126,7 @@ There are two critical parameters which has to be defined in a Balena Fleet befo
 This parameter defines which variant will be used in the whole firmware stack. The name is the key from the `variant_definitions` dictionary which is detailed above.
 
 **Example:**
-| Name | Value | Service 
+| Name | Value | Service
 |------|-------|--------
 | VARIANT | NEBHNT-IN1 | All Services
 
@@ -138,12 +138,12 @@ If this parameter wouldn't be defined in a fleet, the `packet_forwarder` contain
 The expected values are: 470, 868 and 915.
 
 **Example:**
-| Name | Value | Service 
+| Name | Value | Service
 |------|-------|--------
 | FREQ | 868 | All Services
 
 ### HELIUM_MINER_HEIGHT_URL
-This parameter is added to test fleets. It is an API endpoint used for fetching current miner height from Stakejoy API. Current value is [this link](https://fuzzy-marmalade-warlock.skittles.stakejoy.com/v1/blocks/height) 
+This parameter is added to test fleets. It is an API endpoint used for fetching current miner height from Stakejoy API. Current value is [this link](https://fuzzy-marmalade-warlock.skittles.stakejoy.com/v1/blocks/height)
 
 ### OVERRIDE_CONFIG_URL
 This parameter is added to test fleets. It helps testing new miner configurations. Current value is [this link](https://helium-assets-stage.nebra.com/docker.config)

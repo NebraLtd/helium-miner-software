@@ -11,37 +11,39 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        with: 
+        with:
           ref: ${{ github.ref }}
           fetch-depth: 0
+
       - name: Set current date and latest GA as env variable, check PR title
         run: |
           # Get the latest GA release name
-          LATEST_GA=$(curl -s  https://quay.io/v1/repositories/team-helium/miner/tags | jq -r --sort-keys '. | keys[] | select(. | endswith("GA"))' | tail -n 1 | sed 's/miner-arm64_//g' | sed 's/_GA//g')
+          LATEST_GA=$(curl -s  https://quay.io/v1/repositories/team-helium/miner/tags | jq -r --sort-keys '. | keys[] | select(. | startswith("gateway-v"))' | tail -n 1 | sed 's/gateway-//g' )
           echo "LATEST_GA=$LATEST_GA" >> $GITHUB_ENV
 
           # Get the UTC date and time
           echo "NOW=$(date -u)" >> $GITHUB_ENV
 
           # Check pull request title
-          PR_TITLE_CHECK="release(testnet): Update miner to latest GA"
+          PR_TITLE_CHECK="release(testnet): update gateway-rs to latest GA"
           if grep -q "$PR_TITLE_CHECK" <<< "${{ github.event.pull_request.title }}"; then
             UPDATED=true
             echo "UPDATED=$UPDATED" >> $GITHUB_ENV
             exit 0
           fi
+
       - name: Create Pull Request
         if: env.UPDATED == 'true'
-        uses: devops-infra/action-pull-request@v0.5.3
+        uses: devops-infra/action-pull-request@v0.5.5
         with:
           source_branch: master
           target_branch: production
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          title: "release(prod): Update miner to latest GA ${{ env.LATEST_GA }}"
+          title: "release(prod): update gateway-rs to latest GA ${{ env.LATEST_GA }}"
           body: |
-            Update miner to latest GA ${{ env.LATEST_GA }}
-            
+            Update gateway-rs to latest GA ${{ env.LATEST_GA }}
+
             Ref #${{ github.event.number }}
-            
+
             Pushed to testnet at ${{ env.NOW }}
           draft: false
