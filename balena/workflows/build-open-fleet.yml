@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 env:
-  balena-cli: v15.1.1
+  balena-cli: v15.2.0
   raspberrypi3-64: 2.113.18
   raspberrypi4-64: 2.113.18
   raspberrypicm4-ioboard: 2.112.12
