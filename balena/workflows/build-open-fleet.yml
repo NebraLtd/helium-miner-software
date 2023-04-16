@@ -79,27 +79,31 @@ jobs:
           repo="${{ github.event.repository.name }}"
 
           if grep -q "outdoor2" <<<"$repo"; then
-            echo "Not RasPi 3"
+            echo "Not RasPi 3 (ROCK Pi 4B)"
             RASPI3="NO"
             ROCKPI="YES"
           elif grep -q "indoor2" <<<"$repo"; then
-            echo "Not RasPi 3"
+            echo "Not RasPi 3 (ROCK Pi 4B)"
             RASPI3="NO"
             ROCKPI="YES"
           elif grep -q "outdoor1" <<<"$repo"; then
-            echo "RasPi Outdoor"
+            echo "RasPi 3 Outdoor"
             RASPI3="YES"
             ROCKPI="NO"
           elif grep -q "indoor1" <<<"$repo"; then
-            echo "RasPi Indoor"
+            echo "RasPi 3 Indoor"
             RASPI3="YES"
             ROCKPI="NO"
           elif grep -q "risinghf" <<<"$repo"; then
             echo "RisingHF"
             RASPI3="YES"
             ROCKPI="NO"
+          elif grep -q "rkcm3" <<<"$repo"; then
+            echo "Not RasPi 3 (ROCK CM3)"
+            RASPI3="NO"
+            ROCKPI="YES"
           else
-            echo "Not RasPi 3"
+            echo "Not RasPi 3 (Other)"
             RASPI3="NO"
             ROCKPI="NO"
           fi
