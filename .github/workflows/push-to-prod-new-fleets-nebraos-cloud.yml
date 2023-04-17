@@ -10,7 +10,7 @@ on:
 
 jobs:
   build-prod:
-    if: github.ref_name == 'master' || github.event_name == 'workflow_dispatch'
+    if: github.ref_name == 'production' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
