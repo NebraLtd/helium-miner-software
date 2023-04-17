@@ -2,12 +2,15 @@ name: NebraOS Cloud Deploy (Testnet)
 
 on:
   push:
-    # Only run workflow for pushes to specific branches
-    branches:
-      - master
+    # Only run workflow for pushes to specific files on master branch
+    paths:
+      - 'settings.ini'
+      - 'templates/**'
+    workflow_dispatch:
 
 jobs:
   testnet:
+    if: github.ref_name == 'master' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -83,7 +86,7 @@ jobs:
           fi
 
       - name: Balena Deploy
-        uses: nebraltd/balena-cli-action@v15.1.2
+        uses: nebraltd/balena-cli-action@v15.2.0
         with:
           balena_api_token: ${{secrets.NEBRAOS_CLOUD_TOKEN}}
           nebraos_cloud: true
