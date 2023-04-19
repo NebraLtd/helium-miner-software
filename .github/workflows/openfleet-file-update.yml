@@ -3,9 +3,8 @@ name: Update files in OpenFleets repos
 on:
   push:
     paths:
-      - "settings.ini"
-      - "balena/*"
-      - "device-compose-files/*.yml"
+      - 'settings.ini'
+      - 'balena/**'
   workflow_dispatch:
 
 jobs:
@@ -14,39 +13,18 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        sbc: [rak, pisces, og, sensecap, finestra, controllino, cotx, pantherx1, linxdot, linxdot-rkcm3, pycom, syncrobit, syncrobit-rkcm3, risinghf, midas]
+        sbc: [hnt_openfleet_template, nebra-indoor1, nebra-outdoor1, nebra-indoor2, nebra-outdoor2, rak, pisces, og, sensecap, finestra, controllino, cotx, pantherx1, linxdot, linxdot-rkcm3, pycom, syncrobit, syncrobit-rkcm3, risinghf, midas]
     steps:
-      - name: Trigger PR action in helium-${{ matrix.sbc }} repo
-        uses: peter-evans/repository-dispatch@v2
-        with:
-          token: ${{ secrets.MR_BUMP }}
-          event-type: file-update
-          repository: NebraLtd/helium-${{ matrix.sbc }}
-
-  file-update-nebra:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        sbc: [raspi, rockpi]
-        variant: [indoor, outdoor]
-        freq: [470, 868, 915]
-        exclude:
-          - sbc: rockpi
-            freq: 470
-          - sbc: rockpi
-            freq: 868
-            variant: outdoor
-    steps:
-      - name: Generate fleet name
+      - name: Generate repo name
         run: |
-          if [ "${{ matrix.sbc }}" = "rockpi" ] ; then
-            FLEET="helium-${{ matrix.variant }}-${{ matrix.freq }}-${{ matrix.sbc }}"
+          if [ "${{ matrix.sbc }}" = "hnt_openfleet_template" ]; then
+            FLEET="${{ matrix.sbc }}"
           else
-            FLEET="helium-${{ matrix.variant }}-${{ matrix.freq }}"
+            FLEET="helium-${{ matrix.sbc }}"
           fi
-
+          
           echo "FLEET=$FLEET" >> $GITHUB_ENV
+         
       - name: Trigger PR action in ${{ env.FLEET }} repo
         uses: peter-evans/repository-dispatch@v2
         with:

@@ -1,16 +1,10 @@
-name: NebraOS Cloud Deploy (Production - old fleets)
+name: NebraOS Cloud Deploy (Production - old fleets - draft)
 
 on:
-  push:
-    # Only run workflow for pushes to specific files on production branch
-    paths:
-      - 'settings.ini'
-      - 'templates/**'
-    workflow_dispatch:
+  workflow_dispatch:
 
 jobs:
   build-prod:
-    if: github.ref_name == 'production' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -150,7 +144,7 @@ jobs:
         with:
           balena_api_token: ${{secrets.NEBRAOS_CLOUD_TOKEN}}
           nebraos_cloud: true
-          balena_command: "deploy nebraltd/${{ env.REPO }} --debug --nocache --build"
+          balena_command: "deploy nebraltd/${{ env.REPO }} --debug --nocache --build --draft"
 
       - name: Upload docker-compose.yml artifact
         uses: actions/upload-artifact@v3

@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 env:
-  balena-cli: v15.1.1
+  balena-cli: v15.2.0
   raspberrypi3-64: 2.113.18
   raspberrypi4-64: 2.113.18
   raspberrypicm4-ioboard: 2.112.12
@@ -18,32 +18,92 @@ jobs:
     runs-on: ubuntu-20.04
 
     steps:
+      - name: Export short SHA of commit from upstream trigger
+        run: |
+          if [ -z "${{ github.event.client_payload.firmware }}" ]; then
+            FIRMWARE_SHORT_HASH=$( echo ${GITHUB_SHA:0:7} )
+          else
+            FIRMWARE_SHORT_HASH=${{ github.event.client_payload.firmware }}
+          fi
+          
+          if [ "${{ github.event.client_payload.branch }}" = "production" ]; then
+            BRANCH="master"
+            UPSTREAM_BRANCH="production"
+          else
+            BRANCH="testnet"
+            UPSTREAM_BRANCH="master"
+          fi
+          
+          echo "BRANCH=$BRANCH" >> $GITHUB_ENV
+          echo "UPSTREAM_BRANCH=$UPSTREAM_BRANCH" >> $GITHUB_ENV
+          echo "FIRMWARE_SHORT_HASH=$FIRMWARE_SHORT_HASH" >> $GITHUB_ENV
+          echo "Firmware Version: $FIRMWARE_SHORT_HASH"
+          echo "Branch: $BRANCH"
+          echo "Upstream Branch: $UPSTREAM_BRANCH"
+
       - uses: actions/checkout@v3
         with: 
-          ref: master
+          ref: ${{ env.BRANCH }}
+          
+      - name: Generate Docker Compose
+        run: |
+          mkdir templates
+          wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/"${{ env.UPSTREAM_BRANCH }}"/settings.ini
+          wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/"${{ env.UPSTREAM_BRANCH }}"/requirements.txt
+          wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/"${{ env.UPSTREAM_BRANCH }}"/gen_docker_compose_by_variant.py
+          wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/"${{ env.UPSTREAM_BRANCH }}"/templates/docker-compose.template -O templates/docker-compose.template
+          
+          pip install -r requirements.txt
+          rm -f docker-compose.yml
 
+          miner="$(echo ${{ github.event.repository.name }} | cut -d '-' -f2-)"
+          echo "Repo: $miner"
+          if [[ "$miner" =~ "nebra" ]] ; then
+            variant="$miner"
+          elif [[ "$miner" == "og" ]] ; then
+            variant="helium-fl1"
+          else
+            variant="$miner-fl1"
+          fi
+          
+          echo "VARIANT=$variant" >> $GITHUB_ENV
+          echo "Variant: $variant"
+          
+          FIRMWARE_SHORT_HASH=${{ env.FIRMWARE_SHORT_HASH }}
+          
+          python gen_docker_compose_by_variant.py "$variant" -o docker-compose.yml
+          
       - name: Determine if Raspberry Pi 3
+        if: env.BRANCH == 'master'
         run: |
           repo="${{ github.event.repository.name }}"
 
-          if grep -q "-rockpi" <<<"$repo"; then
-            echo "Not RasPi 3"
+          if grep -q "outdoor2" <<<"$repo"; then
+            echo "Not RasPi 3 (ROCK Pi 4B)"
             RASPI3="NO"
             ROCKPI="YES"
-          elif grep -q "outdoor" <<<"$repo"; then
-            echo "RasPi Outdoor"
+          elif grep -q "indoor2" <<<"$repo"; then
+            echo "Not RasPi 3 (ROCK Pi 4B)"
+            RASPI3="NO"
+            ROCKPI="YES"
+          elif grep -q "outdoor1" <<<"$repo"; then
+            echo "RasPi 3 Outdoor"
             RASPI3="YES"
             ROCKPI="NO"
-          elif grep -q "indoor" <<<"$repo"; then
-            echo "RasPi Indoor"
+          elif grep -q "indoor1" <<<"$repo"; then
+            echo "RasPi 3 Indoor"
             RASPI3="YES"
             ROCKPI="NO"
           elif grep -q "risinghf" <<<"$repo"; then
             echo "RisingHF"
             RASPI3="YES"
             ROCKPI="NO"
+          elif grep -q "rkcm3" <<<"$repo"; then
+            echo "Not RasPi 3 (ROCK CM3)"
+            RASPI3="NO"
+            ROCKPI="YES"
           else
-            echo "Not RasPi 3"
+            echo "Not RasPi 3 (Other)"
             RASPI3="NO"
             ROCKPI="NO"
           fi
@@ -52,9 +112,11 @@ jobs:
           echo "ROCKPI=$ROCKPI" >> $GITHUB_ENV
 
       - name: Random sleep (balena API workaround)
+        if: env.BRANCH == 'master'
         run:  sleep $[ ( $RANDOM % 540 ) + 1 ]s
 
       - name: Install latest balena-cli
+        if: env.BRANCH == 'master'
         run: |
           sudo apt-get update
           sudo apt-get install -y curl unzip zip
@@ -66,6 +128,7 @@ jobs:
           cd ~
 
       - name: Generate a Balena OS image for the given board, variant, frequency
+        if: env.BRANCH == 'master'
         run: |
           LATEST_GA=${{ github.event.client_payload.tag }}
           if [ $LATEST_GA != "" ] ; then
@@ -134,6 +197,7 @@ jobs:
           echo "balena_os_version=$balena_os_version" >> $GITHUB_ENV
     
       - name: Balena login
+        if: env.BRANCH == 'master'
         run: |
           if [ "${{ env.cloud }}" == "nebra-cloud" ]; then
             echo "balenaUrl: cloud.nebra.com" > ~/.balenarc.yml
@@ -151,6 +215,7 @@ jobs:
           fi
 
       - name: Configure Balena OS image for the given board, variant, frequency
+        if: env.BRANCH == 'master'
         run: |
           # Generate image path for the given board, variant, frequency and user
 
@@ -269,16 +334,19 @@ jobs:
           echo "COMPRESSED_IMAGE_PATH=${COMPRESSED_IMAGE_PATH}" >> $GITHUB_ENV
 
       - name: Set date
+        if: env.BRANCH == 'master'
         run: |
           echo "timestamp=$(date +'%s')" >> $GITHUB_ENV
           echo "day=$(date +'%F')" >> $GITHUB_ENV
 
       - name: Copy OS image file and checksum to final location
+        if: env.BRANCH == 'master'
         run: |
           cp "${{ env.COMPRESSED_IMAGE_PATH }}" "${{ env.IMAGE_NAME }}.zip"
           cp "${{ env.COMPRESSED_IMAGE_PATH }}.sha512" "${{ env.IMAGE_NAME }}.zip.sha512"          
 
       - name: Upload image file and checksum to release
+        if: env.BRANCH == 'master'
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
@@ -286,3 +354,18 @@ jobs:
           tag: ${{ env.LATEST_GA }}-${{ env.IMAGE_NAME }}-OpenFleet
           overwrite: true
           file_glob: true
+
+      - name: Push updated docker compose file
+        uses: test-room-7/action-update-file@v1
+        with:
+          branch: ${{ env.BRANCH }}
+          file-path: docker-compose.yml
+          commit-msg: Update ${{ env.VARIANT }} variant docker compose output (${{ env.BRANCH }})
+          github-token: ${{ secrets.MR_BUMP }}
+
+      - name: Trigger Balena App build action in ${{ github.event.repository.name }} repo
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.MR_BUMP }}
+          event-type: build-balena-app
+          repository: ${{ github.repository }}

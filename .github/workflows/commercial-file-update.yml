@@ -3,9 +3,8 @@ name: Update files in Commercial Fleets repo
 on:
   push:
     paths:
-      - "settings.ini"
-      - "balena/*"
-      - "device-compose-files/*.yml"
+      - 'settings.ini'
+      - 'balena/**'
   workflow_dispatch:
 
 jobs:

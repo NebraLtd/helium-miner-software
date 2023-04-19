@@ -1,4 +1,4 @@
-name: Code Security Audit 
+name: Code Security Audit
 
 on: [push, pull_request]
 
@@ -13,7 +13,7 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: 3.8
-    - name: Run bandit against code base 
+    - name: Run bandit against code base
       run: |
         pip install bandit
         bandit -r . -x "./tests/*"

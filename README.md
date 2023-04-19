@@ -38,17 +38,17 @@ Removing the UPnP container reduces CPU overhead and redundant code.
 
 As of the 2022.12.13.0-4 firmware version, UPnP has been removed from the miners entirely as it is no longer necessary to open ports on the miner after the move to gateway-rs upstream.
 
-## Helium Miner
+## Helium Gateway-rs
 
-Repo: [github.com/NebraLtd/hm-miner](https://github.com/NebraLtd/hm-miner)
+Repo: [github.com/NebraLtd/hm-gatewayrs](https://github.com/NebraLtd/hm-gatewayrs)
 
-This container is the actual Helium Miner software (from upstream), with the required configuration files added.
+This container is the actual Helium Gateway-rs software (from upstream), with the required configuration files added.
 
-## DBus Session
+Gatewayrs container requires two IP ports exposed as default.
+- [1680](https://github.com/helium/gateway-rs/blob/d6e140fc8f102d2e1008ddf6d58cef32c4f60392/src/settings.rs#L18): For connecting to packet-forwarder.
+- [4467](https://github.com/helium/gateway-rs/blob/d6e140fc8f102d2e1008ddf6d58cef32c4f60392/src/settings.rs#L22): For connecting to gRPC API over WAN.
 
-Repo: [github.com/balenablocks/dbus](https://github.com/balenablocks/dbus)
-
-This container configures a DBus session bus instance that is used by the gateway config container to communicate with the miner code (note that there is also a separate system bus running on the host OS which is used by gateway config to communicate with bluez for configuring Bluetooth services). This removes the need to have a custom `com.helium.Miner.conf` dbus config file on the host OS as was done previously (and meant we had to run a custom balena device type).
+Both of these ports can be changed via settings (toml) file.
 
 #  Quick Start
 
@@ -68,7 +68,7 @@ You may notice that after cloning the repo that you are missing a docker-compose
 
 *Note for generating the file for local tests: The repo's short Git SHA is fetched from GitHub pipeline automatically while working with standard procedure. But if you need to test your working copy locally, you need to create an environment variable first via running following command on Linux:*
 
-```sh  
+```sh
 $ export FIRMWARE_SHORT_HASH=$(git rev-parse --short HEAD)
 ```
 
