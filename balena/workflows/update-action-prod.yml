@@ -12,7 +12,7 @@ env:
   fleet: replace/with-your-fleet-slug
   
 jobs:
-  build-testnet:
+  build-prod:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
