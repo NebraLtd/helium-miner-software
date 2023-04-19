@@ -1,4 +1,4 @@
-name: BalenaCloud Fleet Deploy (Production)
+name: BalenaCloud Fleet Deploy (Testnet)
 
 on:
   schedule:
@@ -12,7 +12,7 @@ env:
   fleet: replace/with-your-fleet-slug
   
 jobs:
-  build-prod:
+  build-testnet:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -26,7 +26,7 @@ jobs:
           echo "Repo: $miner"
           echo "miner=$miner" >> $GITHUB_ENV
 
-          wget https://raw.githubusercontent.com/NebraLtd/"$miner"/master/docker-compose.yml -O docker-compose.yml.new
+          wget https://raw.githubusercontent.com/NebraLtd/"$miner"/testnet/docker-compose.yml -O docker-compose.yml.new
 
           if cmp docker-compose.yml docker-compose.yml.new; then
             echo "We're already using the latest docker-compose.yml"
@@ -51,11 +51,11 @@ jobs:
           rm -f ssh_public_keys.json
           rm -f .github/workflows/update-action-test.yml
 
-          wget https://raw.githubusercontent.com/NebraLtd/"${{ env.miner }}"/master/balena.yml -O balena.yml
-          wget https://raw.githubusercontent.com/NebraLtd/"${{ env.miner }}"/master/docker-compose.yml -O docker-compose.yml
-          wget https://raw.githubusercontent.com/NebraLtd/"${{ env.miner }}"/master/config.txt -O config.txt
-          wget https://raw.githubusercontent.com/NebraLtd/"${{ env.miner }}"/master/ssh_public_keys.json -O ssh_public_keys.json
-          wget https://raw.githubusercontent.com/NebraLtd/"${{ env.miner }}"/master/workflows/update-action-prod.yml -O .github/workflows/update-action-prod.yml
+          wget https://raw.githubusercontent.com/NebraLtd/"${{ env.miner }}"/testnet/balena.yml -O balena.yml
+          wget https://raw.githubusercontent.com/NebraLtd/"${{ env.miner }}"/testnet/docker-compose.yml -O docker-compose.yml
+          wget https://raw.githubusercontent.com/NebraLtd/"${{ env.miner }}"/testnet/config.txt -O config.txt
+          wget https://raw.githubusercontent.com/NebraLtd/"${{ env.miner }}"/testnet/ssh_public_keys.json -O ssh_public_keys.json
+          wget https://raw.githubusercontent.com/NebraLtd/"${{ env.miner }}"/testnet/workflows/update-action-test.yml -O .github/workflows/update-action-test.yml
 
       - name: Balena Deploy
         if: env.LATEST == 'FALSE'
@@ -74,5 +74,5 @@ jobs:
             config.*
             .github/workflows/*.yml
             ssh_public_keys.json
-          commit-msg: Update docker-compose and other core files (production)
+          commit-msg: Update docker-compose and other core files (testnet)
           github-token: ${{ secrets.GITHUB_TOKEN }}
