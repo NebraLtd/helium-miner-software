@@ -18,6 +18,8 @@ jobs:
           rm -f .github/workflows/*.yml
           rm -f config.txt
           rm -f ssh_public_keys.json
+          mkdir -p .github/workflows
+          mkdir -p workflows
 
           miner="$(echo ${{ github.event.repository.name }} | cut -d '-' -f2-)"
           echo "Repo: $miner"
@@ -73,6 +75,8 @@ jobs:
           rm -f .github/workflows/*.yml
           rm -f config.txt
           rm -f ssh_public_keys.json
+          mkdir -p .github/workflows
+          mkdir -p workflows
 
           miner="$(echo ${{ github.event.repository.name }} | cut -d '-' -f2-)"
           echo "Repo: $miner"
