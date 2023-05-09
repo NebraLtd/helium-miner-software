@@ -86,7 +86,7 @@ jobs:
           fi
 
       - name: Balena Deploy
-        uses: nebraltd/balena-cli-action@v15.2.0
+        uses: nebraltd/balena-cli-action@v15.2.3
         with:
           balena_api_token: ${{secrets.NEBRAOS_CLOUD_TOKEN}}
           nebraos_cloud: true
