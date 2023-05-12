@@ -27,7 +27,6 @@ data:
   applicationEnvironmentVariables:
     - FREQ: "N/A (Non Nebra Miner)"
     - VARIANT: COMP-RISINGHF
-    - HELIUM_MINER_HEIGHT_URL: "https://api.helium.io/v1/blocks/height"
   applicationConfigVariables:
     - RESIN_HOST_CONFIG_dtparam: '"i2c_arm=on","spi=on","audio=on","watchdog=on"'
     - RESIN_HOST_CONFIG_dtoverlay: '"spi1-1cs","vc4-kms-v3d","uart1,txd1_pin=32,rxd1_pin=33","sdio,poll_once=off"'

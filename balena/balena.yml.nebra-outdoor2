@@ -27,7 +27,6 @@ data:
   applicationEnvironmentVariables:
     - FREQ: "N/A (Not Required)"
     - VARIANT: NEBHNT-OUT1
-    - HELIUM_MINER_HEIGHT_URL: "https://api.helium.io/v1/blocks/height"
   applicationConfigVariables:
     - RESIN_OVERRIDE_LOCK: 1
   defaultDeviceType: rockpi-4b-rk3399
