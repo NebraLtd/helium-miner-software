@@ -1,4 +1,4 @@
-name: Code Security Audit
+name: Python Linting
 
 on: [push, pull_request]
 
@@ -9,21 +9,17 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-
-    - name: Set up Python 3.11
+    - name: Set up Python 3.9
       uses: actions/setup-python@v4
       with:
-        python-version: 3.11
-
+        python-version: 3.9
     - name: Install poetry
       uses: abatilo/actions-poetry@v2
       with:
         poetry-version: 1.4.2
-
     - name: Install dependencies
       run: |
         poetry install --with dev
-
-    - name: Run bandit against code base
+    - name: Lint with ruff
       run: |
-        poetry run bandit -r . -c pyproject.toml
+        poetry run ruff check .

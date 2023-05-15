@@ -8,13 +8,21 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Set up Python 3.8
+
+    - name: Set up Python 3.11
       uses: actions/setup-python@v4
       with:
-        python-version: 3.8
-    - name: Run PyTest
+        python-version: 3.11
+
+    - name: Install poetry
+      uses: abatilo/actions-poetry@v2
+      with:
+        poetry-version: 1.4.2
+
+    - name: Install dependencies
       run: |
-        pip install -r test-requirements.txt
-        pip install -r requirements.txt
-        export PYTHONPATH=`pwd`
-        pytest . --cov=. --cov-fail-under=90
+        poetry install --with dev
+
+    - name: Unit tests
+      run: |
+        poetry run pytest . --cov=. --cov-fail-under=90

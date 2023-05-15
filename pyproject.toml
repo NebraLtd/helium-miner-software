@@ -1,0 +1,33 @@
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "helium-miner-software"
+version = "0.14.10"
+description = "Helium Miner Software"
+authors = ["Nebra Ltd <support@nebra.com>"]
+readme = "README.md"
+packages = []
+
+[tool.poetry.dependencies]
+python = "^3.11"
+jinja2 = "^3.1.2"
+hm-pyhelper = "^0.14"
+grpcio = "^1.53.0"
+
+[tool.poetry.group.dev.dependencies]
+bandit = { version = "~1.7.4", extras = ["toml"] }
+mock = "^5.0.0"
+pytest = "^7.2.0"
+pytest-cov = "^4.0.0"
+ruff = "~0.0.265"
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.mccabe]
+max-complexity = 10
+
+[tool.bandit]
+exclude_dirs = ["tests"]
