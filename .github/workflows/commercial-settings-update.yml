@@ -8,6 +8,7 @@ on:
 
 jobs:
   file-update:
+    if: github.ref_name == 'master' || github.ref_name == 'production' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - name: Trigger PR action in commercial-hotspot-software repo
