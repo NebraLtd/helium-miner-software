@@ -19,7 +19,7 @@ jobs:
       - name: Random sleep (balena API workaround)
         run:  sleep $[ ( $RANDOM % 600 ) + 1 ]s
       - name: Balena Deploy
-        uses: nebraltd/balena-cli-action@v15.2.3
+        uses: nebraltd/balena-cli-action@v16.1.0
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
           balena_command: "deploy nebraltd/helium-${{ env.miner }}-app --debug --nocache --build"
