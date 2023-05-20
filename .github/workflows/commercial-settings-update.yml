@@ -1,9 +1,9 @@
-name: Update files in Commercial Fleets repo
+name: Update settings file in Commercial Fleets repo
 
 on:
   push:
     paths:
-      - 'gen_docker_compose_by_variant.py'
+      - 'settings.ini'
   workflow_dispatch:
 
 jobs:
@@ -15,5 +15,5 @@ jobs:
         uses: peter-evans/repository-dispatch@v2
         with:
           token: ${{ secrets.MR_BUMP }}
-          event-type: file-update
+          event-type: settings-update
           repository: NebraLtd/commercial-hotspot-software

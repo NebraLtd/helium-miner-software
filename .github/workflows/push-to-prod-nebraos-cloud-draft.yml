@@ -61,10 +61,10 @@ jobs:
           python gen_docker_compose_by_variant.py "$variant" -o docker-compose.yml
 
       - name: Balena Deploy
-        uses: nebraltd/balena-cli-action@v15.2.3
+        uses: nebraltd/balena-cli-action@v16.1.0a
         with:
           balena_api_token: ${{secrets.NEBRAOS_CLOUD_TOKEN}}
-          nebraos_cloud: true
+          balena_url: cloud.nebra.com
           balena_command: "deploy nebraltd/${{ env.REPO }} --debug --nocache --build --draft"
 
       - name: Upload docker-compose.yml artifact
