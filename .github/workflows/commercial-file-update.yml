@@ -3,8 +3,7 @@ name: Update files in Commercial Fleets repo
 on:
   push:
     paths:
-      - 'settings.ini'
-      - 'balena/**'
+      - 'gen_docker_compose_by_variant.py'
   workflow_dispatch:
 
 jobs:
