@@ -6,9 +6,9 @@ on:
   workflow_dispatch:
 
 env:
-  balena-cli: v15.2.3
+  balena-cli: v16.1.0
   raspberrypi3-64: 2.114.18
-  raspberrypi4-64: 2.113.18
+  raspberrypi4-64: 2.115.1
   raspberrypicm4-ioboard: 2.112.12
   rockpi-4b-rk3399: 2.108.25+rev1
   cloud: nebra-cloud

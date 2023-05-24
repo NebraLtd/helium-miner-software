@@ -80,10 +80,10 @@ jobs:
           fi
 
       - name: Balena Deploy
-        uses: nebraltd/balena-cli-action@v15.2.3
+        uses: nebraltd/balena-cli-action@v16.1.0a
         with:
           balena_api_token: ${{secrets.NEBRAOS_CLOUD_TOKEN}}
-          nebraos_cloud: true
+          balena_url: cloud.nebra.com
           balena_command: "deploy nebraltd/${{ env.FLEET }} --debug --nocache --build --draft"
 
       - name: Upload docker-compose.yml artifact
