@@ -17,3 +17,4 @@ jobs:
           token: ${{ secrets.MR_BUMP }}
           event-type: settings-update
           repository: NebraLtd/commercial-hotspot-software
+          client-payload: '{"branch": "${{ github.ref_name }}"}'
