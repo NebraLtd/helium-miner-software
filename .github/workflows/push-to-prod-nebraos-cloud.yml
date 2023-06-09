@@ -13,6 +13,7 @@ jobs:
     if: github.ref_name == 'production' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     strategy:
+      max-parallel: 1
       fail-fast: false
       matrix:
         sbc: [nebra-indoor1, nebra-outdoor1, nebra-indoor2, nebra-outdoor2, rak, pisces, og, sensecap, finestra, controllino, cotx, pantherx1, linxdot, linxdot-rkcm3, pycom, syncrobit, syncrobit-rkcm3, risinghf, midas]
@@ -41,9 +42,6 @@ jobs:
           echo "day=$(date +'%F')" >> $GITHUB_ENV
           echo "LATEST_GA=$LATEST_GA" >> $GITHUB_ENV
           echo "GITHUB_BRANCH=$GITHUB_BRANCH" >> $GITHUB_ENV
-
-      - name: Random sleep (balena API workaround)
-        run:  sleep $[ ( $RANDOM % 540 ) + 1 ]s
 
       - name: Generate Docker Compose
         run: |
