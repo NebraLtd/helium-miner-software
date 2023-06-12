@@ -5,6 +5,7 @@ on:
     paths:
       - 'settings.ini'
       - 'balena/**'
+      - 'nebra/**'
   workflow_dispatch:
 
 jobs:
