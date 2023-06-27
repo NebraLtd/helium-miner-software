@@ -57,7 +57,7 @@ jobs:
         with:
           branch: master
           file-path: |
-            balena.yml
+            balena.ym*
             config.*
             .github/workflows/*.yml
             ssh_public_keys.json
@@ -116,7 +116,7 @@ jobs:
         with:
           branch: testnet
           file-path: |
-            balena.yml
+            balena.ym*
             config.*
             .github/workflows/*.yml
             ssh_public_keys.json
