@@ -147,7 +147,7 @@ jobs:
         if: env.BRANCH == 'master'
         run: |
           LATEST_GA=${{ github.event.client_payload.tag }}
-          if [ $LATEST_GA != "" ] ; then
+          if [ "${LATEST_GA}" != "" ] ; then
             echo "New release pushed to main repo: $LATEST_GA"
             echo "LATEST_GA=$LATEST_GA" >> $GITHUB_ENV
           else
@@ -155,11 +155,11 @@ jobs:
             echo "LATEST_GA=TEST" >> $GITHUB_ENV
           fi
 
-          IMAGE_BASE_PATH="$HOME/images"
+          IMAGE_BASE_PATH="$(pwd)/images"
           DATE=$(date +%F)
           USER=""
           NODRYRUN=true
-          VERBOSE=true     
+          VERBOSE=true
 
           # Make the base path for the generated images.
           mkdir -p "$IMAGE_BASE_PATH"
@@ -219,7 +219,7 @@ jobs:
           echo "DATE=$DATE" >> $GITHUB_ENV
           echo "base_image_path=$base_image_path" >> $GITHUB_ENV
           echo "balena_os_version=$balena_os_version" >> $GITHUB_ENV
-    
+
       - name: Balena login
         if: env.BRANCH == 'master'
         run: |
