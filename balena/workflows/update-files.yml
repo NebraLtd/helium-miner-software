@@ -24,12 +24,14 @@ jobs:
           miner="$(echo ${{ github.event.repository.name }} | cut -d '-' -f2-)"
           echo "Repo: $miner"
 
-          wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/balena.yml."$miner" -O balena.yml
-          wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/workflows/balena-app.yml -O .github/workflows/balena-app.yml
+          if [ $miner != 'bobcat-px30' ] ; then
+            wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/balena.yml."$miner" -O balena.yml
+            wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/workflows/balena-app.yml -O .github/workflows/balena-app.yml
+            wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/workflows/update-action-prod.yml -O workflows/update-action-prod.yml
+            wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/workflows/update-action-test.yml -O workflows/update-action-test.yml
+          fi
           wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/workflows/update-files.yml -O .github/workflows/update-files.yml
           wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/workflows/build-open-fleet.yml -O .github/workflows/build-open-fleet.yml
-          wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/workflows/update-action-prod.yml -O workflows/update-action-prod.yml
-          wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/workflows/update-action-test.yml -O workflows/update-action-test.yml
           wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/ssh/ssh_public_keys.json -O ssh_public_keys.json
 
           if [ $miner == 'pisces' ] ; then
@@ -44,7 +46,7 @@ jobs:
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/config/config.txt.sensecap -O config.txt
           elif [ $miner == 'risinghf' ] ; then
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/config/config.txt.risinghf -O config.txt
-          elif [ $miner == 'nebra-indoor2' ] || [ $miner == 'nebra-outdoor2' ] || [ $miner == 'linxdot-rkcm3' ] || [ $miner == 'syncrobit-rkcm3' ] ; then
+          elif [ $miner == 'nebra-indoor2' ] || [ $miner == 'nebra-outdoor2' ] || [ $miner == 'linxdot-rkcm3' ] || [ $miner == 'syncrobit-rkcm3' ] || [ $miner == 'bobcat-px30' ] ; then
             echo "No config.txt file needed - not RasPi based."
           else
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/config/config.txt.rak -O config.txt
@@ -81,12 +83,14 @@ jobs:
           miner="$(echo ${{ github.event.repository.name }} | cut -d '-' -f2-)"
           echo "Repo: $miner"
 
-          wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/balena.yml."$miner" -O balena.yml
-          wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/workflows/balena-app.yml -O .github/workflows/balena-app.yml
+          if [ $miner != 'bobcat-px30' ] ; then
+            wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/balena.yml."$miner" -O balena.yml
+            wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/workflows/balena-app.yml -O .github/workflows/balena-app.yml
+            wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/workflows/update-action-prod.yml -O workflows/update-action-prod.yml
+            wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/workflows/update-action-test.yml -O workflows/update-action-test.yml
+          fi
           wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/workflows/update-files.yml -O .github/workflows/update-files.yml
           wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/workflows/build-open-fleet.yml -O .github/workflows/build-open-fleet.yml
-          wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/workflows/update-action-prod.yml -O workflows/update-action-prod.yml
-          wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/workflows/update-action-test.yml -O workflows/update-action-test.yml
           wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/ssh/ssh_public_keys.json -O ssh_public_keys.json
 
           if [ $miner == 'pisces' ] ; then
@@ -101,7 +105,7 @@ jobs:
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/config/config.txt.sensecap -O config.txt
           elif [ $miner == 'risinghf' ] ; then
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/config/config.txt.risinghf -O config.txt
-          elif [ $miner == 'nebra-indoor2' ] || [ $miner == 'nebra-outdoor2' ] || [ $miner == 'linxdot-rkcm3' ] || [ $miner == 'syncrobit-rkcm3' ] ; then
+          elif [ $miner == 'nebra-indoor2' ] || [ $miner == 'nebra-outdoor2' ] || [ $miner == 'linxdot-rkcm3' ] || [ $miner == 'syncrobit-rkcm3' ] || [ $miner == 'bobcat-px30' ] ; then
             echo "No config.txt file needed - not RasPi based."
           else
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/config/config.txt.rak -O config.txt

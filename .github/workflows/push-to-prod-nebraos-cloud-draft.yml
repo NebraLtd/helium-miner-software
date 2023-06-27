@@ -10,7 +10,7 @@ jobs:
       max-parallel: 1
       fail-fast: false
       matrix:
-        sbc: [nebra-indoor1, nebra-outdoor1, nebra-indoor2, nebra-outdoor2, rak, pisces, og, sensecap, finestra, controllino, cotx, pantherx1, linxdot, linxdot-rkcm3, pycom, syncrobit, syncrobit-rkcm3, risinghf, midas]
+        sbc: [nebra-indoor1, nebra-outdoor1, nebra-indoor2, nebra-outdoor2, rak, pisces, og, sensecap, finestra, controllino, cotx, pantherx1, linxdot, linxdot-rkcm3, pycom, syncrobit, syncrobit-rkcm3, risinghf, midas, bobcat-px30]
 
     steps:
       - name: Checkout
@@ -42,7 +42,7 @@ jobs:
           miner="${{ matrix.sbc }}"
           repo="helium-$miner"
 
-          if [[ "$miner" == "nebra-indoor1" ]] || [[ "$miner" == "nebra-indoor2" ]] || [[ "$miner" == "nebra-outdoor1" ]] || [[ "$miner" == "nebra-outdoor2" ]] ; then
+          if [[ "$miner" == "nebra-indoor1" ]] || [[ "$miner" == "nebra-indoor2" ]] || [[ "$miner" == "nebra-outdoor1" ]] || [[ "$miner" == "nebra-outdoor2" ]] || [[ "$miner" == "bobcat-px30" ]] ; then
             variant="$miner"
           elif [[ "$miner" == "og" ]] ; then
             variant="helium-fl1"
@@ -59,7 +59,7 @@ jobs:
           python gen_docker_compose_by_variant.py "$variant" -o docker-compose.yml
 
       - name: Balena Deploy
-        uses: nebraltd/balena-cli-action@v16.1.0a
+        uses: nebraltd/balena-cli-action@v16.6.0
         with:
           balena_api_token: ${{secrets.NEBRAOS_CLOUD_TOKEN}}
           balena_url: cloud.nebra.com
