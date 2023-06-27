@@ -18,6 +18,7 @@ syncrobit_output_file = join(here, 'syncrobit.yml')
 pycom_output_file = join(here, 'pycom.yml')
 controllino_output_file = join(here, 'controllino.yml')
 rak_output_file = join(here, 'rak.yml')
+bobcat_px30_output_file = join(here, 'bobcat-px30.yml')
 
 sys.path.insert(1, parent)
 
@@ -40,7 +41,8 @@ class TestValidComposeFileOutput(unittest.TestCase):
                          syncrobit_output_file,
                          pycom_output_file,
                          controllino_output_file,
-                         rak_output_file):
+                         rak_output_file,
+                         bobcat_px30_output_file):
             if exists(filename):
                 unlink(filename)
 
@@ -125,6 +127,16 @@ class TestValidComposeFileOutput(unittest.TestCase):
         # `docker-compose config -q` returns 1 on invalid config
         check_call(
             f'docker-compose -f {rak_output_file} config -q', shell=True)
+
+    def test_bobcat_px30_compose_output_is_valid(self):
+        dc = DockerComposer()
+        dc.generate_compose_file('bobcat-px30', template_file, bobcat_px30_output_file)
+
+        # On failure or non-zero return code this returns CalledProcessError
+        # so if this runs without that, it's considered successful as
+        # `docker-compose config -q` returns 1 on invalid config
+        check_call(
+            f'docker-compose -f {bobcat_px30_output_file} config -q', shell=True)
 
     def test_variant_is_invalid(self):
         dc = DockerComposer()
