@@ -133,7 +133,7 @@ jobs:
           sudo ln -s /opt/balena-cli/balena /usr/bin/
           cd ~
 
-      - name: Download base Balena OS image
+      - name: Download Bobcat PX30 base Balena OS image
         uses: dsaltares/fetch-gh-release-asset@master
         if: github.event.repository.name == 'helium-bobcat-px30' && env.BRANCH == 'master'
         with:

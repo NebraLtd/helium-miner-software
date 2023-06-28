@@ -22,4 +22,4 @@ jobs:
           token: ${{ secrets.MR_BUMP }}
           event-type: build-open-fleet
           repository: NebraLtd/${{ env.FLEET }}
-          client-payload: '{"release": "v1.0.2-30_GA", "tag": "v1.0.2-30", "firmware": "7fe76b2", "branch": "production"}'
+          client-payload: '{"release": "v1.0.2-40_GA", "tag": "v1.0.2-40", "firmware": "4bec138", "branch": "production"}'
