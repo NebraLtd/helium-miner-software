@@ -190,6 +190,7 @@ In the future, we also plan to add [Nebra dashboard](https://dashboard.nebra.com
 - [Finestra / Mimiq](https://github.com/NebraLtd/helium-finestra)
 - [Rising HF](https://github.com/NebraLtd/helium-risinghf)
 - [Midas](https://github.com/NebraLtd/helium-midas)
+- [Bobcat](https://github.com/NebraLtd/helium-bobcat-px30)
 
 Are you a hotspot manufacturer that wants to add support for your existing or upcoming hotspots? A hotspot owner wanting to help add support for aditional hardware variants? We are always looking to add additional devices here and would be more than happy to discuss integration and collaboration. We also accept contributions and you can read more about how to contribute [below](#how-to-add-new-type-of-hotspots). If you have any questions or want to discuss this in more detail then please reach out to us via [GitHub Issues](https://github.com/NebraLtd/helium-miner-software/issues) or by creating a ticket on [our support site](https://support.nebra.com).
 
