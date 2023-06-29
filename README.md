@@ -1,3 +1,5 @@
+![Helium Miner_Software Repo Header](https://cdn.shopify.com/s/files/1/0071/2281/3001/files/Nebra-Github-Repo-Header-helium-miner-software.png?v=1687962010)
+
 # Helium Miner Software
 
 This repository generates the main docker-compose.yml (follow the steps to generate this [here](#generating-docker-compose-file)) file that powers the Nebra miners.
