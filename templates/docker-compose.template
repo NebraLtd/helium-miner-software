@@ -89,6 +89,10 @@ services:
       - FIRMWARE_SHORT_HASH={{ENV.FIRMWARE_SHORT_HASH}}
       - DIAGNOSTICS_VERSION={{DIAGNOSTICS_VERSION}}
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
+      - GATEWAYRS_VERSION={{GATEWAYRS_VERSION}}
+      - CONFIG_VERSION={{CONFIG_VERSION}}
+      - PKTFWD_VERSION={{PKTFWD_VERSION}}
+      - MULTIPLEXER_VERSION={{MULTIPLEXER_VERSION}}
     volumes:
       - pktfwdr:/var/pktfwd
       - miner-storage:/var/data
