@@ -6,9 +6,9 @@ on:
   workflow_dispatch:
 
 env:
-  balena-cli: v16.6.3
-  raspberrypi3-64: 2.115.18+rev2
-  raspberrypi4-64: 2.115.18+rev2
+  balena-cli: v16.6.4
+  raspberrypi3-64: 3.0.6
+  raspberrypi4-64: 3.0.6
   raspberrypicm4-ioboard: 2.112.12
   rockpi-4b-rk3399: 2.108.25+rev1
   balena-bobcat-image: 2023.06.25
