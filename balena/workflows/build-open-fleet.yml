@@ -11,7 +11,7 @@ env:
   raspberrypi4-64: 3.0.6
   raspberrypicm4-ioboard: 2.112.12
   rockpi-4b-rk3399: 2.108.25+rev1
-  balena-bobcat-image: 2023.06.25
+  balena-bobcat-image: 2023.07.17
   bobcat-px30: 2.115.3
   cloud: nebra-cloud
 
