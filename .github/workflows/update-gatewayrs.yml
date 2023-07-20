@@ -1,0 +1,34 @@
+name: Update Gatewayrs GA (Testnet)
+on:
+  repository_dispatch:
+    types: [gatewayrs-update]
+jobs:
+  gatewayrs-update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref }}
+      - run: |
+          LATEST_GA=${{ github.event.client_payload.tag }}
+          LONG_SHA=${{ github.event.client_payload.sha }}
+          SHORT_SHA=$( echo ${LONG_SHA:0:7} )
+          echo "LATEST_GA=$LATEST_GA" >> $GITHUB_ENV
+          echo "LONG_SHA=$LONG_SHA" >> $GITHUB_ENV
+
+          echo "We're not on the latest Helium gateway-rs release. Updating to $LATEST_GA with SHA $SHORT_SHA."
+          sed -i -E "s/FIRMWARE_VERSION=.*/FIRMWARE_VERSION=$LATEST_GA/g" settings.ini
+          sed -i -E "s/GATEWAYRS_VERSION=.*/GATEWAYRS_VERSION=$SHORT_SHA/g" settings.ini
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          commit-message: Update gateway-rs to latest GA ${{ env.LATEST_GA }}
+          branch: gatewayrs-bump/${{ env.LATEST_GA }}
+          delete-branch: true
+          base: master
+          title: "release(testnet): update gateway-rs to latest GA ${{ env.LATEST_GA }}"
+          body: |
+            Update gateway-rs to latest GA ${{ env.LATEST_GA }}
+
+            Ref NebraLtd/hm-gatewayrs@${{ env.LONG_SHA }}
+          draft: false

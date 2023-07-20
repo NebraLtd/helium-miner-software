@@ -1,0 +1,20 @@
+name: Update files in Commercial Fleets repo
+
+on:
+  push:
+    paths:
+      - 'gen_docker_compose_by_variant.py'
+  workflow_dispatch:
+
+jobs:
+  file-update:
+    if: github.ref_name == 'master' || github.ref_name == 'production' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger PR action in commercial-hotspot-software repo
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.MR_BUMP }}
+          event-type: file-update
+          repository: NebraLtd/commercial-hotspot-software
+          client-payload: '{"branch": "${{ github.ref_name }}"}'

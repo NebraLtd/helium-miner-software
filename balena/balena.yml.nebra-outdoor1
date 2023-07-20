@@ -1,0 +1,42 @@
+name: nebra-helium-raspi-outdoor
+type: sw.application
+description: >-
+  Manage your Nebra Outdoor RasPi Helium Miner remotely using Nebra and balenaCloud.
+post-provisioning: >-
+  ## Usage instructions
+  
+  
+  Once your device joins the fleet you'll need to allow some time for it to download the application and start forwarding packets to the Helium Network.
+  
+  
+  For detailed instructions on how to use Nebra Helium RasPi Outdoor check out [our GitHub repo](https://github.com/NebraLtd/helium-nebra-outdoor1).
+  
+  
+  For support you can [open an issue](https://github.com/NebraLtd/helium-nebra-outdoor1/issues) on the repo or reach out to us via one of the methods listed [on our support page](https://helium.nebra.com).
+assets:
+  repository:
+    type: blob.asset
+    data:
+      url: "https://github.com/NebraLtd/helium-nebra-outdoor1"
+  logo:
+    type: blob.asset
+    data:
+      url: >-
+        https://cdn.shopify.com/s/files/1/0071/2281/3001/files/Nebra-Icon-Blue_bb758eaa-b10d-4ea6-a55e-babd69135b69.png?v=1620938774
+data:
+  applicationEnvironmentVariables:
+    - FREQ: "N/A (Not Required)"
+    - VARIANT: NEBHNT-OUT1
+  applicationConfigVariables:
+    - RESIN_HOST_CONFIG_dtparam: '"i2c_arm=on","spi=on","audio=on"'
+    - RESIN_HOST_CONFIG_dtoverlay: '"spi1-3cs","uart0,txd0_pin=32,rxd0_pin=33,pin_func=7"'
+    - RESIN_HOST_CONFIG_gpu_mem: 16
+    - RESIN_HOST_CONFIG_avoid_warnings: 1
+    - RESIN_HOST_CONFIG_disable_overscan: 1
+    - RESIN_HOST_CONFIG_disable_splash: "1"
+    - RESIN_HOST_CONFIG_core_freq: 250
+    - RESIN_OVERRIDE_LOCK: 1
+  defaultDeviceType: raspberrypi3-64
+  supportedDeviceTypes:
+    - raspberrypi3-64
+version: 0.0.1

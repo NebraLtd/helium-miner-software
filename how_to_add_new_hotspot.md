@@ -65,6 +65,14 @@ The LoRa concentrator hardware is designed to work on a SPI (Serial Peripheral I
 #### KEY_STORAGE_BUS
 All hotspots has to have a valid cryptography integrated circuit (IC), which is called ECC. This IC works on I2C bus and this parameter is defining the Linux IO device path for this particular I2C bus. Unlike SPIBUS, this path has to be absolute.
 
+#### SWARM_KEY_URI
+This is the new format of the ECC device specification [gateway-mfr-rs v0.2.1](https://github.com/helium/gateway-mfr-rs/tree/4c8f7b4b9c488099afd67b32c5951c5049e11a81#addressing).
+
+Format: `ecc:<dev>[:address][?slot=<slot>]`
+- dev the device file name (usually begins with i2c or tty)
+- address the bus address (default 96)
+- slot the slot to use for key lookup/manipulation (default: 0)
+
 #### RESET
 This is the GPIO index of the digital output, which is connected to the RF Concentrator chip (e.g. SX1301, SX1302 ...) reset.
 
@@ -118,7 +126,7 @@ There are two critical parameters which has to be defined in a Balena Fleet befo
 This parameter defines which variant will be used in the whole firmware stack. The name is the key from the `variant_definitions` dictionary which is detailed above.
 
 **Example:**
-| Name | Value | Service 
+| Name | Value | Service
 |------|-------|--------
 | VARIANT | NEBHNT-IN1 | All Services
 
@@ -130,12 +138,12 @@ If this parameter wouldn't be defined in a fleet, the `packet_forwarder` contain
 The expected values are: 470, 868 and 915.
 
 **Example:**
-| Name | Value | Service 
+| Name | Value | Service
 |------|-------|--------
 | FREQ | 868 | All Services
 
 ### HELIUM_MINER_HEIGHT_URL
-This parameter is added to test fleets. It is an API endpoint used for fetching current miner height from Stakejoy API. Current value is [this link](https://fuzzy-marmalade-warlock.skittles.stakejoy.com/v1/blocks/height) 
+This parameter is added to test fleets. It is an API endpoint used for fetching current miner height from Stakejoy API. Current value is [this link](https://fuzzy-marmalade-warlock.skittles.stakejoy.com/v1/blocks/height)
 
 ### OVERRIDE_CONFIG_URL
 This parameter is added to test fleets. It helps testing new miner configurations. Current value is [this link](https://helium-assets-stage.nebra.com/docker.config)

@@ -1,0 +1,416 @@
+name: Build and Preload OpenFleet
+
+on:
+  repository_dispatch:
+    types: [build-open-fleet]
+  workflow_dispatch:
+
+env:
+  balena-cli: v16.7.0
+  raspberrypi3-64: 3.0.8+rev2
+  raspberrypi4-64: 3.0.8+rev2
+  raspberrypicm4-ioboard: 2.112.12
+  rockpi-4b-rk3399: 2.108.25+rev1
+  balena-bobcat-image: 2023.07.17
+  bobcat-px30: 2.115.3
+  cloud: nebra-cloud
+
+jobs:
+  build-open-fleet:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Export short SHA of commit from upstream trigger
+        run: |
+          if [ -z "${{ github.event.client_payload.firmware }}" ]; then
+            FIRMWARE_SHORT_HASH=$( echo ${GITHUB_SHA:0:7} )
+          else
+            FIRMWARE_SHORT_HASH=${{ github.event.client_payload.firmware }}
+          fi
+          
+          if [ "${{ github.event.client_payload.branch }}" = "production" ]; then
+            BRANCH="master"
+            UPSTREAM_BRANCH="production"
+          else
+            BRANCH="testnet"
+            UPSTREAM_BRANCH="master"
+          fi
+          
+          echo "BRANCH=$BRANCH" >> $GITHUB_ENV
+          echo "UPSTREAM_BRANCH=$UPSTREAM_BRANCH" >> $GITHUB_ENV
+          echo "FIRMWARE_SHORT_HASH=$FIRMWARE_SHORT_HASH" >> $GITHUB_ENV
+          echo "Firmware Version: $FIRMWARE_SHORT_HASH"
+          echo "Branch: $BRANCH"
+          echo "Upstream Branch: $UPSTREAM_BRANCH"
+
+      - uses: actions/checkout@v3
+        with: 
+          ref: ${{ env.BRANCH }}
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11' 
+          
+      - name: Generate Docker Compose
+        run: |
+          mkdir templates
+          wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/"${{ env.UPSTREAM_BRANCH }}"/settings.ini
+          wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/"${{ env.UPSTREAM_BRANCH }}"/requirements.txt
+          wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/"${{ env.UPSTREAM_BRANCH }}"/gen_docker_compose_by_variant.py
+          wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/"${{ env.UPSTREAM_BRANCH }}"/templates/docker-compose.template -O templates/docker-compose.template
+          
+          pip install -r requirements.txt
+          rm -f docker-compose.yml
+
+          miner="$(echo ${{ github.event.repository.name }} | cut -d '-' -f2-)"
+          echo "Repo: $miner"
+          if [[ "$miner" =~ "nebra" ]] || [[ "$miner" =~ "bobcat" ]] ; then
+            variant="$miner"
+          elif [[ "$miner" == "og" ]] ; then
+            variant="helium-fl1"
+          else
+            variant="$miner-fl1"
+          fi
+          
+          echo "VARIANT=$variant" >> $GITHUB_ENV
+          echo "Variant: $variant"
+          
+          FIRMWARE_SHORT_HASH=${{ env.FIRMWARE_SHORT_HASH }}
+          
+          python gen_docker_compose_by_variant.py "$variant" -o docker-compose.yml
+          
+      - name: Determine if Raspberry Pi 3
+        if: env.BRANCH == 'master'
+        run: |
+          repo="${{ github.event.repository.name }}"
+
+          if grep -q "outdoor2" <<<"$repo"; then
+            echo "Not RasPi 3 (ROCK Pi 4B)"
+            RASPI3="NO"
+            ROCKPI="YES"
+          elif grep -q "indoor2" <<<"$repo"; then
+            echo "Not RasPi 3 (ROCK Pi 4B)"
+            RASPI3="NO"
+            ROCKPI="YES"
+          elif grep -q "outdoor1" <<<"$repo"; then
+            echo "RasPi 3 Outdoor"
+            RASPI3="YES"
+            ROCKPI="NO"
+          elif grep -q "indoor1" <<<"$repo"; then
+            echo "RasPi 3 Indoor"
+            RASPI3="YES"
+            ROCKPI="NO"
+          elif grep -q "risinghf" <<<"$repo"; then
+            echo "RisingHF"
+            RASPI3="YES"
+            ROCKPI="NO"
+          elif grep -q "rkcm3" <<<"$repo"; then
+            echo "Not RasPi 3 (ROCK CM3)"
+            RASPI3="NO"
+            ROCKPI="YES"
+          else
+            echo "Not RasPi 3 (Other)"
+            RASPI3="NO"
+            ROCKPI="NO"
+          fi
+
+          echo "RASPI3=$RASPI3" >> $GITHUB_ENV
+          echo "ROCKPI=$ROCKPI" >> $GITHUB_ENV
+
+      - name: Random sleep (balena API workaround)
+        if: env.BRANCH == 'master'
+        run:  sleep $[ ( $RANDOM % 540 ) + 1 ]s
+
+      - name: Install latest balena-cli
+        if: env.BRANCH == 'master'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y curl unzip zip
+          cd /opt/
+          echo "Uses Balena CLI version: ${{ env.balena-cli }}"
+          curl -O -sSL "https://github.com/balena-io/balena-cli/releases/download/${{ env.balena-cli }}/balena-cli-${{ env.balena-cli }}-linux-x64-standalone.zip"
+          unzip balena-cli-*-linux-x64-standalone.zip
+          sudo ln -s /opt/balena-cli/balena /usr/bin/
+          cd ~
+
+      - name: Download Bobcat PX30 base Balena OS image
+        uses: dsaltares/fetch-gh-release-asset@master
+        if: github.event.repository.name == 'helium-bobcat-px30' && env.BRANCH == 'master'
+        with:
+          repo: 'NebraLtd/balena-bobcat-px30'
+          version: 'tags/${{ env.balena-bobcat-image }}'
+          file: 'balena-image-bobcat-px30-${{ env.balena-bobcat-image }}.img.zip'
+          target: 'images/balena-base-${{ github.event.repository.name }}.img.zip'
+          token: ${{ secrets.MR_BUMP }}
+
+      - name: Generate a Balena OS image for the given board, variant, frequency
+        if: env.BRANCH == 'master'
+        run: |
+          LATEST_GA=${{ github.event.client_payload.tag }}
+          if [ "${LATEST_GA}" != "" ] ; then
+            echo "New release pushed to main repo: $LATEST_GA"
+            echo "LATEST_GA=$LATEST_GA" >> $GITHUB_ENV
+          else
+            echo "No release version provided! Applying tag TEST"
+            echo "LATEST_GA=TEST" >> $GITHUB_ENV
+          fi
+
+          IMAGE_BASE_PATH="$(pwd)/images"
+          DATE=$(date +%F)
+          USER=""
+          NODRYRUN=true
+          VERBOSE=true
+
+          # Make the base path for the generated images.
+          mkdir -p "$IMAGE_BASE_PATH"
+
+          # Print the parameters for generating images.
+
+          if [[ $USER != "" ]]; then
+            echo " - user: ${USER}"
+          fi
+
+          if [[ $NODRYRUN == false ]]; then
+            echo "(Dryrun mode enabled)"
+          fi
+
+          if $VERBOSE ; then
+            echo "(Verbose mode enabled)"
+          fi
+          
+          # Download balena OS
+          
+          if [ ${{ env.RASPI3 }} == 'YES' ] ; then
+            balena_os="raspberrypi3-64"
+            balena_os_version="${{ env.raspberrypi3-64 }}"
+          elif [ ${{ github.event.repository.name }} == 'helium-syncrobit' ] || [ ${{ github.event.repository.name }} == 'helium-linxdot' ] || [ ${{ github.event.repository.name }} == 'helium-pycom' ] || [ ${{ github.event.repository.name }} == 'helium-midas' ] ; then
+            balena_os="raspberrypicm4-ioboard"
+            balena_os_version="${{ env.raspberrypicm4-ioboard }}"
+          elif [ ${{ github.event.repository.name }} == 'helium-bobcat-px30' ] ; then
+            balena_os="isg-503"
+            balena_os_version="${{ env.bobcat-px30 }}"
+          elif [ ${{ env.ROCKPI }} == 'YES' ] ; then
+            balena_os="rockpi-4b-rk3399"
+            balena_os_version="${{ env.rockpi-4b-rk3399 }}"
+          else
+            balena_os="raspberrypi4-64"
+            balena_os_version="${{ env.raspberrypi4-64 }}"
+          fi
+
+          base_image_path="$IMAGE_BASE_PATH/balena-base-${{ github.event.repository.name }}.img"
+
+          if $VERBOSE ; then
+            echo -e "Downloading image ${balena_os} for version ${balena_os_version} and writing to ${base_image_path}"
+          fi
+
+          if $NODRYRUN ; then
+            if [ ${{ github.event.repository.name }} != 'helium-bobcat-px30' ] ; then
+              # Download the base image
+              balena os download "$balena_os" \
+                -o "$base_image_path" \
+                --version "$balena_os_version"
+            else
+              unzip $IMAGE_BASE_PATH/*.zip -d $IMAGE_BASE_PATH/
+              mv ${IMAGE_BASE_PATH}/*.img ${base_image_path}
+            fi
+          fi
+
+          echo "IMAGE_BASE_PATH=$IMAGE_BASE_PATH" >> $GITHUB_ENV
+          echo "DATE=$DATE" >> $GITHUB_ENV
+          echo "base_image_path=$base_image_path" >> $GITHUB_ENV
+          echo "balena_os_version=$balena_os_version" >> $GITHUB_ENV
+
+      - name: Balena login
+        if: env.BRANCH == 'master'
+        run: |
+          if [ "${{ env.cloud }}" == "nebra-cloud" ]; then
+            echo "balenaUrl: cloud.nebra.com" > ~/.balenarc.yml
+            balena login --token ${{ secrets.NEBRAOS_CLOUD_TOKEN }} > /dev/null
+          else
+            if [ ${{ env.RASPI3 }} == 'YES' ] ; then
+              balena login --token ${{ secrets.BALENA_API_TOKEN }} > /dev/null
+            elif [ ${{ github.event.repository.name }} == 'helium-syncrobit' ] || [ ${{ github.event.repository.name }} == 'helium-linxdot' ] || [ ${{ github.event.repository.name }} == 'helium-pycom' ] || [ ${{ github.event.repository.name }} == 'helium-midas' ] ; then
+              balena login --token ${{ secrets.BALENA_API_TOKEN_2 }} > /dev/null
+            elif [ ${{ env.ROCKPI }} == 'YES' ] ; then
+              balena login --token ${{ secrets.BALENA_API_TOKEN_3 }} > /dev/null
+            else
+              balena login --token ${{ secrets.BALENA_API_TOKEN_4 }} > /dev/null
+            fi
+          fi
+
+      - name: Configure Balena OS image for the given board, variant, frequency
+        if: env.BRANCH == 'master'
+        run: |
+          # Generate image path for the given board, variant, frequency and user
+
+          fleet_name="${{ github.event.repository.name }}"
+          image_name="${fleet_name}-${{ env.DATE }}"
+          image_path="${{ env.IMAGE_BASE_PATH }}/${image_name}.img"
+
+          # Minimum output
+          echo "Generating image for ${fleet_name} fleet"
+
+          if $VERBOSE ; then
+            echo "Image path is ${image_path}"
+          fi
+
+          # Configure balena OS image
+
+          if $VERBOSE ; then
+            echo "Configuring image"
+          fi
+
+          # Copy base balena image to target image
+          if $NODRYRUN ; then
+            cp "${{ env.base_image_path }}" "$image_path"
+          fi
+
+          if $NODRYRUN ; then
+            if  [ ${{ github.event.repository.name }} != 'helium-bobcat-px30' ] ; then
+              balena os configure "$image_path" \
+                --fleet "nebraltd/$fleet_name" \
+                --config-network ethernet \
+                --version "${{ env.balena_os_version }}"
+            else
+              sudo balena config inject ${GITHUB_WORKSPACE}/config.json --drive "${image_path}"
+            fi
+          fi
+
+          if $VERBOSE ; then
+            echo "Pre-loading apps"
+          fi
+
+          # Preload balena OS image
+
+          if $NODRYRUN ; then
+            balena preload "$image_path" \
+              --fleet "nebraltd/$fleet_name" \
+              -c "current"
+          fi
+
+          if $VERBOSE ; then
+            echo "Adding ssh keys to the image"
+          fi
+
+          if $NODRYRUN ; then
+            final_json_filename=/tmp/final.json
+            ssh_public_keys=$(cat ssh_public_keys.json)
+            sudo balena config read --drive "$image_path" -j \
+                | jq ". += $ssh_public_keys" > $final_json_filename
+            sudo balena config inject $final_json_filename --drive "$image_path"
+          fi
+
+          if  [ ${{ github.event.repository.name }} == 'helium-bobcat-px30' ] ; then
+            # Overwrite device type from "bobcat-px30" to "isg-503"
+            if $VERBOSE ; then
+              echo "Overwriting device-type"
+            fi
+
+            if $NODRYRUN ; then
+              sudo losetup -P -f "${image_path}"
+              loop_dev=$(losetup -l | grep $(basename "${image_path}") | cut -d ' ' -f 1)
+              tmpdir=$(mktemp -d)
+              sudo mount ${loop_dev}p1 ${tmpdir}
+              sudo sed -i 's/"slug": "bobcat-px30"/"slug": "isg-503"/' ${tmpdir}/device-type.json
+              sudo umount ${tmpdir}
+              sudo losetup -d ${loop_dev}
+            fi
+          fi
+
+          # Copy configuration files into boot and root partition of the balena image
+
+          if $VERBOSE ; then
+            echo "Copying configuration files..."
+          fi
+
+          if $NODRYRUN ; then
+            if [ -f "./config.txt" ] ; then
+              echo "Config.txt file found..."
+              mountpoints=/tmp/balena-image-mountpoints
+              balena_image_boot_mnt=${mountpoints}/resin-boot
+
+              # Setup mountpoints
+              sudo rm -rf $mountpoints > /dev/null 2>&1 || true
+              sudo mkdir -p $balena_image_boot_mnt
+
+              balena_image_loop_dev="$(sudo losetup -fP --show "$image_path")"
+
+              sudo mount "${balena_image_loop_dev}p1" "$balena_image_boot_mnt"
+              sudo cp "./config.txt" "$balena_image_boot_mnt/config.txt"
+
+              sleep 5  # Waits 5 seconds.
+            
+              # Cleanup
+              sudo umount "$balena_image_boot_mnt"
+              sudo losetup -d "$balena_image_loop_dev"
+            else
+              echo "Config.txt file not found..."
+            fi
+          fi
+
+          # Compress Balena image file and generate SHA512 checksum file
+          # Make the compressed file name from the image file name
+
+          compressed_image_path=${image_path/img/zip}
+
+          if $VERBOSE ; then
+            echo "Compressing image"
+          fi
+
+          if $NODRYRUN ; then
+            zip -9 -j "$compressed_image_path" "$image_path"
+          fi
+
+          if $VERBOSE ; then
+            echo "Generating checksum"
+          fi
+
+          if $NODRYRUN ; then
+            sha512sum "$compressed_image_path" > "$compressed_image_path.sha512"
+          fi
+
+          # Export image name and compressed image path to the environment
+          export IMAGE_NAME="$image_name"
+          export COMPRESSED_IMAGE_PATH="$compressed_image_path"
+
+          echo "Image Name: ${IMAGE_NAME}"
+          echo "Compressed Image Path: ${COMPRESSED_IMAGE_PATH}"
+          echo "IMAGE_NAME=${IMAGE_NAME}" >> $GITHUB_ENV
+          echo "COMPRESSED_IMAGE_PATH=${COMPRESSED_IMAGE_PATH}" >> $GITHUB_ENV
+
+      - name: Set date
+        if: env.BRANCH == 'master'
+        run: |
+          echo "timestamp=$(date +'%s')" >> $GITHUB_ENV
+          echo "day=$(date +'%F')" >> $GITHUB_ENV
+
+      - name: Copy OS image file and checksum to final location
+        if: env.BRANCH == 'master'
+        run: |
+          cp "${{ env.COMPRESSED_IMAGE_PATH }}" "${{ env.IMAGE_NAME }}.zip"
+          cp "${{ env.COMPRESSED_IMAGE_PATH }}.sha512" "${{ env.IMAGE_NAME }}.zip.sha512"          
+
+      - name: Upload image file and checksum to release
+        if: env.BRANCH == 'master'
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{ env.IMAGE_NAME }}.*
+          tag: ${{ env.LATEST_GA }}-${{ env.IMAGE_NAME }}-OpenFleet
+          overwrite: true
+          file_glob: true
+
+      - name: Push updated docker compose file
+        uses: test-room-7/action-update-file@v1
+        with:
+          branch: ${{ env.BRANCH }}
+          file-path: docker-compose.yml
+          commit-msg: Update ${{ env.VARIANT }} variant docker compose output (${{ env.BRANCH }})
+          github-token: ${{ secrets.MR_BUMP }}
+
+      - name: Trigger Balena App build action in ${{ github.event.repository.name }} repo
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.MR_BUMP }}
+          event-type: build-balena-app
+          repository: ${{ github.repository }}

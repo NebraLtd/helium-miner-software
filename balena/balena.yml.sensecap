@@ -12,7 +12,7 @@ post-provisioning: >-
   For detailed instructions on how to use Nebra Helium Sensecap check out [our GitHub repo](https://github.com/NebraLtd/helium-sensecap).
   
   
-  For support you can [open an issue](https://github.com/NebraLtd/helium-sensecap/issues) on the repo or reach out to us via one of the methods listed [on our support page](https://helium.nebra.com/support).
+  For support you can [open an issue](https://github.com/NebraLtd/helium-sensecap/issues) on the repo or reach out to us via one of the methods listed [on our support page](https://helium.nebra.com).
 assets:
   repository:
     type: blob.asset
@@ -24,6 +24,18 @@ assets:
       url: >-
         https://cdn.shopify.com/s/files/1/0071/2281/3001/files/Nebra-Icon-Blue_bb758eaa-b10d-4ea6-a55e-babd69135b69.png?v=1620938774
 data:
+  applicationEnvironmentVariables:
+    - FREQ: "N/A (Non Nebra Miner)"
+    - VARIANT: COMP-SENSECAPM1
+  applicationConfigVariables:
+    - RESIN_HOST_CONFIG_dtparam: '"i2c_arm=on","spi=on","audio=on"'
+    - RESIN_HOST_CONFIG_dtoverlay: '"spi0-1cs"'
+    - RESIN_HOST_CONFIG_gpu_mem: 16
+    - RESIN_HOST_CONFIG_avoid_warnings: 1
+    - RESIN_HOST_CONFIG_disable_overscan: 1
+    - RESIN_HOST_CONFIG_disable_splash: "1"
+    - RESIN_HOST_CONFIG_core_freq: 400
+    - RESIN_OVERRIDE_LOCK: 1
   defaultDeviceType: raspberrypi4-64
   supportedDeviceTypes:
     - raspberrypi4-64

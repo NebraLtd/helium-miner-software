@@ -1,4 +1,4 @@
-name: Code Security Audit 
+name: Code Security Audit
 
 on: [push, pull_request]
 
@@ -8,12 +8,12 @@ jobs:
     runs-on: ubuntu-20.04
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python 3.8
-      uses: actions/setup-python@v1
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v4
       with:
-        python-version: 3.8
-    - name: Run bandit against code base 
+        python-version: 3.9
+    - name: Run bandit against code base
       run: |
         pip install bandit
         bandit -r . -x "./tests/*"

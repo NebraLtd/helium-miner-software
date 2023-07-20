@@ -3,22 +3,24 @@ version: '2'
 services:
 
   gateway-config:
-    image: nebraltd/hm-config:{{CONFIG_VERSION}}
+    image: nebraltd/hm-config:{{ARCH}}-{{CONFIG_VERSION}}
     depends_on:
       - dbus-session
+      - helium-miner
       - diagnostics
     environment:
       - FIRMWARE_VERSION={{FIRMWARE_VERSION}}
       - FIRMWARE_SHORT_HASH={{ENV.FIRMWARE_SHORT_HASH}}
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
       - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
+    restart: on-failure
     privileged: true
-    network_mode: host
     cap_add:
       - NET_ADMIN
     volumes:
       - miner-storage:/var/data
       - dbus:/session/dbus
+      - nebra:/var/nebra
     labels:
       io.balena.features.sysfs: 1
       io.balena.features.kernel-modules: 1
@@ -28,40 +30,56 @@ services:
   packet-forwarder:
     image: nebraltd/hm-pktfwd:{{PKTFWD_VERSION}}
     depends_on:
-      - helium-miner
+      - multiplexer
     restart: always
     privileged: true
     volumes:
       - pktfwdr:/var/pktfwd
+      - nebra:/var/nebra
     environment:
       - FIRMWARE_VERSION={{FIRMWARE_VERSION}}
       - FIRMWARE_SHORT_HASH={{ENV.FIRMWARE_SHORT_HASH}}
+    labels:
+      io.balena.features.sysfs: 1
+      io.balena.features.procfs: 1
+
+  multiplexer:
+    image: nebraltd/hm-multiplexer:{{MULTIPLEXER_VERSION}}
+    restart: always
+    depends_on:
+      - helium-miner
+    labels:
+      io.balena.features.sysfs: 1
+      io.balena.features.procfs: 1
+    volumes:
+      - nebra:/var/nebra
+    environment:
+      - FIRMWARE_VERSION={{FIRMWARE_VERSION}}
+      - FIRMWARE_SHORT_HASH={{ENV.FIRMWARE_SHORT_HASH}}
+    expose:
+      - "1681"
 
   helium-miner:
-    image: nebraltd/hm-miner:{{ARCH}}-{{MINER_VERSION}}
+    image: nebraltd/hm-gatewayrs:{{ARCH}}-{{GATEWAYRS_VERSION}}
     depends_on:
-      - dbus-session
       - diagnostics
+    cap_add:
+      - SYS_RAWIO
+    privileged: true
+    restart: always
     expose:
       - "1680"
       - "4467"
-    volumes:
-      - miner-storage:/var/data
-      - miner-log:/var/log/miner
-      - pktfwdr:/var/pktfwd
-      - dbus:/session/dbus
-    cap_add:
-      - SYS_RAWIO
-    devices:
-      - {{I2C_DEVICE}}:{{I2C_DEVICE}}
-    restart: on-failure
     environment:
-      - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
       - FIRMWARE_VERSION={{FIRMWARE_VERSION}}
       - FIRMWARE_SHORT_HASH={{ENV.FIRMWARE_SHORT_HASH}}
+    volumes:
+      - pktfwdr:/var/pktfwd
+      - miner-storage:/var/data
+      - nebra:/var/nebra
 
   diagnostics:
-    image: nebraltd/hm-diag:{{DIAGNOSTICS_VERSION}}
+    image: nebraltd/hm-diag:{{ARCH}}-{{DIAGNOSTICS_VERSION}}
     depends_on:
       - dbus-session
     environment:
@@ -69,25 +87,27 @@ services:
       - FIRMWARE_SHORT_HASH={{ENV.FIRMWARE_SHORT_HASH}}
       - DIAGNOSTICS_VERSION={{DIAGNOSTICS_VERSION}}
       - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
+      - GATEWAYRS_VERSION={{GATEWAYRS_VERSION}}
+      - CONFIG_VERSION={{CONFIG_VERSION}}
+      - PKTFWD_VERSION={{PKTFWD_VERSION}}
+      - MULTIPLEXER_VERSION={{MULTIPLEXER_VERSION}}
     volumes:
       - pktfwdr:/var/pktfwd
       - miner-storage:/var/data
+      - watchdog-log:/var/watchdog
+      - nebra:/var/nebra
     ports:
-      - "80:5000"
+      - "80:80"
     cap_add:
       - SYS_RAWIO
-    devices:
-      - {{I2C_DEVICE}}:{{I2C_DEVICE}}
-      - {{MODEM_SERIAL0}}:{{MODEM_SERIAL0}}
-      - {{MODEM_SERIAL1}}:{{MODEM_SERIAL1}}
-      - {{MODEM_SERIAL2}}:{{MODEM_SERIAL2}}
-      - {{MODEM_SERIAL3}}:{{MODEM_SERIAL3}}
+    restart: always
     privileged: true
     labels:
       io.balena.features.sysfs: 1
       io.balena.features.procfs: 1
       io.balena.features.dbus: 1
-      io.balena.features.supervisor-api: '1'
+      io.balena.features.supervisor-api: 1
+      io.balena.features.balena-api: 1
 
   dbus-session:
     image: balenablocks/dbus:rpi-0.0.2
@@ -101,6 +121,7 @@ services:
 
 volumes:
   miner-storage:
-  miner-log:
   pktfwdr:
   dbus:
+  nebra:
+  watchdog-log:
