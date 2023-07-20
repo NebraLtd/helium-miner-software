@@ -70,8 +70,6 @@ services:
     expose:
       - "1680"
       - "4467"
-    ports:
-      - "44158:44158/tcp"
     environment:
       - FIRMWARE_VERSION={{FIRMWARE_VERSION}}
       - FIRMWARE_SHORT_HASH={{ENV.FIRMWARE_SHORT_HASH}}
