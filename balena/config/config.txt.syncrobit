@@ -1,6 +1,5 @@
 core_freq=400
 dtoverlay=spi0-1cs
-dtoverlay=gpio-fan,gpiopin=13,temp=70000
 dtparam=i2c_arm=on
 dtparam=spi=on
 dtparam=audio=on

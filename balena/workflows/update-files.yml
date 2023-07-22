@@ -40,8 +40,10 @@ jobs:
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/config/config.txt.nebra-raspi -O config.txt
           elif [ $miner == 'controllino' ] ; then
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/config/config.txt.controllino -O config.txt
-          elif [ $miner == 'sensecap' ] || [ $miner == 'cotx' ] || [ $miner == 'finestra' ] || [ $miner == 'linxdot' ] || [ $miner == 'midas' ] || [ $miner == 'pantherx1' ] || [ $miner == 'syncrobit' ] ; then
+          elif [ $miner == 'sensecap' ] ; then
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/config/config.txt.sensecap -O config.txt
+          elif [ $miner == 'cotx' ] || [ $miner == 'finestra' ] || [ $miner == 'linxdot' ] || [ $miner == 'midas' ] || [ $miner == 'pantherx1' ] || [ $miner == 'syncrobit' ] ; then
+            wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/config/config.txt.syncrobit -O config.txt
           elif [ $miner == 'risinghf' ] ; then
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/config/config.txt.risinghf -O config.txt
           elif [ $miner == 'nebra-indoor2' ] || [ $miner == 'nebra-outdoor2' ] || [ $miner == 'linxdot-rkcm3' ] || [ $miner == 'syncrobit-rkcm3' ] || [ $miner == 'bobcat-px30' ] ; then
@@ -97,8 +99,10 @@ jobs:
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/config/config.txt.nebra-raspi -O config.txt
           elif [ $miner == 'controllino' ] ; then
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/config/config.txt.controllino -O config.txt
-          elif [ $miner == 'sensecap' ] || [ $miner == 'cotx' ] || [ $miner == 'finestra' ] || [ $miner == 'linxdot' ] || [ $miner == 'midas' ] || [ $miner == 'pantherx1' ] || [ $miner == 'syncrobit' ] ; then
+          elif [ $miner == 'sensecap' ] ; then
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/config/config.txt.sensecap -O config.txt
+          elif [ $miner == 'cotx' ] || [ $miner == 'finestra' ] || [ $miner == 'linxdot' ] || [ $miner == 'midas' ] || [ $miner == 'pantherx1' ] || [ $miner == 'syncrobit' ] ; then
+            wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/config/config.txt.syncrobit -O config.txt
           elif [ $miner == 'risinghf' ] ; then
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/config/config.txt.risinghf -O config.txt
           elif [ $miner == 'nebra-indoor2' ] || [ $miner == 'nebra-outdoor2' ] || [ $miner == 'linxdot-rkcm3' ] || [ $miner == 'syncrobit-rkcm3' ] || [ $miner == 'bobcat-px30' ] ; then
