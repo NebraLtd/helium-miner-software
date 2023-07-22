@@ -29,7 +29,7 @@ data:
     - VARIANT: COMP-SENSECAPM1
   applicationConfigVariables:
     - RESIN_HOST_CONFIG_dtparam: '"i2c_arm=on","spi=on","audio=on"'
-    - RESIN_HOST_CONFIG_dtoverlay: '"spi0-1cs","gpio-fan,gpiopin=13,temp=70000"'
+    - RESIN_HOST_CONFIG_dtoverlay: '"spi0-1cs","gpio-fan,gpiopin=13"'
     - RESIN_HOST_CONFIG_gpu_mem: 16
     - RESIN_HOST_CONFIG_avoid_warnings: 1
     - RESIN_HOST_CONFIG_disable_overscan: 1
