@@ -46,7 +46,7 @@ jobs:
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/config/config.txt.syncrobit -O config.txt
           elif [ $miner == 'risinghf' ] ; then
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/config/config.txt.risinghf -O config.txt
-          elif [ $miner == 'nebra-indoor2' ] || [ $miner == 'nebra-outdoor2' ] || [ $miner == 'linxdot-rkcm3' ] || [ $miner == 'syncrobit-rkcm3' ] || [ $miner == 'bobcat-px30' ] ; then
+          elif [ $miner == 'nebra-indoor2' ] || [ $miner == 'nebra-outdoor2' ] || [ $miner == 'linxdot-rkcm3' ] || [ $miner == 'syncrobit-rkcm3' ] || [ $miner == 'bobcat-px30' ] || [ $miner == 'bobcat-rk3566' ] ; then
             echo "No config.txt file needed - not RasPi based."
           else
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/production/balena/config/config.txt.rak -O config.txt
@@ -105,7 +105,7 @@ jobs:
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/config/config.txt.syncrobit -O config.txt
           elif [ $miner == 'risinghf' ] ; then
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/config/config.txt.risinghf -O config.txt
-          elif [ $miner == 'nebra-indoor2' ] || [ $miner == 'nebra-outdoor2' ] || [ $miner == 'linxdot-rkcm3' ] || [ $miner == 'syncrobit-rkcm3' ] || [ $miner == 'bobcat-px30' ] ; then
+          elif [ $miner == 'nebra-indoor2' ] || [ $miner == 'nebra-outdoor2' ] || [ $miner == 'linxdot-rkcm3' ] || [ $miner == 'syncrobit-rkcm3' ] || [ $miner == 'bobcat-px30' ] || [ $miner == 'bobcat-rk3566' ] ; then
             echo "No config.txt file needed - not RasPi based."
           else
             wget https://raw.githubusercontent.com/NebraLtd/helium-miner-software/master/balena/config/config.txt.rak -O config.txt
