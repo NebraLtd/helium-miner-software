@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        sbc: [nebra-indoor1, nebra-outdoor1, nebra-indoor2, nebra-outdoor2, rak, pisces, og, sensecap, finestra, controllino, cotx, pantherx1, linxdot, linxdot-rkcm3, pycom, syncrobit, syncrobit-rkcm3, risinghf, midas, bobcat-px30]
+        sbc: [nebra-indoor1, nebra-outdoor1, nebra-indoor2, nebra-outdoor2, rak, pisces, og, sensecap, finestra, controllino, cotx, pantherx1, linxdot, linxdot-rkcm3, pycom, syncrobit, syncrobit-rkcm3, risinghf, midas, bobcat-px30, bobcat-rk3566]
     steps:
       - name: Generate repo name
         run: |

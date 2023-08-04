@@ -10,7 +10,7 @@ jobs:
       max-parallel: 1
       fail-fast: false
       matrix:
-        sbc: [raspi, rockpi, rak, finestra, sensecap, og, controllino, pisces, cotx, pantherx1, linxdot, linxdot-rkcm3, syncrobit, syncrobit-rkcm3, pycom, risinghf, midas, bobcat-px30]
+        sbc: [raspi, rockpi, rak, finestra, sensecap, og, controllino, pisces, cotx, pantherx1, linxdot, linxdot-rkcm3, syncrobit, syncrobit-rkcm3, pycom, risinghf, midas, bobcat-px30, bobcat-rk3566]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -54,7 +54,7 @@ jobs:
             fleet="helium-testnet-og"
             repo="helium-og"
             repo2="None"
-          elif [[ "$miner" == "bobcat-px30" ]] ; then
+          elif [[ "$miner" == "bobcat-px30" ]] || [[ "$miner" == "bobcat-rk3566" ]] ; then
             variant="$miner"
             fleet="helium-testnet-$miner"
             repo="helium-$miner"
