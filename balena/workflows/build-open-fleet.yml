@@ -151,7 +151,7 @@ jobs:
         with:
           repo: 'NebraLtd/balena-bobcat-rk3566'
           version: 'tags/${{ env.balena-bobcat-rk3566-image }}'
-          file: 'balena-image-bobcat-px30-${{ env.balena-bobcat-rk3566-image }}.img.zip'
+          file: 'balena-image-bobcat-rk3566-${{ env.balena-bobcat-rk3566-image }}.img.zip'
           target: 'images/balena-base-${{ github.event.repository.name }}.img.zip'
           token: ${{ secrets.MR_BUMP }}
 
