@@ -7,8 +7,8 @@ on:
 
 env:
   balena-cli: v16.7.6
-  raspberrypi3-64: 3.1.1
-  raspberrypi4-64: 3.1.1
+  raspberrypi3-64: 3.1.12
+  raspberrypi4-64: 3.1.12
   raspberrypicm4-ioboard: 2.112.12
   rockpi-4b-rk3399: 2.108.25+rev1
   balena-bobcat-px30-image: 2023.07.17
