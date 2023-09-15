@@ -29,7 +29,7 @@ data:
     - VARIANT: COMP-LINXDOTRK3566
   applicationConfigVariables:
     - RESIN_OVERRIDE_LOCK: 1
-  defaultDeviceType: nanopc-t4
+  defaultDeviceType: linxdot-rk3566
   supportedDeviceTypes:
     - nanopc-t4
 version: 0.0.1
