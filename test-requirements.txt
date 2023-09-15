@@ -3,4 +3,4 @@ bandit==1.7.5
 pytest==7.4.0
 pytest-cov==4.1.0
 grpcio==1.56.0
-hm_pyhelper==0.14.22
+hm_pyhelper==0.14.30
