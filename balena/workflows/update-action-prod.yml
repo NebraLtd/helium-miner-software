@@ -59,7 +59,7 @@ jobs:
 
       - name: Balena Deploy
         if: env.LATEST == 'FALSE'
-        uses: nebraltd/balena-cli-action@v16.7.6
+        uses: nebraltd/balena-cli-action@v17.1.1
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
           balena_command: "deploy ${{ env.fleet }} --debug --nocache --build"

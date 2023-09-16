@@ -10,7 +10,7 @@ jobs:
       max-parallel: 1
       fail-fast: false
       matrix:
-        sbc: [raspi, rockpi, rak, finestra, sensecap, og, controllino, pisces, cotx, pantherx1, linxdot, linxdot-rkcm3, syncrobit, syncrobit-rkcm3, pycom, risinghf, midas, bobcat-px30, bobcat-rk3566]
+        sbc: [raspi, rockpi, rak, finestra, sensecap, og, controllino, pisces, cotx, pantherx1, linxdot, linxdot-rk3566, syncrobit, syncrobit-rkcm3, pycom, risinghf, midas, bobcat-px30, bobcat-rk3566]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -83,7 +83,7 @@ jobs:
           fi
 
       - name: Balena Deploy
-        uses: nebraltd/balena-cli-action@v16.7.6
+        uses: nebraltd/balena-cli-action@v17.1.1
         with:
           balena_api_token: ${{secrets.NEBRAOS_CLOUD_TOKEN}}
           balena_url: cloud.nebra.com
