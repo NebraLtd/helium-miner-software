@@ -6,15 +6,17 @@ on:
   workflow_dispatch:
 
 env:
-  balena-cli: v16.7.6
-  raspberrypi3-64: 3.1.12
-  raspberrypi4-64: 3.1.12
+  balena-cli: v17.1.1
+  raspberrypi3-64: 4.0.7
+  raspberrypi4-64: 4.0.7
   raspberrypicm4-ioboard: 2.112.12
   rockpi-4b-rk3399: 2.108.25+rev1
   balena-bobcat-px30-image: 2023.07.17
   bobcat-px30: 2.115.3
   balena-bobcat-rk3566-image: 2023.08.15
   bobcat-rk3566: 2.115.3
+  balena-linxdot-rk3566-image: 2023.08.15
+  linxdot-rk3566: 2.115.3
   cloud: nebra-cloud
 
 jobs:
@@ -155,6 +157,16 @@ jobs:
           target: 'images/balena-base-${{ github.event.repository.name }}.img.zip'
           token: ${{ secrets.MR_BUMP }}
 
+      - name: Download Linxdot RK3566 base Balena OS image
+        uses: dsaltares/fetch-gh-release-asset@master
+        if: github.event.repository.name == 'helium-linxdot-rk3566' && env.BRANCH == 'master'
+        with:
+          repo: 'NebraLtd/balena-linxdot-rk3566'
+          version: 'tags/${{ env.balena-linxdot-rk3566-image }}'
+          file: 'balena-image-linxdot-rk3566-${{ env.balena-linxdot-rk3566-image }}.img.zip'
+          target: 'images/balena-base-${{ github.event.repository.name }}.img.zip'
+          token: ${{ secrets.MR_BUMP }}
+
       - name: Generate a Balena OS image for the given board, variant, frequency
         if: env.BRANCH == 'master'
         run: |
@@ -204,6 +216,9 @@ jobs:
           elif [ ${{ github.event.repository.name }} == 'helium-bobcat-rk3566' ] ; then
             balena_os="rockpro64"
             balena_os_version="${{ env.bobcat-rk3566 }}"
+          elif [ ${{ github.event.repository.name }} == 'helium-linxdot-rk3566' ] ; then
+            balena_os="nanopc-t4"
+            balena_os_version="${{ env.linxdot-rk3566 }}"
           elif [ ${{ env.ROCKPI }} == 'YES' ] ; then
             balena_os="rockpi-4b-rk3399"
             balena_os_version="${{ env.rockpi-4b-rk3399 }}"
@@ -219,7 +234,7 @@ jobs:
           fi
 
           if $NODRYRUN ; then
-            if [ ${{ github.event.repository.name }} != 'helium-bobcat-px30' ] && [ ${{ github.event.repository.name }} != 'helium-bobcat-rk3566' ]; then
+            if [ ${{ github.event.repository.name }} != 'helium-bobcat-px30' ] && [ ${{ github.event.repository.name }} != 'helium-bobcat-rk3566' ] && [ ${{ github.event.repository.name }} != 'helium-linxdot-rk3566' ]; then
               # Download the base image
               balena os download "$balena_os" \
                 -o "$base_image_path" \
@@ -281,7 +296,7 @@ jobs:
           fi
 
           if $NODRYRUN ; then
-            if  [ ${{ github.event.repository.name }} != 'helium-bobcat-px30' ] && [ ${{ github.event.repository.name }} != 'helium-bobcat-rk3566' ]; then
+            if  [ ${{ github.event.repository.name }} != 'helium-bobcat-px30' ] && [ ${{ github.event.repository.name }} != 'helium-bobcat-rk3566' ] && [ ${{ github.event.repository.name }} != 'helium-linxdot-rk3566' ]; then
               balena os configure "$image_path" \
                 --fleet "nebraltd/$fleet_name" \
                 --config-network ethernet \
@@ -315,7 +330,7 @@ jobs:
             sudo balena config inject $final_json_filename --drive "$image_path"
           fi
 
-          if  [ ${{ github.event.repository.name }} == 'helium-bobcat-px30' ] || [ ${{ github.event.repository.name }} == 'helium-bobcat-rk3566' ]; then
+          if  [ ${{ github.event.repository.name }} == 'helium-bobcat-px30' ] || [ ${{ github.event.repository.name }} == 'helium-bobcat-rk3566' ] || [ ${{ github.event.repository.name }} == 'helium-linxdot-rk3566' ]; then
             # Overwrite device type from bobcat specific to balena specific
             if $VERBOSE ; then
               echo "Overwriting device-type"
@@ -331,6 +346,8 @@ jobs:
                 sudo sed -i 's/"slug": "bobcat-px30"/"slug": "isg-503"/' ${tmpdir}/device-type.json
               elif [ ${{ github.event.repository.name }} == 'helium-bobcat-rk3566' ]; then
                 sudo sed -i 's/"slug": "bobcat-rk3566"/"slug": "rockpro64"/' ${tmpdir}/device-type.json
+              elif [ ${{ github.event.repository.name }} == 'helium-linxdot-rk3566' ]; then
+                sudo sed -i 's/"slug": "linxdot-rk3566"/"slug": "nanopc-t4"/' ${tmpdir}/device-type.json
               fi
 
               sudo umount ${tmpdir}

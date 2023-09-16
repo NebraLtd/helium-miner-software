@@ -1,3 +1,3 @@
 jinja2==3.1.2
 grpcio==1.56.0
-hm-pyhelper==0.14.25
+hm-pyhelper==0.14.30
