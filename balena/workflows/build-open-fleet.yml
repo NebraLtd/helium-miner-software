@@ -9,13 +9,13 @@ env:
   balena-cli: v16.7.0
   raspberrypi3-64: 4.0.16+rev1
   raspberrypi4-64: 4.0.7+rev3
-  raspberrypicm4-ioboard: 2.112.12
+  raspberrypicm4-ioboard: 4.0.16
   rockpi-4b-rk3399: 2.108.25+rev1
   balena-bobcat-px30-image: 2023.07.17
   bobcat-px30: 2.115.3
   balena-bobcat-rk3566-image: 2023.08.15
   bobcat-rk3566: 2.115.3
-  balena-linxdot-rk3566-image: 2023.08.15
+  balena-linxdot-rk3566-image: 2023.10.12
   linxdot-rk3566: 2.115.3
   cloud: nebra-cloud
 
