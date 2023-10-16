@@ -25,7 +25,7 @@ jobs:
           fi
           
           echo "FLEET=$FLEET" >> $GITHUB_ENV
-         
+
       - name: Trigger PR action in ${{ env.FLEET }} repo
         uses: peter-evans/repository-dispatch@v2
         with:

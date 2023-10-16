@@ -1,0 +1,125 @@
+version: '2'
+
+services:
+
+  gateway-config:
+    image: nebraltd/hm-config:arm64-c01e889
+    depends_on:
+      - dbus-session
+      - helium-miner
+      - diagnostics
+    environment:
+      - FIRMWARE_VERSION=v1.0.2-42
+      - FIRMWARE_SHORT_HASH=FFFFF4
+      - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
+      - DBUS_SESSION_BUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
+    restart: on-failure
+    privileged: true
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - miner-storage:/var/data
+      - dbus:/session/dbus
+      - nebra:/var/nebra
+    labels:
+      io.balena.features.sysfs: 1
+      io.balena.features.kernel-modules: 1
+      io.balena.features.dbus: 1
+    stop_signal: SIGINT
+
+  packet-forwarder:
+    image: nebraltd/hm-pktfwd:a79d9a7
+    depends_on:
+      - multiplexer
+    restart: always
+    privileged: true
+    volumes:
+      - pktfwdr:/var/pktfwd
+      - nebra:/var/nebra
+    environment:
+      - FIRMWARE_VERSION=v1.0.2-42
+      - FIRMWARE_SHORT_HASH=FFFFF4
+    labels:
+      io.balena.features.sysfs: 1
+      io.balena.features.procfs: 1
+
+  multiplexer:
+    image: nebraltd/hm-multiplexer:a1fc09b
+    restart: always
+    depends_on:
+      - helium-miner
+    labels:
+      io.balena.features.sysfs: 1
+      io.balena.features.procfs: 1
+    volumes:
+      - nebra:/var/nebra
+    environment:
+      - FIRMWARE_VERSION=v1.0.2-42
+      - FIRMWARE_SHORT_HASH=FFFFF4
+    expose:
+      - "1681"
+
+  helium-miner:
+    image: nebraltd/hm-gatewayrs:arm64-1bd542e
+    depends_on:
+      - diagnostics
+    cap_add:
+      - SYS_RAWIO
+    privileged: true
+    restart: always
+    expose:
+      - "1680"
+      - "4467"
+    ports:
+      - "44158:44158/tcp"
+    environment:
+      - FIRMWARE_VERSION=v1.0.2-42
+      - FIRMWARE_SHORT_HASH=FFFFF4
+    volumes:
+      - pktfwdr:/var/pktfwd
+      - miner-storage:/var/data
+      - nebra:/var/nebra
+
+  diagnostics:
+    image: nebraltd/hm-diag:arm64-16b483c
+    depends_on:
+      - dbus-session
+    environment:
+      - FIRMWARE_VERSION=v1.0.2-42
+      - FIRMWARE_SHORT_HASH=FFFFF4
+      - DIAGNOSTICS_VERSION=16b483c
+      - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/host/run/dbus/system_bus_socket
+    volumes:
+      - pktfwdr:/var/pktfwd
+      - miner-storage:/var/data
+      - watchdog-log:/var/watchdog
+      - nebra:/var/nebra
+    ports:
+      - "80:80"
+    cap_add:
+      - SYS_RAWIO
+    restart: always
+    privileged: true
+    labels:
+      io.balena.features.sysfs: 1
+      io.balena.features.procfs: 1
+      io.balena.features.dbus: 1
+      io.balena.features.supervisor-api: 1
+      io.balena.features.balena-api: 1
+
+  dbus-session:
+    image: balenablocks/dbus:rpi-0.0.2
+    restart: always
+    volumes:
+      - dbus:/session/dbus
+    environment:
+      - DBUS_ADDRESS=unix:path=/session/dbus/session_bus_socket
+      - FIRMWARE_VERSION=v1.0.2-42
+      - FIRMWARE_SHORT_HASH=FFFFF4
+
+volumes:
+  miner-storage:
+  pktfwdr:
+  dbus:
+  nebra:
+  watchdog-log:

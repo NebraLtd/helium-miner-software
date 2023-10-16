@@ -60,7 +60,7 @@ jobs:
             fleet="helium-testnet-og"
             repo="helium-og"
             repo2="None"
-          elif [[ "$miner" == "bobcat-px30" ]] || [[ "$miner" == "bobcat-rk3566" ]] ; then
+          elif [[ "$miner" == "bobcat-px30" ]] || [[ "$miner" == "bobcat-rk3566" ]] || [[ "$miner" == "linxdot-rk3566" ]] ; then
             variant="$miner"
             fleet="helium-testnet-$miner"
             repo="helium-$miner"
@@ -128,7 +128,7 @@ jobs:
           tag: TESTNET-${{ env.LATEST_GA }}-${{ env.day }}
           overwrite: true
           body: "TESTNET: This is helium-miner-software release TESTNET-${{ env.LATEST_GA }}-${{ env.day }}"
-          
+
       - name: Trigger build action in ${{ env.REPO }} repo
         uses: peter-evans/repository-dispatch@v2
         with:

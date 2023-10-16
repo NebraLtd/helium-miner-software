@@ -42,7 +42,7 @@ jobs:
           miner="${{ matrix.sbc }}"
           repo="helium-$miner"
 
-          if [[ "$miner" == "nebra-indoor1" ]] || [[ "$miner" == "nebra-indoor2" ]] || [[ "$miner" == "nebra-outdoor1" ]] || [[ "$miner" == "nebra-outdoor2" ]] || [[ "$miner" == "bobcat-px30" ]] || [[ "$miner" == "bobcat-rk3566" ]] ; then
+          if [[ "$miner" == "nebra-indoor1" ]] || [[ "$miner" == "nebra-indoor2" ]] || [[ "$miner" == "nebra-outdoor1" ]] || [[ "$miner" == "nebra-outdoor2" ]] || [[ "$miner" == "bobcat-px30" ]] || [[ "$miner" == "bobcat-rk3566" ]] || [[ "$miner" == "linxdot-rk3566" ]] ; then
             variant="$miner"
           elif [[ "$miner" == "og" ]] ; then
             variant="helium-fl1"

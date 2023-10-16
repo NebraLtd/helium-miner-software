@@ -15,7 +15,7 @@ env:
   bobcat-px30: 2.115.3
   balena-bobcat-rk3566-image: 2023.08.15
   bobcat-rk3566: 2.115.3
-  balena-linxdot-rk3566-image: 2023.10.12
+  balena-linxdot-rk3566-image: 2023.10.16
   linxdot-rk3566: 2.115.3
   cloud: nebra-cloud
 
@@ -48,13 +48,13 @@ jobs:
           echo "Upstream Branch: $UPSTREAM_BRANCH"
 
       - uses: actions/checkout@v3
-        with: 
+        with:
           ref: ${{ env.BRANCH }}
 
       - uses: actions/setup-python@v4
         with:
-          python-version: '3.11' 
-          
+          python-version: '3.11'
+
       - name: Generate Docker Compose
         run: |
           mkdir templates
@@ -68,7 +68,7 @@ jobs:
 
           miner="$(echo ${{ github.event.repository.name }} | cut -d '-' -f2-)"
           echo "Repo: $miner"
-          if [[ "$miner" =~ "nebra" ]] || [[ "$miner" =~ "bobcat" ]] ; then
+          if [[ "$miner" =~ "nebra" ]] || [[ "$miner" =~ "bobcat" ]] || [[ "$miner" =~ "linxdot" ]] ; then
             variant="$miner"
           elif [[ "$miner" == "og" ]] ; then
             variant="helium-fl1"
@@ -82,7 +82,7 @@ jobs:
           FIRMWARE_SHORT_HASH=${{ env.FIRMWARE_SHORT_HASH }}
           
           python gen_docker_compose_by_variant.py "$variant" -o docker-compose.yml
-          
+
       - name: Determine if Raspberry Pi 3
         if: env.BRANCH == 'master'
         run: |
