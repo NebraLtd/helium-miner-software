@@ -82,7 +82,7 @@ $ export FIRMWARE_SHORT_HASH=$(git rev-parse --short HEAD)
 `mkdir device-compose-files`
 
 **Step 3:** Generate your respective .yml file based on the device you will be pushing to: 
-`python gen_docker_compose_by_variant.py [DEVICE_CODE] -o device-compose-files/docker-compose.yml`
+`python gen_docker_compose_by_variant.py [DEVICE_CODE] -o device-compose-files/docker-compose-[DEVICE_CODE].yml`
 Find the device codes below.
 
 | Model | DEVICE_CODE |
@@ -100,7 +100,7 @@ Find the device codes below.
 | Nebra Hotspot HAT Tinkerboard 2 | NEBHNT-HHTK |
 
 **Step 4:** Copy device compose file into root directory as docker-compose.yml:
-`cp device-compose-files/docker-compose.yml ./docker-compose.yml`
+`cp device-compose-files/docker-compose-[DEVICE_CODE].yml ./docker-compose.yml`
 
 **Step 5:** Validate that the changed values you applied to settings.ini were applied in the docker-compose.yml file
 
