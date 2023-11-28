@@ -98,6 +98,11 @@ Find the device codes below.
 | Nebra Hotspot HAT RPi | NEBHNT-HHRPI |
 | Nebra Hotspot HAT RPi LIGHT | NEBHNT-HHRPL | 
 | Nebra Hotspot HAT Tinkerboard 2 | NEBHNT-HHTK |
+| Rak Hotspot Miner | COMP-RAKHM |
+| OG Helium Hotspot | COMP-HELIUM | 
+| SenseCAP M1 | COMP-SENSECAPM1 |
+| Pi Supply IoT LoRa Gateway HAT | DIY-PISLGH |
+| RAK2287 | DIY-RAK2287 |
 
 **Step 4:** Copy device compose file into root directory as docker-compose.yml:
 `cp device-compose-files/docker-compose-[DEVICE_CODE].yml ./docker-compose.yml`
