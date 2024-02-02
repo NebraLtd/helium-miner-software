@@ -22,4 +22,4 @@ jobs:
         uses: nebraltd/balena-cli-action@v17.1.4
         with:
           balena_api_token: ${{secrets.BALENA_API_TOKEN}}
-          balena_command: "deploy nebraltd/helium-${{ env.miner }}-app --debug --nocache --build"
+          balena_command: "deploy nebra/helium-${{ env.miner }}-app --debug --nocache --build"
