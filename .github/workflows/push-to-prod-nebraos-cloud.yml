@@ -20,7 +20,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: production
 
@@ -65,14 +65,14 @@ jobs:
           python gen_docker_compose_by_variant.py "$variant" -o docker-compose.yml
 
       - name: Balena Deploy
-        uses: nebraltd/balena-cli-action@v16.7.0
+        uses: nebraltd/balena-cli-action@v16.7.6
         with:
           balena_api_token: ${{secrets.NEBRAOS_CLOUD_TOKEN}}
           balena_url: cloud.nebra.com
           balena_command: "deploy nebraltd/${{ env.REPO }} --debug --nocache --build"
 
       - name: Upload docker-compose.yml artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: docker-compose.yml.${{ env.REPO }}
           path: docker-compose.yml
@@ -88,7 +88,7 @@ jobs:
           body: "This is helium-miner-software release ${{ env.LATEST_GA }}-${{ env.day }}"
 
       - name: Trigger build action in ${{ env.REPO }} repo
-        uses: peter-evans/repository-dispatch@v2
+        uses: peter-evans/repository-dispatch@v3
         with:
           token: ${{ secrets.MR_BUMP }}
           event-type: build-open-fleet
