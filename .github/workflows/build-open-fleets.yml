@@ -17,7 +17,7 @@ jobs:
           echo "FLEET=$FLEET" >> $GITHUB_ENV
 
       - name: Trigger build action in ${{ env.REPO }} repo
-        uses: peter-evans/repository-dispatch@v2
+        uses: peter-evans/repository-dispatch@v3
         with:
           token: ${{ secrets.MR_BUMP }}
           event-type: build-open-fleet

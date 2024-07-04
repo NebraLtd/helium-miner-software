@@ -19,7 +19,7 @@ jobs:
         sbc: [raspi, rockpi, rak, finestra, sensecap, og, controllino, pisces, cotx, pantherx1, linxdot, linxdot-rk3566, syncrobit, syncrobit-rkcm3, pycom, risinghf, midas, bobcat-px30, bobcat-rk3566]
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Python Libraries
         run: pip install -r requirements.txt
@@ -89,21 +89,21 @@ jobs:
           fi
 
       - name: Balena Deploy
-        uses: nebraltd/balena-cli-action@v16.7.0
+        uses: nebraltd/balena-cli-action@v16.7.6
         with:
           balena_api_token: ${{secrets.NEBRAOS_CLOUD_TOKEN}}
           balena_url: cloud.nebra.com
           balena_command: "deploy nebraltd/${{ env.FLEET }} --debug --nocache --build"
 
       - name: Upload docker-compose.yml artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: docker-compose.yml.${{ env.REPO }}.testnet
           path: docker-compose.yml
 
       - name: Upload docker-compose.yml artifact (repo2)
         if: env.REPO2 != 'None'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: docker-compose.yml.${{ env.REPO2 }}.testnet
           path: docker-compose.yml.${{ env.REPO2 }}
@@ -130,7 +130,7 @@ jobs:
           body: "TESTNET: This is helium-miner-software release TESTNET-${{ env.LATEST_GA }}-${{ env.day }}"
           
       - name: Trigger build action in ${{ env.REPO }} repo
-        uses: peter-evans/repository-dispatch@v2
+        uses: peter-evans/repository-dispatch@v3
         with:
           token: ${{ secrets.MR_BUMP }}
           event-type: build-open-fleet
@@ -138,7 +138,7 @@ jobs:
           client-payload: '{"release": "${{ env.LATEST_GA }}_GA", "tag": "${{ env.LATEST_GA }}", "firmware": "${{ env.FIRMWARE_SHORT_HASH }}", "branch": "${{ env.GITHUB_BRANCH }}"}'
 
       - name: Trigger build action in ${{ env.REPO2 }} repo
-        uses: peter-evans/repository-dispatch@v2
+        uses: peter-evans/repository-dispatch@v3
         if: matrix.sbc == 'raspi' || matrix.sbc == 'rockpi'
         with:
           token: ${{ secrets.MR_BUMP }}
