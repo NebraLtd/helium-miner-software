@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Trigger PR action in commercial-hotspot-software repo
-        uses: peter-evans/repository-dispatch@v2
+        uses: peter-evans/repository-dispatch@v3
         with:
           token: ${{ secrets.MR_BUMP }}
           event-type: settings-update
