@@ -78,17 +78,38 @@ $ export FIRMWARE_SHORT_HASH=$(git rev-parse --short HEAD)
 
 **Step 1:** Update the settings.ini file to accept the new values which you wish to set in the generation of the docker-compose.yml file
 
-**Step 2:** Generate your respective .yml file based on the device you will be pushing to:
-- RPI (Raspberry Pi based device): `python gen_docker_compose.py rpi -o device-compose-files/docker-compose-rpi.yml`
-- ROCKPI (ROCK Pi based device): `python gen_docker_compose.py rockpi -o device-compose-files/docker-compose-rockpi.yml`
+**Step 2:** Create the device-compose-files directory:
+`mkdir device-compose-files`
 
-**Step 3:** Copy device compose file into root directory as docker-compose.yml:
-- RPI: `cp device-compose-files/docker-compose-rpi.yml ./docker-compose.yml`
-- ROCKPI: `cp device-compose-files/docker-compose-rockpi.yml ./docker-compose.yml`
+**Step 3:** Generate your respective .yml file based on the device you will be pushing to: 
+`python gen_docker_compose_by_variant.py [DEVICE_CODE] -o device-compose-files/docker-compose-[DEVICE_CODE].yml`
+Find the device codes below.
 
-**Step 4:** Validate that the changed values you applied to settings.ini were applied in the docker-compose.yml file
+| Model | DEVICE_CODE |
+| --- | --- |
+| Nebra Indoor Hotspot Gen 1 | NEBHNT-IN1 |
+| Nebra Outdoor Hotspot Gen 1 | NEBHNT-OUT1 |
+| Nebra Pi 0 Light Hotspot S | NEBHNT-LGT-ZS |
+| Nebra Pi 0 Light Hotspot X | NEBHNT-LGT-ZX |
+| Nebra Beaglebone Light Hotspot | NEBHNT-BBB |
+| Nebra Pocket Beagle Light Hotspot | NEBHNT-PBB |
+| Nebra Hotspot HAT ROCK Pi 4 Indoor | NEBHNT-HHRK4 |
+| Nebra Hotspot HAT ROCK Pi 4 Outdoor | NEBHNT-HHRK4-OUT |
+| Nebra Hotspot HAT RPi | NEBHNT-HHRPI |
+| Nebra Hotspot HAT RPi LIGHT | NEBHNT-HHRPL | 
+| Nebra Hotspot HAT Tinkerboard 2 | NEBHNT-HHTK |
+| Rak Hotspot Miner | COMP-RAKHM |
+| OG Helium Hotspot | COMP-HELIUM | 
+| SenseCAP M1 | COMP-SENSECAPM1 |
+| Pi Supply IoT LoRa Gateway HAT | DIY-PISLGH |
+| RAK2287 | DIY-RAK2287 |
 
-**Step 5:** Continue with the steps below to push the containers to your fleet via balena
+**Step 4:** Copy device compose file into root directory as docker-compose.yml:
+`cp device-compose-files/docker-compose-[DEVICE_CODE].yml ./docker-compose.yml`
+
+**Step 5:** Validate that the changed values you applied to settings.ini were applied in the docker-compose.yml file
+
+**Step 6:** Continue with the steps below to push the containers to your fleet via balena
 
 ### Quick Start Steps
 
