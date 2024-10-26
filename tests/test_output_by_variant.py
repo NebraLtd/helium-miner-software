@@ -56,7 +56,7 @@ class TestValidComposeFileOutput(unittest.TestCase):
         # so if this runs without that, it's considered successful as
         # `docker-compose config -q` returns 1 on invalid config
         check_call(
-            f'docker-compose -f {nebra_indoor1_output_file} config -q', shell=True)
+            f'docker compose -f {nebra_indoor1_output_file} config -q', shell=True)
 
     def test_nebra_outdoor1_compose_output_is_valid(self):
         dc = DockerComposer()
@@ -66,7 +66,7 @@ class TestValidComposeFileOutput(unittest.TestCase):
         # so if this runs without that, it's considered successful as
         # `docker-compose config -q` returns 1 on invalid config
         check_call(
-            f'docker-compose -f {nebra_outdoor1_output_file} config -q', shell=True)
+            f'docker compose -f {nebra_outdoor1_output_file} config -q', shell=True)
 
     def test_nebra_indoor2_compose_output_is_valid(self):
         dc = DockerComposer()
@@ -76,7 +76,7 @@ class TestValidComposeFileOutput(unittest.TestCase):
         # so if this runs without that, it's considered successful as
         # `docker-compose config -q` returns 1 on invalid config
         check_call(
-            f'docker-compose -f {nebra_indoor2_output_file} config -q', shell=True)
+            f'docker compose -f {nebra_indoor2_output_file} config -q', shell=True)
 
     def test_nebra_outdoor2_compose_output_is_valid(self):
         dc = DockerComposer()
@@ -86,7 +86,7 @@ class TestValidComposeFileOutput(unittest.TestCase):
         # so if this runs without that, it's considered successful as
         # `docker-compose config -q` returns 1 on invalid config
         check_call(
-            f'docker-compose -f {nebra_outdoor2_output_file} config -q', shell=True)
+            f'docker compose -f {nebra_outdoor2_output_file} config -q', shell=True)
 
     def test_syncrobit_compose_output_is_valid(self):
         dc = DockerComposer()
@@ -96,7 +96,7 @@ class TestValidComposeFileOutput(unittest.TestCase):
         # so if this runs without that, it's considered successful as
         # `docker-compose config -q` returns 1 on invalid config
         check_call(
-            f'docker-compose -f {syncrobit_output_file} config -q', shell=True)
+            f'docker compose -f {syncrobit_output_file} config -q', shell=True)
 
     def test_pycom_compose_output_is_valid(self):
         dc = DockerComposer()
@@ -106,7 +106,7 @@ class TestValidComposeFileOutput(unittest.TestCase):
         # so if this runs without that, it's considered successful as
         # `docker-compose config -q` returns 1 on invalid config
         check_call(
-            f'docker-compose -f {pycom_output_file} config -q', shell=True)
+            f'docker compose -f {pycom_output_file} config -q', shell=True)
 
     def test_controllino_compose_output_is_valid(self):
         dc = DockerComposer()
@@ -116,7 +116,7 @@ class TestValidComposeFileOutput(unittest.TestCase):
         # so if this runs without that, it's considered successful as
         # `docker-compose config -q` returns 1 on invalid config
         check_call(
-            f'docker-compose -f {controllino_output_file} config -q', shell=True)
+            f'docker compose -f {controllino_output_file} config -q', shell=True)
 
     def test_rak_compose_output_is_valid(self):
         dc = DockerComposer()
@@ -126,7 +126,7 @@ class TestValidComposeFileOutput(unittest.TestCase):
         # so if this runs without that, it's considered successful as
         # `docker-compose config -q` returns 1 on invalid config
         check_call(
-            f'docker-compose -f {rak_output_file} config -q', shell=True)
+            f'docker compose -f {rak_output_file} config -q', shell=True)
 
     def test_bobcat_px30_compose_output_is_valid(self):
         dc = DockerComposer()
@@ -136,7 +136,7 @@ class TestValidComposeFileOutput(unittest.TestCase):
         # so if this runs without that, it's considered successful as
         # `docker-compose config -q` returns 1 on invalid config
         check_call(
-            f'docker-compose -f {bobcat_px30_output_file} config -q', shell=True)
+            f'docker compose -f {bobcat_px30_output_file} config -q', shell=True)
 
     def test_variant_is_invalid(self):
         dc = DockerComposer()
